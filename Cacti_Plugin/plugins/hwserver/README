@@ -1,0 +1,42 @@
+/*******************************************************************************
+
+    Home Site ...... http://enterprise.huawei.com
+    Program ........ Huawei server plugin for Cacti
+    Version ........ 1.0
+    Purpose ........ View/Manage Huawei server informations from Cacti
+
+*******************************************************************************/
+
+
+----[ Purpose
+
+    This plugin is used to communicate with Huawei iBMC and HMM through SNMP protocol to
+     get the server os & hardware information, and present it.
+
+
+----[ Features
+
+    View total 15 categories of Huawei server informations.
+    Related device and graph templates, to present the performance chart of Huawei server.
+
+
+----[ Installation
+
+    Install just like any other plugin, just throw it in the plugin directory,
+    in a folder called huawei-server.
+
+
+----[ Possible Bugs?
+
+    If you figure out this problem, let me know!!!
+
+
+----[ Future Changes
+
+    Integrate with cacti threshold plugin to support monitor and warning of Huawei server!
+
+
+----[ Changelog
+	--- 0.1 ---
+		Initial release
+
