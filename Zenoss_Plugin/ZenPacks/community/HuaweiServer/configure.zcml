@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:browser="http://namespaces.zope.org/browser" >
+  
+    <!-- Includes: Browser Configuration -->
+    <include package=".browser"/>
+
+    <!-- Import directRouter Directive -->
+    <include package="Products.ZenUtils.extdirect.zope" file="meta.zcml"/>
+
+    <browser:directRouter name="myApp_router" for="*" class=".routers.bmcRouter" namespace="Zenoss.remote" /> 
+    <adapter name="BMCAdapter" provides=".interfaces.IBMCFacade" for="*" factory=".facades.BMCFacade" /> 
+    
+    <browser:directRouter name="hmm_router" for="*" class=".routers.hmmRouter" namespace="Zenoss.remote" />
+    <adapter name="HMMAdapter" provides=".interfaces.IHMMFacade" for="*" factory=".facades.HMMFacade" />
+    
+<!--
+    If you want to hardwire to an old skins directory then uncomment the following lines 
+    The Zenoss 3 way to do this is to put template files under the ZenPack's browser/templates directory 
+    Fundamentally, the pt files are identical - it's just where they reside where the convention
+    has changed.
+-->
+
+<!--
+<browser:page
+    name="viewHistory"
+    template="./skins/ZenPacks.community.MenuExamples/viewHistory.pt"
+    for="*"
+    permission="zenoss.View"
+    />
+
+<browser:page
+    name="viewNewHistory"
+    template="./skins/ZenPacks.community.MenuExamples/viewNewHistory.pt"
+    for="*"
+    permission="zenoss.View"
+    />
+
+-->
+
+</configure>
+

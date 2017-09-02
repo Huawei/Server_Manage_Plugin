@@ -1,0 +1,1371 @@
+﻿name: ZenPacks.community.HuaweiServer
+
+
+classes:
+  HuaweiServerDevice:
+    base: [zenpacklib.Device]
+    label: Server
+    properties:
+      smmSoftwareVersion:
+        type: string
+        default: Unknown
+      smmPresence:
+        type: int
+        default: 0
+      smmHealth:
+        type: int
+        default: 0
+      smmHostname:
+        type: string
+      smmProductName:
+        type: string
+      bmcDeviceName:
+        type: string
+      bmcHostName:
+        type: string
+      bmcBoardId:
+        type: string
+      bmcBootSequence:
+        type: string
+      bmcFRUControl:
+        type: string
+      bmcSerialNumber:
+        type: string
+      hmmSerialNumber:
+        type: string
+      bmcPeakPower:
+        type: string
+      bmcAveragePower:
+        type: string
+      bmcPowerConsumption:
+        type: string
+
+  BMCProcessor:
+    base: [zenpacklib.Component]
+    auto_expand_column: type
+    monitoring_templates: [BMCProcessorDevice]
+    label: BMCCPU
+    properties:
+      locator:
+        label: Locator
+        label_width: 100
+        order: 1
+      manufacturer:
+        label: Manufacturer
+        order: 6
+        label_width: 120
+      family:
+        label: Family
+        order: 3
+        label_width: 80
+      type:
+        label: Type
+        order: 4
+        label_width: 130
+      frequency:
+        label: Frequency
+        order: 5
+        label_width: 60        
+      status:
+        label: Status
+        order: 1
+        label_width: 40
+      coreCount:
+        label: Core
+        order: 7
+        label_width: 30        
+      threadCount:
+        label: Thread
+        order: 8
+        label_width: 30
+
+  BMCMemory:
+    base: [zenpacklib.Component]
+    monitoring_templates: [BMCMemoryDevice]
+    auto_expand_column: manufacturer
+    label: BMCMemory
+    properties:
+      locator:
+        label: Locator
+        order: 2
+      manufacturer:
+        label: Manufacturer
+        order: 5
+      size:
+        label: Size
+        order: 3
+      frequency:
+        label: Frequency
+        order: 4
+      status:
+        label: Status
+        order: 1
+
+  BMCHarddisk:
+    base: [zenpacklib.Component]
+    label: BMCHarddisk
+    monitoring_templates: [BMCHarddiskDevice]
+    auto_expand_column: presence
+    properties:
+      locator:
+        label: Locator
+        label_width: 200
+        order: 2
+      presence:
+        label: Presence
+        label_width: 200
+        order: 3
+      status:
+        label: Status
+        label_width: 200
+        order: 1
+
+  BMCPowerSupply:
+    base: [zenpacklib.Component]
+    label: BMCPowerSupply
+    monitoring_templates: [BMCPowerSupplyDevice]
+    auto_expand_column: model
+    properties:
+      locator:
+        label: Locator
+        order: 2
+      presence:
+        label: Presence
+        order: 3
+      status:
+        label: Status
+        order: 1
+      manufacturer:
+        label: Manufacturer
+        order: 4
+      model:
+        label: Model
+        order: 5
+      powerRating:
+        label: PowerRating
+        order: 6
+      inputPower:
+        label: InputPower
+        order: 7
+
+  BMCFan:
+    base: [zenpacklib.Component]
+    label: BMCFan
+    monitoring_templates: [BMCFanDevice]
+    auto_expand_column: presence
+    properties:
+      locator:
+        label: Locator
+        order: 2
+      status:
+        label: Status
+        order: 1
+      speed:
+        label: Speed
+        order: 3
+      presence:
+        label: Presence
+        order: 4
+
+  BMCPowerConsumption:
+    base: [zenpacklib.Component]
+    label: BMCPowerConsumption
+    auto_expand_column: powerConsumption
+    properties:
+      presentSystemPower:
+        label: PresentSystemPower
+        label_width: 100
+      peakPower:
+        label: PeakPower
+        label_width: 60
+      averagePower:
+        label: AveragePower
+        label_width: 60
+      powerConsumption:
+        label: PowerConsumption
+        label_width: 80
+      powerCappingEnable:
+        label: PowerCappingEnable
+        label_width: 100
+      powerCappingValue:
+        label: PowerCappingValue
+        label_width: 100
+      powerCappingFailureAction:
+        label: PowerCappingFailure
+        label_width: 100
+
+  BMCSystem:
+    base: [zenpacklib.Component]
+    label: BMCSystem
+    properties:
+      fwVersion:
+        label: FirmwareVersion
+        label_width: 200
+      fwBoard:
+        label: FirmwareBoard
+        label_width: 300
+
+  HMMChassis:
+    base: [zenpacklib.Component]
+    label: HMMChassis
+    monitoring_templates: [HMMChassisDevice]
+    auto_expand_column: hcpowerCappingEnable
+    properties:
+      hclocation:
+        label: Location
+        label_width: 40        
+      hcchassisID:
+        label: ChassisID
+        label_width: 80
+      hctype:
+        label: Type
+        label_width: 140
+      hchealth:
+        label: Health
+        label_width: 40
+        order: 1
+      hcrealtimePower:
+        label: RealtimePower
+        label_width: 80
+      hcpowerCappingEnable:
+        label: PowerCappingEnable
+        label_width: 100
+      hcpowerCappingValue:
+        label: PowerCappingValue
+        label_width: 100
+
+  HMMPowerSupply:
+    base: [zenpacklib.Component]
+    label: HMMPowerSupply
+    monitoring_templates: [HMMPowerSupplyDevice]
+    auto_expand_column: hpslocation
+    properties:
+      hpspresence:
+        label: Presence
+        label_width: 100
+        order: 2
+      hpsratingPower:
+        label: RatingPower        
+        label_width: 150
+        order: 5
+      hpsruntimePower:
+        label: RuntimePower
+        label_width: 150
+        order: 3
+      hpspowerMode:
+        label: PowerMode
+        label_width: 100
+        order: 4
+      hpsstatus:
+        label: Status
+        label_width: 100
+        order: 1
+      hpslocation:
+        label: Location
+        label_width: 100
+        order: 6
+
+  HMMFan:
+    base: [zenpacklib.Component]
+    label: HMMFan
+    monitoring_templates: [HMMFanDevice]
+    auto_expand_column: hfpresence    
+    properties:
+      hfpresence:
+        label: Presence
+        label_width: 200
+        order: 2
+      hfspeed:
+        label: Speed
+        label_width: 200
+        order: 3
+      hfstatus:
+        label: Status
+        label_width: 200
+        order: 1
+
+  HMMBlade:
+    base: [zenpacklib.Component]
+    label: HMMBlade
+    monitoring_templates: [HMMBladeDevice]
+    auto_expand_column: hbIPMask    
+    properties:
+      hbname:
+        label: ProductName
+        label_width: 60
+        order: 2
+      hbversion:
+        label: Version
+        label_width: 260
+        order: 3
+      hbhealth:
+        label: Health
+        order: 1
+        label_width: 40
+      hbbiosbootoption:
+        label: BiosBootOption
+        order: 4
+        label_width: 100
+      hbfrucontrol:
+        label: FRUControl
+        order: 5
+        label_width: 80
+      hbIP:
+        label: IP
+        label_width: 100
+        order: 6
+      hbIPMask:
+        label: IPMask
+        order: 7
+        label_width: 100
+
+  HMMManagementBoard:
+    base: [zenpacklib.Component]
+    label: HMMManagementBoard
+    monitoring_templates: [HMMManagementBoardDevice]
+    auto_expand_column: hsProductName    
+    properties:
+      hsProductName:
+        label: ProductName
+        label_width: 100
+        order: 2
+      hsSoftwareVersion:
+        label: SoftwareVersion
+        label_width: 100
+      hsUbootVersion:
+        label: UbootVersion
+        label_width: 100
+      hsCPLDVersion:
+        label: CPLDVersion
+        label_width: 100
+      hsFPGAVersion:
+        label: FPGAVersion
+        label_width: 100
+      hsPresence:
+        label: Presence
+        label_width: 50
+      hsHostname:
+        label: Hostname
+        label_width: 100
+      hsHealth:
+        label: Health
+        label_width: 80
+        order: 1
+
+class_relationships:
+  - HuaweiServerDevice 1:MC BMCProcessor
+  - HuaweiServerDevice 1:MC BMCMemory
+  - HuaweiServerDevice 1:MC BMCSystem
+  - HuaweiServerDevice 1:MC BMCHarddisk
+  - HuaweiServerDevice 1:MC BMCPowerSupply
+  - HuaweiServerDevice 1:MC BMCFan
+  - HuaweiServerDevice 1:MC BMCPowerConsumption
+  - HuaweiServerDevice 1:MC HMMChassis
+  - HuaweiServerDevice 1:MC HMMPowerSupply
+  - HuaweiServerDevice 1:MC HMMFan
+  - HuaweiServerDevice 1:MC HMMBlade
+  - HuaweiServerDevice 1:MC HMMManagementBoard
+
+ 
+device_classes:
+  /Server/Huawei:
+    remove: true
+    zProperties:
+      zPythonClass: ZenPacks.community.HuaweiServer.HuaweiServerDevice
+      zCollectorPlugins:
+        - zenoss.snmp.NewDeviceMap
+        - zenoss.snmp.DeviceMap
+        - zenoss.snmp.SnmpV3EngineIdMap
+
+  /Server/Huawei/BMC:
+    remove: true  
+    zProperties:
+      zPythonClass: ZenPacks.community.HuaweiServer.HuaweiServerDevice
+      zCollectorPlugins:
+        - community.snmp.BMCProcessorMap
+        - community.snmp.BMCFanMap
+        - community.snmp.BMCMemoryMap
+        - community.snmp.BMCDeviceMap
+        - community.snmp.BMCSystemMap
+        - community.snmp.BMCHarddiskMap
+        - community.snmp.BMCPowerSupplyMap
+        - community.snmp.BMCPowerConsumptionMap
+        - zenoss.snmp.NewDeviceMap
+        - zenoss.snmp.DeviceMap
+        - zenoss.snmp.InterfaceMap
+        - zenoss.snmp.SnmpV3EngineIdMap
+      zDeviceTemplates:
+        - Device
+        - HuaweiBMC
+
+    templates: 
+      HuaweiBMC:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          presentSystemPower:
+            type: SNMP
+            datapoints:
+              presentSystemPower: {}
+            oid: 1.3.6.1.4.1.2011.2.235.1.1.1.13.0        
+          systemCpuUsage:
+            type: SNMP
+            datapoints:
+              systemCpuUsage:
+            oid: 1.3.6.1.4.1.2011.2.235.1.1.1.23.0
+          peakPower:
+            type: SNMP
+            datapoints:
+              peakPower:
+            oid: 1.3.6.1.4.1.2011.2.235.1.1.20.1.0
+          averagePower:
+            type: SNMP
+            datapoints:
+              averagePower: {}
+            oid: 1.3.6.1.4.1.2011.2.235.1.1.20.3.0
+          powerConsumption:
+            type: SNMP
+            datapoints:
+              powerConsumption: {}
+            oid: 1.3.6.1.4.1.2011.2.235.1.1.20.4.0
+          temperatureInlet:
+            type: SNMP
+            datapoints:
+              temperatureInlet: {}
+            oid: 1.3.6.1.4.1.2011.2.235.1.1.26.50.1.3.1
+        thresholds:
+          High CPU CPUUsage:
+            dsnames: [systemCpuUsage_systemCpuUsage]
+            maxval: '90'
+            eventClass: /Huawei/BMC
+            severity: err
+        graphs:
+          PresentSystemPower:
+            units: watts
+            graphpoints:
+              presentSystemPower:
+                dpName: presentSystemPower_presentSystemPower
+                lineType: AREA
+                legend: PresentSystemPower
+          SystemCpuUsage:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              systemCpuUsage:
+                dpName: systemCpuUsage_systemCpuUsage             
+                legend: CPUUsage
+          PeakPower:
+            units: watts
+            graphpoints:
+              peakPower:
+                dpName: peakPower_peakPower
+                lineType: AREA                
+                legend: PeakPower
+          AveragePower:
+            units: watts
+            graphpoints:
+              averagePower:
+                dpName: averagePower_averagePower
+                lineType: AREA                
+                legend: AveragePower
+          PowerConsumption:
+            units: watts
+            graphpoints:
+              powerConsumption:
+                dpName: powerConsumption_powerConsumption
+                lineType: AREA
+                legend: PowerConsumption
+          TemperatureInlet:
+            units: Celsius
+            graphpoints:
+              temperatureInlet:
+                dpName: temperatureInlet_temperatureInlet
+                legend: TemperatureInlet
+                rpn: 10,/
+      BMCFanDevice:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          bmcFanStatus:
+            type: SNMP
+            datapoints:
+              bmcFanStatus: {}
+            oid: 1.3.6.1.4.1.2011.2.235.1.1.8.50.1.4        
+        thresholds:
+          BMC Fan Status Info1:
+            dsnames: [bmcFanStatus_bmcFanStatus]
+            maxval: '1.1'
+            minval: '0'
+            eventClass: /Huawei/BMC/Event
+            severity: Clear
+          BMC Fan Status Info2:
+            dsnames: [bmcFanStatus_bmcFanStatus]
+            minval: '4.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Clear
+          BMC Fan Status Warning:
+            dsnames: [bmcFanStatus_bmcFanStatus]
+            maxval: '1.9'
+            minval: '2.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Warning
+          BMC Fan Status Error:
+            dsnames: [bmcFanStatus_bmcFanStatus]
+            maxval: '2.9'
+            minval: '3.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Error
+          BMC Fan Status Critical:
+            dsnames: [bmcFanStatus_bmcFanStatus]
+            maxval: '3.9'
+            minval: '4.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Critical
+      BMCHarddiskDevice:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          bmcHarddiskStatus:
+            type: SNMP
+            datapoints:
+              bmcHarddiskStatus: {}
+            oid: 1.3.6.1.4.1.2011.2.235.1.1.18.50.1.3        
+        thresholds:
+          BMC Harddisk Status Info1:
+            dsnames: [bmcHarddiskStatus_bmcHarddiskStatus]
+            maxval: '1.1'
+            minval: '0'
+            eventClass: /Huawei/BMC/Event
+            severity: Clear
+          BMC Harddisk Status Info2:
+            dsnames: [bmcHarddiskStatus_bmcHarddiskStatus]
+            minval: '4.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Clear
+          BMC Harddisk Status Warning:
+            dsnames: [bmcHarddiskStatus_bmcHarddiskStatus]
+            maxval: '1.9'
+            minval: '2.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Warning
+          BMC Harddisk Status Error:
+            dsnames: [bmcHarddiskStatus_bmcHarddiskStatus]
+            maxval: '2.9'
+            minval: '3.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Error
+          BMC Harddisk Status Critical:
+            dsnames: [bmcHarddiskStatus_bmcHarddiskStatus]
+            maxval: '3.9'
+            minval: '4.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Critical
+      BMCMemoryDevice:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          bmcMemoryStatus:
+            type: SNMP
+            datapoints:
+              bmcMemoryStatus: {}
+            oid: 1.3.6.1.4.1.2011.2.235.1.1.16.50.1.6       
+        thresholds:
+          BMC Memory Status Info1:
+            dsnames: [bmcMemoryStatus_bmcMemoryStatus]
+            maxval: '1.1'
+            minval: '0'
+            eventClass: /Huawei/BMC/Event
+            severity: Clear
+          BMC Memory Status Info2:
+            dsnames: [bmcMemoryStatus_bmcMemoryStatus]
+            minval: '4.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Clear
+          BMC Memory Status Warning:
+            dsnames: [bmcMemoryStatus_bmcMemoryStatus]
+            maxval: '1.9'
+            minval: '2.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Warning
+          BMC Memory Status Error:
+            dsnames: [bmcMemoryStatus_bmcMemoryStatus]
+            maxval: '2.9'
+            minval: '3.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Error
+          BMC Memory Status Critical:
+            dsnames: [bmcMemoryStatus_bmcMemoryStatus]
+            maxval: '3.9'
+            minval: '4.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Critical
+      BMCProcessorDevice:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          bmcProcessorStatus:
+            type: SNMP
+            datapoints:
+              bmcProcessorStatus: {}
+            oid: 1.3.6.1.4.1.2011.2.235.1.1.15.50.1.6        
+        thresholds:
+          BMC Processor Status Info1:
+            dsnames: [bmcProcessorStatus_bmcProcessorStatus]
+            maxval: '1.1'
+            minval: '0'
+            eventClass: /Huawei/BMC/Event
+            severity: Clear
+          BMC Processor Status Info2:
+            dsnames: [bmcProcessorStatus_bmcProcessorStatus]
+            minval: '4.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Clear
+          BMC Processor Status Warning:
+            dsnames: [bmcProcessorStatus_bmcProcessorStatus]
+            maxval: '1.9'
+            minval: '2.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Warning
+          BMC Processor Status Error:
+            dsnames: [bmcProcessorStatus_bmcProcessorStatus]
+            maxval: '2.9'
+            minval: '3.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Error
+          BMC Processor Status Critical:
+            dsnames: [bmcProcessorStatus_bmcProcessorStatus]
+            maxval: '3.9'
+            minval: '4.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Critical
+      BMCPowerSupplyDevice:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          bmcPowersupplyStatus:
+            type: SNMP
+            datapoints:
+              bmcPowersupplyStatus: {}
+            oid: 1.3.6.1.4.1.2011.2.235.1.1.6.50.1.7        
+        thresholds:
+          BMC Powersupply Status Info1:
+            dsnames: [bmcPowersupplyStatus_bmcPowersupplyStatus]
+            maxval: '1.1'
+            minval: '0'
+            eventClass: /Huawei/BMC/Event
+            severity: Clear
+          BMC Powersupply Status Info2:
+            dsnames: [bmcPowersupplyStatus_bmcPowersupplyStatus]
+            minval: '4.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Clear
+          BMC Powersupply Status Warning:
+            dsnames: [bmcPowersupplyStatus_bmcPowersupplyStatus]
+            maxval: '1.9'
+            minval: '2.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Warning
+          BMC Powersupply Status Error:
+            dsnames: [bmcPowersupplyStatus_bmcPowersupplyStatus]
+            maxval: '2.9'
+            minval: '3.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Error
+          BMC Powersupply Status Critical:
+            dsnames: [bmcPowersupplyStatus_bmcPowersupplyStatus]
+            maxval: '3.9'
+            minval: '4.1'
+            eventClass: /Huawei/BMC/Event
+            severity: Critical
+
+  /Server/Huawei/HMM:
+    remove: true  
+    zProperties:
+      zPythonClass: ZenPacks.community.HuaweiServer.HuaweiServerDevice
+      zCollectorPlugins:
+        - community.snmp.HMMChassisMap
+        - community.snmp.HMMFanMap
+        - community.snmp.HMMPowerSupplyMap
+        - community.snmp.HMMDeviceMap
+        - community.snmp.HMMBladeMap
+        - community.snmp.HMMManagementBoardMap
+        - zenoss.snmp.NewDeviceMap
+        - zenoss.snmp.DeviceMap
+        - zenoss.snmp.SnmpV3EngineIdMap
+      zDeviceTemplates:
+        - HuaweiHMM
+
+    templates:
+      HuaweiHMM:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          smmShelfRealtimePower:
+            type: SNMP
+            datapoints:
+              smmShelfRealtimePower:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.2.13.0
+          smmInletTemp:
+            type: SNMP
+            datapoints:
+              smmInletTemp:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.3.2008.1.2.1
+          smmOutletTemp:
+            type: SNMP
+            datapoints:
+              smmOutletTemp:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.3.2008.1.2.2
+          smmLSWTemp:
+            type: SNMP
+            datapoints:
+              smmLSWTemp:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.3.2008.1.2.3
+          smmAmbientTemp:
+            type: SNMP
+            datapoints:
+              smmAmbientTemp:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.3.2008.1.2.4
+          smmBlade01CPU:
+            type: SNMP
+            datapoints:
+              smmBlade01CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.1.60.0
+          smmBlade02CPU:
+            type: SNMP
+            datapoints:
+              smmBlade02CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.2.60.0
+          smmBlade03CPU:
+            type: SNMP
+            datapoints:
+              smmBlade03CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.3.60.0
+          smmBlade04CPU:
+            type: SNMP
+            datapoints:
+              smmBlade04CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.4.60.0
+          smmBlade05CPU:
+            type: SNMP
+            datapoints:
+              smmBlade05CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.5.60.0
+          smmBlade06CPU:
+            type: SNMP
+            datapoints:
+              smmBlade06CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.6.60.0
+          smmBlade07CPU:
+            type: SNMP
+            datapoints:
+              smmBlade07CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.7.60.0
+          smmBlade08CPU:
+            type: SNMP
+            datapoints:
+              smmBlade08CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.8.60.0
+          smmBlade09CPU:
+            type: SNMP
+            datapoints:
+              smmBlade09CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.9.60.0
+          smmBlade10CPU:
+            type: SNMP
+            datapoints:
+              smmBlade10CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.10.60.0
+          smmBlade11CPU:
+            type: SNMP
+            datapoints:
+              smmBlade11CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.11.60.0
+          smmBlade12CPU:
+            type: SNMP
+            datapoints:
+              smmBlade12CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.12.60.0
+          smmBlade13CPU:
+            type: SNMP
+            datapoints:
+              smmBlade13CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.13.60.0
+          smmBlade14CPU:
+            type: SNMP
+            datapoints:
+              smmBlade14CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.14.60.0
+          smmBlade15CPU:
+            type: SNMP
+            datapoints:
+              smmBlade15CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.15.60.0
+          smmBlade16CPU:
+            type: SNMP
+            datapoints:
+              smmBlade16CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.16.60.0
+          smmBlade17CPU:
+            type: SNMP
+            datapoints:
+              smmBlade17CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.17.60.0
+          smmBlade18CPU:
+            type: SNMP
+            datapoints:
+              smmBlade18CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.18.60.0
+          smmBlade19CPU:
+            type: SNMP
+            datapoints:
+              smmBlade19CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.19.60.0
+          smmBlade20CPU:
+            type: SNMP
+            datapoints:
+              smmBlade20CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.20.60.0
+          smmBlade21CPU:
+            type: SNMP
+            datapoints:
+              smmBlade21CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.21.60.0
+          smmBlade22CPU:
+            type: SNMP
+            datapoints:
+              smmBlade22CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.22.60.0
+          smmBlade23CPU:
+            type: SNMP
+            datapoints:
+              smmBlade23CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.23.60.0
+          smmBlade24CPU:
+            type: SNMP
+            datapoints:
+              smmBlade24CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.24.60.0
+          smmBlade25CPU:
+            type: SNMP
+            datapoints:
+              smmBlade25CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.25.60.0
+          smmBlade26CPU:
+            type: SNMP
+            datapoints:
+              smmBlade26CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.26.60.0
+          smmBlade27CPU:
+            type: SNMP
+            datapoints:
+              smmBlade27CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.27.60.0
+          smmBlade28CPU:
+            type: SNMP
+            datapoints:
+              smmBlade28CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.28.60.0
+          smmBlade29CPU:
+            type: SNMP
+            datapoints:
+              smmBlade29CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.29.60.0
+          smmBlade30CPU:
+            type: SNMP
+            datapoints:
+              smmBlade30CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.30.60.0
+          smmBlade31CPU:
+            type: SNMP
+            datapoints:
+              smmBlade31CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.31.60.0
+          smmBlade32CPU:
+            type: SNMP
+            datapoints:
+              smmBlade32CPU:
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.4.32.60.0
+        graphs:
+          ShelfRealtimePower:
+            units: Watts
+            graphpoints:
+              smmShelfRealtimePower:
+                dpName: smmShelfRealtimePower_smmShelfRealtimePower
+                legend: ShelfRealtimePower
+          InletTemp:
+            units: Celsius
+            graphpoints:
+              smmInletTemp:
+                dpName: smmInletTemp_smmInletTemp
+                legend: InletTemp
+          OutletTemp:
+            units: Celsius
+            graphpoints:
+              smmOutletTemp:
+                dpName: smmOutletTemp_smmOutletTemp
+                legend: OutletTemp
+          LSWTemp:
+            units: Celsius
+            graphpoints:
+              smmLSWTemp:
+                dpName: smmLSWTemp_smmLSWTemp
+                legend: LSWTemp
+          AmbientTemp:
+            units: Celsius
+            graphpoints:
+              smmAmbientTemp:
+                dpName: smmAmbientTemp_smmAmbientTemp
+                legend: AmbientTemp
+          Blade01CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade01CPU:
+                dpName: smmBlade01CPU_smmBlade01CPU
+                legend: Blade01CPU
+          Blade02CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade02CPU:
+                dpName: smmBlade02CPU_smmBlade02CPU
+                legend: Blade02CPU
+          Blade03CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade03CPU:
+                dpName: smmBlade03CPU_smmBlade03CPU
+                legend: Blade03CPU
+          Blade04CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade04CPU:
+                dpName: smmBlade04CPU_smmBlade04CPU
+                legend: Blade04CPU
+          Blade05CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade05CPU:
+                dpName: smmBlade05CPU_smmBlade05CPU
+                legend: Blade05CPU
+          Blade06CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade06CPU:
+                dpName: smmBlade06CPU_smmBlade06CPU
+                legend: Blade06CPU
+          Blade07CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade07CPU:
+                dpName: smmBlade07CPU_smmBlade07CPU
+                legend: Blade07CPU
+          Blade08CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade08CPU:
+                dpName: smmBlade08CPU_smmBlade08CPU
+                legend: Blade08CPU
+          Blade09CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade09CPU:
+                dpName: smmBlade09CPU_smmBlade09CPU
+                legend: Blade09CPU
+          Blade10CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade10CPU:
+                dpName: smmBlade10CPU_smmBlade10CPU
+                legend: Blade10CPU
+          Blade11CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade11CPU:
+                dpName: smmBlade11CPU_smmBlade11CPU
+                legend: Blade11CPU
+          Blade12CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade12CPU:
+                dpName: smmBlade02CPU_smmBlade02CPU
+                legend: Blade12CPU
+          Blade13CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade13CPU:
+                dpName: smmBlade13CPU_smmBlade13CPU
+                legend: Blade13CPU
+          Blade14CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade14CPU:
+                dpName: smmBlade14CPU_smmBlade14CPU
+                legend: Blade14CPU
+          Blade15CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade15CPU:
+                dpName: smmBlade15CPU_smmBlade15CPU
+                legend: Blade15CPU
+          Blade16CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade16CPU:
+                dpName: smmBlade16CPU_smmBlade16CPU
+                legend: Blade16CPU
+          Blade17CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade17CPU:
+                dpName: smmBlade17CPU_smmBlade17CPU
+                legend: Blade17CPU
+          Blade18CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade18CPU:
+                dpName: smmBlade18CPU_smmBlade18CPU
+                legend: Blade18CPU
+          Blade19CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade19CPU:
+                dpName: smmBlade19CPU_smmBlade19CPU
+                legend: Blade19CPU
+          Blade20CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade20CPU:
+                dpName: smmBlade20CPU_smmBlade20CPU
+                legend: Blade20CPU
+          Blade21CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade21CPU:
+                dpName: smmBlade21CPU_smmBlade21CPU
+                legend: Blade21CPU
+          Blade22CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade22CPU:
+                dpName: smmBlade22CPU_smmBlade22CPU
+                legend: Blade22CPU
+          Blade23CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade23CPU:
+                dpName: smmBlade23CPU_smmBlade23CPU
+                legend: Blade23CPU
+          Blade24CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade24CPU:
+                dpName: smmBlade24CPU_smmBlade24CPU
+                legend: Blade24CPU
+          Blade25CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade25CPU:
+                dpName: smmBlade25CPU_smmBlade25CPU
+                legend: Blade25CPU
+          Blade26CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade26CPU:
+                dpName: smmBlade26CPU_smmBlade26CPU
+                legend: Blade26CPU
+          Blade27CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade27CPU:
+                dpName: smmBlade27CPU_smmBlade27CPU
+                legend: Blade27CPU
+          Blade28CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade28CPU:
+                dpName: smmBlade28CPU_smmBlade28CPU
+                legend: Blade28CPU
+          Blade29CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade29CPU:
+                dpName: smmBlade29CPU_smmBlade29CPU
+                legend: Blade29CPU
+          Blade30CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade30CPU:
+                dpName: smmBlade30CPU_smmBlade30CPU
+                legend: Blade30CPU
+          Blade31CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade31CPU:
+                dpName: smmBlade31CPU_smmBlade31CPU
+                legend: Blade31CPU
+          Blade32CPU:
+            units: percent
+            miny: 0
+            maxy: 100
+            graphpoints:
+              Blade32CPU:
+                dpName: smmBlade32CPU_smmBlade32CPU
+                legend: Blade32CPU
+      HMMBladeDevice:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          hmmBladeStatus:
+            type: SNMP
+            datapoints:
+              hmmBladeStatus: {}
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.100.1.2001.1.3
+        thresholds:
+          HMM Blade Status Info1:
+            dsnames: [hmmBladeStatus_hmmBladeStatus]
+            maxval: '0.1'
+            minval: '0'
+            eventClass: /Huawei/HMM/Event
+            severity: Clear
+          HMM Blade Status Info2:
+            dsnames: [hmmBladeStatus_hmmBladeStatus]
+            minval: '7.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Clear
+          HMM Blade Status Warning:
+            dsnames: [hmmBladeStatus_hmmBladeStatus]
+            maxval: '1.9'
+            minval: '3.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Warning
+          HMM Blade Status Error:
+            dsnames: [hmmBladeStatus_hmmBladeStatus]
+            maxval: '2.9'
+            minval: '3.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Error
+          HMM Blade Status Critical:
+            dsnames: [hmmBladeStatus_hmmBladeStatus]
+            maxval: '3.9'
+            minval: '4.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Critical
+
+      HMMChassisDevice:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          hmmChassisStatus:
+            type: SNMP
+            datapoints:
+              hmmChassisStatus: {}
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.2.5.0  
+        thresholds:
+          HMM Chassis Status Info1:
+            dsnames: [hmmChassisStatus_hmmChassisStatus]
+            maxval: '0.9'
+            minval: '0'
+            eventClass: /Huawei/HMM/Event
+            severity: Clear
+          HMM Chassis Status Info2:
+            dsnames: [hmmChassisStatus_hmmChassisStatus]
+            minval: '7.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Clear
+          HMM Chassis Status Warning:
+            dsnames: [hmmChassisStatus_hmmChassisStatus]
+            maxval: '0.9'
+            minval: '1.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Warning
+          HMM Chassis Status Error:
+            dsnames: [hmmChassisStatus_hmmChassisStatus]
+            maxval: '1.9'
+            minval: '3.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Error
+          HMM Chassis Status Critical:
+            dsnames: [hmmChassisStatus_hmmChassisStatus]
+            maxval: '3.9'
+            minval: '7.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Critical
+      HMMFanDevice:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          hmmFanStatus:
+            type: SNMP
+            datapoints:
+              hmmFanStatus: {}
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.100.3.2001.1.3
+        thresholds:
+          HMM Fan Status Info1:
+            dsnames: [hmmFanStatus_hmmFanStatus]
+            maxval: '1.1'
+            minval: '0'
+            eventClass: /Huawei/HMM/Event
+            severity: Clear
+          HMM Fan Status Info2:
+            dsnames: [hmmFanStatus_hmmFanStatus]
+            minval: '4.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Clear
+          HMM Fan Status Warning:
+            dsnames: [hmmFanStatus_hmmFanStatus]
+            maxval: '1.9'
+            minval: '2.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Warning
+          HMM Fan Status Error:
+            dsnames: [hmmFanStatus_hmmFanStatus]
+            maxval: '2.9'
+            minval: '3.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Error
+          HMM Fan Status Critical:
+            dsnames: [hmmFanStatus_hmmFanStatus]
+            maxval: '3.9'
+            minval: '4.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Critical
+      HMMPowerSupplyDevice:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          hmmPowersupplyStatus:
+            type: SNMP
+            datapoints:
+              hmmPowersupplyStatus: {}
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.100.4.2001.1.3
+        thresholds:
+          HMM Powersupply Status Info1:
+            dsnames: [hmmPowersupplyStatus_hmmPowersupplyStatus]
+            maxval: '1.1'
+            minval: '0'
+            eventClass: /Huawei/HMM/Event
+            severity: Clear
+          HMM Powersupply Status Info2:
+            dsnames: [hmmPowersupplyStatus_hmmPowersupplyStatus]
+            minval: '4.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Clear
+          HMM Powersupply Status Warning:
+            dsnames: [hmmPowersupplyStatus_hmmPowersupplyStatus]
+            maxval: '1.9'
+            minval: '2.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Warning
+          HMM Powersupply Status Error:
+            dsnames: [hmmPowersupplyStatus_hmmPowersupplyStatus]
+            maxval: '2.9'
+            minval: '3.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Error
+          HMM Powersupply Status Critical:
+            dsnames: [hmmPowersupplyStatus_hmmPowersupplyStatus]
+            maxval: '3.9'
+            minval: '4.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Critical
+      HMMManagementBoardDevice:
+        description: Monitors metric of Controller
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          hmmManagementBoardStatus:
+            type: SNMP
+            datapoints:
+              hmmManagementBoardStatus: {}
+            oid: 1.3.6.1.4.1.2011.2.82.1.82.3.9.0
+        thresholds:
+          HMM ManagementBoard Status Info1:
+            dsnames: [hmmManagementBoardStatus_hmmManagementBoardStatus]
+            maxval: '0.9'
+            minval: '0'
+            eventClass: /Huawei/HMM/Event
+            severity: Clear
+          HMM ManagementBoard Status Info2:
+            dsnames: [hmmManagementBoardStatus_hmmManagementBoardStatus]
+            minval: '7.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Clear
+          HMM ManagementBoard Status Warning:
+            dsnames: [hmmManagementBoardStatus_hmmManagementBoardStatus]
+            maxval: '0.9'
+            minval: '1.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Warning
+          HMM ManagementBoard Status Error:
+            dsnames: [hmmManagementBoardStatus_hmmManagementBoardStatus]
+            maxval: '1.9'
+            minval: '3.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Error
+          HMM ManagementBoard Status Critical:
+            dsnames: [hmmManagementBoardStatus_hmmManagementBoardStatus]
+            maxval: '3.9'
+            minval: '7.1'
+            eventClass: /Huawei/HMM/Event
+            severity: Critical

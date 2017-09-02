@@ -1,0 +1,216 @@
+hwOEMEvent	Huawei OEM event	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.1.1
+hwChassisIntrusion	General Chassis Intrusion	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.5.1
+hwCPUCATError	CPU CAT error	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.1
+hwCPUCATErrorDeassert	CPU CAT error deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.2
+hwCPUThermalTrip	CPU thermal trip	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.17
+hwCPUThermalTripDeassert	CPU thermal trip deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.18
+hwCPUSelfTestFail	CPU FRB1/BIST failure 	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.33
+hwCPUSelfTestFailDeassert	CPU FRB1/BIST failure deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.34
+hwCPUCfgError	CPU configure error	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.81
+hwCPUCfgErrorDeassert	CPU configure error deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.82
+hwCPUPresence	CPU Presence	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.113
+hwCPUPresenceDeassert	CPU Presence deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.114
+hwCPUOffline	CPU offline	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.129
+hwCPUOfflineDeassert	CPU offline deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.130
+hwCPUMCE	CPU MCE occured	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.177
+hwCPUMCEDeassert	CPU MCE deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.178
+hwVMSELinkFail	CPU VMSE link failure in mirror mode	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.193
+hwVMSELinkFailDeassert	CPU VMSE link failure in mirror mode deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.7.194
+hwPowerSupplyFault	Power Supply Fault	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.8.17
+hwPowerSupplyFaultDeassert	Power Supply Fault Deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.8.18
+hwPowerSupplyPredictiveFailure	Power Supply Predictive Failure	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.8.33
+hwPowerSupplyPredictiveFailureDeassert	Power Supply Predictive Failure Deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.8.34
+hwPowerSupplyInputLost	Power Supply input lost	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.8.49
+hwPowerSupplyInputLostDeassert	Power Supply input lost Deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.8.50
+hwPowerSupplyACLost	AC lost or out-of-range	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.8.65
+hwPowerSupplyACLostDeassert	AC lost or out-of-range Deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.8.66
+hwCorrectableECC	memory correctable ECC error occurred	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.1
+hwCorrectableECCDeassert	memory correctable ECC error deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.2
+hwUncorrectableECC	memory uncorrectable ECC error occurred	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.17
+hwUncorrectableECCDeassert	memory uncorrectable ECC error deassert 	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.18
+hwMemoryECCLimitation	memory correctable ECC logging limit reached detected	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.81
+hwMemoryECCLimitationDeassert	memory correctable ECC logging limit reached deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.82
+hwMemoryPresence	memory presence detected	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.97
+hwMemoryPresenceDeassert	memory presence deassert 	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.98
+hwMemoryCfgError	memory config error detected	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.113
+hwMemoryCfgErrorDeassert	memory config error deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.114
+hwMemorySpare	memory spare detected	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.129
+hwMemorySpareDeassert	memory spare deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.130
+hwMemoryOvertemp	memory overtemperature detected	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.161
+hwMemoryOvertempDeassert	memory overtemperature deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.12.162
+hwStorageDevicePresence	Storagedevice presence detected	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.1
+hwStorageDevicePresenceDeassert	Storagedevice presence deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.2
+hwStorageDeviceFault	Storagedevice fault detected	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.17
+hwStorageDeviceFaultDeassert	Storagedevice fault deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.18
+hwStorageDevicePredictiveFailure	Storagedevice predictive failure	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.33
+hwStorageDevicePredictiveFailureDeassert	Storagedevice predictive failuredeassert	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.34
+hwRAIDArrayFail	RAID array fail detected	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.97
+hwRAIDArrayFailDeassert	RAID array fail deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.98
+hwRAIDRebuild	RAID rebuild detected	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.113
+hwRAIDRebuildDeassert	RAID rebuild deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.114
+hwRAIDRebuildAborted	RAID rebuild aborted detected	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.129
+hwRAIDRebuildAbortedDeassert	RAID rebuild aborted deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.13.130
+hwSystemFirmwareHang	System firmware hang	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.15.17
+hwSystemFirmwareHangDeassert	System firmware hang deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.15.18
+hwPS2USBFault	Unrecoverable PS/2 or USB keyboard failure	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.15.1793
+hwPS2USBFaultDeassert	Unrecoverable PS/2 or USB keyboard failure deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.15.1794
+hwVideoControllerFault	Unrecoverable video controller failure	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.15.2305
+hwVideoControllerFaultDeassert	Unrecoverable video controller failure deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.15.2306
+hwCPUVoltageMismatch	CPU voltage mismatch	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.15.3073
+hwCPUVoltageMismatchDeassert	CPU voltage mismatch deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.15.3074
+hwSystemNoMemory	System no memory detected	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.15.257
+hwSystemNoMemoryDeassert	System no memory detected deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.15.258
+hwSystemError	System hang up/reset. For more information, see the background log	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.18.33
+hwSystemErrorDeassert	System hang up/reset deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.18.34
+hwSysEventInstance	PEF action	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.18.65
+hwPowerButtonPressed	Power button pressed	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.20.1
+hwCableStatus	SAS or Harddisk backplane cable config error	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.27.17
+hwCableStatusDeassert	SAS or Harddisk backplane cable config error deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.27.18
+hwSysRestartUnknown	system restart cause unknown	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.29.113
+hwSysRestartChassisCtrl	system restart cause chassis control	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.29.369
+hwSysRestartPowerButton	system restart cause power button pressed	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.29.881
+hwSysRestartWatchdogCtrl	system restart cause Watchdog control	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.29.1137
+hwSysRestartAlwaysRestore	system restart cause always power up	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.29.1649
+hwSysRestartRestorePrevState	system restart cause always restore previous  state	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.29.1905
+hwNoBootableMedia	boot error, no bootable media	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.30.1
+hwNoBootableMediaDeassert	boot error, no bootable media deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.30.2
+hwNoBootableDisk	boot error, Non-bootable disk in drive	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.30.17
+hwNoBootableDiskDeassert	boot error, Non-bootable disk in drive deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.30.18
+hwPXENotFound	boot error, PXE server not found	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.30.33
+hwPXENotFoundDeassert	boot error, PXE server not found deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.30.34
+hwInvalidBootSector	boot error, Invalid boot sector	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.30.49
+hwInvalidBootSectorDeassert	boot error, Invalid boot sector deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.30.50
+hwHardwareAddrFault	Hardware address in fault status	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.1
+hwHardwareAddrFaultDeassert	Hardware address in fault status deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.2
+hwDeviceInstall	Device installed	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.33
+hwDeviceInstallDeassert	Device installed deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.34
+hwEthLinkDown	System Eth link down	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.129
+hwEthLinkDownDeassert	System Eth link down deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.130
+hwMemBrdMigrate	Spare Device	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.145
+hwMemBrdMigrateDeassert	Spare Device deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.146
+hwPCIEStatus	PCIe Error	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.257
+hwPCIEStatusDeassert	PCIe Error deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.258
+hwFanFault	fan in fault status	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.2049
+hwFanFaultDeassert	fan in fault status deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.2050
+hwPCIeFault	PCIe in fault status	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.2305
+hwPCIeFaultDeassert	PCIe in fault status deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.2306
+hwLossBmaHeartBeat	Heartbeat signals between the iBMC and iBMA are lost	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.17
+hwLossBmaHeartBeatDeassert	Heartbeat signals between the iBMC and iBMA are normal	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.33.18
+hwACPIStatusS0	ACPI status S0	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.34.1
+hwACPIStatusS4S5	ACPI status, S4/S5 soft-off, particular when S4/S5 state cannot be determined	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.34.97
+hwWatchDogOverflow	watchdog overflow, no action	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.35.1
+hwWatchDogOverflowDeassert	watchdog overflow, no action deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.35.2
+hwWatchDogReset	watchdog overflow, hard reset	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.35.17
+hwWatchDogResetDeassert	watchdog overflow, hard reset deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.35.18
+hwWatchDogPowerDown	watchdog overflow, power down	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.35.33
+hwWatchDogPowerDownDeassert	watchdog overflow, power down deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.35.34
+hwWatchDogPowerCycle	watchdog overflow, power cycle	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.35.49
+hwWatchDogPowerCycleDeassert	watchdog overflow, power cycle deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.35.50
+hwLANHeartLost	LAN heart beat lost	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.39.1
+hwLANHeartLostDeassert	LAN heart beat lost deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.39.2
+hwSensorAccessibleFail	Sensor access degraded or unavailable	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.40.1
+hwSensorAccessibleFailDeassert	Sensor access degraded or unavailable deassert	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.40.2
+hwControllerAccessibleFail	Controller access degraded or unavailable	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.40.17
+hwControllerAccessibleFailDeassert	Controller access degraded or unavailable deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.40.18
+hwFruFail	FRU failure	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.40.81
+hwFruFailDeassert	FRU failure deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.40.82
+hwRTCBatterylow	RTC battery  low	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.41.1
+hwRTCBatterylowDeassert	RTC battery low deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.41.2
+hwRAIDCardBBUFailed	RAID card BBU failed	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.41.17
+hwRAIDCardBBUFailedDeassert	RAID card BBU failure deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.41.18
+hwRAIDCardBBUPresence	RAID card BBU is present	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.41.33
+hwRAIDCardBBUPresenceDeassert	RAID card BBU is absent	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.41.34
+hwHardwareChange	Hardware change detected with associated Entity	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.43.1
+hwFirmwareChange	Firmware or software change detected with associated Entity	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.43.17
+hwLCDFault	LCD fault	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.1052.17
+hwLCDFaultDeassert	LCD fault deassert	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.1052.18
+hwHotSwaptoM0	fru hot swap to M0 status	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.240.1
+hwHotSwaptoM1	fru hot swap to M1 status	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.240.17
+hwHotSwaptoM2	fru hot swap to M2 status	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.240.33
+hwHotSwaptoM3	fru hot swap to M3 status	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.240.49
+hwHotSwaptoM4	fru hot swap to M4 status	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.240.65
+hwHotSwaptoM5	fru hot swap to M5 status	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.240.81
+hwHotSwaptoM6	fru hot swap to M6 status	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.240.97
+hwHotSwaptoM7	fru hot swap to M7 status	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.240.113
+hwIPMBLinkStateAll	IPMB-A disabled. IPMB-B disabled	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.241.1
+hwIPMBLinkStateAllDeassert	IPMB-A disabled. IPMB-B disabled deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.241.2
+hwIPMBLinkStateB	IPMB-A enabled. IPMB-B disabled	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.241.17
+hwIPMBLinkStateBDeassert	IPMB-A enabled. IPMB-B disabled deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.241.18
+hwIPMBLinkStateA	IPMB-A disabled. IPMB-B enabled	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.241.33
+hwIPMBLinkStateADeassert	IPMB-A disabled. IPMB-B enabled deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.241.34
+hwIPMBLinkStateNoFault	IPMB bus no fault	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.241.49
+hwTrapTestInstance	trap test	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.256.1
+hwOvertempMinor	temperature above minor threshold	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.257.113
+hwOvertempMinorDeassert	temperature above minor threshold deassert	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.257.114
+hwOvertempMajor	temperature above major threshold	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.257.145
+hwOvertempMajorDeassert	temperature above major threshold deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.257.146
+hwOvertempCritical	temperature above critical threshold	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.257.177
+hwOvertempCriticalDeassert	temperature above critical threshold deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.257.178
+hwNoSDCardAssert	No SD Card Assert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.781.17
+hwNoSDCardDeassert	No SD Card Deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.781.18
+hwPCIeError	PCIe Error	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.791.17
+hwPCIeErrorDeassert	PCIe Error Deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.791.18
+hwPCHError	Uncorrectable PCH error	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.793.17
+hwPCHErrorDeassert	Uncorrectable PCH error Deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.793.18
+hwUIDButtonPressed	UID button pressed	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.788.17
+hwPowerCapFail	Power capping fail assert	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.1042.17
+hwPowerCapFailDeassert	Power capping fail assert	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.1042.18
+hwCardStatusFault	Raid or nic card fault	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.1047.17
+hwCardStatusFaultDeassert	Raid or nic card fault deassert	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.1047.18
+hwCPUUsageHigh	CPU usage over threshold	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.1287.17
+hwCPUUsageHighDeassert	CPU usage over threshold deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.1287.18
+hwMemoryUsageHigh	Memory usage over threshold	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.1292.17
+hwMemoryUsageHighDeassert	Memory usage over threshold deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.1292.18
+hwDiskUsageHigh	Disk usage over threshold	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.1293.17
+hwDiskUsageHighDeassert	Disk usage over threshold deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.1293.18
+hwSystemWarmReset	Uncorrectable system error. Unable to locate the specific failure, please warm reset the host to try to solve the problem	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.1810.129
+hwSystemWarmResetDeassert	Uncorrectable system error deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.1810.130
+hwModuleCritical	transition to Critical from less severe	3	1.3.6.1.4.1.2011.2.235.1.1.500.10.1813.33
+hwPSPresence	power supply presence	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2057.17
+hwPSPresenceDeassert	power supply presence deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2057.18
+hwFanAbsent	fan absent	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.2058.1
+hwFanAbsentDeassert	fan absent deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.2058.2
+hwCardPresence	card presence	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2071.17
+hwCardPresenceDeassert	card presence deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2071.18
+hwLCDAbsent	LCD absent	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2076.1
+hwLCDAbsentDeassert	LCD absent deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2076.2
+hwCPUCoreIsolation	CPU core isolation	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2311.1
+hwCPUCoreIsolationDeassert	CPU core isolation deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2311.2
+hwMemoryRiserOnline	Memory board online	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2583.49
+hwMemoryRiserOnlineDeassert	Memory board online deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2583.50
+hwMemoryRiserOffline	Memory board offline	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2583.65
+hwMemoryRiserOfflineDeassert	Memory board offline deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2583.66
+hwMemoryRiserInstallError	Memory riser install error	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.2583.129
+hwMemoryRiserInstallErrorDeassert	Memory riser install error deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.2583.130
+hwLowerVoltageMajor	Voltage below lower major threshold	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.258.33
+hwLowerVoltageMajorDeassert	Voltage below lower major threshold deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.258.34
+hwOverVoltageMajor	Voltage over upper major threshold	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.258.145
+hwOverVoltageMajorDeassert	Voltage over upper major threshold deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.258.146
+hwOverVoltageCritcal	Voltage over upper critical threshold	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.258.177
+hwOverVoltageCritcalDeassert	Voltage over upper critical threshold deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.10.258.178
+hwCPUProchotState	CPU Prochot state asserted	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.775.17
+hwCPUProchotStateDeassert	CPU Prochot state deasserted	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.775.18
+hwSELClearedAssert	SEL log area is cleared	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.16.33
+hwSELAlmostFullAssert	SEL almost full assert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.16.81
+hwSELAlmostFullDeassert	SEL almost full deassert	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.16.82
+hwPSRedundancyLost	PS Redundancy lost	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.2824.17
+hwPSRedundancyLostDeassert	PS Redundancy lost deassert	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.2824.18
+hwBMCBootUpAssert	BMC boot up	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.2326.17
+hwLogFull	Informational	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.1808.129
+hwLogFullDeassert	Informational deasserted	2	1.3.6.1.4.1.2011.2.235.1.1.500.10.1808.130
+hwBoardMismatchAssert	State Asserted	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.786.17
+hwBoardMismatchDeassert	State Asserted	4	1.3.6.1.4.1.2011.2.235.1.1.500.10.786.18
+hwMemoryConfigError	Fault status Memory configuration error	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.2.37
+hwMemoryConfigErrorDeassert	Memory configuration error deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.2.38
+hwMemoryInitializationError	Memory configuration error	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.2.39
+hwMemoryInitializationErrorDeassert	Memory configuration error deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.2.40
+hwCPUMemoryConfigError	CPU memory configuration error	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.45.75
+hwCPUMemoryConfigErrorDeassert	CPU memory configuration error deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.45.76
+hwCPUMRCFatalError	CPU memory MRC fatal error	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.45.77
+hwCPUMRCFatalErrorDeassert	CPU memory MRC fatal error deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.45.78
+hwNoAvailableMemoryError	CPU has no available memory	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.45.79
+hwNoAvailableMemoryErrorDeassert	CPU has no available memory deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.45.80
+hwMemoryBoardSMI2TainingError	Memory board SMI2 training error	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.15.5
+hwMemoryBoardSMI2TainingErrorDeassert	Memory board SMI2 training error deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.15.6
+hwMainboardSMI2TainingError	Mainboard SMI2 training error	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.17.155
+hwMainboardSMI2TainingErrorDeassert	Mainboard SMI2 training error deassert	5	1.3.6.1.4.1.2011.2.235.1.1.500.11.17.156
