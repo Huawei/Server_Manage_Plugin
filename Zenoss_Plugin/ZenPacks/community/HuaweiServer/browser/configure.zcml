@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configure xmlns="http://namespaces.zope.org/browser">
+
+    <!-- A resource directory contains static web content. -->
+    <!-- example is simply a unique name. The directory "resources" is directly under this directory -->
+    <!-- The name "example" in the resourceDirectory stanza must match what follows ++resource++ in viewlet -->
+
+    <resourceDirectory
+        name="huaweiserver"
+        directory="resources"
+        />
+
+    <!-- Define a new entry on the Action "gear cog wheel" menu
+         for the device list page
+    -->
+    <viewlet
+        name="js-my-action-menu-item"
+        paths="/++resource++huaweiserver/js/deviceBatchCMDGearMenu.js"
+        weight="10"
+        manager="Products.ZenUI3.browser.interfaces.IJavaScriptSrcManager"
+        class="Products.ZenUI3.browser.javascript.JavaScriptSrcBundleViewlet"
+        permission="zope2.Public"
+        />
+
+    <!-- Define a viewlet that puts up a new footer bar menu
+         The action is defined in myFooterMenu.js under the js subdir in the resources subdirectory
+         The weight field doesn't seem to change the position of this option on the
+         footer bar but don't set weight="1" or it doesn't show up at all
+    -->
+
+      <viewlet
+          name="huawei-device-menu"
+          paths="/++resource++huaweiserver/js/deviceGearMenu.js"
+          weight="9"
+          for="ZenPacks.community.HuaweiServer.HuaweiServerDevice.HuaweiServerDevice"
+          manager="Products.ZenUI3.browser.interfaces.IHeadExtraManager"
+          class="Products.ZenUI3.browser.javascript.JavaScriptSrcBundleViewlet"
+          permission="zope2.Public"
+          />
+
+
+</configure>
