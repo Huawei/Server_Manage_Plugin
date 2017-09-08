@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<solution>
+<managementPack>
+<name>HuaweiManagementPack</name>
+<version>1.0.4</version>
+<minimumProductVersion>6.0.0</minimumProductVersion>
+<localizations lang="en">
+<localization lang="en">
+<displayName>Huawei Server Management</displayName>
+<description>Manages and Discovers Huawei Server Devices</description>
+<vendor>Huawei</vendor>
+</localization>
+<localization lang="en-US">
+<displayName>Huawei Server Management</displayName>
+<description>Manages and Discovers Huawei Server Devices</description>
+<vendor>Huawei</vendor>
+</localization>
+</localizations>
+<eula>eula.txt</eula>
+<image>pak_icon.png</image>
+<platforms>
+<platform>Linux VA</platform>
+<platform>Linux Non-VA</platform>
+<platform>Windows</platform>
+</platforms>
+<adapters>
+<adapter>E:/project/v_realize/git-src/vRealize-plugin/src/huawei-vRealize-plugin</adapter>
+</adapters>
+<scripts runScriptsOnAllNodes="true">
+<pre>preAdapters.py</pre>
+<post>postAdapters.py</post>
+<validation>validate.py</validation>
+</scripts>
+</managementPack>
+</solution>
