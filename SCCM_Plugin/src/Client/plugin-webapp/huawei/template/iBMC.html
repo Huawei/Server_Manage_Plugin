@@ -202,7 +202,7 @@
                 dnsSource: 0,
                 DNSIsHide: false,
                 dnsDomainName: "",
-                manualNTPIsDisabled: false,
+                manualNTPIsDisabled: true,
                 NTPServerSourceDisabled: false,
                 NTPServerSources: [],
                 ldapStatus: true,
@@ -232,7 +232,7 @@
                     domainControllerAddress: "",
                     userDomain: "",
                     checkEsightList: [],
-                    ntpServerSource: '0',
+                    ntpServerSource: '1',
                     templateType: 'IBMC',
                     templateName: '',
                     templateDesc: '',
@@ -347,7 +347,7 @@
                 this.mainRules.userDomain = {};
                 this.mainRules.domainControllerAddress = {};
                 this.getEsightListData();
-                this.setNtpValidate();
+
             },
             methods: {
                 /**
