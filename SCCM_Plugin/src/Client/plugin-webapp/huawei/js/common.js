@@ -737,25 +737,25 @@ function getNTPServerSources() {
     if (lang) {
         if (lang == 'en') {
             return [{
-                value: '0',
+                value: '1',
                 label: 'Automatically obtain IPv4'
             }, {
-                value: '1',
+                value: '2',
                 label: 'Automatically obtain IPv6'
             }, {
-                value: '2',
+                value: '0',
                 label: 'Manually obtain'
             }];
         }
     }
     return [{
-        value: "0",
+        value: "1",
         label: "自动获取IPV4"
     }, {
-        value: "1",
+        value: "2",
         label: "自动获取IPV6"
     }, {
-        value: "2",
+        value: "0",
         label: "手动获取"
     }];
 }
