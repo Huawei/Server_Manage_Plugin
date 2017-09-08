@@ -28,6 +28,7 @@
         
         body {
             font-size: 12px;
+            min-width: 900px;
         }
         
         #tableName {
@@ -117,6 +118,42 @@
         .el-collapse-item__header {
             font-size: 12px;
         }
+        
+        .whiteClass {
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border: 2px white;
+            -webkit-border-radius: 8px;
+            border-radius: 8px;
+        }
+        
+        .limegreenClass {
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border: 2px #32CD32 solid;
+            -webkit-border-radius: 8px;
+            border-radius: 8px;
+        }
+        
+        .redClass {
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border: 2px #FF0000 solid;
+            -webkit-border-radius: 8px;
+            border-radius: 8px;
+        }
+        
+        .royalblueClass {
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border: 2px #4169E1 solid;
+            -webkit-border-radius: 8px;
+            border-radius: 8px;
+        }
     </style>
 </head>
 
@@ -128,17 +165,19 @@
             <h4>{{i18ns.deviceInfo.essentialInformation}}</h4>
             <table cellspacing="0" class="table1">
                 <tr>
-                    <td class="td1">&nbsp;{{i18ns.serverList.serverIPAddress}}</td>
-                    <td>&nbsp;{{serverInfos.ipAddress}}</td>
+                    <td class="td1">&nbsp;{{i18ns.deviceInfo.name}}</td>
+                    <td>&nbsp;{{serverInfos.name}}</td>
+
                     <td class="td1">&nbsp;{{i18ns.common.status}}</td>
                     <td>&nbsp;
                         <div id="bladeServerStatusImage" v-show="serverInfos.serverInfosStatus"></div>&nbsp;{{serverInfos.serverInfosStatus}}</td>
                 </tr>
                 <tr>
+                    <td class="td1">&nbsp;{{i18ns.serverList.serverIPAddress}}</td>
+                    <td>&nbsp;{{serverInfos.ipAddress}}</td>
                     <td class="td1">&nbsp;{{i18ns.deviceInfo.deviceModel}}</td>
-                    <td>&nbsp;{{serverInfos.model}}</td>
-                    <td class="td1">&nbsp;{{i18ns.deviceInfo.location}}</td>
-                    <td>&nbsp;{{serverInfos.slotId}}</td>
+                    <td>&nbsp;{{serverInfos.serverModel}}</td>
+
                 </tr>
                 <tr>
                     <td class="td1">&nbsp;{{i18ns.deviceInfo.productSn}}</td>

@@ -89,7 +89,7 @@
         </template>
         <template>
             <el-dialog v-bind:title="i18ns.common.advancedSet" size="large" v-bind:visible.sync="dialogFormVisible" v-bind:before-close="handleClose"
-                :close-on-click-modal="false" @open="dialogOpen">
+                :close-on-click-modal="false">
                 <el-form v-bind:model="ruleForm" ref="dialogForm" label-position="left" label-width="120px" label-suffix=":" id="#dialogForm">
                     <el-row style="margin-top:3px;">
                         <el-col v-bind:span="24">
