@@ -315,7 +315,7 @@ VENDOR=${VENDOR_@{val}}
 
     <echo message="${dirs.dest}/${PAKFILE_NAME}_${PAKFILE_VERSION}.pak file created." />
   	
-  	<zip destfile="${dirs.dest}/Huawei_vRealize_MP_1.0.zip">
+  	<zip destfile="${dirs.dest}/vRealize_MP_1.0.zip">
   	  <zipfileset dir="${dirs.dest}">
   	    <include name="**/*.pak" />
   	  </zipfileset>
