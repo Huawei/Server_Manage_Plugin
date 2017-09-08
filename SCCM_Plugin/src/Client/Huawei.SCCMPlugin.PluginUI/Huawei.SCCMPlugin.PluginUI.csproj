@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\..\third_party\packages\CefSharp.WinForms.49.0.0\build\CefSharp.WinForms.props" Condition="Exists('..\..\..\third_party\packages\CefSharp.WinForms.49.0.0\build\CefSharp.WinForms.props')" />
+  <Import Project="..\..\..\third_party\packages\CefSharp.Common.49.0.0\build\CefSharp.Common.props" Condition="Exists('..\..\..\third_party\packages\CefSharp.Common.49.0.0\build\CefSharp.Common.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{92C8F09E-BB71-4006-A84B-8CC0865779EA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Huawei.SCCMPlugin.PluginUI</RootNamespace>
+    <AssemblyName>Huawei.SCCMPlugin.PluginUI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AdminUI.Common">
+      <HintPath>..\..\..\third_party\Lib\AdminUI.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="AdminUI.ConsoleView">
+      <HintPath>..\..\..\third_party\Lib\AdminUI.ConsoleView.dll</HintPath>
+    </Reference>
+    <Reference Include="AdminUI.DialogFoundation">
+      <HintPath>..\..\..\third_party\Lib\AdminUI.DialogFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="AdminUI.ViewCommon">
+      <HintPath>..\..\..\third_party\Lib\AdminUI.ViewCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonUtil">
+      <HintPath>..\..\..\third_party\Lib\CommonUtil.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\third_party\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\third_party\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ConfigurationManagement, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\third_party\Lib\Microsoft.ConfigurationManagement.exe</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ConfigurationManagement.DialogFramework">
+      <HintPath>..\..\..\third_party\Lib\Microsoft.ConfigurationManagement.DialogFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ConfigurationManagement.ManagementProvider">
+      <HintPath>..\..\..\third_party\Lib\Microsoft.ConfigurationManagement.ManagementProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EnterpriseManagement.UI.Foundation">
+      <HintPath>..\..\..\third_party\Lib\Microsoft.EnterpriseManagement.UI.Foundation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EnterpriseManagement.UI.ViewFramework">
+      <HintPath>..\..\..\third_party\Lib\Microsoft.EnterpriseManagement.UI.ViewFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EnterpriseManagement.UI.WpfViews">
+      <HintPath>..\..\..\third_party\Lib\Microsoft.EnterpriseManagement.UI.WpfViews.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ManagementConsole, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\third_party\Lib\Microsoft.ManagementConsole.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\third_party\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.105.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\..\..\third_party\packages\System.Data.SQLite.Core.1.0.105.0\lib\net40\System.Data.SQLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\CefURLAttribute.cs" />
+    <Compile Include="Attributes\BoundAttribute.cs" />
+    <Compile Include="Entitys\CommonBLLClass.cs" />
+    <Compile Include="ESightScheme\CefSharpContextMenuHandler.cs" />
+    <Compile Include="ESightScheme\CefSharpSchemeHandler.cs" />
+    <Compile Include="ESightScheme\CefSharpSchemeHandlerFactory.cs" />
+    <Compile Include="ESightScheme\EsightBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ESightScheme\EsightBrowser.Designer.cs">
+      <DependentUpon>EsightBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entitys\ApiResult.cs" />
+    <Compile Include="Handlers\About\AboutHandler.cs" />
+    <Compile Include="Handlers\ESightsetting\ESightsettingHandler.cs" />
+    <Compile Include="Handlers\Firmware\FirmwareTaskHandler.cs" />
+    <Compile Include="Handlers\Server\ServerHandler.cs" />
+    <Compile Include="Handlers\SoftwareSource\SoftwareSourceHandler.cs" />
+    <Compile Include="Handlers\Template\TemplateListHandler.cs" />
+    <Compile Include="Handlers\Firmware\BasepackageHandler.cs" />
+    <Compile Include="Handlers\Template\TemplateTaskHandler.cs" />
+    <Compile Include="Helper\CefInstanse.cs" />
+    <Compile Include="Helper\CommonBLLMethodHelper.cs" />
+    <Compile Include="Helper\DictHelper.cs" />
+    <Compile Include="Helper\ESSessionHelper.cs" />
+    <Compile Include="Helper\HandlerHelper.cs" />
+    <Compile Include="Interface\ICefBrowser.cs" />
+    <Compile Include="Interface\ISafeThread.cs" />
+    <Compile Include="Interface\IWebHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\HostTabsViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\HostTabsViewDescription.cs" />
+    <Compile Include="Views\HostTabsViewFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\HostTabsViewFrm.Designer.cs">
+      <DependentUpon>HostTabsViewFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\ViewBaseDescription.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\HostTabsViewFrm.resx">
+      <DependentUpon>HostTabsViewFrm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Model\Huawei.SCCMPlugin.Const\Huawei.SCCMPlugin.Const.csproj">
+      <Project>{9AF03B1F-C92B-47E0-933E-F87D0927B76A}</Project>
+      <Name>Huawei.SCCMPlugin.Const</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Model\Huawei.SCCMPlugin.Models\Huawei.SCCMPlugin.Models.csproj">
+      <Project>{894B4701-B2F1-4A1E-BEB6-1AEE4AAB396C}</Project>
+      <Name>Huawei.SCCMPlugin.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Util\LogUtil\LogUtil.csproj">
+      <Project>{56bbfa4a-2de0-46c5-87d7-6e6f14d81916}</Project>
+      <Name>LogUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\Huawei.SCCMPlugin.RESTeSightLib\Huawei.SCCMPlugin.RESTeSightLib.csproj">
+      <Project>{e0ff5e0b-a06a-4c57-b694-7da489e12241}</Project>
+      <Name>Huawei.SCCMPlugin.RESTeSightLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>cd $(SolutionDir)
+cd ..
+cd build
+xcopy "HuaweiSCCMMenu\Extensions\Nodes\018b767a-5a2c-4448-b233-587fceed7c94" "$(TargetDir)" /y /i /e /d
+
+cd ..
+cd third_party
+xcopy "Lib\msvcp120.dll" "$(TargetDir)" /y /i /e /d
+xcopy "Lib\msvcr120.dll" "$(TargetDir)" /y /i /e /d
+xcopy "Lib\vccorlib120.dll" "$(TargetDir)" /y /i /e /d
+xcopy "Lib\lang-zhCN.js" "$(TargetDir)" /y /i /e /d
+xcopy "Lib\lang-en.js" "$(TargetDir)" /y /i /e /d</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\..\..\third_party\packages\System.Data.SQLite.Core.1.0.105.0\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\..\..\third_party\packages\System.Data.SQLite.Core.1.0.105.0\build\net40\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\third_party\packages\System.Data.SQLite.Core.1.0.105.0\build\net40\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\third_party\packages\System.Data.SQLite.Core.1.0.105.0\build\net40\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('..\..\..\third_party\packages\cef.redist.x64.3.2623.1396\build\cef.redist.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\third_party\packages\cef.redist.x64.3.2623.1396\build\cef.redist.x64.targets'))" />
+    <Error Condition="!Exists('..\..\..\third_party\packages\cef.redist.x86.3.2623.1396\build\cef.redist.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\third_party\packages\cef.redist.x86.3.2623.1396\build\cef.redist.x86.targets'))" />
+    <Error Condition="!Exists('..\..\..\third_party\packages\CefSharp.Common.49.0.0\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\third_party\packages\CefSharp.Common.49.0.0\build\CefSharp.Common.props'))" />
+    <Error Condition="!Exists('..\..\..\third_party\packages\CefSharp.Common.49.0.0\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\third_party\packages\CefSharp.Common.49.0.0\build\CefSharp.Common.targets'))" />
+    <Error Condition="!Exists('..\..\..\third_party\packages\CefSharp.WinForms.49.0.0\build\CefSharp.WinForms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\third_party\packages\CefSharp.WinForms.49.0.0\build\CefSharp.WinForms.props'))" />
+  </Target>
+  <Import Project="..\..\..\third_party\packages\cef.redist.x64.3.2623.1396\build\cef.redist.x64.targets" Condition="Exists('..\..\..\third_party\packages\cef.redist.x64.3.2623.1396\build\cef.redist.x64.targets')" />
+  <Import Project="..\..\..\third_party\packages\cef.redist.x86.3.2623.1396\build\cef.redist.x86.targets" Condition="Exists('..\..\..\third_party\packages\cef.redist.x86.3.2623.1396\build\cef.redist.x86.targets')" />
+  <Import Project="..\..\..\third_party\packages\CefSharp.Common.49.0.0\build\CefSharp.Common.targets" Condition="Exists('..\..\..\third_party\packages\CefSharp.Common.49.0.0\build\CefSharp.Common.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>xcopy "$(SolutionDir)Client\plugin-webapp" "$(TargetDir)plugin-webapp\" /y /i /e /d</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

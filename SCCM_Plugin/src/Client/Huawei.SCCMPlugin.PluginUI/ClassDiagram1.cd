@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Attributes.BoundAttribute">
+    <Position X="1.5" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\BoundAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Attributes.CefURLAttribute">
+    <Position X="3.25" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\CefURLAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Config" Collapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAIAAAAgAAAAAAAAAAAAACAABAAEAAAABABAA=</HashCode>
+      <FileName>Config.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.ConfigManager" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAA=</HashCode>
+      <FileName>ConfigManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Entitys.ApiResult" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAgAABAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Entitys\ApiResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Entitys.ApiResult&lt;T&gt;" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAgAABBAAAAAAAAAEAAA=</HashCode>
+      <FileName>Entitys\ApiResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Entitys.ApiListResult&lt;T&gt;" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAgAABBAAAAAAAAAEAAA=</HashCode>
+      <FileName>Entitys\ApiResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Entitys.ParamOfDeleteTask" Collapsed="true">
+    <Position X="14" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entitys\CommonBLLClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.ESightScheme.CefSharpContextMenuHandler" BaseTypeListCollapsed="true">
+    <Position X="1" Y="5.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEABAAEAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>ESightScheme\CefSharpContextMenuHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.ESightScheme.CefSharpSchemeHandler" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="5.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>gAABAAAAAAAAAAAAAAAEAAAAAAAAAAAACAAgAIAIAAA=</HashCode>
+      <FileName>ESightScheme\CefSharpSchemeHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.ESightScheme.CefSharpSchemeHandlerFactory" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="5.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAEAAAAAAAAAAQAA=</HashCode>
+      <FileName>ESightScheme\CefSharpSchemeHandlerFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.ESightScheme.ESightBrowser" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="9.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAECAAQAAEQACAAIAiAAAAAACAAAAAAAAAIAA=</HashCode>
+      <FileName>ESightScheme\EsightBrowser.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Handlers.About.AboutHandler" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\About\AboutHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Handlers.ESightsettingHandler" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="17" Width="2.75" />
+    <NestedTypes>
+      <Class Name="Huawei.SCCMPlugin.PluginUI.Handlers.ESightsettingHandler.ParamOfDelete" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Handlers\ESightsetting\ESightsettingHandler.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAUAAAACAAAAAAEAAAAAAAAACAAAAAI=</HashCode>
+      <FileName>Handlers\ESightsetting\ESightsettingHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Handlers.BasepackageHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAMAAAAIAAAQAAAAAAEAACAEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Handlers\Firmware\BasepackageHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Handlers.FirmwareTaskHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAACQAABAAAEAACAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\Firmware\FirmwareTaskHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Handlers.ServerHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAACAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Handlers\Server\ServerHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Handlers.SoftwareSourceHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAiAAIAAAAIAAAQAAAAAAAAACBEAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\SoftwareSource\SoftwareSourceHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Handlers.TemplateListHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAIAAAQAAAAAEAAACCEAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Handlers\Template\TemplateListHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Handlers.TemplateTaskHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAEAAAAACQAABAAAAAACAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\Template\TemplateTaskHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Helper.CefInstanse">
+    <Position X="11.5" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAASAAAAAAAAAAAAAAAAAAIAACAAAAAAA=</HashCode>
+      <FileName>Helper\CefInstanse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Helper.ParamThread" Collapsed="true">
+    <Position X="5.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAAAAAAAAAAAAAAAAAAQAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Helper\CefInstanse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Helper.CommonBLLMethodHelper" Collapsed="true">
+    <Position X="14" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAABAAAEAACAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Helper\CommonBLLMethodHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Helper.DictHelper" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helper\DictHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Helper.ESSessionHelper" Collapsed="true">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAEAAAAAAAAABAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Helper\ESSessionHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Views.ESightSettingsViewController">
+    <Position X="2.25" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAQAA=</HashCode>
+      <FileName>Views\ESightSettingsViewController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Views.ESightSettingsViewDescription" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAACAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ESightSettingsViewDescription.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Views.ESightSettingsViewFrm" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAECAAAAAAAACAAAACAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ESightSettingsViewFrm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Views.HostTabsViewController">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAACAAAAAQAA=</HashCode>
+      <FileName>Views\HostTabsViewController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Views.HostTabsViewDescription" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAACAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\HostTabsViewDescription.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Views.HostTabsViewFrm" Collapsed="true">
+    <Position X="12.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACgAQBEMAACAAAACAAIIAACACAAAARABAAA=</HashCode>
+      <FileName>Views\HostTabsViewFrm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Views.ViewBase">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Views\ViewBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.PluginUI.Views.ViewBaseDescription" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAACAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ViewBaseDescription.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Huawei.SCCMPlugin.PluginUI.Interface.ICefBrowser">
+    <Position X="1.25" Y="9.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\ICefBrowser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Huawei.SCCMPlugin.PluginUI.Interface.ISafeThread">
+    <Position X="13.5" Y="10.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\ISafeThread.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Huawei.SCCMPlugin.PluginUI.Interface.IWebHandler">
+    <Position X="1.5" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IWebHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

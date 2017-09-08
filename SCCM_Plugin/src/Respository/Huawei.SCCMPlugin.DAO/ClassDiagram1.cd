@@ -1,0 +1,723 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Huawei.SCCMPlugin.DAO.BaseRepository&lt;T&gt;" Collapsed="true">
+    <Position X="3.75" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EACCAAAAEAAAIAAAAAAAAAAAAAAAACAAAAAAgQAAAAo=</HashCode>
+      <FileName>BaseRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.DAO.CodeFirstTestDal" Collapsed="true">
+    <Position X="0.5" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>CodeFirstTestDal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.DAO.DBUtility" Collapsed="true">
+    <Position X="3.75" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAgAAAAAAAAAAAAAEAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>DBUtility.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.DAO.HWESightHostDal" Collapsed="true">
+    <Position X="2.75" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>HWESightHostDal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.DAO.HWESightTaskDal" Collapsed="true">
+    <Position X="5" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ECEAAAAhAAEAAAAAAAAAAAAEAEAAAAAIQAAACgAAAAE=</HashCode>
+      <FileName>HWESightTaskDal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.DAO.HWTaskResourceDal" Collapsed="true">
+    <Position X="7.25" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgABAAAQAAAAAAAAAA=</HashCode>
+      <FileName>HWTaskResourceDal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.DAO.SingletonProvider&lt;T&gt;" Collapsed="true">
+    <Position X="36.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAEAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>SingletonProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.ActionsHandler" Collapsed="true">
+    <Position X="36.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AkIAAAAAhAEAAAAAAAAAgEAAAAAAAAAAACAAAAABAAI=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.BuilderData" Collapsed="true">
+    <Position X="11.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAJAAEAAEAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.BaseDeleteBuilder" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAQAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.DeleteBuilder" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FluentData.DeleteBuilder&lt;T&gt;" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FluentData.BaseInsertBuilder" Collapsed="true">
+    <Position X="3" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAKEAAAAQAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.InsertBuilder" Collapsed="true">
+    <Position X="0.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAACCAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FluentData.InsertBuilderDynamic" Collapsed="true">
+    <Position X="3" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAABAAAAEAAAASAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FluentData.InsertBuilder&lt;T&gt;" Collapsed="true">
+    <Position X="5.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAABAAAAEAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FluentData.SelectBuilder&lt;TEntity&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoAAAACAIIAAAAAAAAAGAAAEAAEQAJAAAIAASAAACIA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.SelectBuilderData" Collapsed="true">
+    <Position X="11.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoIAAACAAAAAAAAEAAAQAAAEAAAgAAAgAAAAQAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.BaseStoredProcedureBuilder" Collapsed="true">
+    <Position X="13" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAICAAAAQAAAAiAAAEAAAAAJAAAAAACAAACAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.StoredProcedureBuilder" Collapsed="true">
+    <Position X="10.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAgAAQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FluentData.StoredProcedureBuilderDynamic" Collapsed="true">
+    <Position X="13" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAgAAQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FluentData.StoredProcedureBuilder&lt;T&gt;" Collapsed="true">
+    <Position X="15.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAgAAQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FluentData.BuilderColumn" Collapsed="true">
+    <Position X="39.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAABAAAAAgAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.BaseUpdateBuilder" Collapsed="true">
+    <Position X="13" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAQAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.UpdateBuilder" Collapsed="true">
+    <Position X="10.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAECCAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FluentData.UpdateBuilderDynamic" Collapsed="true">
+    <Position X="13" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAABAAAAEAAEASAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FluentData.UpdateBuilder&lt;T&gt;" Collapsed="true">
+    <Position X="15.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAABAAAAEAAEACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FluentData.DbCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="41.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAGIAACSAUAIiAAAEAAAQABAAAIAAiAAQCAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.DbCommandData" Collapsed="true">
+    <Position X="43.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIgAAAAAAQAAAAAAAAAAgAAAAABAAAAAAgAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.QueryDataTableHandler&lt;TEntity&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAIAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.QueryCustomEntityHandler&lt;TEntity&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAIAAAAAAAAIgAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.QueryDynamicHandler&lt;TEntity&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="39.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAIAAAAAAAAIgAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.QueryScalarHandler&lt;TEntity&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="43.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAIAAAAABAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.AutoMapper" Collapsed="true">
+    <Position X="38" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABEAAAAAAAAAEBAAAACAAAAQAAAAAAEAAAAAAAAEAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.DataReaderField" Collapsed="true">
+    <Position X="36.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAABAAAAAAAABAAAAAAQAAAEAAAAAAQFAAAAEAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.DynamicTypeAutoMapper" Collapsed="true">
+    <Position X="43.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABEAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.ExecuteQueryHandler" Collapsed="true">
+    <Position X="36.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAEAAAQAAAAAAIAQIABAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.QueryHandler&lt;TEntity&gt;" Collapsed="true">
+    <Position X="41.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAEAAAAAAAAAAAAAAAAAAAAAAAQIAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.DataReader" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACQAAAgMCgAAAABCAAADCYgAAJEAEQwIBQAAACAJEA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.DynamicDataReader" Collapsed="true">
+    <Position X="41.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.ConnectionEventArgs" Collapsed="true">
+    <Position X="43.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.CommandEventArgs" Collapsed="true">
+    <Position X="41.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.ErrorEventArgs" Collapsed="true">
+    <Position X="34.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.DbContext" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="45" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gASQIEAAACiAAAACQCAEAAQABEEIADAAACAIRIAAhIA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.DbContextData" Collapsed="true">
+    <Position X="34.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gACQIAAAAAiABAEAAAAAAAQAAAACACAAACAIBIAAgIA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.EntityFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="45" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.DataReaderHelper" Collapsed="true">
+    <Position X="38" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.PropertyExpressionParser&lt;T&gt;" Collapsed="true">
+    <Position X="34.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAQAABAAAAAAAQAgAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.FluentDataException" Collapsed="true">
+    <Position X="38" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.ReflectionHelper" Collapsed="true">
+    <Position X="45" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACABAABAAAAAAAAAAAAAAgAAFAAAoAACAACIAIIA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.AccessProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAsCEAAAAAABAACAQAAYAAAEBAAAAAABAEQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.ConnectionFactory" Collapsed="true">
+    <Position X="45" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.DbTypeMapper" Collapsed="true">
+    <Position X="36.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAQAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.DeleteBuilderSqlGenerator" Collapsed="true">
+    <Position X="39.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.InsertBuilderSqlGenerator" Collapsed="true">
+    <Position X="39.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.UpdateBuilderSqlGenerator" Collapsed="true">
+    <Position X="41.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.DB2Provider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="39.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAsCEAAAAEABAAAAQAAYAAAEBAAAAAABAEQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.PostgreSqlProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="45" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAsCEAAAAEABAAAAQAAYAAAEBAAAAAABAEQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.MySqlProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="41.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAsCEAAAAEABAAAAQAAYAAAEBAAAAAABAEQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.OracleProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="43.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAsCEAAAAEABAAAAQAAYAAAEBAAAAAABAEQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.SqlAzureProvider" Collapsed="true">
+    <Position X="8.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FluentData.SqliteProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAsCEAAAAEABAAAAQAAYAAAEBAAAAAABAEQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.SqlServerCompactProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="39.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAsCEAAAAEABAAAAQAAYAAAEBAAAAAABAEQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FluentData.SqlServerProvider" Collapsed="true">
+    <Position X="8.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAsCEAAAAEABAAAAQAAYAAAEBAAAAAABAEQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Huawei.SCCMPlugin.DAO.IBaseRepository&lt;T&gt;" Collapsed="true">
+    <Position X="3.75" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EACCAAAAEAAAAAAAAAAAAAAAAAAAACAAAAAAgAAAAAo=</HashCode>
+      <FileName>IBaseRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Huawei.SCCMPlugin.DAO.ICodeFirstTestDal" Collapsed="true">
+    <Position X="2.75" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ICodeFirstTestDal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Huawei.SCCMPlugin.DAO.IHWESightHostDal" Collapsed="true">
+    <Position X="5" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IHWESightHostDal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Huawei.SCCMPlugin.DAO.IHWESightTaskDal" Collapsed="true">
+    <Position X="7.25" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ECEAAAAhAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAE=</HashCode>
+      <FileName>IHWESightTaskDal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Huawei.SCCMPlugin.DAO.IHWTaskResourceDal" Collapsed="true">
+    <Position X="0.5" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IHWTaskResourceDal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IDeleteBuilder" Collapsed="true">
+    <Position X="27.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IDeleteBuilder&lt;T&gt;" Collapsed="true">
+    <Position X="32" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IInsertUpdateBuilder" Collapsed="true">
+    <Position X="41.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IInsertUpdateBuilderDynamic" Collapsed="true">
+    <Position X="45" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAEAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IInsertUpdateBuilder&lt;T&gt;" Collapsed="true">
+    <Position X="43.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAEAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IInsertBuilder" Collapsed="true">
+    <Position X="17" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAACBAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IInsertBuilder&lt;T&gt;" Collapsed="true">
+    <Position X="11" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAABAAAAEAAAACBAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IInsertBuilderDynamic" Collapsed="true">
+    <Position X="17" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAABAAAAEAAAACBAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.ISelectBuilder&lt;TEntity&gt;" Collapsed="true">
+    <Position X="36.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoAAAACAAIAAAAAAAAAGAAAEAAEQABAAAIAASAAACIA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IStoredProcedureBuilder" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQABAAAAAAgAAQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IStoredProcedureBuilderDynamic" Collapsed="true">
+    <Position X="14" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAQABAAAAAAgAAQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IStoredProcedureBuilder&lt;T&gt;" Collapsed="true">
+    <Position X="11" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAQABAAAAAAgAAQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IUpdateBuilder" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAEACBAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IUpdateBuilderDynamic" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAABAAAAEAAEACBAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IUpdateBuilder&lt;T&gt;" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAABAAAAEAAEACBAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IQueryTypeHandler&lt;TEntity&gt;" Collapsed="true">
+    <Position X="34.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IDbCommand" Collapsed="true">
+    <Position X="14" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAQAIAAAAAAAAQABAAAIAAgAAQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IExecute" Collapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IExecuteReturnLastId" Collapsed="true">
+    <Position X="8" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IParameterValue" Collapsed="true">
+    <Position X="19.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IQuery" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAEAAAAAAAAAAAACAAACAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IDataReader" Collapsed="true">
+    <Position X="34.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACAAAAgICgAAAAAAAAADAIAAAJEAAQQABQAAAAAJEA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IDbContext" Collapsed="true">
+    <Position X="1.75" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gASQIEAAAAiAAAACQAAAAAQAAEEIADAAACAIRIAAgIA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IEntityFactory" Collapsed="true">
+    <Position X="39.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FluentData.IDbProvider" Collapsed="true">
+    <Position X="38" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAsCEAAAAAABAAAAQAAYAAAEBAAAAAABAEQAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="FluentData.DataTypes" Collapsed="true">
+    <Position X="34.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QgAAGAAAIQAgABggQIAAAACkLAACBAQFEEAAAAAAAQA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FluentData.DbCommandTypes" Collapsed="true">
+    <Position X="36.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAACAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FluentData.ParameterDirection" Collapsed="true">
+    <Position X="39.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAIAAAAEgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FluentData.IsolationLevel" Collapsed="true">
+    <Position X="38" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAgABAAAgAAAAAgAAAAEAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>FluentData.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
