@@ -121,7 +121,7 @@
                         {{scope.row.deviceProgress+'%'}}
                     </template>
                 </el-table-column>
-                <el-table-column v-bind:label="i18ns.task.errorDetail">
+                <el-table-column v-bind:label="i18ns.task.errorDetail" min-width="100">
                     <template scope="scope">
                                 <el-popover trigger="hover" placement="top">
                                         <div v-for="item in getErrorDetailTxt(scope.row.errorCode).split('</br>')">

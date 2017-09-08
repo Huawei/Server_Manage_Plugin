@@ -391,6 +391,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
             TimeSpan d = now.Subtract(_lastRefreshPwdTime);
             if (d.Days > 1)
             {
+                InitESSessions();
                 _lastRefreshPwdTime = now;
                 RefreshPwds();
             }
@@ -402,7 +403,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
         /// 说明：工作密钥及密钥加密密钥在使用过程中，都应保证其可以更新。对于根密钥暂不要求必须支持可更新。
         /// </summary>
         public void RefreshPwds()
-        {
+        {           
             LogUtil.HWLogger.API.InfoFormat("Refresh password with encryption...");
             lock (_lockRefreshPwds)
             {

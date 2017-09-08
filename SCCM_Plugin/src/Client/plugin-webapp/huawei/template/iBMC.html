@@ -232,7 +232,7 @@
                     domainControllerAddress: "",
                     userDomain: "",
                     checkEsightList: [],
-                    ntpServerSource: '0',
+                    ntpServerSource: '1',
                     templateType: 'IBMC',
                     templateName: '',
                     templateDesc: '',
@@ -347,6 +347,7 @@
                 this.mainRules.userDomain = {};
                 this.mainRules.domainControllerAddress = {};
                 this.getEsightListData();
+
             },
             methods: {
                 /**
@@ -549,11 +550,12 @@
                         this.cancelNtpValidate();
                     } else { //启用status
                         this.NTPServerSourceDisabled = false;
-                        if (this.mainForm.ntpServerSource == 2) { //手动
+                        if (this.mainForm.ntpServerSource == 0) { //手动
                             this.manualNTPIsDisabled = false;
                             this.setNtpValidate();
                         } else {
                             this.cancelNtpValidate();
+                            this.manualNTPIsDisabled = true;
                         }
                     }
                 },
@@ -562,7 +564,7 @@
                  * */
                 NTPServerSourceChange: function() {
                     var val = app.mainForm.ntpServerSource;
-                    if (val != 2) {
+                    if (val != 0) {
                         this.cancelNtpValidate();
                         this.manualNTPIsDisabled = true;
                     } else {
@@ -577,8 +579,18 @@
                  *重构提交数据
                  * */
                 createParams: function() {
-                    var ntpServerSource = app.mainForm.ntpServerSource == '2' ? '1' : '0';
-                    var bindNtpIpProtocol = app.mainForm.ntpServerSource == '1' ? '2' : '1';
+                    var ntpServerSource;
+                    var bindNtpIpProtocol;
+                    if (app.mainForm.ntpServerSource == 0) {
+                        ntpServerSource = 1; //手动
+                        bindNtpIpProtocol = '';
+                    } else if (app.mainForm.ntpServerSource == 1) {
+                        ntpServerSource = 0; //自动
+                        bindNtpIpProtocol = '1';
+                    } else {
+                        ntpServerSource = 0; //自动
+                        bindNtpIpProtocol = '2';
+                    }
                     var data = {
                         templateName: app.mainForm.templateName,
                         templateType: "IBMC",
