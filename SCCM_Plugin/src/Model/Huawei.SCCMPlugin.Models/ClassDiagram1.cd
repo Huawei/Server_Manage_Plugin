@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Huawei.SCCMPlugin.Models.BaseModel" Collapsed="true">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BaseModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.CodeFirstTestModel" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CodeFirstTestModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.CustomJsonDateTimeConverter" Collapsed="true">
+    <Position X="20.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CustomJsonDateTimeConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.BasePackage" Collapsed="true">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACSAAAAAQAAAAAAAAAAAACAAAAAAIAABACAAAA=</HashCode>
+      <FileName>Firmware\BasePackage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.BasePackageProgress" Collapsed="true">
+    <Position X="16.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAARAAAAAAEABAAAAAAAAAAAAAAAAAAABAAQAAA=</HashCode>
+      <FileName>Firmware\BasePackageProgress.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.HWDataDict" Collapsed="true">
+    <Position X="16.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HWDataDict.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.HWESightHost" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAECAAAAACAEAIAAAgAEMgAAAAAIAAAAAgAA=</HashCode>
+      <FileName>HWESightHost.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.HWESightTask" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEYAEgARAEAAAgEABAAAAAEAAAEEAAAAAAIAAQASCAA=</HashCode>
+      <FileName>HWESightTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.HWTaskResource" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAEgAQABACAAAAAACAAAAEAAkEAAAAAAIAAAAACAA=</HashCode>
+      <FileName>HWTaskResource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.QueryLGListResult&lt;T&gt;" Collapsed="true">
+    <Position X="20.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAgAAAAABAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>QueryLGListResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.QueryListResult&lt;T&gt;" Collapsed="true">
+    <Position X="9.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAgAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>QueryListResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.QueryNoneResult" Collapsed="true">
+    <Position X="11.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>QueryNoneResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.QueryObjectResult&lt;T&gt;" Collapsed="true">
+    <Position X="13.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAgAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>QueryObjectResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.QueryPageResult&lt;T&gt;" Collapsed="true">
+    <Position X="15" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAgAAAAIAAgEAAAAAAAAFAAAAACAAAAAAA=</HashCode>
+      <FileName>QueryPageResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.SoftwareSource" Collapsed="true">
+    <Position X="16.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAASAAAAAgAAAAAgAAAAAABAEAAAAIAQAACAAAA=</HashCode>
+      <FileName>Softwares\SoftwareSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.WebMutilESightsParam&lt;T&gt;" Collapsed="true">
+    <Position X="11.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>WebMutilESightsParam.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.WebOneESightParam&lt;T&gt;" Collapsed="true">
+    <Position X="13.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WebOneESightParam.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.WebReturnESightResult" Collapsed="true">
+    <Position X="15" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAgAAAAAAAgEAAAAAAAAAAAAAACAAAQAAA=</HashCode>
+      <FileName>WebReturnESightResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.WebReturnLGResult&lt;T&gt;" Collapsed="true">
+    <Position X="16.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAgAAAAAAAgEAAAABAAABAAAAACgAAAAAA=</HashCode>
+      <FileName>WebReturnLGResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.WebReturnResult&lt;T&gt;" Collapsed="true">
+    <Position X="18.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAgAAAAAAAgEAAAAAAAABCAAAACAAAAAAA=</HashCode>
+      <FileName>WebReturnResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Deploy.DeployProgress" Collapsed="true">
+    <Position X="13.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAARAEAAAgEABAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Deploy\DeployProgress.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Deploy.DeployTask" Collapsed="true">
+    <Position X="15" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Deploy\DeployTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Deploy.DeployTemplate" Collapsed="true">
+    <Position X="16.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAEIAAAAAAAA=</HashCode>
+      <FileName>Deploy\DeployTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Deploy.DeployTemplateParam" Collapsed="true">
+    <Position X="18.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAEAQAAAA=</HashCode>
+      <FileName>Deploy\DeployTemplateParam.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Deploy.DeviceProgress" Collapsed="true">
+    <Position X="9.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAwAAACAAAAAAAAAAAAAAgAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Deploy\DeviceProgress.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Deploy.QueryDeployParam" Collapsed="true">
+    <Position X="18.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAEAQACAE=</HashCode>
+      <FileName>Deploy\QueryDeployParam.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Devices.Blade" Collapsed="true">
+    <Position X="18.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAKAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Devices\Blade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Devices.DeviceParam" Collapsed="true">
+    <Position X="20.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgAAAE=</HashCode>
+      <FileName>Devices\DeviceParam.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Devices.HWBoard" Collapsed="true">
+    <Position X="13.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAEAEAAAAQAAAAgYAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Devices\HWBoard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Devices.HWCPU" Collapsed="true">
+    <Position X="15" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAABAAAAAAAYAAIAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Devices\HWCPU.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Devices.HWDevice" Collapsed="true">
+    <Position X="18.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAgAAAAEAAAgAACAEAKAAAAEAAFAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Devices\HWDevice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Devices.HWDeviceDetail" Collapsed="true">
+    <Position X="20.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAIAAAEQIAwAAgAGACAAQQAAAEAAAAAAQAABAAAAAg=</HashCode>
+      <FileName>Devices\HWDeviceDetail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Devices.HWDisk" Collapsed="true">
+    <Position X="9.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAIAAAYAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Devices\HWDisk.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Devices.HWFAN" Collapsed="true">
+    <Position X="11.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQEAAAAAAAAAAAAYAEAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Devices\HWFAN.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Devices.HWMemory" Collapsed="true">
+    <Position X="13.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAEAAAAAAAAAAAAYCAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Devices\HWMemory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Devices.HWPSU" Collapsed="true">
+    <Position X="15" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAgAAAAAAEAAAAAAAAAAAAYAAAAAAAAACBAAAAAAAAA=</HashCode>
+      <FileName>Devices\HWPSU.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Firmware.BasePackageDetail" Collapsed="true">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAEAAAAAAAAAAAAAAAAAAAAABAgAAAA=</HashCode>
+      <FileName>Firmware\BasePackageDetail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Firmware.BasePackageDNProgress" Collapsed="true">
+    <Position X="13.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAkABgAABAAAAAAAAAA=</HashCode>
+      <FileName>Firmware\BasePackageDNProgress.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Firmware.BasePackageItem" Collapsed="true">
+    <Position X="15" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAEAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Firmware\BasePackageItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Firmware.DeployPackageTask" Collapsed="true">
+    <Position X="9.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAACAACAAAAAAAAAAABAAAAAAABAAAAAA=</HashCode>
+      <FileName>Firmware\DeployPackageTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Firmware.DeployPackageTaskDetail" Collapsed="true">
+    <Position X="11.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAgAAAAAAEABAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Firmware\DeployPackageTaskDetail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Firmware.FirmwarelistProgress" Collapsed="true">
+    <Position X="11.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAgAAAQAAAAACAgAAAAAAAAgAAA=</HashCode>
+      <FileName>Firmware\FirmwarelistProgress.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Firmware.QueryDeployPackageParam" Collapsed="true">
+    <Position X="16.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMAAAAAgAAAAAAAAABAAAAAAAAAAAAAAAAAEAQAAAE=</HashCode>
+      <FileName>Firmware\QueryDeployPackageParam.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Softwares.SoftwareSourceParam" Collapsed="true">
+    <Position X="18.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAQAAAA=</HashCode>
+      <FileName>Softwares\SoftwareSourceParam.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Softwares.SourceItem" Collapsed="true">
+    <Position X="20.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAMAIIAAAiAAAEBAAAAAAAAA=</HashCode>
+      <FileName>Softwares\SourceItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.Models.Softwares.SourceProgress" Collapsed="true">
+    <Position X="9.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAARAAAAAAEABAAAAAAAQAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Softwares\SourceProgress.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
