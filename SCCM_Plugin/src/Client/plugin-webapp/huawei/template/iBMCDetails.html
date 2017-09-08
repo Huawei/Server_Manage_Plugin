@@ -52,96 +52,102 @@
                 </el-checkbox-group>
             </el-form-item>
             <!--NTP折叠框-->
-            <el-row>
-                <el-col v-bind:span="24" v-show="_.find(this.serviceChecked,function(x){return x=='NTP'})">
-                    <div class="nem_component_content_title" v-on:click="classData.isNTPOpen=!classData.isNTPOpen">
-                        <span v-bind:class="[classData.isNTPOpen ? classData.openClass : classData.closeClass]"></span>
-                        <span class="nem_component_content_title_lbl">NTP</span>
-                    </div>
-                </el-col>
-            </el-row>
-            <div v-show="classData.isNTPOpen &&_.find(this.serviceChecked,function(x){return x=='NTP'})" style="margin-top: 10px; margin-bottom:10px;">
-                <el-form-item v-bind:label="i18ns.template.ntpStatus">
-                    {{details.templateProp.ntpConfig.ntpStatus?i18ns.template.enabled:i18ns.template.disabled}}
-                </el-form-item>
-                <el-form-item v-bind:label="i18ns.template.NTPServerSource">
-                    {{details.templateProp.ntpConfig.ntpServerSource|getLabel(NTPServerSources)}}
-                </el-form-item>
-                <el-form-item v-bind:label="i18ns.template.primaryNtpServer">
-                    {{details.templateProp.ntpConfig.primaryNtpServer}}
-                </el-form-item>
-                <el-form-item v-bind:label="i18ns.template.secondaryNtpServer">
-                    {{details.templateProp.ntpConfig.secondaryNtpServer}}
-                </el-form-item>
-            </div>
-            <!--DNS折叠框-->
-            <el-row style="margin-top:10px;">
-                <el-col v-bind:span="24" v-show="_.find(this.serviceChecked,function(x){return x=='DNS'})">
-                    <div class="nem_component_content_title" v-on:click="classData.isDNSOpen=!classData.isDNSOpen">
-                        <span v-bind:class="[classData.isDNSOpen ? classData.openClass : classData.closeClass]"></span>
-                        <span class="nem_component_content_title_lbl">DNS</span>
-                    </div>
-                </el-col>
-            </el-row>
-            <div v-show="classData.isDNSOpen&&_.find(this.serviceChecked,function(x){return x=='DNS'})" style="margin-top: 10px; margin-bottom:10px;">
-                <el-form-item :label="i18ns.template.dnsSource">
-                    {{details.templateProp.dnsConfig.dnsSource=="1"?i18ns.template.ManuallySet:i18ns.template.AutomaticallyObtain}}
-                </el-form-item>
-                <div v-show="details.templateProp.dnsConfig.dnsSource==1">
-                    <el-form-item :label="i18ns.template.domainName">
-                        {{details.templateProp.dnsConfig.domainName}}
+            <div v-if="isShowNtpConfig">
+                <el-row>
+                    <el-col v-bind:span="24" v-show="_.find(this.serviceChecked,function(x){return x=='NTP'})">
+                        <div class="nem_component_content_title" v-on:click="classData.isNTPOpen=!classData.isNTPOpen">
+                            <span v-bind:class="[classData.isNTPOpen ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">NTP</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isNTPOpen &&_.find(this.serviceChecked,function(x){return x=='NTP'})" style="margin-top: 10px; margin-bottom:10px;">
+                    <el-form-item v-bind:label="i18ns.template.ntpStatus">
+                        {{details.templateProp.ntpConfig.ntpStatus?i18ns.template.enabled:i18ns.template.disabled}}
                     </el-form-item>
-                    <el-form-item :label="i18ns.template.primaryDnsServer">
-                        {{details.templateProp.dnsConfig.primaryDnsServer}}
+                    <el-form-item v-bind:label="i18ns.template.NTPServerSource">
+                        {{getntpServerSourceTxt(details.templateProp.ntpConfig.ntpServerSource)}}
                     </el-form-item>
-                    <el-form-item :label="i18ns.template.secondaryDnsServer">
-                        {{details.templateProp.dnsConfig.secondaryDnsServer}}
+                    <el-form-item v-bind:label="i18ns.template.primaryNtpServer">
+                        {{details.templateProp.ntpConfig.primaryNtpServer}}
+                    </el-form-item>
+                    <el-form-item v-bind:label="i18ns.template.secondaryNtpServer">
+                        {{details.templateProp.ntpConfig.secondaryNtpServer}}
                     </el-form-item>
                 </div>
+            </div>
+            <!--DNS折叠框-->
+            <div v-if="isShowDNSConfig">
+                <el-row style="margin-top:10px;">
+                    <el-col v-bind:span="24" v-show="_.find(this.serviceChecked,function(x){return x=='DNS'})">
+                        <div class="nem_component_content_title" v-on:click="classData.isDNSOpen=!classData.isDNSOpen">
+                            <span v-bind:class="[classData.isDNSOpen ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">DNS</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isDNSOpen&&_.find(this.serviceChecked,function(x){return x=='DNS'})" style="margin-top: 10px; margin-bottom:10px;">
+                    <el-form-item :label="i18ns.template.dnsSource">
+                        {{details.templateProp.dnsConfig.dnsSource=="1"?i18ns.template.ManuallySet:i18ns.template.AutomaticallyObtain}}
+                    </el-form-item>
+                    <div v-show="details.templateProp.dnsConfig.dnsSource==1">
+                        <el-form-item :label="i18ns.template.domainName">
+                            {{details.templateProp.dnsConfig.domainName}}
+                        </el-form-item>
+                        <el-form-item :label="i18ns.template.primaryDnsServer">
+                            {{details.templateProp.dnsConfig.primaryDnsServer}}
+                        </el-form-item>
+                        <el-form-item :label="i18ns.template.secondaryDnsServer">
+                            {{details.templateProp.dnsConfig.secondaryDnsServer}}
+                        </el-form-item>
+                    </div>
 
+                </div>
             </div>
             <!--LDAP折叠框-->
-            <el-row style="margin-top:10px;">
-                <el-col v-bind:span="24" v-show="_.find(this.serviceChecked,function(x){return x=='LDAP'})">
-                    <div class="nem_component_content_title" v-on:click="classData.isLDAPOpen=!classData.isLDAPOpen">
-                        <span v-bind:class="[classData.isLDAPOpen ? classData.openClass : classData.closeClass]"></span>
-                        <span class="nem_component_content_title_lbl">LDAP</span>
-                    </div>
-                </el-col>
-            </el-row>
-            <div v-show="classData.isLDAPOpen&&_.find(this.serviceChecked,function(x){return x=='LDAP'})" style="margin-top: 10px; margin-bottom:10px;">
-                <el-form-item :label="i18ns.template.ldapStatus">
-                    {{details.templateProp.ldapConfig.ldapStatus?i18ns.template.enabled:i18ns.template.disabled}}
-                </el-form-item>
-                <div v-show="details.templateProp.ldapConfig.ldapStatus">
-                    <el-form-item :label="i18ns.template.domainControllerAddress">
-                        {{details.templateProp.ldapConfig.domainControllerAddress}}
+            <div v-if="isShowLdapConfig">
+                <el-row style="margin-top:10px;">
+                    <el-col v-bind:span="24" v-show="_.find(this.serviceChecked,function(x){return x=='LDAP'})">
+                        <div class="nem_component_content_title" v-on:click="classData.isLDAPOpen=!classData.isLDAPOpen">
+                            <span v-bind:class="[classData.isLDAPOpen ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">LDAP</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isLDAPOpen&&_.find(this.serviceChecked,function(x){return x=='LDAP'})" style="margin-top: 10px; margin-bottom:10px;">
+                    <el-form-item :label="i18ns.template.ldapStatus">
+                        {{details.templateProp.ldapConfig.ldapStatus?i18ns.template.enabled:i18ns.template.disabled}}
                     </el-form-item>
-                    <el-form-item :label="i18ns.template.userDomain">
-                        {{details.templateProp.ldapConfig.userDomain}}
-                    </el-form-item>
-                    <el-table :data="details.templateProp.ldapConfig.roleGroup" border style="width: 100%">
-                        <el-table-column :label="i18ns.template.roleGroup">
-                            <template scope="scope">
+                    <div v-show="details.templateProp.ldapConfig.ldapStatus">
+                        <el-form-item :label="i18ns.template.domainControllerAddress">
+                            {{details.templateProp.ldapConfig.domainControllerAddress}}
+                        </el-form-item>
+                        <el-form-item :label="i18ns.template.userDomain">
+                            {{details.templateProp.ldapConfig.userDomain}}
+                        </el-form-item>
+                        <el-table :data="details.templateProp.ldapConfig.roleGroup" border style="width: 100%">
+                            <el-table-column :label="i18ns.template.roleGroup">
+                                <template scope="scope">
                                 {{i18ns.template.roleGroup}}{{scope.$index+1}}
                             </template>
-                        </el-table-column>
-                        <el-table-column :label="i18ns.template.groupName">
-                            <template scope="scope">
+                            </el-table-column>
+                            <el-table-column :label="i18ns.template.groupName">
+                                <template scope="scope">
                                  {{scope.row.groupName}}
                             </template>
-                        </el-table-column>
-                        <el-table-column :label="i18ns.template.groupDomain">
-                            <template scope="scope">
+                            </el-table-column>
+                            <el-table-column :label="i18ns.template.groupDomain">
+                                <template scope="scope">
                                  {{scope.row.groupDomain}}
                             </template>
-                        </el-table-column>
-                        <el-table-column :label="i18ns.template.groupPrivilege">
-                            <template scope="scope">
+                            </el-table-column>
+                            <el-table-column :label="i18ns.template.groupPrivilege">
+                                <template scope="scope">
                                 {{scope.row.groupPrivilege|getLabel(groupPrivileges)}}
                             </template>
-                        </el-table-column>
-                    </el-table>
+                            </el-table-column>
+                        </el-table>
+                    </div>
                 </div>
             </div>
             <el-form-item label="eSight">
@@ -185,7 +191,10 @@
                     isLDAPOpen: true,
                     openClass: 'nem_component_content_title_icon_open',
                     closeClass: 'nem_component_content_title_icon_close'
-                }
+                },
+                isShowDNSConfig: false,
+                isShowLdapConfig: false,
+                isShowNtpConfig: false
             },
             created: function() {
                 this.i18ns = getIn18();
@@ -216,6 +225,23 @@
                 }
             },
             methods: {
+                getntpServerSourceTxt: function(v) {
+                    var arr = getNTPServerSources();
+                    if (v == '0') {
+                        for (var i = 0; i < arr.length; i++) {
+                            if (arr[i].value == app.details.templateProp.ntpConfig.bindNtpIpProtocol) {
+                                return arr[i].label;
+                            }
+                        }
+
+                    } else {
+                        for (var i = 0; i < arr.length; i++) {
+                            if (arr[i].value == 0) {
+                                return arr[i].label;
+                            }
+                        }
+                    }
+                },
                 getDetails: function() {
                     setTimeout(function() {
                         var param = {
@@ -225,12 +251,21 @@
                             }
                         }
                         templateManage.getTemplateDetail(param, function(result) {
-                            console.log(result)
+                            console.log(JSON.stringify(result));
                             var prop = result.data.templateProp;
+                            if (prop.hasOwnProperty("dnsConfig")) {
+                                typeof(prop.dnsConfig) != "undefined" ? app.serviceChecked.push("DNS"): prop.dnsConfig = {};
+                                app.isShowDNSConfig = true;
+                            }
+                            if (prop.hasOwnProperty("ldapConfig")) {
+                                typeof(prop.ldapConfig) != "undefined" ? app.serviceChecked.push("LDAP"): prop.ldapConfig = {};
+                                app.isShowLdapConfig = true;
+                            }
+                            if (prop.hasOwnProperty("ntpConfig")) {
+                                typeof(prop.ntpConfig) != "undefined" ? app.serviceChecked.push("NTP"): prop.ntpConfig = {};
+                                app.isShowNtpConfig = true;
+                            }
 
-                            typeof(prop.dnsConfig) != "undefined" ? app.serviceChecked.push("DNS"): prop.dnsConfig = {};
-                            typeof(prop.ldapConfig) != "undefined" ? app.serviceChecked.push("LDAP"): prop.ldapConfig = {};
-                            typeof(prop.ntpConfig) != "undefined" ? app.serviceChecked.push("NTP"): prop.ntpConfig = {};
                             result.data.templateProp = prop;
                             app.details = result.data;
                         });
