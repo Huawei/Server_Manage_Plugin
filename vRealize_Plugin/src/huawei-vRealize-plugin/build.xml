@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+
+<project name="ESightAdapter" default="all">
+
+  <!-- property file="build.properties" / -->
+  <property name="root.base" location="../../" />	
+  <property name="dirs.base" location="." />
+  <property name="dirs.src" location="${dirs.base}/src" />
+  <property name="dirs.lib" location="${root.base}/third_party/plugin-lib" />
+  <property name="self.lib" location="${root.base}/src_bin" />
+  <property name="dirs.conf" location="${dirs.base}/conf" />
+  <property name="dirs.build" location="${dirs.base}/build" />
+  <property name="dirs.compiled" location="${dirs.build}/classes" />
+  <property name="dirs.deploy" location="${dirs.build}/deploy" />
+  <property name="build.directory" value="ESightAdapter" />
+  <property name="build.jarfile" value="${build.directory}.jar" />
+  <property name="adapter.name" value="ESightAdapter" />
+  <property name="build.sysclasspath" value="last"/>
+  <!-- an arbitrary build number when pak file is generated manually.
+       Increment by one every time you need a higher PAKFILE_VERSION number 
+  -->
+  <property name="ADAPTER_BUILD_NUMBER" value="100" />
+  <property name="PAKFILE_VERSION" value="1.0.${ADAPTER_BUILD_NUMBER}" />
+
+  <!-- Define the classpath -->
+  <path id="class.path">
+    <pathelement path="${class.path.extras}" />
+    <fileset dir="${dirs.lib}" includes="*.jar" erroronmissingdir="false" />
+  	<fileset dir="${self.lib}" includes="*.jar" erroronmissingdir="false" />
+  </path>
+
+  <target name="init" depends="validate-describe-xsd" description="Initialize necessary environment for other tasks">
+    <loadproperties srcFile="${dirs.src}/adapter.properties"/>
+    <loadproperties srcFile="${dirs.conf}/version.txt"/>
+  	
+  	<delete includeemptydirs="true">
+      <fileset dir="${dirs.build}" includes="**/*" defaultexcludes="false"/>
+  	</delete>
+  	
+    <mkdir dir="${dirs.build}" />
+    <mkdir dir="${dirs.compiled}" />
+    <mkdir dir="${dirs.deploy}" />
+  </target>
+
+  <!-- Validate describe.xml using describeSchema.xsd file -->
+  <target name="validate-describe-xsd" description="Validate describe.xml using describeSchema.xsd file">
+    <schemavalidate file="${dirs.conf}/describe.xml"/>
+  </target>
+
+  <!-- Compile Java Files and store in /build/classes directory -->
+  <target name="build.compile" depends="init" description="Compile all sources">
+    <javac srcdir="${dirs.src}" destdir="${dirs.compiled}" encoding="utf-8" debug="true" includes="**/*.java" classpathref="class.path" source="1.7" target="1.7" failonerror="true" />
+    <copy todir="${dirs.compiled}">
+      <fileset dir="${dirs.src}" excludes="**/*.java" />
+    </copy>
+  </target>
+
+  <target name="build.jar" depends="build.compile">
+    <delete file="${dirs.deploy}/${build.jarfile}" />
+    <jar destfile="${dirs.deploy}/${build.jarfile}">
+      <fileset dir="${dirs.compiled}">
+        <include name="**/*.class" />
+        <exclude name="*/test/**"/>
+      </fileset>
+      <fileset dir="${dirs.src}">
+        <include name="**/describe.xml" />
+        <include name="**/adapter.properties" />
+      </fileset>
+      <manifest>
+        <attribute name="Adapter-Entry-Class" value="${ENTRYCLASS}"/>
+        <attribute name="Adapter-Kind" value="${KINDKEY}"/>
+        <attribute name="Adapter-Major-Version" value="${Major-Version}"/>
+        <attribute name="Adapter-Minor-Version" value="${Minor-Version}"/>
+      </manifest>
+    </jar>
+  </target>
+
+   <target name="build.deploy" depends="build.jar">
+      <delete dir="${dirs.deploy}/${build.directory}" />
+      <copy todir="${dirs.deploy}/${build.directory}/lib/" failonerror="false">
+         <fileset dir="${dirs.lib}">
+            <include name="**/*" />
+            <exclude name="empty.txt"/>
+            <exclude name="log4j-1.2.17.jar"/>
+            <exclude name="commons-logging-1.2.jar"/>
+            <exclude name="vcops-common.jar"/>
+         </fileset>
+      	<fileset dir="${self.lib}">
+      	    <include name="**/*" />
+      	</fileset>
+      </copy>
+      <copy todir="${dirs.deploy}/${build.directory}/conf/" failonerror="false">
+         <fileset dir="${dirs.conf}">
+            <include name="**/*" />
+            <exclude name="empty.txt"/>
+         </fileset>
+      </copy>
+     
+<!--     
+      <copy todir="${dirs.deploy}/${build.directory}/work/" failonerror="false">
+         <fileset dir="${dirs.base}/work">
+            <include name="**/*" />
+            <exclude name="empty.txt"/>
+         </fileset>
+      </copy>
+     
+      <copy todir="${dirs.deploy}/${build.directory}/doc" failonerror="false">
+         <fileset dir="${dirs.base}/doc" includes="**/*"/>
+      </copy>
+-->
+     
+   </target>
+   <target name="update.adapter.version" >
+      <jar update="true" destfile="${dirs.deploy}/${build.jarfile}">
+         <manifest>
+            <attribute name="Adapter-Version" value="${ADAPTER_BUILD_NUMBER}"/>
+         </manifest>
+      </jar>
+      <propertyfile file="${dirs.deploy}/${build.directory}/conf/version.txt">
+         <entry key="Implementation-Version" value="${ADAPTER_BUILD_NUMBER}" />
+      </propertyfile>
+   </target>
+   <target name="build.pak" depends="build.deploy">
+      <!-- get vcops_minimum_version from version.txt if not found use a defalt value -->
+      <property name="vcops_minimum_version_temp" value="${Vcops_Minimum_Version}" />
+      <condition property="vcops_minimum_version" value="6.2.0">
+         <equals arg1="${vcops_minimum_version_temp}" arg2="$${Vcops_Minimum_Version}"/>
+      </condition>
+      <property name="vcops_minimum_version" value="${Vcops_Minimum_Version}" />
+
+      <antcall target="update.adapter.version"/>
+      <ant antfile="${dirs.base}/../../tools/PakFileBuilder/conf/pak-build.xml" target="build.pak">
+        <property name="dirs.tool.base" value="${dirs.base}/../../tools/PakFileBuilder" />
+        <property name="dirs.eula-icon-resource.files" value="${dirs.base}" />
+        <property name="dirs.pkg" value="${dirs.base}/pkg" />
+        <property name="dirs.dest" value="${dirs.base}/build/deploy" />
+        <property name="ADAPTERS_LOCATION" value="${dirs.base}/build/deploy" />
+        <property name="PAKFILE_NAME" value="ESightAdapter" />
+        <property name="adapter.kinds" value='"ESightAdapter"' />
+        <property name="vcops.minimum.version" value="${vcops_minimum_version}" />
+      </ant>
+   </target>
+
+   <!-- Clean the build directory -->
+   <target name="clean.build" description="Clean build files">
+      <mkdir dir="${dirs.build}" />
+      <delete includeemptydirs="true">
+         <fileset dir="${dirs.build}" includes="**/*" />
+      </delete>
+      <delete dir="${dirs.build}" />
+   </target>
+
+   <!-- Clean the deploy directory -->
+   <target name="clean.deploy" description="Clean deploy files">
+      <mkdir dir="${dirs.deploy}" />
+      <delete includeemptydirs="true">
+         <fileset dir="${dirs.deploy}" includes="**/*" />
+      </delete>
+   </target>
+
+   <!-- Clean the classes directory -->
+   <target name="clean.compiled" description="Clean compiled files">
+      <mkdir dir="${dirs.compiled}" />
+      <delete includeemptydirs="true">
+         <fileset dir="${dirs.compiled}" includes="**/*" />
+      </delete>
+    
+   </target>
+   <target name="clean.all" depends="clean.build,clean.compiled,clean.deploy" />
+
+   <target name="all" depends="init,build.compile,build.jar,build.deploy" />
+
+</project>

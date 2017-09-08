@@ -1,0 +1,317 @@
+<RootNodeDescription NamespaceGuid="DC7BAE8D-C663-4D4C-ADE5-67C8D5212CD1" Id="HuaWeiHost" DisplayName="Huawei" Description="Huawei" HelpTopic="">
+  <!--<SecurityConfiguration>
+    <ClassPermissions>
+      <ActionSecurityDescription ClassObject="SMS_Lenovo" RequiredPermissions="1" />
+    </ClassPermissions>
+  </SecurityConfiguration>-->
+  <ResourceAssembly>
+    <Assembly>AdminUI.UIResources.dll</Assembly>
+    <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+  </ResourceAssembly>
+  <ImagesDescription>
+    <ResourceAssembly>
+      <Assembly>AdminUI.UIResources.dll</Assembly>
+      <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+    </ResourceAssembly>
+    <ImageResourceName>Folder</ImageResourceName>
+  </ImagesDescription>
+  <ViewAssemblyDescriptions>
+    <ViewAssemblyDescription>
+            <Assembly>AdminUI.HomePageView.dll</Assembly>
+            <Type>Microsoft.ConfigurationManagement.AdminConsole.HomePageView.ViewDescription</Type>
+			<!--<Assembly>HuaweiSCCM.dll</Assembly>
+			<Type>HuaweiSCCM.Views.HomeHomeViewDescription</Type>-->
+           <CustomData>
+              <HomePageConfigurationData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <TileList>
+                  <TileDescription ShowGenericGettingStartedTile="true" />
+                  <TileDescription AlertsTile="false">
+                    <AlertDescription>
+                      <AlertsQuery>select * from SMS_R_System</AlertsQuery>
+                    </AlertDescription>
+                  </TileDescription>
+                </TileList>
+              </HomePageConfigurationData>
+            </CustomData>
+          </ViewAssemblyDescription>
+  </ViewAssemblyDescriptions>
+<ChildNodes>
+<RootNodeDescription NamespaceGuid="9B6198D8-6CBE-4EBC-89A5-CFE8CADEEE53" Id="eSightSettings" DisplayName="eSight Configuration" Description="Configure the eSight account">
+	<ResourceAssembly>
+    <Assembly>AdminUI.UIResources.dll</Assembly>
+    <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+  </ResourceAssembly>
+  <ImagesDescription>
+	  <ResourceAssembly>
+		<Assembly>AdminUI.UIResources.dll</Assembly>
+		<Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+	  </ResourceAssembly>
+	  <ImageResourceName>DistributionPoint</ImageResourceName>
+    </ImagesDescription>
+  <ViewAssemblyDescriptions>
+    <ViewAssemblyDescription>
+			<Assembly>Huawei.SCCMPlugin.PluginUI.dll</Assembly>
+			<Type>Huawei.SCCMPlugin.PluginUI.Views.HostTabsViewDescription</Type>
+			<CustomData>
+              <MenuIndex>huawei/eSight/eSightConfig.html</MenuIndex>
+            </CustomData>
+     </ViewAssemblyDescription>
+  </ViewAssemblyDescriptions>
+ <Actions>
+  </Actions>
+</RootNodeDescription>
+</ChildNodes>
+<ChildNodes>
+<RootNodeDescription NamespaceGuid="9B6198D8-6CBE-4EBC-89A5-CFE8CADEEE57" Id="HuaweiHostMgr" DisplayName="Server Deployment" Description="Server Deployment">
+	<ResourceAssembly>
+    <Assembly>AdminUI.UIResources.dll</Assembly>
+    <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+  </ResourceAssembly>
+  <ImagesDescription>
+    <ResourceAssembly>
+      <Assembly>AdminUI.UIResources.dll</Assembly>
+      <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+    </ResourceAssembly>
+    <ImageResourceName>PrimarySiteBucket</ImageResourceName>
+  </ImagesDescription>
+  <ViewAssemblyDescriptions>
+    <ViewAssemblyDescription>
+            <Assembly>AdminUI.HomePageView.dll</Assembly>
+            <Type>Microsoft.ConfigurationManagement.AdminConsole.HomePageView.ViewDescription</Type>
+			<!--<Assembly>HuaweiSCCM.dll</Assembly>
+			<Type>HuaweiSCCM.Views.HomeHomeViewDescription</Type>-->
+           <CustomData>
+		   <HomePageConfigurationData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <TileList>
+                  <TileDescription ShowGenericGettingStartedTile="true" />
+                  <TileDescription AlertsTile="false">
+                    <AlertDescription>
+                      <AlertsQuery>select * from SMS_R_System</AlertsQuery>
+                    </AlertDescription>
+                  </TileDescription>
+                </TileList>
+              </HomePageConfigurationData>
+            </CustomData>
+          </ViewAssemblyDescription>
+  </ViewAssemblyDescriptions>
+ <Actions>
+  </Actions>
+  
+  <ChildNodes>
+<RootNodeDescription NamespaceGuid="9B6198D8-6CBE-4EBC-89A5-CFE8CADEEE57" Id="HuaweiHostList" DisplayName="Server List" Description="Operate the server">
+	<ResourceAssembly>
+    <Assembly>AdminUI.UIResources.dll</Assembly>
+    <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+  </ResourceAssembly>
+  <ImagesDescription>
+	  <ResourceAssembly>
+		<Assembly>AdminUI.UIResources.dll</Assembly>
+		<Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+	  </ResourceAssembly>
+	  <ImageResourceName>DistributionPoint</ImageResourceName>
+    </ImagesDescription>
+  <ViewAssemblyDescriptions>
+    <ViewAssemblyDescription>
+			<Assembly>Huawei.SCCMPlugin.PluginUI.dll</Assembly>
+			<Type>Huawei.SCCMPlugin.PluginUI.Views.HostTabsViewDescription</Type>
+			<CustomData>
+              <MenuIndex>huawei/serverList/serverList.html</MenuIndex>
+            </CustomData>
+     </ViewAssemblyDescription>
+  </ViewAssemblyDescriptions>
+ <Actions>
+  </Actions>
+</RootNodeDescription>
+<RootNodeDescription NamespaceGuid="ECF3364C-67D5-4679-919B-7C46234A9EDD" Id="HuaweiOSSource" DisplayName="Software Source Management" Description="Software source management">
+	<ResourceAssembly>
+    <Assembly>AdminUI.UIResources.dll</Assembly>
+    <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+  </ResourceAssembly>
+  <ImagesDescription>
+              <ResourceAssembly>
+                <Assembly>AdminUI.UIResources.dll</Assembly>
+                <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+              </ResourceAssembly>
+             <ImageResourceName>Synchronize</ImageResourceName>
+   </ImagesDescription>
+  <ViewAssemblyDescriptions>
+    <ViewAssemblyDescription>
+			<Assembly>Huawei.SCCMPlugin.PluginUI.dll</Assembly>
+			<Type>Huawei.SCCMPlugin.PluginUI.Views.HostTabsViewDescription</Type>
+			<CustomData>
+              <MenuIndex>huawei/softwareManager/softManager.html</MenuIndex>
+            </CustomData>
+     </ViewAssemblyDescription>
+  </ViewAssemblyDescriptions>
+ <Actions>
+  </Actions>
+</RootNodeDescription>
+
+<RootNodeDescription NamespaceGuid="2CA80AF4-A334-47C8-BCBF-056A870FDAB4" Id="HuaweiTemplateMgr" DisplayName="Template Management" Description="Template management">
+	<ResourceAssembly>
+    <Assembly>AdminUI.UIResources.dll</Assembly>
+    <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+  </ResourceAssembly>
+  <ImagesDescription>
+              <ResourceAssembly>
+                <Assembly>AdminUI.UIResources.dll</Assembly>
+                <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+              </ResourceAssembly>
+              <ImageResourceName>Baseline</ImageResourceName>
+   </ImagesDescription>
+  <ViewAssemblyDescriptions>
+    <ViewAssemblyDescription>
+			<Assembly>Huawei.SCCMPlugin.PluginUI.dll</Assembly>
+			<Type>Huawei.SCCMPlugin.PluginUI.Views.HostTabsViewDescription</Type>
+			<CustomData>
+              <MenuIndex>huawei/template/List.html</MenuIndex>
+            </CustomData>
+     </ViewAssemblyDescription>
+  </ViewAssemblyDescriptions>
+ <Actions>
+  </Actions>
+</RootNodeDescription>
+
+<RootNodeDescription NamespaceGuid="79C3091C-02C8-4266-A8D5-463B281F007E" Id="HuaweiTaskMgr" DisplayName="Task Management" Description="Task management">
+	<ResourceAssembly>
+    <Assembly>AdminUI.UIResources.dll</Assembly>
+    <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+  </ResourceAssembly>
+  <ImagesDescription>
+              <ResourceAssembly>
+                <Assembly>AdminUI.UIResources.dll</Assembly>
+                <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+              </ResourceAssembly>
+              <ImageResourceName>CreateOperationSystemImage</ImageResourceName>
+   </ImagesDescription>
+  <ViewAssemblyDescriptions>
+    <ViewAssemblyDescription>
+			<Assembly>Huawei.SCCMPlugin.PluginUI.dll</Assembly>
+			<Type>Huawei.SCCMPlugin.PluginUI.Views.HostTabsViewDescription</Type>
+			<CustomData>
+              <MenuIndex>huawei/task/list.html</MenuIndex>
+            </CustomData>
+     </ViewAssemblyDescription>
+  </ViewAssemblyDescriptions>
+ <Actions>
+  </Actions>
+</RootNodeDescription>
+
+</ChildNodes>
+</RootNodeDescription>
+<!--固件升级-->
+<RootNodeDescription NamespaceGuid="2E4A76B9-68A1-4AF3-89EB-9F9E7426E6EC" Id="HuaweiBasepackagesMgr" DisplayName="Firmware Upgrade" Description="Firmware upgrade">
+	<ResourceAssembly>
+    <Assembly>AdminUI.UIResources.dll</Assembly>
+    <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+  </ResourceAssembly>
+  <ImagesDescription>
+    <ResourceAssembly>
+      <Assembly>AdminUI.UIResources.dll</Assembly>
+      <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+    </ResourceAssembly>
+    <ImageResourceName>Package</ImageResourceName>
+  </ImagesDescription>
+  <ViewAssemblyDescriptions>
+    <ViewAssemblyDescription>
+            <Assembly>AdminUI.HomePageView.dll</Assembly>
+            <Type>Microsoft.ConfigurationManagement.AdminConsole.HomePageView.ViewDescription</Type>
+			<!--<Assembly>HuaweiSCCM.dll</Assembly>
+			<Type>HuaweiSCCM.Views.HomeHomeViewDescription</Type>-->
+           <CustomData>
+		   <HomePageConfigurationData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <TileList>
+                  <TileDescription ShowGenericGettingStartedTile="true" />
+                  <TileDescription AlertsTile="false">
+                    <AlertDescription>
+                      <AlertsQuery>select * from SMS_R_System</AlertsQuery>
+                    </AlertDescription>
+                  </TileDescription>
+                </TileList>
+              </HomePageConfigurationData>
+            </CustomData>
+          </ViewAssemblyDescription>
+  </ViewAssemblyDescriptions>
+ <Actions>
+  </Actions>
+
+<ChildNodes>
+<RootNodeDescription NamespaceGuid="4B6D1F6E-1895-4470-819F-10C8D3B5EC24" Id="HuaweiPackageMgr" DisplayName="File Management" Description="File Management">
+	<ResourceAssembly>
+    <Assembly>AdminUI.UIResources.dll</Assembly>
+    <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+  </ResourceAssembly>
+  <ImagesDescription>
+              <ResourceAssembly>
+                <Assembly>AdminUI.UIResources.dll</Assembly>
+                <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+              </ResourceAssembly>
+              <ImageResourceName>CreateUpdateGroup</ImageResourceName>
+   </ImagesDescription>
+  <ViewAssemblyDescriptions>
+    <ViewAssemblyDescription>
+			<Assembly>Huawei.SCCMPlugin.PluginUI.dll</Assembly>
+			<Type>Huawei.SCCMPlugin.PluginUI.Views.HostTabsViewDescription</Type>
+			<CustomData>
+              <MenuIndex>huawei/firmware/listFirmware.html</MenuIndex>
+            </CustomData>
+     </ViewAssemblyDescription>
+  </ViewAssemblyDescriptions>
+ <Actions>
+  </Actions>
+</RootNodeDescription>
+
+  <RootNodeDescription NamespaceGuid="263A4FDF-2770-41DF-909A-550DABCA7F89" Id="HuaweiPackageTaskMgr" DisplayName="Task Management" Description="Task Management">
+	<ResourceAssembly>
+    <Assembly>AdminUI.UIResources.dll</Assembly>
+    <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+  </ResourceAssembly>
+  <ImagesDescription>
+              <ResourceAssembly>
+                <Assembly>AdminUI.UIResources.dll</Assembly>
+                <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+              </ResourceAssembly>
+              <ImageResourceName>CreatePackage</ImageResourceName>
+   </ImagesDescription>
+  <ViewAssemblyDescriptions>
+    <ViewAssemblyDescription>
+			<Assembly>Huawei.SCCMPlugin.PluginUI.dll</Assembly>
+			<Type>Huawei.SCCMPlugin.PluginUI.Views.HostTabsViewDescription</Type>
+			<CustomData>
+              <MenuIndex>huawei/firmware/listFirmwareTask.html</MenuIndex>
+            </CustomData>
+     </ViewAssemblyDescription>
+  </ViewAssemblyDescriptions>
+ <Actions>
+  </Actions>
+</RootNodeDescription>
+</ChildNodes>
+  
+</RootNodeDescription>
+  <RootNodeDescription NamespaceGuid="6773626E-5755-4797-B87C-046BC9375E81" Id="HuaweiAbout" DisplayName="About" Description="About">
+	<ResourceAssembly>
+    <Assembly>AdminUI.UIResources.dll</Assembly>
+    <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+  </ResourceAssembly>
+  <ImagesDescription>
+              <ResourceAssembly>
+                <Assembly>AdminUI.UIResources.dll</Assembly>
+                <Type>Microsoft.ConfigurationManagement.AdminConsole.UIResources.Properties.Resources.resources</Type>
+              </ResourceAssembly>
+              <ImageResourceName>DriverPackage</ImageResourceName>
+   </ImagesDescription>
+  <ViewAssemblyDescriptions>
+    <ViewAssemblyDescription>
+			<Assembly>Huawei.SCCMPlugin.PluginUI.dll</Assembly>
+			<Type>Huawei.SCCMPlugin.PluginUI.Views.HostTabsViewDescription</Type>
+			<CustomData>
+              <MenuIndex>huawei/about/about.html</MenuIndex>
+            </CustomData>
+     </ViewAssemblyDescription>
+  </ViewAssemblyDescriptions>
+ <Actions>
+  </Actions>
+</RootNodeDescription>
+</ChildNodes>
+
+</RootNodeDescription>

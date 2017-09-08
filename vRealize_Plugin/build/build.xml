@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<project name="vRealize-plugin" default="all">
+
+  <property name="base.dir" location="../" />
+  
+   <!-- import ant-contrib --> 
+  <taskdef resource="net/sf/antcontrib/antlib.xml">
+    <classpath>
+      <pathelement location="${base.dir}/third_party/management-pack-lib/ant-contrib-1.0b3.jar"/>
+    </classpath>
+  </taskdef>
+
+  <target name="checkos">
+    <condition property="isWindows">
+      <os family="windows" />
+    </condition>
+
+    <condition property="isLinux">
+      <os family="unix" />
+    </condition>
+  </target>
+
+  <target name="path.setting.windows" depends="checkos" if="isWindows">
+    <propertyregex property="root.dir" input="${base.dir}" regexp="\\" replace="/" />
+    <propertyregex property="plugin.dir" input="${base.dir}/src/huawei-vRealize-plugin" regexp="\\" replace="/" />
+  </target>
+
+  <target name="path.setting.UNIX" depends="checkos" if="isLinux">
+    <property name="root.dir" value="${base.dir}" />
+    <property name="plugin.dir" value="${base.dir}/src/huawei-vRealize-plugin" />
+  </target>
+  
+  
+  <target name="init" depends="path.setting.windows,path.setting.UNIX">
+  
+    <property environment="env"/>
+
+    <echo message="plugin.dir = ${plugin.dir}"/>
+
+    <echo message="Patch file src/huawei-vRealize-management-pack/solution.xml"/>
+    <replaceregexp file="${base.dir}/src/huawei-vRealize-management-pack/solution.xml" 
+                   byline="true"
+                   match="\&lt;adapter\&gt;.*\&lt;\/adapter\&gt;" 
+                   replace="\&lt;adapter\&gt;${plugin.dir}\&lt;/adapter\&gt;" />
+    
+    <echo message="Patch file src/huawei-vRealize-management-pack/.project"/>    
+    <replaceregexp file="${base.dir}/src/huawei-vRealize-management-pack/.project" 
+                   byline="true"
+                   match="\&lt;location\&gt;.*\&lt;\/location\&gt;" 
+                   replace="\&lt;location\&gt;${plugin.dir}\&lt;/location\&gt;" />  
+    
+    <echo message="Patch file src/huawei-vRealize-plugin/.project"/>     
+    <replaceregexp file="${plugin.dir}/.project" 
+                   byline="true"
+                   match="\&lt;location\&gt;.*test/test-src\&lt;\/location\&gt;" 
+                   replace="\&lt;location\&gt;${root.dir}/test/test-src\&lt;/location\&gt;" />    
+    
+    <echo message="Patch file src/huawei-vRealize-plugin/.classpath"/>
+    <replaceregexp file="${plugin.dir}/.classpath" 
+                   byline="true"
+                   match='path=".*third_party' 
+                   replace='path="${root.dir}/third_party' />    
+    <replaceregexp file="${plugin.dir}/.classpath" 
+                   byline="true"
+                   match='path=".*src_bin' 
+                   replace='path="${root.dir}/src_bin' />        
+				   
+	<echo message="Patch file src/huawei-vRealize-plugin/adapter.xml"/>			   
+    <replaceregexp file="${plugin.dir}/adapter.xml" 
+                   byline="true"
+                   match='\&lt;parent\&gt;.*\&lt;/parent\&gt;' 
+                   replace='\&lt;parent\&gt;${root.dir}/src/huawei-vRealize-management-pack\&lt;/parent\&gt;' />      
+      
+  </target>
+  
+  <target name="all" depends="init">
+    <ant inheritAll="false" antfile="${base.dir}/src/huawei-vRealize-plugin/build.xml" target="all" />
+    <ant inheritAll="false" antfile="${base.dir}/src/huawei-vRealize-management-pack/build.xml" target="all" />
+    <echo message="DONE!"/>    
+  </target> 
+  
+</project>

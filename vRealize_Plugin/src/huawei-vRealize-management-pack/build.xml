@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+<project name="Adapter Build" default="all" >
+  <property name="dirs.base" location="." />
+  <property name="dirs.tool.base" location=".." />
+  <property name="dirs.base.lib" location="../../third_party/management-pack-lib" />
+  <property name="dirs.pkg" location="${dirs.base}/pkg" />
+  <property name="dirs.dest" location="${dirs.base}/build/deploy" />
+  <property name="dirs.eula-icon-resource.files" location="${dirs.base}" />
+  <property name="manifest.file" location="${dirs.base}/manifest.txt" />
+  <property name="manifest.filename" value="manifest.txt" />
+  <property name="manifest.template" location="${dirs.base}/manifest.template" />
+  <property name="solution.xml" location="${dirs.base}/solution.xml" />
+  <!--property name="vcops.minimum.version" value="6.0.0" /-->
+  <tstamp>
+    <format property="DATE_STRING" pattern="yyyy.MM.dd"/>
+  </tstamp>
+
+  <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${dirs.base.lib}/ant-contrib-1.0b3.jar" />
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"  classpath="${dirs.base.lib}/xmltask.jar"/>
+  <!-- read properties file -->
+  <target name="init" description="Initialize necessary environment for other tasks">
+    <xmlproperty file="${solution.xml}" keeproot="false"/>
+
+    <var name="adapter.kinds.list" value=""/>
+
+    <var name="adapter.locations.list" value=""/>
+    <var name="license" value=""/>
+    <for list="${managementPack.adapters.adapter}" param = "val" trim="true">
+      <sequential>
+        <echo message = 'Adapter path = "@{val}"'/>
+        <var name="adapter.locations.list" value='${adapter.locations.list}@{val},'/>
+        <xmlproperty file="@{val}/adapter.xml" keeproot="false" prefix="@{val}"/>
+        <var name="adapter.kinds.list" value='${adapter.kinds.list}"${@{val}.adapterType.key}",'/>
+        <if>
+          <and>
+          <equals arg1="${@{val}.licensing.enabled}" arg2="true" />
+            <not>
+              <equals arg1="${@{val}.licensing.expression}" arg2=""/>
+            </not>
+          </and>
+          <then>
+            <var name="license" value='${license}"adapter:${@{val}.adapterType.key}",'/>
+          </then>
+        </if>
+        <var name="adapterKind" value=""/>
+
+        <echo message = 'license = ${license}'/>
+        <echo message = 'adapterPath = "@{val}/adapter.xml"'/>
+        <echo message = 'adapterKind = "${@{val}.adapterType.key}"'/>
+
+      </sequential>
+    </for>
+    <property name="PAKFILE_NAME" value="${managementPack.name}"/>
+    <property name="PAKFILE_VERSION" value="${managementPack.version}"/>
+    <property name="LANG" value="${managementPack.localizations(lang)}"/>
+    <echo message="LANG ${LANG}" />
+
+    <xmltask source="${solution.xml}">
+      <copy path="//managementPack/localizations/localization[@lang='${LANG}']/displayName/text()" property="DISPLAY_NAME"/>
+      <copy path="//managementPack/localizations/localization[@lang='${LANG}']/description/text()" property="DESCRIPTION"/>
+      <copy path="//managementPack/localizations/localization[@lang='${LANG}']/vendor/text()" property="VENDOR"/>
+    </xmltask>
+
+    <property name = "localizations" value = "${managementPack.localizations.localization(lang)}" />
+
+    <for list="${localizations}" param = "val" trim="true">
+      <sequential>
+        <xmltask source="${solution.xml}">
+          <copy path="//managementPack/localizations/localization[@lang='@{val}']/displayName/text()" property="DISPLAYNAME_@{val}"/>
+          <copy path="//managementPack/localizations/localization[@lang='@{val}']/description/text()" property="DESCRIPTION_@{val}"/>
+          <copy path="//managementPack/localizations/localization[@lang='@{val}']/vendor/text()" property="VENDOR_@{val}"/>
+        </xmltask>
+      </sequential>
+    </for>
+
+    <property name="EULA" value="${managementPack.eula}"/>
+    <property name="PAK_ICON" value="${managementPack.image}"/>
+    <property name="MIN_VERSION" value="${managementPack.minimumProductVersion}"/>
+    <propertyregex property="PLATFORMS" input="${managementPack.platforms.platform}"
+          regexp="," replace='","' defaultValue="${managementPack.platforms.platform}"/>
+    <echo message="DISPLAY_NAME ${DISPLAY_NAME}"/>
+    <echo message="version ${PAKFILE_VERSION}"/>
+    <echo message="desc ${DESCRIPTION}"/>
+    <echo message="vendor ${VENDOR}"/>
+    <echo message="eula ${EULA}"/>
+    <echo message="pak_icon ${PAK_ICON}"/>
+
+    <property name="eula.filename" value="${EULA}" />
+    <property name="icon.filename" value="${PAK_ICON}" />
+
+    <echo message = "adapter.kinds.list = ${adapter.kinds.list}"/>
+    <echo message = "adapter.locations.list = ${adapter.locations.list}"/>
+    <!-- remove the trailing comma -->
+    <property name="adapter.kinds.list" value="${adapter.kinds.list}"/>
+    <propertyregex property="adapter.kinds" input="${adapter.kinds.list}" regexp=",$" replace="" defaultValue=""/>
+    <propertyregex property="adapter.locations" input="${adapter.locations.list}" regexp=",$" replace="" defaultValue=""/>
+    <propertyregex property="LICENSE_TYPE" input="${license}" regexp=",$" replace="" defaultValue=""/>
+
+    <echo message="AdapterKinds ${adapter.kinds}"/>
+    <echo message="AdapterLocations ${adapter.locations}"/>
+    <echo message="License Type ${LICENSE_TYPE}"/>
+
+  </target>
+
+  <target name="all" depends="build.pak"/>
+
+  <target name="build.stage" depends="init" >
+    <presetdef name="javac">
+      <javac fork="yes" />
+    </presetdef>
+    <!-- create pkg or delete files if it exists -->
+    <mkdir dir="${dirs.pkg}"/>
+    <delete includeemptydirs="true" failonerror="false">
+      <fileset dir="${dirs.pkg}" includes="**/*"/>
+      <fileset dir="${dirs.dest}" includes="**/*"/>
+    </delete>
+
+    <!-- building adapters -->
+    <for list="${adapter.locations.list}" param = "val" trim="true">
+      <sequential>
+        <subant>
+                <filelist dir="@{val}">
+                    <file name="build.xml"/>
+                </filelist>
+                <target name="all"/>
+            </subant>
+        <copy todir="${dirs.pkg}/temp" failonerror="false">
+          <fileset dir="@{val}/build/deploy">
+            <exclude name="*.pak" />
+            <include name="**" />
+          </fileset>
+        </copy>
+      </sequential>
+    </for>
+
+    <!-- first create the adapter's zip file -->
+    <!-- note that some files (manifest, eula, icon and resource files) are copied twice,
+      once in adapter's zip folder and once in pak file main folder -->
+
+    <!-- copy resource properties files for localization -->
+    <copy todir="${dirs.pkg}/temp/resources" failonerror="false">
+      <fileset dir="${dirs.base}/resources">
+        <include name="**" />
+      </fileset>
+    </copy>
+
+    <if>
+    <equals arg1="${adapter.locations.list}" arg2="" />
+    <then> </then>
+    <else>
+      <var name="ADAPTERS_LOCATION" value="${dirs.pkg}/temp"/>
+
+      <for param="file">
+        <fileset dir="${ADAPTERS_LOCATION}" includes="*.jar" />
+        <sequential>
+          <var name="adapter.jar.name" unset = "true"/>
+          <basename property="adapter.jar.name" file="@{file}" suffix=".jar"/>
+
+          <echo message="processing:   adapter.jar.name=${adapter.jar.name}" />
+          <property name="dirs.adapter" value="${ADAPTERS_LOCATION}/${adapter.jar.name}" />
+
+          <!-- get the major/minor versions from Adapter conf/version.txt -->
+          <loadproperties srcFile="${dirs.adapter}/conf/version.txt" />
+          <!-- Basic error checking to see if values loaded correctly -->
+          <fail unless="Major-Version">Could not find 'Major-Version' in conf/version.txt</fail>
+          <fail unless="Minor-Version">Could not find 'Minor-Version' in conf/version.txt</fail>
+
+          <basename property="adapter.jar.name" file="@{file}" suffix=".jar"/>
+          <echo  message="found jarfile = @{file}" />
+          <echo message="adapter.jar.name=${adapter.jar.name}" />
+          <property name="dirs.adapter" value="${ADAPTERS_LOCATION}/${adapter.jar.name}" />
+
+          <fail unless="adapter.jar.name">
+            Could not retrieve 'Adapter jar name' from ${ADAPTERS_LOCATION}.  The adapter jar might be missing from the Adapter Location!
+          </fail>
+        </sequential>
+      </for>
+    </else>
+    </if>
+
+    <!-- generate manifest.txt file -->
+
+  <echo file="${dirs.pkg}/${manifest.filename}" append="false">{
+    "display_name": "${DISPLAY_NAME}",
+    "name": "${PAKFILE_NAME}",
+    "description": "${DESCRIPTION}",
+    "version": "${PAKFILE_VERSION}",
+    "vcops_minimum_version": "${MIN_VERSION}",
+    "disk_space_required": 500,
+    "eula_file": "${EULA}",
+    "platform": [
+        "${PLATFORMS}"
+    ],
+    "vendor": "${VENDOR}",
+    "pak_icon": "${PAK_ICON}",
+    "license_type": [  ${LICENSE_TYPE}
+  ],
+    "pak_validation_script": {
+        "script": "python validate.py"
+    },
+    "adapter_pre_script": {
+        "script": "python preAdapters.py"
+    },
+    "adapter_post_script": {
+        "script": "python postAdapters.py"
+    },
+    "adapter_kinds": [ ${adapter.kinds}
+    ]
+}</echo>
+
+    <echo file="${dirs.pkg}/resources/resources.properties" encoding="UTF-8" append="false">#This is the default localization file.
+
+#The solution's localized name displayed in UI
+#(example) DISPLAY_NAME=My Solution Pak File
+DISPLAY_NAME=${DISPLAY_NAME}
+
+#The solution's localized description
+#(example) DESCRIPTION=My Solution Description
+DESCRIPTION=${DESCRIPTION}
+
+#The vendor's localized name
+#(example) VENDOR=MyCompany
+VENDOR=${VENDOR}
+</echo>
+
+    <for list="${localizations}" param = "val" trim="true">
+      <sequential>
+      <propertyregex property="localization@{val}" input="@{val}" regexp="-" replace="_" defaultValue="@{val}"/>
+
+    <echo file="${dirs.pkg}/resources/resources_${localization@{val}}.properties" encoding="UTF-8" append="false">#This is the @{val} localization file.
+
+#The solution's localized name displayed in UI
+#(example) DISPLAY_NAME=My Solution Pak File
+DISPLAY_NAME=${DISPLAYNAME_@{val}}
+
+#The solution's localized description
+#(example) DESCRIPTION=My Solution Description
+DESCRIPTION=${DESCRIPTION_@{val}}
+
+#The vendor's localized name
+#(example) VENDOR=MyCompany
+VENDOR=${VENDOR_@{val}}
+</echo>
+      </sequential>
+    </for>
+    <!-- copy all other files -->
+    <copy file="${dirs.pkg}/${manifest.filename}" tofile="${dirs.pkg}/temp/${manifest.filename}" overwrite="true" />
+    <copy file="${dirs.base}/${eula.filename}" tofile="${dirs.pkg}/temp/${eula.filename}" overwrite="true" />
+    <copy file="${dirs.base}/${icon.filename}" tofile="${dirs.pkg}/temp/${icon.filename}" overwrite="true" />
+    <!-- copy resource properties files for localization -->
+    <copy todir="${dirs.pkg}/temp/resources" failonerror="false">
+      <fileset dir="${dirs.pkg}/resources">
+        <include name="**" />
+      </fileset>
+    </copy>
+    <!-- copy localized eula files -->
+    <copy todir="${dirs.pkg}/temp" failonerror="false">
+      <fileset dir="${dirs.base}">
+        <include name="eula_*.txt" />
+      </fileset>
+    </copy>
+
+    <!-- zip the adapters folders and jars together with the manifest file -->
+    <if>
+      <equals arg1="${adapter.locations.list}" arg2="" />
+      <then/>
+      <else>
+        <zip destfile="${dirs.pkg}/adapters.zip">
+          <zipfileset dir="${dirs.pkg}/temp">
+            <include name="**/*" />
+          </zipfileset>
+        </zip>
+      </else>
+    </if>
+
+    <!-- delete the temp folder -->
+     <delete dir="${dirs.pkg}/temp"/>
+
+    <!-- now that we have the adapter's zip file, copy all other files in pak file main folder -->
+    <copy todir="${dirs.pkg}/" failonerror="false">
+      <!-- copy script files -->
+      <fileset dir="${dirs.eula-icon-resource.files}/scripts">
+        <include name="*.py" />
+      </fileset>
+      <!-- copy eula and icon files -->
+      <fileset dir="${dirs.base}">
+        <include name="${eula.filename}" />
+        <include name="${icon.filename}" />
+      </fileset>
+      <!-- copy localized eula files -->
+      <fileset dir="${dirs.base}">
+        <include name="eula_*.txt" />
+      </fileset>
+    </copy>
+    <!-- copy resource properties files for localization -->
+    <copy todir="${dirs.pkg}/resources" failonerror="false">
+      <fileset dir="${dirs.base}/resources">
+        <include name="**" />
+      </fileset>
+    </copy>
+
+  </target>
+
+  <target name="build.pak" depends="build.stage">
+
+    <zip destfile="${dirs.dest}/Huawei_vRealize_MP_${PAKFILE_VERSION}.pak">
+      <zipfileset dir="${dirs.pkg}">
+        <include name="**/*" />
+      </zipfileset>
+    </zip>
+
+    <delete includeemptydirs="true">
+      <fileset dir="${dirs.pkg}"/>
+    </delete>
+
+    <echo message="${dirs.dest}/${PAKFILE_NAME}_${PAKFILE_VERSION}.pak file created." />
+  	
+  	<zip destfile="${dirs.dest}/Huawei_vRealize_MP_1.0.zip">
+  	  <zipfileset dir="${dirs.dest}">
+  	    <include name="**/*.pak" />
+  	  </zipfileset>
+  	</zip>
+
+  </target>
+</project>

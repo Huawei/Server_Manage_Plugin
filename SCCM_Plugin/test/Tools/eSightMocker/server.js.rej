@@ -1,0 +1,16 @@
+diff a/eSightMocker/server.js b/eSightMocker/server.js	(rejected hunks)
+@@ -2,11 +2,12 @@
+ var https = require('https'); 
+ var url = require('url'); 
+ var qs = require("querystring");
++
+ const fs = require('fs');
+ 
+ const options = {
+-        key: fs.readFileSync('./privatekey.pem'),
+-        cert: fs.readFileSync('./certification.pem')
++        key: fs.readFileSync('./eSightMocker/privatekey.pem'),
++        cert: fs.readFileSync('./eSightMocker/certification.pem')
+ };
+ 
+ // 访问的json地址与返回的json数据映射关系

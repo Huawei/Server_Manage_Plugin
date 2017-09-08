@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<AdapterKind xmlns="http://schemas.vmware.com/vcops/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" key="ESightAdapter" nameKey="1" version="1" xsi:schemaLocation="http://schemas.vmware.com/vcops/schema describeSchema.xsd">
+  <ResourceKinds>
+    <ResourceKind credentialKind="basicCredential" key="ESightAdapterInstance" nameKey="2" type="7">
+    <ResourceIdentifier dispOrder="1" enum="false" identType="1" key="serverIP" nameKey="6" required="true" type="string"/>
+<ResourceIdentifier default="32102" dispOrder="2" enum="false" identType="1" key="serverPort" nameKey="7" required="true" type="integer"/>
+
+</ResourceKind>
+
+<!-- 分组 -->
+<!-- host分组 -->
+<!-- <ResourceKind credentialKind="" nameKey="138" key="hostInstance" showTag="false" type="1"></ResourceKind> -->
+<!-- 硬件分组 -->
+<!-- <ResourceKind credentialKind="" nameKey="132" key="boardGroup" showTag="false" type="1"></ResourceKind>
+<ResourceKind credentialKind="" nameKey="133" key="cpuGroup" showTag="false" type="1"></ResourceKind>
+<ResourceKind credentialKind="" nameKey="134" key="psuGroup" showTag="false" type="1"></ResourceKind>
+<ResourceKind credentialKind="" nameKey="135" key="memoryGroup" showTag="false" type="1"></ResourceKind>
+<ResourceKind credentialKind="" nameKey="136" key="fanGroup" showTag="false" type="1"></ResourceKind>
+<ResourceKind credentialKind="" nameKey="137" key="diskGroup" showTag="false" type="1"></ResourceKind> -->
+
+  <ResourceKind credentialKind="" key="serverDevice" nameKey="9" showTag="false" type="1">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="159" required="true" type="string"/>
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" isProperty="true" key="dn" nameKey="10" unit=""/>
+<ResourceAttribute dashboardOrder="2" dataType="string" defaultMonitored="true" isProperty="true" key="ipAddress" nameKey="11" unit=""/>
+<ResourceAttribute dashboardOrder="3" dataType="string" defaultMonitored="true" isProperty="true" key="name" nameKey="12" unit=""/>
+
+<ResourceAttribute dashboardOrder="4" dataType="string" defaultMonitored="true" isProperty="true" key="type" nameKey="13" unit=""/>
+<ResourceAttribute dashboardOrder="5" dataType="string" defaultMonitored="true" isProperty="true" key="uuid" nameKey="14" unit=""/>
+<ResourceAttribute dashboardOrder="6" dataType="string" defaultMonitored="true" isProperty="false" key="status" nameKey="15" unit=""/>
+<ResourceAttribute dashboardOrder="7" dataType="string" defaultMonitored="true" isProperty="true" key="desc" nameKey="16" unit=""/>
+<ResourceAttribute dashboardOrder="8" dataType="integer" defaultMonitored="true" isProperty="true" key="cpuNums" nameKey="17" unit=""/>
+<ResourceAttribute dashboardOrder="9" dataType="integer" defaultMonitored="true" isProperty="true" key="cpuCores" nameKey="18" unit=""/>
+
+<ResourceAttribute dashboardOrder="10" dataType="string" defaultMonitored="true" isProperty="true" key="memoryCapacity" nameKey="19" unit=""/>
+
+<ResourceAttribute dashboardOrder="14" dataType="string" defaultMonitored="true" isProperty="true" key="productSn" nameKey="163" unit=""/>
+<ResourceAttribute dashboardOrder="15" dataType="string" defaultMonitored="true" isProperty="true" key="bmcMacAddr" nameKey="164" unit=""/>
+<ResourceAttribute dashboardOrder="16" dataType="string" defaultMonitored="true" isProperty="true" key="model" nameKey="165" unit=""/>
+<ResourceAttribute dashboardOrder="11" dataType="string" defaultMonitored="true" isProperty="true" key="manufacture" nameKey="161" unit=""/>
+<ResourceAttribute dashboardOrder="12" dataType="string" defaultMonitored="true" isProperty="true" key="location" nameKey="162" unit=""/>
+<ResourceAttribute dashboardOrder="13" dataType="string" defaultMonitored="true" isProperty="true" key="version" nameKey="168" unit=""/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="board" nameKey="20" showTag="false" type="1">
+
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" isProperty="true" key="name" nameKey="21" unit=""/>
+<ResourceAttribute dashboardOrder="2" dataType="string" defaultMonitored="true" isProperty="true" key="type" nameKey="22" unit=""/>
+
+<ResourceAttribute dashboardOrder="3" dataType="string" defaultMonitored="true" isProperty="true" key="sn" nameKey="23" unit=""/>
+<ResourceAttribute dashboardOrder="4" dataType="string" defaultMonitored="true" isProperty="true" key="partNumber" nameKey="24" unit=""/>
+<ResourceAttribute dashboardOrder="5" dataType="string" defaultMonitored="true" isProperty="true" key="manufacture" nameKey="25" unit=""/>
+<ResourceAttribute dashboardOrder="6" dataType="string" defaultMonitored="true" isProperty="true" key="manuTime" nameKey="26" unit=""/>
+
+<ResourceAttribute dashboardOrder="8" dataType="string" defaultMonitored="true" isProperty="false" key="healthState" nameKey="28" unit=""/>
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="77" required="true" type="string"/>
+<ResourceAttribute dashboardOrder="9" dataType="string" defaultMonitored="true" isProperty="true" key="uuid" nameKey="84" unit=""/>
+<ResourceAttribute dashboardOrder="10" dataType="string" defaultMonitored="true" isProperty="true" key="moId" nameKey="87" unit=""/>
+
+
+
+<ResourceAttribute dashboardOrder="7" dataType="string" defaultMonitored="true" isProperty="true" key="presentState" nameKey="167" unit=""/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="memory" nameKey="30" showTag="false" type="1">
+
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" isProperty="true" key="name" nameKey="31" unit=""/>
+<ResourceAttribute dashboardOrder="2" dataType="string" defaultMonitored="true" isProperty="true" key="capacity" nameKey="32" unit=""/>
+<ResourceAttribute dashboardOrder="3" dataType="string" defaultMonitored="true" isProperty="true" key="manufacture" nameKey="33" unit=""/>
+<ResourceAttribute dashboardOrder="4" dataType="string" defaultMonitored="true" isProperty="true" key="frequency" nameKey="34" unit=""/>
+<ResourceAttribute dashboardOrder="5" dataType="string" defaultMonitored="true" isProperty="false" key="healthState" nameKey="35" unit=""/>
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="82" required="true" type="string"/>
+<ResourceAttribute dashboardOrder="6" dataType="string" defaultMonitored="true" isProperty="true" key="moId" nameKey="96" unit=""/>
+<ResourceAttribute dashboardOrder="7" dataType="string" defaultMonitored="true" isProperty="true" key="uuid" nameKey="97" unit=""/>
+<ResourceAttribute dashboardOrder="8" dataType="string" defaultMonitored="true" isProperty="true" key="presentState" nameKey="98" unit=""/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="cpu" nameKey="37" showTag="false" type="1">
+
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" isProperty="true" key="name" nameKey="29" unit=""/>
+<ResourceAttribute dashboardOrder="2" dataType="string" defaultMonitored="true" isProperty="false" key="healthState" nameKey="38" unit=""/>
+<ResourceAttribute dashboardOrder="3" dataType="string" defaultMonitored="true" isProperty="true" key="frequency" nameKey="39" unit=""/>
+<ResourceAttribute dashboardOrder="4" dataType="string" defaultMonitored="true" isProperty="true" key="manufacture" nameKey="40" unit=""/>
+<ResourceAttribute dashboardOrder="5" dataType="string" defaultMonitored="true" isProperty="true" key="model" nameKey="41" unit=""/>
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="78" required="true" type="string"/>
+<ResourceAttribute dashboardOrder="6" dataType="string" defaultMonitored="true" isProperty="true" key="moId" nameKey="88" unit=""/>
+<ResourceAttribute dashboardOrder="7" dataType="string" defaultMonitored="true" isProperty="true" key="uuid" nameKey="89" unit=""/>
+<ResourceAttribute dashboardOrder="8" dataType="string" defaultMonitored="true" isProperty="true" key="presentState" nameKey="90" unit=""/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="disk" nameKey="44" showTag="false" type="1">
+
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" isProperty="true" key="name" nameKey="42" unit=""/>
+<ResourceAttribute dashboardOrder="2" dataType="string" defaultMonitored="true" isProperty="true" key="location" nameKey="43" unit=""/>
+<ResourceAttribute dashboardOrder="3" dataType="string" defaultMonitored="true" isProperty="false" key="healthState" nameKey="45" unit=""/>
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="79" required="true" type="string"/>
+<ResourceAttribute dashboardOrder="4" dataType="string" defaultMonitored="true" isProperty="true" key="moId" nameKey="91" unit=""/>
+<ResourceAttribute dashboardOrder="5" dataType="string" defaultMonitored="true" isProperty="true" key="uuid" nameKey="92" unit=""/>
+<ResourceAttribute dashboardOrder="6" dataType="string" defaultMonitored="true" isProperty="true" key="presentState" nameKey="166" unit=""/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="psu" nameKey="49" showTag="false" type="1">
+
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" isProperty="true" key="name" nameKey="36" unit=""/>
+<ResourceAttribute dashboardOrder="2" dataType="string" defaultMonitored="true" isProperty="true" key="inputPower" nameKey="50" unit=""/>
+<ResourceAttribute dashboardOrder="3" dataType="string" defaultMonitored="true" isProperty="true" key="manufacture" nameKey="51" unit=""/>
+<ResourceAttribute dashboardOrder="4" dataType="string" defaultMonitored="true" isProperty="true" key="version" nameKey="52" unit=""/>
+<ResourceAttribute dashboardOrder="5" dataType="string" defaultMonitored="true" isProperty="false" key="healthState" nameKey="53" unit=""/>
+<ResourceAttribute dashboardOrder="6" dataType="string" defaultMonitored="true" isProperty="true" key="inputMode" nameKey="54" unit=""/>
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="83" required="true" type="string"/>
+<ResourceAttribute dashboardOrder="7" dataType="string" defaultMonitored="true" isProperty="true" key="moId" nameKey="99" unit=""/>
+<ResourceAttribute dashboardOrder="8" dataType="string" defaultMonitored="true" isProperty="true" key="uuid" nameKey="100" unit=""/>
+<ResourceAttribute dashboardOrder="9" dataType="string" defaultMonitored="true" isProperty="true" key="presentState" nameKey="104" unit=""/>
+<ResourceAttribute dashboardOrder="10" dataType="string" defaultMonitored="true" isProperty="true" key="powerProtocol" nameKey="105" unit=""/>
+<ResourceAttribute dashboardOrder="11" dataType="string" defaultMonitored="true" isProperty="true" key="ratePower" nameKey="106" unit=""/>
+<ResourceAttribute dashboardOrder="12" dataType="string" defaultMonitored="true" isProperty="true" key="model" nameKey="107" unit=""/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="fan" nameKey="58" showTag="false" type="1">
+
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" isProperty="true" key="name" nameKey="46" unit=""/>
+<ResourceAttribute dashboardOrder="2" dataType="string" defaultMonitored="true" isProperty="false" key="healthState" nameKey="47" unit=""/>
+<ResourceAttribute dashboardOrder="3" dataType="string" defaultMonitored="true" isProperty="true" key="rotate" nameKey="48" unit=""/>
+<ResourceAttribute dashboardOrder="4" dataType="string" defaultMonitored="true" isProperty="true" key="rotatePercent" nameKey="57" unit=""/>
+<ResourceAttribute dashboardOrder="5" dataType="string" defaultMonitored="true" isProperty="true" key="controlModel" nameKey="59" unit=""/>
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="80" required="true" type="string"/>
+<ResourceAttribute dashboardOrder="6" dataType="string" defaultMonitored="true" isProperty="true" key="moId" nameKey="93" unit=""/>
+<ResourceAttribute dashboardOrder="7" dataType="string" defaultMonitored="true" isProperty="true" key="uuid" nameKey="94" unit=""/>
+<ResourceAttribute dashboardOrder="8" dataType="string" defaultMonitored="true" isProperty="true" key="presentState" nameKey="95" unit=""/>
+</ResourceKind>
+
+
+<ResourceKind credentialKind="" key="hostInstance" nameKey="55" showTag="false" type="1">
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" key="healthState" nameKey="160" unit=""/>
+</ResourceKind>
+
+
+<ResourceKind credentialKind="" key="boardGroup" nameKey="85" showTag="false" type="8">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="61" required="true" type="string"/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="cpuGroup" nameKey="56" showTag="false" type="8">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="75" required="true" type="string"/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="devicesGroup" nameKey="66" showTag="false" type="8">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="74" required="true" type="string"/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="diskGroup" nameKey="62" showTag="false" type="8">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="73" required="true" type="string"/>
+</ResourceKind>
+
+<ResourceKind credentialKind="" key="fanGroup" nameKey="63" showTag="false" type="8">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="72" required="true" type="string"/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="memoryGroup" nameKey="64" showTag="false" type="8">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="67" required="true" type="string"/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="psuGroup" nameKey="60" showTag="false" type="8">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="68" required="true" type="string"/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="serverTypes" nameKey="65" showTag="false" type="8">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="76" required="true" type="string"/>
+</ResourceKind>
+
+
+<ResourceKind credentialKind="" key="pcie" nameKey="27" showTag="false" type="1">
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" isProperty="true" key="name" nameKey="111" unit=""/>
+<ResourceAttribute dashboardOrder="2" dataType="string" defaultMonitored="true" isProperty="false" key="pcieSsdCardHealthStatus" nameKey="112" unit=""/>
+<ResourceAttribute dashboardOrder="3" dataType="string" defaultMonitored="true" isProperty="true" key="pcieSsdCardLifeLeft" nameKey="132" unit=""/>
+<ResourceAttribute dashboardOrder="4" dataType="string" defaultMonitored="true" isProperty="true" key="uuid" nameKey="133" unit=""/>
+<ResourceAttribute dashboardOrder="5" dataType="string" defaultMonitored="true" isProperty="true" key="pciecardManufacturer" nameKey="134" unit=""/>
+<ResourceAttribute dashboardOrder="6" dataType="string" defaultMonitored="true" isProperty="true" key="moId" nameKey="135" unit=""/>
+
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="137" required="true" type="string"/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="pcieGroup" nameKey="138" showTag="false" type="1">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="139" required="true" type="string"/>
+</ResourceKind>
+
+<ResourceKind credentialKind="" key="raid" nameKey="140" showTag="false" type="1">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="141" required="true" type="string"/>
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" isProperty="true" key="name" nameKey="142" unit=""/>
+
+<ResourceAttribute dashboardOrder="2" dataType="string" defaultMonitored="true" key="healthState" nameKey="143" unit=""/>
+<ResourceAttribute dashboardOrder="3" dataType="string" defaultMonitored="true" isProperty="true" key="raidType" nameKey="144" unit=""/>
+<ResourceAttribute dashboardOrder="4" dataType="string" defaultMonitored="true" isProperty="true" key="interfaceType" nameKey="145" unit=""/>
+<ResourceAttribute dashboardOrder="5" dataType="string" defaultMonitored="true" isProperty="true" key="bbuType" nameKey="146" unit=""/>
+<ResourceAttribute dashboardOrder="6" dataType="string" defaultMonitored="true" isProperty="true" key="moId" nameKey="147" unit=""/>
+<ResourceAttribute dashboardOrder="7" dataType="string" defaultMonitored="true" isProperty="true" key="uuid" nameKey="148" unit=""/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="raidGroup" nameKey="149" showTag="false" type="1">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="150" required="true" type="string"/>
+</ResourceKind>
+
+
+
+<ResourceKind credentialKind="" key="mezzGroup" nameKey="169" showTag="false" type="8">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="170" required="true" type="string"/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="mezz" nameKey="171" showTag="false" type="1">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="172" required="true" type="string"/>
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" isProperty="true" key="name" nameKey="173" unit=""/>
+
+<ResourceAttribute dashboardOrder="2" dataType="string" defaultMonitored="true" key="mezzHealthStatus" nameKey="174" unit=""/>
+<ResourceAttribute dashboardOrder="3" dataType="string" defaultMonitored="true" isProperty="true" key="presentState" nameKey="175" unit=""/>
+<ResourceAttribute dashboardOrder="4" dataType="string" defaultMonitored="true" isProperty="true" key="mezzInfo" nameKey="176" unit=""/>
+<ResourceAttribute dashboardOrder="5" dataType="string" defaultMonitored="true" isProperty="true" key="mezzLocation" nameKey="177" unit=""/>
+<ResourceAttribute dashboardOrder="6" dataType="string" defaultMonitored="true" isProperty="true" key="mezzMac" nameKey="178" unit=""/>
+<ResourceAttribute dashboardOrder="7" dataType="string" defaultMonitored="true" isProperty="true" key="moId" nameKey="179" unit=""/>
+<ResourceAttribute dashboardOrder="8" dataType="string" defaultMonitored="true" isProperty="true" key="uuid" nameKey="180" unit=""/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="cardGroup" nameKey="181" showTag="false" type="8">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="182" required="true" type="string"/>
+</ResourceKind>
+<ResourceKind credentialKind="" key="card" nameKey="183" showTag="false" type="1">
+<ResourceIdentifier dispOrder="1" enum="false" identType="1" key="id" nameKey="184" required="true" type="string"/>
+<ResourceAttribute dashboardOrder="1" dataType="string" defaultMonitored="true" isProperty="true" key="networkCardName" nameKey="185" unit=""/>
+<ResourceAttribute dashboardOrder="2" dataType="string" defaultMonitored="true" isProperty="true" key="macAdress" nameKey="186" unit=""/>
+<ResourceAttribute dashboardOrder="3" dataType="string" defaultMonitored="true" isProperty="true" key="moId" nameKey="187" unit=""/>
+<ResourceAttribute dashboardOrder="4" dataType="string" defaultMonitored="true" isProperty="true" key="uuid" nameKey="188" unit=""/>
+</ResourceKind>
+</ResourceKinds>
+
+<CredentialKinds>
+<CredentialKind key="basicCredential" nameKey="3">
+<CredentialField dispOrder="1" key="username" nameKey="4" password="false" required="true" type="string"/>
+<CredentialField dispOrder="2" key="esightCode" nameKey="5" password="true" required="true" type="string"/>
+</CredentialKind>
+</CredentialKinds>
+  <!-- 路径 层叠目录定义 -->
+   <TraversalSpecKinds>
+   
+    <TraversalSpecKind description="device inventory view" iconName="server.png" name="device inventory view" nameKey="200" rootAdapterKind="ESightAdapter" rootResourceKind="hostInstance" usedFor="ALL">
+      
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::cpuGroup||ESightAdapter::cpu::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::boardGroup||ESightAdapter::board::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::diskGroup||ESightAdapter::disk::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::fanGroup||ESightAdapter::fan::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::memoryGroup||ESightAdapter::memory::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::psuGroup||ESightAdapter::psu::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::pcieGroup||ESightAdapter::pcie::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::raidGroup||ESightAdapter::raid::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::cardGroup||ESightAdapter::card::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::mezzGroup||ESightAdapter::mezz::child"/>
+      
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::devicesGroup||ESightAdapter::serverDevice||ESightAdapter::cpuGroup||ESightAdapter::cpu::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::devicesGroup||ESightAdapter::serverDevice||ESightAdapter::boardGroup||ESightAdapter::board::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::devicesGroup||ESightAdapter::serverDevice||ESightAdapter::diskGroup||ESightAdapter::disk::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::devicesGroup||ESightAdapter::serverDevice||ESightAdapter::fanroup||ESightAdapter::fan::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::devicesGroup||ESightAdapter::serverDevice||ESightAdapter::memoryGroup||ESightAdapter::memory::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::devicesGroup||ESightAdapter::serverDevice||ESightAdapter::pcieGroup||ESightAdapter::pcie::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::devicesGroup||ESightAdapter::serverDevice||ESightAdapter::raidGroup||ESightAdapter::raid::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::devicesGroup||ESightAdapter::serverDevice||ESightAdapter::cardGroup||ESightAdapter::card::child"/>
+      <ResourcePath path="ESightAdapter::hostInstance||ESightAdapter::serverTypes||ESightAdapter::serverDevice||ESightAdapter::devicesGroup||ESightAdapter::serverDevice||ESightAdapter::mezzGroup||ESightAdapter::mezz::child"/>
+    
+    </TraversalSpecKind>
+      
+  </TraversalSpecKinds>
+
+
+  <!-- 命名结尾为1 healthState=-1 状态为黄色警告 -->
+  <!-- 命名结尾为2 healthState=-2 状态为黄色警告 -->
+  <!-- 命名结尾为M2 P0的分别为<-2 >0状态都为红色警告   -->
+    <AlertDefinitions>
+    
+    <!-- ESightAdapterInstance -->
+     <AlertDefinition adapterKind="ESightAdapter" id="esightAlertDefinitions1" nameKey="222" resourceKind="hostInstance" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionEsight1"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <!-- <AlertDefinition adapterKind="ESightAdapter" id="esightAlertDefinitions2" nameKey="223" resourceKind="hostInstance" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionEsight2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition> -->
+        
+      <!-- CPU -->
+        <AlertDefinition adapterKind="ESightAdapter" id="cpuAlertDefinitions1" nameKey="71" resourceKind="cpu" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionCpu1"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="cpuAlertDefinitions2" nameKey="113" resourceKind="cpu" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionCpu2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="cpuAlertDefinitions3" nameKey="114" resourceKind="cpu" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionCpuM2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+  
+        
+        <!-- board -->
+        <AlertDefinition adapterKind="ESightAdapter" id="boardAlertDefinitions1" nameKey="116" resourceKind="board" subType="19" type="15">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionBoard1"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+        <AlertDefinition adapterKind="ESightAdapter" id="boardAlertDefinitions2" nameKey="117" resourceKind="board" subType="19" type="15">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionBoard2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+        <AlertDefinition adapterKind="ESightAdapter" id="boardAlertDefinitions3" nameKey="118" resourceKind="board" subType="19" type="15">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionBoardM2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+
+        
+        <!-- memory -->
+        <AlertDefinition adapterKind="ESightAdapter" id="memoryAlertDefinitions1" nameKey="81" resourceKind="memory" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionMemory1"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="memoryAlertDefinitions2" nameKey="120" resourceKind="memory" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionMemory2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="memoryAlertDefinitions3" nameKey="121" resourceKind="memory" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionMemoryM2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+              
+        <!-- fan -->
+        <AlertDefinition adapterKind="ESightAdapter" id="fanAlertDefinitions1" nameKey="86" resourceKind="fan" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionFan1"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+                <!-- <Recommendations>
+          <Recommendation ref="cleanupVolume" priority="1"/>
+          <Recommendation ref="increaseVolumeCapacity" priority="2"/>
+        </Recommendations> -->
+            </State>
+        </AlertDefinition>
+        
+        <AlertDefinition adapterKind="ESightAdapter" id="fanAlertDefinitions2" nameKey="108" resourceKind="fan" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionFan2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+        <AlertDefinition adapterKind="ESightAdapter" id="fanAlertDefinitions3" nameKey="109" resourceKind="fan" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionFanM2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <!-- PSU -->
+        <AlertDefinition adapterKind="ESightAdapter" id="psuAlertDefinitions1" nameKey="101" resourceKind="psu" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionPsu1"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+        <AlertDefinition adapterKind="ESightAdapter" id="psuAlertDefinitions2" nameKey="123" resourceKind="psu" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionPsu2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+        <AlertDefinition adapterKind="ESightAdapter" id="psuAlertDefinitions3" nameKey="124" resourceKind="psu" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionPsuM2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+
+        
+        <!-- disk -->
+         <AlertDefinition adapterKind="ESightAdapter" id="diskAlertDefinitions1" nameKey="102" resourceKind="disk" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionDisk1"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="diskAlertDefinitions2" nameKey="126" resourceKind="disk" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionDisk2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="diskAlertDefinitions3" nameKey="127" resourceKind="disk" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionDiskM2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+                
+         <!-- server device -->
+        <AlertDefinition adapterKind="ESightAdapter" id="deviceAlertDefinitions1" nameKey="103" resourceKind="serverDevice" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionDevice1"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="deviceAlertDefinitions2" nameKey="129" resourceKind="serverDevice" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionDevice2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="deviceAlertDefinitions3" nameKey="130" resourceKind="serverDevice" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionDeviceM2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+        
+        <!-- PCIE -->
+         <AlertDefinition adapterKind="ESightAdapter" id="pcieAlertDefinitions1" nameKey="190" resourceKind="pcie" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionPcie1"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="pcieAlertDefinitions2" nameKey="191" resourceKind="pcie" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionPcie2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="pcieAlertDefinitions3" nameKey="192" resourceKind="pcie" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionPcieM2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+        <!-- RAID -->
+        <AlertDefinition adapterKind="ESightAdapter" id="raidAlertDefinitions1" nameKey="198" resourceKind="raid" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionRaid1"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="raidAlertDefinitions2" nameKey="199" resourceKind="raid" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionRaid2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="raidAlertDefinitions3" nameKey="300" resourceKind="raid" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionRaidM2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+        <!-- Mezz -->
+        <AlertDefinition adapterKind="ESightAdapter" id="mezzAlertDefinitions1" nameKey="301" resourceKind="mezz" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionMezz1"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="mezzAlertDefinitions2" nameKey="302" resourceKind="mezz" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionMezz2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+        
+         <AlertDefinition adapterKind="ESightAdapter" id="mezzAlertDefinitions3" nameKey="303" resourceKind="mezz" subType="19" type="17">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="or">
+                    <Symptom ref="SymptomDefinitionMezzM2"/>
+                </SymptomSet>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+
+        
+    </AlertDefinitions>
+    
+    <!-- 警告和症状分割线 -->
+    
+    <SymptomDefinitions>
+    
+        <!-- ESightAdapterInstance -->
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionEsight1" nameKey="224" resourceKind="hostInstance" waitCycle="1">
+            <State severity="warning">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Offline" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+    
+      <!-- CPU -->
+       <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionCpu1" nameKey="78" resourceKind="cpu" waitCycle="1">
+            <State severity="warning">
+            <!-- 
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="-1.0" valueType="numeric"/>
+             -->
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Offline" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionCpu2" nameKey="73" resourceKind="cpu" waitCycle="1">
+            <State severity="warning">
+            <!-- 
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="-2.0" valueType="numeric"/>
+             -->
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Unknown" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionCpuM2" nameKey="79" resourceKind="cpu" waitCycle="1">
+            <State severity="critical">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Faulty" valueType="string"/>
+            <!-- 
+                <Condition key="healthState" operator="&lt;" thresholdType="static" type="metric" value="-2.0" valueType="numeric"/>
+             -->
+            </State>
+        </SymptomDefinition>
+        
+
+        
+         <!-- board -->
+        <SymptomDefinition adapterKind="ESightAdapter" id="SymptomDefinitionBoard1" nameKey="75" resourceKind="board">
+            <State severity="warning">
+            <!-- 
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="-1.0" valueType="numeric"/>
+             -->
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Offline" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionBoard2" nameKey="77" resourceKind="board" waitCycle="1">
+            <State severity="warning">
+            <!-- 
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="-2.0" valueType="numeric"/>
+             -->
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Unknown" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionBoardM2" nameKey="92" resourceKind="board" waitCycle="1">
+            <State severity="critical">
+            <!-- 
+                <Condition key="healthState" operator="&lt;" thresholdType="static" type="metric" value="-2.0" valueType="numeric"/>
+             -->
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Faulty" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+         
+        
+         <!-- memory -->
+       <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionMemory1" nameKey="82" resourceKind="memory" waitCycle="1">
+            <State severity="warning">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Offline" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionMemory2" nameKey="83" resourceKind="memory" waitCycle="1">
+            <State severity="warning">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Unknown" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionMemoryM2" nameKey="84" resourceKind="memory" waitCycle="1">
+            <State severity="critical">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Faulty" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+
+        
+         <!-- fan -->
+       <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionFan1" nameKey="87" resourceKind="fan" waitCycle="1">
+            <State severity="warning">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Offline" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionFan2" nameKey="88" resourceKind="fan" waitCycle="1">
+            <State severity="warning">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Unknown" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionFanM2" nameKey="89" resourceKind="fan" waitCycle="1">
+            <State severity="critical">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Faulty" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+
+        
+         <!-- PSU -->
+       <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionPsu1" nameKey="93" resourceKind="psu" waitCycle="1">
+            <State severity="warning">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Offline" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionPsu2" nameKey="94" resourceKind="psu" waitCycle="1">
+            <State severity="warning">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Unknown" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionPsuM2" nameKey="95" resourceKind="psu" waitCycle="1">
+            <State severity="critical">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Faulty" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+         <!-- disk -->
+       <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionDisk1" nameKey="97" resourceKind="disk" waitCycle="1">
+            <State severity="warning">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Offline" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionDisk2" nameKey="98" resourceKind="disk" waitCycle="1">
+            <State severity="warning">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Unknown" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionDiskM2" nameKey="99" resourceKind="disk" waitCycle="1">
+            <State severity="critical">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Faulty" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <!-- server devices -->
+       <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionDevice1" nameKey="104" resourceKind="serverDevice" waitCycle="1">
+            <State severity="warning">
+                <Condition key="status" operator="==" thresholdType="static" type="metric" value="Offline" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionDevice2" nameKey="105" resourceKind="serverDevice" waitCycle="1">
+            <State severity="warning">
+                <Condition key="status" operator="==" thresholdType="static" type="metric" value="Unknown" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionDeviceM2" nameKey="106" resourceKind="serverDevice" waitCycle="1">
+            <State severity="critical">
+                <Condition key="status" operator="==" thresholdType="static" type="metric" value="Faulty" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+                
+         <!-- PCIE -->
+       <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionPcie1" nameKey="194" resourceKind="pcie" waitCycle="1">
+            <State severity="warning">
+                <Condition key="pcieSsdCardHealthStatus" operator="==" thresholdType="static" type="metric" value="Offline" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionPcie2" nameKey="195" resourceKind="pcie" waitCycle="1">
+            <State severity="warning">
+                <Condition key="pcieSsdCardHealthStatus" operator="==" thresholdType="static" type="metric" value="Unknown" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionPcieM2" nameKey="196" resourceKind="pcie" waitCycle="1">
+            <State severity="critical">
+                <Condition key="pcieSsdCardHealthStatus" operator="==" thresholdType="static" type="metric" value="Faulty" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+                
+         <!-- RAID -->
+       <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionRaid1" nameKey="202" resourceKind="raid" waitCycle="1">
+            <State severity="warning">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Offline" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionRaid2" nameKey="203" resourceKind="raid" waitCycle="1">
+            <State severity="warning">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Unknown" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionRaidM2" nameKey="204" resourceKind="raid" waitCycle="1">
+            <State severity="critical">
+                <Condition key="healthState" operator="==" thresholdType="static" type="metric" value="Faulty" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <!-- Mezz -->
+       <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionMezz1" nameKey="205" resourceKind="mezz" waitCycle="1">
+            <State severity="warning">
+                <Condition key="mezzHealthStatus" operator="==" thresholdType="static" type="metric" value="Offline" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionMezz2" nameKey="206" resourceKind="mezz" waitCycle="1">
+            <State severity="warning">
+                <Condition key="mezzHealthStatus" operator="==" thresholdType="static" type="metric" value="Unknown" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+        <SymptomDefinition adapterKind="ESightAdapter" cancelCycle="1" id="SymptomDefinitionMezzM2" nameKey="207" resourceKind="mezz" waitCycle="1">
+            <State severity="critical">
+                <Condition key="mezzHealthStatus" operator="==" thresholdType="static" type="metric" value="Faulty" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+        
+    </SymptomDefinitions>
+    
+    <!-- 症状和推荐分割线 -->
+    <!--  <Recommendations>
+    <Recommendation key="cleanupVolume">
+      <Description nameKey="111"/>
+    </Recommendation>
+    <Recommendation key="increaseVolumeCapacity">
+      <Description nameKey="112"/>
+    </Recommendation>
+  </Recommendations> -->
+    
+</AdapterKind>

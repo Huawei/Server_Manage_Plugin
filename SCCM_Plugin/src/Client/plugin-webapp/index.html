@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test home</title>
+    <meta charset="utf-8" />
+    <link href="/css/element.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <script src="/scripts/vue.js"></script>
+    <script src="/scripts/element.js"></script>
+    <script src="/scripts/axios.min.js"></script>
+    <script src="/scripts/i18n/zh-CN.js"></script>
+    <script src="/scripts/i18n/en.js"></script>
+</head>
+
+<body>
+    <div id="app" vclock>
+        <el-row class="tac">
+            <el-col :span="24">
+                <el-menu mode="vertical" default-active="1" class="el-menu-vertical-demo">
+                    <el-menu-item-group title="菜单项">
+                        <el-menu-item index="1"><a href="/huawei/eSight/eSightConfig.html">eSightConfig</a></el-menu-item>
+                        <el-menu-item index="2"><a href="/huawei/firmware/listFirmware.html">listFirmware</a></el-menu-item>
+                        <el-menu-item index="2"> <a href="/huawei/serverList/serverList.html">服务器列表</a></el-menu-item>
+                        <el-menu-item index="2"><a href="/huawei/template/list.html">模板管理</a></el-menu-item>
+                        <el-menu-item index="2"> <a href="/huawei/softwareManager/softManager.html">软件源管理</a></el-menu-item>
+                        <el-menu-item-group title="任务管理">
+                            <el-menu-item index="3"><a href="/huawei/task/list.html">任务管理</a></el-menu-item>
+                        </el-menu-item-group>
+                    </el-menu-item-group>
+                </el-menu>
+            </el-col>
+        </el-row>
+    </div>
+</body>
+<script>
+    var Main = {}
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app')
+</script>
+
+</html>

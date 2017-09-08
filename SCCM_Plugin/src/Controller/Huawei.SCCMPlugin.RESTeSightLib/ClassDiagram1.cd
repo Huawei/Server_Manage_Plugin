@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.ESightEngine">
+    <Position X="2.75" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BQgEAAAAAIAAKEAACAAEAAAABAGEAAAAwGAAAAIAAAA=</HashCode>
+      <FileName>ESightEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.Exceptions.BaseException" Collapsed="true">
+    <Position X="7.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Exceptions\BaseException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.Exceptions.BasePackageExpceion">
+    <Position X="9.75" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\BasePackageExpceion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.Exceptions.DeployException">
+    <Position X="12" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\DeployException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.Exceptions.DeviceExpceion">
+    <Position X="3" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\DeviceExpceion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.Exceptions.ESSessionExpceion">
+    <Position X="5.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\ESSessionExpceion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.Exceptions.SoftwareSourceExpceion">
+    <Position X="7.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\SoftwareSourceExpceion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.Workers.BasePackageWorker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAACgAEAAAAAgAABAABAFAAABAAAAAABAIIQAIoBAg=</HashCode>
+      <FileName>Workers\BasePackageWorker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.Workers.DeviceWorker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAEAAAAAAAAAAAAAAAACAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Workers\DeviceWorker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.Workers.ESSession" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACBgCIQAdjAEIEBACJQEAEIAAAIgAAwIBIwGIhCEJ+A=</HashCode>
+      <FileName>Workers\ESSession.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.Workers.HWDeployWorker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggAAAEAEAAAAAAAABAAAAAAAARAAAgAABACAQAAgBCg=</HashCode>
+      <FileName>Workers\HWDeployWorker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Huawei.SCCMPlugin.RESTeSightLib.Workers.SoftwareSourceWorker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAFIEAAQAAAAAACAAIAAAAQAAAgAABAAAAAAgAAE=</HashCode>
+      <FileName>Workers\SoftwareSourceWorker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Huawei.SCCMPlugin.RESTeSightLib.IWorkers.IBasePackageWorker">
+    <Position X="8" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAgAAAAAAAFAAABAAAAAABAAIAAIIBAg=</HashCode>
+      <FileName>IWorkers\IBasePackageWorker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Huawei.SCCMPlugin.RESTeSightLib.IWorkers.IDeviceWorker">
+    <Position X="12.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAACAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>IWorkers\IDeviceWorker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Huawei.SCCMPlugin.RESTeSightLib.IWorkers.IESSession">
+    <Position X="5.5" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAgAIAAIgAAIEBAAAQAAEAAAAIgAAQIBAAGAACABSA=</HashCode>
+      <FileName>IWorkers\IESSession.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Huawei.SCCMPlugin.RESTeSightLib.IWorkers.IHWDeployWorker">
+    <Position X="10.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAARAAAgAABACAAAAABCg=</HashCode>
+      <FileName>IWorkers\IHWDeployWorker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Huawei.SCCMPlugin.RESTeSightLib.IWorkers.ISoftwareSourceWorker">
+    <Position X="14.5" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>CAAAABIAAAQAAAAAACAAIAAAAQAAAgAABAAAAAAAAAA=</HashCode>
+      <FileName>IWorkers\ISoftwareSourceWorker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
