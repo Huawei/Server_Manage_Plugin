@@ -1,0 +1,5 @@
+ESightAdapter/bin
+ESightAdapter/ESightAdapter/build/*
+HuaweiManagementPack/HuaweiManagementPack/build
+ESightAdapter/ESightAdapter/solution.xml
+*.log
