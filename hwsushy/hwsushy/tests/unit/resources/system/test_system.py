@@ -1,0 +1,258 @@
+# Copyright 2017 Red Hat, Inc.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+
+import json
+
+import mock
+
+import hwsushy
+from hwsushy import exceptions
+from hwsushy.resources.system import system
+from hwsushy.tests.unit import base
+
+
+class SystemTestCase(base.TestCase):
+
+    def setUp(self):
+        super(SystemTestCase, self).setUp()
+        self.conn = mock.Mock()
+        with open('hwsushy/tests/unit/json_samples/system.json', 'r') as f:
+            self.conn.get.return_value.json.return_value = json.loads(f.read())
+
+        self.sys_inst = system.System(
+            self.conn, '/redfish/v1/Systems/437XR1138R2',
+            redfish_version='1.0.2')
+
+    def test__parse_attributes(self):
+        self.sys_inst._parse_attributes()
+        self.assertEqual('1.0.2', self.sys_inst.redfish_version)
+        self.assertEqual('Chicago-45Z-2381', self.sys_inst.asset_tag)
+        self.assertEqual('P79 v1.33 (02/28/2015)', self.sys_inst.bios_version)
+        self.assertEqual('Web Front End node', self.sys_inst.description)
+        self.assertEqual('web483', self.sys_inst.hostname)
+        self.assertEqual('437XR1138R2', self.sys_inst.identity)
+        self.assertEqual('Off', self.sys_inst.indicator_led)
+        self.assertEqual('Contoso', self.sys_inst.manufacturer)
+        self.assertEqual('WebFrontEnd483', self.sys_inst.name)
+        self.assertEqual('224071-J23', self.sys_inst.part_number)
+        self.assertEqual('437XR1138R2', self.sys_inst.serial_number)
+        self.assertEqual('8675309', self.sys_inst.sku)
+        self.assertEqual('Physical', self.sys_inst.system_type)
+        self.assertEqual('38947555-7742-3448-3784-823347823834',
+                         self.sys_inst.uuid)
+        self.assertEqual(hwsushy.SYSTEM_POWER_STATE_ON,
+                         self.sys_inst.power_state)
+
+    def test_get__reset_action_element(self):
+        value = self.sys_inst._get_reset_action_element()
+        expected = {
+            "target": "/redfish/v1/Systems/437XR1138R2/Actions/"
+                      "ComputerSystem.Reset",
+            "ResetType@Redfish.AllowableValues": {
+                "ResetType": [
+                    "On",
+                    "ForceOff",
+                    "GracefulShutdown",
+                    "GracefulRestart",
+                    "ForceRestart",
+                    "Nmi",
+                    "ForceOn"
+                ]
+            }}
+        self.assertEqual(expected, value)
+
+    def test_get__reset_action_element_missing_actions_attr(self):
+        self.sys_inst._json.pop('Actions')
+        self.assertRaisesRegex(
+            exceptions.MissingAttributeError, 'attribute Actions',
+            self.sys_inst._get_reset_action_element)
+
+    def test_get__reset_action_element_missing_reset_action(self):
+        action = '#ComputerSystem.Reset'
+        self.sys_inst._json['Actions'].pop(action)
+        self.assertRaisesRegex(
+            exceptions.MissingActionError, 'action %s' % action,
+            self.sys_inst._get_reset_action_element)
+
+    def test_get_allowed_reset_system_values(self):
+        values = self.sys_inst.get_allowed_reset_system_values()
+        expected = set([hwsushy.RESET_GRACEFUL_SHUTDOWN,
+                        hwsushy.RESET_GRACEFUL_RESTART,
+                        hwsushy.RESET_FORCE_RESTART,
+                        hwsushy.RESET_FORCE_OFF,
+                        hwsushy.RESET_FORCE_ON,
+                        hwsushy.RESET_ON,
+                        hwsushy.RESET_NMI])
+        self.assertEqual(expected, values)
+        self.assertIsInstance(values, set)
+
+    @mock.patch.object(system.LOG, 'warning', autospec=True)
+    @mock.patch.object(system.System, '_get_reset_action_element',
+                       autospec=True)
+    def test_get_allowed_reset_system_values_no_values_specified(
+            self, mock_get_reset_action, mock_log):
+        mock_get_reset_action.return_value = {}
+        values = self.sys_inst.get_allowed_reset_system_values()
+        # Assert it returns all values if it can't get the specific ones
+        expected = set([hwsushy.RESET_GRACEFUL_SHUTDOWN,
+                        hwsushy.RESET_GRACEFUL_RESTART,
+                        hwsushy.RESET_FORCE_RESTART,
+                        hwsushy.RESET_FORCE_OFF,
+                        hwsushy.RESET_FORCE_ON,
+                        hwsushy.RESET_ON,
+                        hwsushy.RESET_NMI,
+                        hwsushy.RESET_PUSH_POWER_BUTTON])
+        self.assertEqual(expected, values)
+        self.assertIsInstance(values, set)
+        self.assertEqual(1, mock_log.call_count)
+
+    def test__get_reset_system_path(self):
+        value = self.sys_inst._get_reset_system_path()
+        expected = (
+            '/redfish/v1/Systems/437XR1138R2/Actions/ComputerSystem.Reset')
+        self.assertEqual(expected, value)
+
+    @mock.patch.object(system.System, '_get_reset_action_element',
+                       autospec=True)
+    def test__get_reset_system_path_missing_target_attr(
+            self, mock_get_reset_action):
+        mock_get_reset_action.return_value = {}
+        self.assertRaisesRegex(
+            exceptions.MissingAttributeError,
+            'attribute Actions/ComputerSystem.Reset/target',
+            self.sys_inst._get_reset_system_path)
+
+    def test_reset_system(self):
+        self.sys_inst.reset_system(hwsushy.RESET_FORCE_OFF)
+        self.sys_inst._conn.post.assert_called_once_with(
+            '/redfish/v1/Systems/437XR1138R2/Actions/ComputerSystem.Reset',
+            data={'ResetType': 'ForceOff'})
+
+    def test_reset_system_invalid_value(self):
+        self.assertRaises(exceptions.InvalidParameterValueError,
+                          self.sys_inst.reset_system, 'invalid-value')
+
+    def test_get_allowed_system_boot_source_values(self):
+        values = self.sys_inst.get_allowed_system_boot_source_values()
+        expected = set([hwsushy.BOOT_SOURCE_TARGET_NONE,
+                        hwsushy.BOOT_SOURCE_TARGET_PXE,
+                        hwsushy.BOOT_SOURCE_TARGET_CD,
+                        hwsushy.BOOT_SOURCE_TARGET_USB,
+                        hwsushy.BOOT_SOURCE_TARGET_HDD,
+                        hwsushy.BOOT_SOURCE_TARGET_BIOS_SETUP,
+                        hwsushy.BOOT_SOURCE_TARGET_UTILITIES,
+                        hwsushy.BOOT_SOURCE_TARGET_DIAGS,
+                        hwsushy.BOOT_SOURCE_TARGET_SD_CARD,
+                        hwsushy.BOOT_SOURCE_TARGET_UEFI_TARGET])
+        self.assertEqual(expected, values)
+        self.assertIsInstance(values, set)
+
+    def test_get_allowed_system_boot_source_values_missing_boot_attr(self):
+        self.sys_inst._json.pop('Boot')
+        self.assertRaisesRegex(
+            exceptions.MissingAttributeError, 'attribute Boot',
+            self.sys_inst.get_allowed_system_boot_source_values)
+
+    @mock.patch.object(system.LOG, 'warning', autospec=True)
+    def test_get_allowed_system_boot_source_values_no_values_specified(
+            self, mock_log):
+        self.sys_inst._json['Boot'].pop(
+            'BootSourceOverrideTarget@Redfish.AllowableValues')
+        values = self.sys_inst.get_allowed_system_boot_source_values()
+        # Assert it returns all values if it can't get the specific ones
+        expected = set([hwsushy.BOOT_SOURCE_TARGET_NONE,
+                        hwsushy.BOOT_SOURCE_TARGET_PXE,
+                        hwsushy.BOOT_SOURCE_TARGET_CD,
+                        hwsushy.BOOT_SOURCE_TARGET_USB,
+                        hwsushy.BOOT_SOURCE_TARGET_HDD,
+                        hwsushy.BOOT_SOURCE_TARGET_BIOS_SETUP,
+                        hwsushy.BOOT_SOURCE_TARGET_UTILITIES,
+                        hwsushy.BOOT_SOURCE_TARGET_DIAGS,
+                        hwsushy.BOOT_SOURCE_TARGET_SD_CARD,
+                        hwsushy.BOOT_SOURCE_TARGET_FLOPPY,
+                        hwsushy.BOOT_SOURCE_TARGET_UEFI_TARGET,
+                        hwsushy.BOOT_SOURCE_TARGET_UEFI_SHELL,
+                        hwsushy.BOOT_SOURCE_TARGET_UEFI_HTTP])
+        self.assertEqual(expected, values)
+        self.assertIsInstance(values, set)
+        self.assertEqual(1, mock_log.call_count)
+
+    def test_set_system_boot_source(self):
+        self.sys_inst.set_system_boot_source(
+            hwsushy.BOOT_SOURCE_TARGET_PXE,
+            enabled=hwsushy.BOOT_SOURCE_ENABLED_CONTINUOUS,
+            mode=hwsushy.BOOT_SOURCE_MODE_UEFI)
+        self.sys_inst._conn.patch.assert_called_once_with(
+            '/redfish/v1/Systems/437XR1138R2',
+            data={'Boot': {'BootSourceOverrideEnabled': 'Continuous',
+                           'BootSourceOverrideTarget': 'Pxe',
+                           'BootSourceOverrideMode': 'UEFI'}},
+            headers={'If-Match': True})
+
+    def test_set_system_boot_source_no_mode_specified(self):
+        self.sys_inst.set_system_boot_source(
+            hwsushy.BOOT_SOURCE_TARGET_HDD,
+            enabled=hwsushy.BOOT_SOURCE_ENABLED_ONCE)
+        self.sys_inst._conn.patch.assert_called_once_with(
+            '/redfish/v1/Systems/437XR1138R2',
+            data={'Boot': {'BootSourceOverrideEnabled': 'Once',
+                           'BootSourceOverrideTarget': 'Hdd'}},
+            headers={'If-Match': True})
+
+    def test_set_system_boot_source_invalid_target(self):
+        self.assertRaises(exceptions.InvalidParameterValueError,
+                          self.sys_inst.set_system_boot_source,
+                          'invalid-target')
+
+    def test_set_system_boot_source_invalid_enabled(self):
+        self.assertRaises(exceptions.InvalidParameterValueError,
+                          self.sys_inst.set_system_boot_source,
+                          hwsushy.BOOT_SOURCE_TARGET_HDD,
+                          enabled='invalid-enabled')
+
+
+class SystemCollectionTestCase(base.TestCase):
+
+    def setUp(self):
+        super(SystemCollectionTestCase, self).setUp()
+        self.conn = mock.Mock()
+        with open('hwsushy/tests/unit/json_samples/'
+                  'system_collection.json', 'r') as f:
+            self.conn.get.return_value.json.return_value = json.loads(f.read())
+        self.sys_col = system.SystemCollection(
+            self.conn, '/redfish/v1/Systems', redfish_version='1.0.2')
+
+    def test__parse_attributes(self):
+        self.sys_col._parse_attributes()
+        self.assertEqual('1.0.2', self.sys_col.redfish_version)
+        self.assertEqual('Computer System Collection', self.sys_col.name)
+        self.assertEqual(('/redfish/v1/Systems/437XR1138R2',),
+                         self.sys_col.members_identities)
+
+    @mock.patch.object(system, 'System', autospec=True)
+    def test_get_member(self, mock_system):
+        self.sys_col.get_member('/redfish/v1/Systems/437XR1138R2')
+        mock_system.assert_called_once_with(
+            self.sys_col._conn, '/redfish/v1/Systems/437XR1138R2',
+            redfish_version=self.sys_col.redfish_version)
+
+    @mock.patch.object(system, 'System', autospec=True)
+    def test_get_members(self, mock_system):
+        members = self.sys_col.get_members()
+        mock_system.assert_called_once_with(
+            self.sys_col._conn, '/redfish/v1/Systems/437XR1138R2',
+            redfish_version=self.sys_col.redfish_version)
+        self.assertIsInstance(members, list)
+        self.assertEqual(1, len(members))
