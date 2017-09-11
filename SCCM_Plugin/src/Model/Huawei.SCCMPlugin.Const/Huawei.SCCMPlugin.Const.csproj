@@ -68,7 +68,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonUtil">
-      <HintPath>..\..\..\third_party\Lib\CommonUtil.dll</HintPath>
+      <HintPath>..\..\..\src_bin\CommonUtil.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
