@@ -683,7 +683,7 @@
                                 app.fullscreenLoading = false;
                                 if (ret.code === '0') {
                                     alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                        location.href = 'list.html';
+                                        location.href = 'list.html?s=' + Math.random();
                                     })
                                 } else {
                                     msg = getErrorMsg(ret.code);

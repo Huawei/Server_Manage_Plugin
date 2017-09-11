@@ -685,7 +685,7 @@
                         app.fullscreenLoading = false;
                         if (ret.code === '0') {
                             alertMsg(app.i18ns.firmware.addSuccessMsg, function() {
-                                window.location.href = 'listFirmwareTask.html';
+                                window.location.href = 'listFirmwareTask.html?s=' + Math.random();
                             })
                         } else {
                             msg = getErrorMsg(ret.code);

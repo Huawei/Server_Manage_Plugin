@@ -2084,7 +2084,7 @@
                                     //成功
                                     if (ret.code === '0') {
                                         app.alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                            window.location.href = 'list.html';
+                                            window.location.href = 'list.html?s=' + Math.random();
                                         })
                                     } else {
                                         msg = getErrorMsg(ret.code);

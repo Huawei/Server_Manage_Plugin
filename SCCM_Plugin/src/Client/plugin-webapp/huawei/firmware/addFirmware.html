@@ -296,7 +296,7 @@
                                 app.fullscreenLoading = false;
                                 if (ret.code === '0') {
                                     app.alertMsg(app.i18ns.firmware.addSuccessMsg, function() {
-                                        location.href = 'listFirmware.html';
+                                        location.href = 'listFirmware.html?s=' + Math.random();
                                     })
                                 } else {
                                     msg = getErrorMsg(ret.code);
