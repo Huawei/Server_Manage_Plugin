@@ -1,0 +1,75 @@
+<project name="huawei-vcenter-plugin-service" default="make-jar-bundle">
+   <description>
+       Ant script to build huawei-vcenter-plugin-service.
+       The output is a bundle in target/huawei-vcenter-plugin-service.jar that can be
+       copied in the "plugins" folder of the plugin-package.
+       -----------------------------------------------------------------------
+       NOTE: in Eclipse/STS you can use the project builder directly.
+       -----------------------------------------------------------------------
+   </description>
+
+   <!-- SDK folders should be set in environment variables -->
+   <!--<property environment="env"/>-->
+   <!--<property name="VSPHERE_SDK_HOME" value="${env.VSPHERE_SDK_HOME}"/>-->
+
+   <!-- name of the jar output file -->
+   <property name="JAR_FILE" value="huawei-vcenter-plugin-service.jar"/>
+
+   <property name="ROOT_DIR" location="../../" />
+   <property name="BUILD_DIR" value="${basedir}/target"/>
+   <property name="CLASSES" value="${BUILD_DIR}/classes"/>
+   <property name="RES_DIR" value="${basedir}/src/main/resources"/>
+
+   <!-- clean the generated build files -->
+   <target name="clean" description="Do not select this internal target.">
+      <delete dir="${BUILD_DIR}" />
+      <mkdir dir="${BUILD_DIR}/classes" />
+   </target>
+
+   <target name="compile-java" depends="clean" description="Do not select this internal target.">
+      <javac target="1.7"  source="1.7"
+             includeantruntime="false"
+             destdir="${CLASSES}"
+             fork="true" debug="on" encoding="UTF-8">
+         <src path="${basedir}/src/main/java"/>
+         <!-- <src path="${basedir}/src/test/java"/> for future test files -->
+         <classpath>
+            <pathelement path="${ROOT_DIR}/third_party/vsphere-client-lib.jar"/>
+            <pathelement path="${ROOT_DIR}/third_party/commons-logging-1.1.1.jar"/>
+            <pathelement path="${ROOT_DIR}/third_party/javax.servlet-api-3.0.1.jar"/>
+            <pathelement path="${ROOT_DIR}/third_party/org.springframework.core-3.1.4.RELEASE.jar"/>
+            <pathelement path="${ROOT_DIR}/third_party/org.springframework.web-3.1.4.RELEASE.jar"/>
+         	<pathelement path="${ROOT_DIR}/third_party/org.springframework.web.servlet-3.1.4.RELEASE.jar"/>
+            <pathelement path="${ROOT_DIR}/third_party/org.springframework.beans-3.1.4.RELEASE.jar"/>
+            <pathelement path="${ROOT_DIR}/third_party/org.springframework.context-3.1.4.RELEASE.jar"/>
+         	
+         	<pathelement path="${ROOT_DIR}/third_party/h2-1.4.192.jar"/>
+         	<pathelement path="${ROOT_DIR}/src_bin/esight-api-1.0.0.jar"/>
+         	<pathelement path="${ROOT_DIR}/third_party/gson-2.7.jar"/>
+
+             <pathelement path="${ROOT_DIR}/third_party/com.springsource.org.aspectj.weaver_1.6.12.RELEASE.jar"/>
+         </classpath>
+      </javac>
+   </target>
+
+   <!-- Build the jar -->
+   <target name="make-jar-bundle" depends="compile-java"
+           description="No need to use this script within Eclipse, use the native project builder!">
+      <!-- Add resources -->
+      <copy todir="${CLASSES}">
+         <fileset dir="${RES_DIR}"/>
+      </copy>
+
+    <!-- third-party libraries -->
+   	<copy file="${ROOT_DIR}/third_party/h2-1.4.192.jar" todir="${CLASSES}"/>
+   	<copy file="${ROOT_DIR}/src_bin/esight-api-1.0.0.jar" todir="${CLASSES}"/>
+   	<copy file="${ROOT_DIR}/third_party/gson-2.7.jar" todir="${CLASSES}"/>
+   	
+      <!-- Create the jar -->
+      <jar  destfile="${BUILD_DIR}/${JAR_FILE}"
+            manifest="${RES_DIR}/META-INF/MANIFEST.MF"
+            basedir="${CLASSES}"/>
+
+   </target>
+</project>
+

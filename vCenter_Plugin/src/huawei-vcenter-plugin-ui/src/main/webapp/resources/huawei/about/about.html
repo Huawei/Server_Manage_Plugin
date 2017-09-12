@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <style>
+        .content {
+            width: 100%;
+            padding-top: 50px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        img {
+            width: 150px;
+            height: 114px;
+        }
+        
+        .content .aglin-div {
+            margin: 0 auto;
+            width: 500px;
+            height: 300px;
+            padding: 10px;
+            border: 1px solid #dfe6ec;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content" id="app">
+        <div class="aglin-div">
+            <h3>{{name}}</h3>
+            <h4 style="margin-top: 100px;font-size: 24px;">{{version+versionNumber}}</h4>
+        </div>
+    </div>
+    <script>
+        var versionNumber = 'V1.0.0.66' //从后台得到版本号
+        var app = new Vue({
+            el: "#app",
+            data: {
+                name: '',
+                version: '',
+                copyright: '',
+                versionNumber: ''
+            },
+            created: function() {
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.name = '';
+                        this.version = 'Version:';
+                        this.copyright = 'Copyright © Huawei Technologies Co., Ltd. 2017. All rights reserved.'
+                    } else {
+                        this.name = '';
+                        this.version = '版本：';
+                        this.copyright = '版权所有 (C) 华为技术有限公司 2017。保留一切权利。'
+                    }
+                } else {
+                    this.name = '';
+                    this.version = '版本：';
+                    this.copyright = '版权所有 (C) 华为技术有限公司 2017。保留一切权利。'
+                }
+                this.getInfo();
+            },
+            methods: {
+                getInfo: function() {
+                    var that = this;
+                    aboutManage.getInfo({}, function(ret) {
+                        if (ret.code === '0') {
+                            that.versionNumber = ret.data.versionNumber;
+                        } else {
+                            msg = getErrorMsg(ret.code);
+                            app.alertMsg(msg);
+                        }
+
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -38,7 +38,7 @@
         }
         
         .el-dialog {
-            min-width: 700px;
+            min-width: 830px;
             max-width: 1000px;
         }
     </style>
@@ -108,7 +108,7 @@
         </el-row>
         <el-dialog v-bind:title="i18ns.task.dialogTitle" v-bind:visible.sync="dialogVisible" border size="large">
             <el-table ref="dialogTable" v-bind:data="deviceDetailsData" v-loading="Loading1" element-loading-text="Loading" style="width: 100%">
-                <el-table-column prop="name" v-bind:label="i18ns.task.name" min-width="260">
+                <el-table-column prop="name" v-bind:label="i18ns.task.name" min-width="230" :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column prop="dn" v-bind:label="i18ns.task.dn" width="130"></el-table-column>
                 <el-table-column prop="deviceResult" v-bind:label="i18ns.task.deviceResult" width="130">

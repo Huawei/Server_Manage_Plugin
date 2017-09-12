@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        form input {
+            max-width: 217px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-form v-bind:model="mainForm" v-bind:rules="mainRules" ref="mainForm" v-bind:label-width="labelWidth" label-position="left" label-suffix=":">
+            <el-form-item v-bind:label="i18ns.template.templateType">
+                <el-select v-model="mainForm.templateType" @change="templateChange">
+                    <el-option v-for="item in templateOptions" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.template.templateName" prop="templateName">
+                <el-input v-model="mainForm.templateName"></el-input>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.template.templateDesc" prop="templateDesc">
+                <el-input type="textarea" v-model="mainForm.templateDesc" style="width:400px;"></el-input>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.template.systemBootOption">
+                <el-select v-model="mainForm.systemBootOption">
+                    <el-option v-for="item in systemBootOptions" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.template.serviceSettings">
+                <el-checkbox-group v-model="serviceChecked" @change="serviceSettingChange">
+                    <el-checkbox v-for="item in serviceOptions" v-bind:label="item.label" v-bind:key="item.value" v-bind:value="item.value">{{item.label}}</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+            <!--NTP、DNS、LDAP折叠框-->
+
+            <el-row>
+                <el-col v-bind:span="24" v-show="_.find(this.serviceChecked,function(x){return x=='NTP'})">
+                    <div class="nem_component_content_title" v-on:click="classData.isNTPOpen=!classData.isNTPOpen">
+                        <span v-bind:class="[classData.isNTPOpen ? classData.openClass : classData.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">NTP</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="classData.isNTPOpen &&_.find(this.serviceChecked,function(x){return x=='NTP'})" style="margin-top: 10px; margin-bottom:10px;">
+                <el-form-item v-bind:label="i18ns.template.ntpStatus">
+                    <el-radio-group v-model="NTPStatusEnabled" @change="NTPStatusChange">
+                        <el-radio :label="true">{{i18ns.template.enabled}}</el-radio>
+                        <el-radio :label="false">{{i18ns.template.disabled}}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.template.NTPServerSource">
+                    <el-select v-model="mainForm.ntpServerSource" @change="NTPServerSourceChange" :disabled="NTPServerSourceDisabled">
+                        <el-option v-for="item in NTPServerSources" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.template.primaryNtpServer" prop="primaryNtpServer">
+                    <el-input v-model="mainForm.primaryNtpServer" style="width:30%;" :disabled="manualNTPIsDisabled"></el-input>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.template.secondaryNtpServer">
+                    <el-input v-model="mainForm.secondaryNtpServer" :disabled="manualNTPIsDisabled" style="width:30%;"></el-input>
+                </el-form-item>
+            </div>
+
+            <el-row style="margin-top:10px;">
+                <el-col v-bind:span="24" v-show="_.find(this.serviceChecked,function(x){return x=='DNS'})">
+                    <div class="nem_component_content_title" v-on:click="classData.isDNSOpen=!classData.isDNSOpen">
+                        <span v-bind:class="[classData.isDNSOpen ? classData.openClass : classData.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">DNS</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="classData.isDNSOpen&&_.find(this.serviceChecked,function(x){return x=='DNS'})" style="margin-top: 10px; margin-bottom:10px;">
+                <el-form-item :label="i18ns.template.dnsSource">
+                    <el-radio-group v-model="dnsSource" @change="DNSStatusChange">
+                        <el-radio :label="0">{{i18ns.template.AutomaticallyObtain}}</el-radio>
+                        <el-radio :label="1">{{i18ns.template.ManuallySet}}</el-radio>
+                    </el-radio-group>
+
+                </el-form-item>
+                <div v-show="DNSIsHide">
+                    <el-form-item :label="i18ns.template.domainName" prop="dnsDomainName">
+                        <el-input v-model="mainForm.dnsDomainName" style="width:30%"></el-input>
+                    </el-form-item>
+                    <el-form-item :label="i18ns.template.primaryDnsServer" prop="primaryDnsServer">
+                        <el-input v-model="mainForm.primaryDnsServer" style="width:30%"></el-input>
+                    </el-form-item>
+                    <el-form-item :label="i18ns.template.secondaryDnsServer">
+                        <el-input style="width:30%" v-model="mainForm.secondaryDnsServer"></el-input>
+                    </el-form-item>
+                </div>
+
+            </div>
+
+            <el-row style="margin-top:10px;">
+                <el-col v-bind:span="24" v-show="_.find(this.serviceChecked,function(x){return x=='LDAP'})">
+                    <div class="nem_component_content_title" v-on:click="classData.isLDAPOpen=!classData.isLDAPOpen">
+                        <span v-bind:class="[classData.isLDAPOpen ? classData.openClass : classData.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">LDAP</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="classData.isLDAPOpen&&_.find(this.serviceChecked,function(x){return x=='LDAP'})" style="margin-top: 10px; margin-bottom:10px;">
+                <el-form-item :label="i18ns.template.ldapStatus">
+                    <el-radio-group v-model="ldapStatus" @change="ldapStatusChange">
+                        <el-radio :label="true">{{i18ns.template.enabled}}</el-radio>
+                        <el-radio :label="false">{{i18ns.template.disabled}}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <div v-show="ldapIsDisabled">
+                    <el-form-item :label="i18ns.template.domainControllerAddress" prop="domainControllerAddress">
+                        <el-input v-model="mainForm.domainControllerAddress" style="width:30%"></el-input>
+                    </el-form-item>
+                    <el-form-item :label="i18ns.template.userDomain" prop="userDomain">
+                        <el-input v-model="mainForm.userDomain" style="width:30%"></el-input>
+                    </el-form-item>
+                    <el-table :data="roleGroup" border style="width: 100%">
+                        <el-table-column :label="i18ns.template.roleGroup">
+                            <template scope="scope">
+                                {{i18ns.template.roleGroup}}{{scope.$index+1}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column :label="i18ns.template.groupName">
+                            <template scope="scope">
+                                <el-input v-model="scope.row.groupName"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :label="i18ns.template.groupDomain">
+                            <template scope="scope">
+                                <el-input v-model="scope.row.groupDomain"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :label="i18ns.template.groupPrivilege">
+                            <template scope="scope">
+                                <el-select v-model="scope.row.groupPrivilege">
+                                    <el-option v-for="item in groupPrivileges" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value"></el-option>
+                                </el-select>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="operation" :label="i18ns.template.operation">
+                            <template scope="scope">
+                                <el-button @click="addRow" type="text" icon="plus" size="small"></el-button>
+                                <el-button icon="minus" type="text" size="small" v-show="scope.$index!=0&&scope.$index==roleGroup.length-1" @click="deleteRow(scope.$index)"></el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
+            </div>
+            <el-form-item label="eSight" prop="checkEsightList">
+                <el-checkbox-group v-model="mainForm.checkEsightList">
+                    <el-checkbox v-for="item in esightOptions" :label="item.value" :key="item.value" :value="item.value">{{item.label}}</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+            <el-button v-loading.fullscreen.lock="fullscreenLoading" v-bind:element-loading-text="i18ns.template.savingTips" @click="submitForm('mainForm')">{{i18ns.common.confirm}}</el-button>
+            <el-button @click="resetForm('mainForm')">{{i18ns.common.back}}</el-button>
+
+        </el-form>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                i18ns: [],
+                labelWidth: '120px',
+                dialogVisible: false,
+                ntpIsShow: true,
+                dnsIsShow: true,
+                ldapIsShow: true,
+                esightOptions: [],
+                templateOptions: [],
+                systemBootOptions: [],
+                fullscreenLoading: false,
+                activeNames: ["1", "2", "3"],
+                NTPEnabled: '1',
+                NTPStatusEnabled: true,
+                dnsSource: 0,
+                DNSIsHide: false,
+                dnsDomainName: "",
+                manualNTPIsDisabled: true,
+                NTPServerSourceDisabled: false,
+                NTPServerSources: [],
+                ldapStatus: true,
+                ldapIsDisabled: true,
+                serviceChecked: ["NTP"],
+                serviceOptions: [{
+                    value: "NTP",
+                    label: "NTP"
+                }, {
+                    value: "DNS",
+                    label: "DNS"
+                }, {
+                    value: "LDAP",
+                    label: "LDAP"
+                }],
+                groupPrivileges: [],
+                roleGroup: [{
+                    roleGroupIndex: 1,
+                    groupName: "",
+                    groupDomain: "",
+                    groupPrivilege: '3',
+                }],
+                mainForm: {
+                    dnsDomainName: "",
+                    primaryDnsServer: "",
+                    secondaryDnsServer: "",
+                    domainControllerAddress: "",
+                    userDomain: "",
+                    checkEsightList: [],
+                    ntpServerSource: '1',
+                    templateType: 'IBMC',
+                    templateName: '',
+                    templateDesc: '',
+                    primaryNtpServer: "",
+                    secondaryNtpServer: "",
+                    systemBootOption: "1",
+
+                },
+                /**
+                 * IBMC主页面验证规则
+                 * **/
+                mainRules: {
+                    templateDesc: {
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (/[\u4E00-\u9FA5\uF900-\uFA2D]/.test(value)) {
+                                    callback(new Error(app.i18ns.template.templateDescErrorMsg));
+                                } else if (value.length > 128) {
+                                    callback(new Error(app.i18ns.template.templateDescErrorMsg));
+                                } else {
+                                    callback();
+                                }
+                            } else {
+                                callback();
+                            }
+                        },
+                        trigger: 'change'
+                    },
+                    /**
+                     * eSight验证
+                     * **/
+                    checkEsightList: {
+                        type: 'array',
+                        required: true,
+                        message: '必填项',
+                        trigger: 'change'
+                    },
+                    /**
+                     * 域名验证
+                     * **/
+                    groupName: {
+                        required: true,
+                        message: "必填项",
+                        trigger: 'change'
+                    },
+                    /**
+                     * 用户域验证
+                     * **/
+                    userDomain: {
+                        required: true
+                    },
+                    /**
+                     * DNS域名验证
+                     * **/
+                    dnsDomainName: {
+                        required: true
+                    },
+
+                    primaryDnsServer: {
+                        required: true
+                    },
+                    primaryNtpServer: {
+                        required: true
+                    },
+                    domainControllerAddress: {
+                        required: true
+                    },
+                    templateName: {
+                        required: true,
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (!/^[a-zA-Z0-9_\-\u4e00-\u9fa5]{6,32}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.templateNameErrorMsg));
+                                } else
+                                    return callback();
+                            } else {
+                                return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                            }
+                        },
+                        trigger: 'change'
+                    },
+                },
+                classData: {
+                    isNTPOpen: true,
+                    isDNSOpen: true,
+                    isLDAPOpen: true,
+                    openClass: 'nem_component_content_title_icon_open',
+                    closeClass: 'nem_component_content_title_icon_close'
+                }
+            },
+            created: function() {
+                this.i18ns = getIn18();
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '180px'
+                    }
+                }
+                //this.mainRules.templateDesc.message = this.i18ns.template.templateDescErrorMsg;
+                this.mainRules.checkEsightList.message = this.i18ns.common.requiredErrorMsg;
+                this.mainRules.groupName.message = this.i18ns.common.requiredErrorMsg;
+                this.templateOptions = getTemplateType();
+                this.systemBootOptions = getSystemBootOption();
+                this.NTPServerSources = getNTPServerSources();
+                this.groupPrivileges = getGroupPrivileges();
+                this.mainForm.checkEsightList.push(getCurrentEsight());
+            },
+            mounted: function() {
+                this.mainRules.primaryNtpServer = {};
+                this.mainRules.primaryDnsServer = {};
+                this.mainRules.dnsDomainName = {};
+                this.mainRules.userDomain = {};
+                this.mainRules.domainControllerAddress = {};
+                this.getEsightListData();
+
+            },
+            methods: {
+                /**
+                 * 服务类型选择
+                 * **/
+                serviceSettingChange: function(value) {
+                    if (_.find(value, function(x) {
+                            return x == 'NTP'
+                        }) == "NTP") {
+                        if (this.NTPStatusEnabled == true && this.mainForm.ntpServerSource == 2) {
+                            this.setNtpValidate();
+                        }
+                    } else {
+                        this.cancelNtpValidate();
+                    }
+                    if (_.find(value, function(x) {
+                            return x == 'DNS'
+                        }) == "DNS") {
+                        if (this.dnsSource == 1) {
+                            this.setDnsValidate();
+                        }
+                    } else {
+                        this.cancelDnsValidate();
+                    }
+                    if (_.find(value, function(x) {
+                            return x == 'LDAP'
+                        }) == "LDAP") {
+                        if (this.ldapStatus == true) {
+                            this.setLdapValidate();
+                        }
+                    } else {
+                        this.cancelLdapValidate();
+                    }
+
+                },
+                /**
+                 * NTP服务验证
+                 **/
+                setNtpValidate: function() {
+                    this.mainRules.primaryNtpServer = {
+                        required: true,
+                        message: this.i18ns.common.requiredErrorMsg,
+                        trigger: 'change'
+                    }
+                },
+                /**
+                 * 取消NTP验证
+                 **/
+                cancelNtpValidate: function() {
+                    this.mainRules.primaryNtpServer = {};
+                },
+                /**
+                 * DNS验证
+                 **/
+                setDnsValidate: function() {
+                    this.mainRules.primaryDnsServer = {
+                        required: true,
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (!/^(22[0-3]|2[0-1]\d|1[0-1][0-9]|12[012345689]|1[3-9]\d|[1-9]\d|[1-9])\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|[1-9])$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.ipErrorMsg));
+                                } else
+                                    return callback();
+                            } else {
+                                return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                            }
+                        },
+                        trigger: 'change'
+                    };
+                    this.mainRules.dnsDomainName = {
+                        required: true,
+                        message: this.i18ns.common.requiredErrorMsg,
+                        trigger: 'change'
+                    };
+                },
+                /**
+                 * DNS验证取消
+                 **/
+                cancelDnsValidate: function() {
+                    this.mainRules.primaryDnsServer = {}
+                    this.mainRules.dnsDomainName = {};
+                },
+                /**
+                 * LDAP验证
+                 **/
+                setLdapValidate: function() {
+                    console.log('setLdapValidate')
+                    this.mainRules.domainControllerAddress = {
+                        required: true,
+                        message: this.i18ns.common.requiredErrorMsg,
+                        trigger: 'change'
+                    }
+                    this.mainRules.userDomain = {
+                        required: true,
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (!/^([C][N][=]([^&"#',\s]+)([,][D][C][=]([^&"#',\s]+))+)$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.userDomainErrorMsg))
+                                } else {
+                                    return callback();
+                                }
+                            } else {
+                                return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                            }
+                        },
+                        trigger: 'change'
+                    };
+                },
+                /**
+                 * LDAP验证取消
+                 **/
+                cancelLdapValidate: function() {
+                    this.mainRules.domainControllerAddress = {}
+                    this.mainRules.userDomain = {};
+                },
+                /**
+                 *获取eSight列表
+                 * */
+                getEsightListData: function() {
+                    getEsightList(this.bindEsightList)
+                },
+                /**
+                 *绑定eSight列表
+                 * */
+                bindEsightList: function(ret) {
+                    setTimeout(function() {
+                        app.esightOptions = [];
+                        var data = ret.data;
+                        if (ret.code === "0") {
+                            _.forEach(ret.data, function(x) {
+                                app.esightOptions.push({
+                                    label: x.aliasName || x.hostIp,
+                                    value: x.hostIp
+                                });
+                            })
+                        } else {
+                            var msg = getErrorMsg(ret.code, ret.msg);
+                            app.alertMsg(msg);
+                        }
+
+                    }, 0);
+                },
+                /**
+                 *LDAP状态改变方法
+                 * */
+                ldapStatusChange: function() {
+                    var val = this.ldapStatus;
+                    if (val == false) {
+                        this.ldapIsDisabled = false;
+                        this.cancelLdapValidate();
+                    } else {
+                        this.ldapIsDisabled = true;
+                        this.setLdapValidate();
+                    }
+                },
+                /**
+                 *添加行方法
+                 * */
+                addRow: function() {
+                    if (app.roleGroup.length == 5) {
+                        app.$alert(app.i18ns.template.moreTableErrorMsg, app.i18ns.template.prompt, {
+                            confirmButtonText: app.i18ns.common.confirm,
+                            callback: function action() {}
+                        });
+                        return;
+                    }
+                    app.roleGroup.push({
+                        roleGroupIndex: app.roleGroup.length + 1,
+                        groupName: "",
+                        groupDomain: "",
+                        groupPrivilege: "",
+                    })
+                },
+                /**
+                 *删除行方法
+                 * */
+                deleteRow: function(index) {
+                    app.roleGroup.splice(index, 1)
+                },
+                /**
+                 *DNS状态改变方法
+                 * */
+                DNSStatusChange: function() {
+                    console.log(this.dnsSource)
+                    if (this.dnsSource == 1) {
+                        this.setDnsValidate();
+                        this.DNSIsHide = true;
+                    } else {
+                        this.cancelDnsValidate();
+                        this.DNSIsHide = false;
+                    }
+                },
+                /**
+                 *NTP状态改变
+                 * */
+                NTPStatusChange: function() {
+                    if (this.NTPStatusEnabled == false) { //禁用status
+                        this.NTPServerSourceDisabled = true;
+                        this.manualNTPIsDisabled = true;
+                        this.cancelNtpValidate();
+                    } else { //启用status
+                        this.NTPServerSourceDisabled = false;
+                        if (this.mainForm.ntpServerSource == 0) { //手动
+                            this.manualNTPIsDisabled = false;
+                            this.setNtpValidate();
+                        } else {
+                            this.cancelNtpValidate();
+                            this.manualNTPIsDisabled = true;
+                        }
+                    }
+                },
+                /**
+                 *NTP服务器源选择的方法
+                 * */
+                NTPServerSourceChange: function() {
+                    var val = app.mainForm.ntpServerSource;
+                    if (val != 0) {
+                        this.cancelNtpValidate();
+                        this.manualNTPIsDisabled = true;
+                    } else {
+                        this.manualNTPIsDisabled = false;
+                        this.setNtpValidate();
+                    }
+                },
+                templateChange: function(val) {
+                    select_templateChange(val);
+                },
+                /**
+                 *重构提交数据
+                 * */
+                createParams: function() {
+                    var ntpServerSource;
+                    var bindNtpIpProtocol;
+                    if (app.mainForm.ntpServerSource == 0) {
+                        ntpServerSource = 1; //手动
+                        bindNtpIpProtocol = '';
+                    } else if (app.mainForm.ntpServerSource == 1) {
+                        ntpServerSource = 0; //自动
+                        bindNtpIpProtocol = '1';
+                    } else {
+                        ntpServerSource = 0; //自动
+                        bindNtpIpProtocol = '2';
+                    }
+                    var data = {
+                        templateName: app.mainForm.templateName,
+                        templateType: "IBMC",
+                        templateDesc: app.mainForm.templateDesc,
+                        templateProp: {
+                            systemBootOption: app.mainForm.systemBootOption,
+                        }
+                    }
+                    if ((_.find(app.serviceChecked, function(x) {
+                            return x == 'DNS'
+                        }) == 'DNS')) {
+                        data.templateProp = _.assign(data.templateProp, {
+                            dnsConfig: {
+                                dnsSource: app.dnsSource.toString(),
+                                domainName: app.mainForm.dnsDomainName,
+                                primaryDnsServer: app.mainForm.primaryDnsServer,
+                                secondaryDnsServer: app.mainForm.secondaryDnsServer
+                            }
+                        })
+                    }
+                    if ((_.find(app.serviceChecked, function(x) {
+                            return x == 'LDAP'
+                        }) == 'LDAP')) {
+                        data.templateProp = _.assign(data.templateProp, {
+                            ldapConfig: {
+                                ldapStatus: app.ldapStatus.toString(),
+                                domainControllerAddress: app.mainForm.domainControllerAddress,
+                                userDomain: app.mainForm.userDomain,
+                                roleGroup: app.roleGroup
+                            }
+                        })
+                    }
+                    if ((_.find(app.serviceChecked, function(x) {
+                            return x == 'NTP'
+                        }) == 'NTP')) {
+                        if (app.NTPStatusEnabled == true) {
+                            data.templateProp = _.assign(data.templateProp, {
+                                ntpConfig: {
+                                    ntpStatus: app.NTPStatusEnabled.toString(),
+                                    ntpServerSource: ntpServerSource,
+                                    bindNtpIpProtocol: bindNtpIpProtocol,
+                                    primaryNtpServer: app.mainForm.primaryNtpServer,
+                                    secondaryNtpServer: app.mainForm.secondaryNtpServer
+                                }
+                            })
+                        } else if (app.NTPStatusEnabled == false) {
+                            data.templateProp = _.assign(data.templateProp, {
+                                ntpConfig: {
+                                    ntpStatus: app.NTPStatusEnabled.toString(),
+                                    ntpServerSource: "",
+                                    bindNtpIpProtocol: "",
+                                    primaryNtpServer: "",
+                                    secondaryNtpServer: ""
+                                }
+                            })
+                        }
+
+                    }
+                    if (app.serviceChecked.length == 0) {
+                        data.templateProp = _.assign(data.templateProp, {
+                            config: ""
+                        })
+                    }
+                    return {
+                        esights: app.mainForm.checkEsightList,
+                        data: data
+                    };
+                },
+                /**
+                 *提交表单
+                 * */
+                submitForm: function(formName) {
+                    this.$refs[formName].validate(function(valid) {
+                        if (valid) {
+                            if ((_.find(app.serviceChecked, function(x) {
+                                    return x == 'LDAP'
+                                }) == 'LDAP') && app.ldapStatus == true) {
+                                if (!app.roleGroup[0]["groupName"]) {
+                                    var groupNameMsg = app.i18ns.template.roleGroupErrorMsg;
+                                    return alertMsg(groupNameMsg);
+                                }
+                                if (!app.roleGroup[0]["groupDomain"] || !/^([C][N][=]([^&"#',\s]+)([,][O][U][=]([^&"#',\s]+))([,][D][C][=]([^&"#',\s]+))+)$/.test(app.roleGroup[0]["groupDomain"])) {
+                                    var groupDomainMsg = app.i18ns.template.groupDomainErrorMsg
+                                    return alertMsg(groupDomainMsg);
+                                }
+                            }
+                            app.fullscreenLoading = true;
+                            var param = app.createParams();
+                            templateManage.addiBMC(param, function(ret) {
+                                app.fullscreenLoading = false;
+                                if (ret.code === '0') {
+                                    alertMsg(app.i18ns.template.addSuccessMsg, function() {
+                                        location.href = 'list.html?s=' + Math.random();
+                                    })
+                                } else {
+                                    msg = getErrorMsg(ret.code);
+                                    alertMsg(msg);
+                                }
+                            });
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                /**
+                 *返回上级页面
+                 * */
+                resetForm: function(formName) {
+                    goBack('list.html');
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

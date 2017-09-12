@@ -151,7 +151,7 @@
                  * 
                  */
                 addTemplate: function() {
-                    window.location.href = 'addOS.html';
+                    window.location.href = 'addOS.html' + '?s=' + Math.random();
                 },
                 /**
                  * 获取eSight数据 回调函数
@@ -364,7 +364,7 @@
                                     if (document.body.clientWidth > 1000) {
                                         document.querySelector('.el-dialog').style.width = "900px";
                                     } else {
-                                        document.querySelector('.el-dialog').style.width = "780px";
+                                        document.querySelector('.el-dialog').style.width = "800px";
                                     }
                                     document.querySelector('.el-dialog__body').style.height = "666px";
                                 }, 0)

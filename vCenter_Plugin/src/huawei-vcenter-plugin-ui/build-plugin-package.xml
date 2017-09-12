@@ -1,0 +1,35 @@
+<project name="build-plugin-package" default="build" >
+   <description>
+       Creates the plugin package folder from huawei-vcenter-plugin-ui and huawei-vcenter-plugin-service:
+             vcenterpluginui
+                  plugin-package.xml
+                  /plugins
+                     huawei-vcenter-plugin-ui.war
+                     huawei-vcenter-plugin-service.jar
+
+   </description>
+
+   <property environment="env"/>
+   <property name="VSPHERE_SDK_HOME" value="${env.VSPHERE_SDK_HOME}"/>
+   <property name="BUILD_DIR" value="${basedir}/target"/>
+   <property name="SERVICE_DIR" value="${basedir}/../huawei-vcenter-plugin-service"/>
+
+   <target name="build" depends="buildUiWar, buildServiceJar, createPluginPackageDir"/>
+
+   <target name="buildUiWar">
+      <ant antfile="${basedir}/build-war.xml" dir="${basedir}" inheritAll="false"/>
+   </target>
+
+   <target name="buildServiceJar">
+      <ant antfile="${SERVICE_DIR}/build-java.xml" dir="${SERVICE_DIR}" inheritAll="false"/>
+   </target>
+
+   <target name="createPluginPackageDir">
+      <mkdir dir="${BUILD_DIR}/vcenterpluginui" />
+      <mkdir dir="${BUILD_DIR}/vcenterpluginui/plugins" />
+      <copy todir="${BUILD_DIR}/vcenterpluginui" file="plugin-package.xml"/>
+      <copy todir="${BUILD_DIR}/vcenterpluginui/plugins" file="${BUILD_DIR}/huawei-vcenter-plugin-ui.war"/>
+      <copy todir="${BUILD_DIR}/vcenterpluginui/plugins" file="${SERVICE_DIR}/target/huawei-vcenter-plugin-service.jar"/>
+   </target>
+
+</project>

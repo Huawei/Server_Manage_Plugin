@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        body {
+            min-width: 900px;
+        }
+        
+        .el-dialog {
+            min-width: 700px;
+            max-width: 800px;
+        }
+        
+        form input {
+            max-width: 217px;
+        }
+        
+        .bg-purple-dark {
+            background: #F9FAFC;
+        }
+        
+        .bg-purple {
+            float: right;
+        }
+        
+        .grid-content {
+            border-radius: 4px;
+            min-height: 36px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-form v-bind:model="mainForm" v-bind:rules="mainRules" ref="mainForm" label-width="120px" label-position="left" label-suffix=":">
+            <!--模板类型选择框-->
+            <el-form-item v-bind:label="i18ns.template.templateType">
+                <el-select v-model="mainForm.templateType" @change="templateChange">
+                    <el-option v-for="item in templateOptions" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <!--名称输入框-->
+            <el-form-item v-bind:label="i18ns.template.templateName" prop="templateName">
+                <el-input v-model="mainForm.templateName"></el-input>
+            </el-form-item>
+            <!--描述文本框-->
+            <el-form-item v-bind:label="i18ns.template.templateDesc" prop="templateDesc">
+                <el-input type="textarea" v-model="mainForm.templateDesc" style="width:400px;"></el-input>
+            </el-form-item>
+            <!--型号选择框-->
+            <el-form-item v-bind:label="i18ns.template.adapterModel" prop="adapterModel">
+                <el-select v-model="mainForm.adapterModel" :placeholder="i18ns.template.pleaseSelect" @change="adapterModelChange">
+                    <el-option v-for="item in adapterModels" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <!--槽位选择框-->
+            <el-form-item v-bind:label="i18ns.template.slot" prop="slot">
+                <el-select v-model="mainForm.slot" @change="templateChange">
+                    <el-option v-for="item in slots" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <!--eSight多选框-->
+            <el-form-item label="eSight" prop="checkEsightList">
+                <el-checkbox-group v-model="mainForm.checkEsightList">
+                    <el-checkbox v-for="item in esightOptions" :label="item.value" :key="item.value" :value="item.value">{{item.label}}</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+            <!--Port0折叠窗-->
+            <div v-show="wwpnCollapseVisible">
+                <el-row style="margin-top:3px;">
+                    <el-col v-bind:span="24">
+                        <div class="nem_component_content_title" v-on:click="classData.isPort0=!classData.isPort0">
+                            <span v-bind:class="[classData.isPort0 ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">Port0</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isPort0" style="margin-top:8px;margin-bottom:8px;">
+                    <el-button @click="port0AdvanceClick">{{i18ns.common.advanced}}</el-button>
+                </div>
+            </div>
+
+            <!--Port1折叠窗-->
+            <div v-show="wwnnCollapseVisible">
+                <el-row style="margin-top:3px;">
+                    <el-col v-bind:span="24">
+                        <div class="nem_component_content_title" v-on:click="classData.isPort1=!classData.isPort1">
+                            <span v-bind:class="[classData.isPort1 ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">Port1</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isPort1" style="margin-top:8px;">
+                    <el-button @click="port1AdvanceClick">{{i18ns.common.advanced}}</el-button>
+                </div>
+            </div>
+
+            <div style="margin-top:30px">
+                <el-button @click="submitForm('mainForm')" v-loading.fullscreen.lock="fullscreenLoading" v-bind:element-loading-text="i18ns.template.savingTips">{{i18ns.common.confirm}}</el-button>
+                <el-button @click="resetForm('mainForm')">{{i18ns.common.back}}</el-button>
+            </div>
+        </el-form>
+
+        <!--不包含WWNN选项的Advanced弹出窗口-->
+        <el-dialog v-bind:title="i18ns.template.advanced" size="small" :visible.sync="wwpnDialogVisible">
+            <el-row style="margin-top:3px;">
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title">
+                        <span class="nem_component_content_title_lbl">{{i18ns.template.SANProperties}}</span>
+                    </div>
+                </el-col>
+            </el-row>
+
+            <el-form v-bind:model="wwpn" ref="wwpn" :rules="SANBootRules" style="margin-top:8px;">
+                <el-form-item label="SANBoot" style="margin-left: 2px;">&nbsp;
+                    <el-select v-model="wwpn.SANBoot" @change="wwpnSanBootChange">
+                        <el-option v-for="item in SANBootOptions" :label="item.label" :key="item.value" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
+                <div v-show="wwpnItemsVisible">
+                    <div class="nem_component_content_title" style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
+                        <el-row>
+                            <el-col :span="8">Target WWPN</el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">Target LUN ID</el-col>
+                            <el-col :span="6" style="display:inline-block; text-align:right;">{{i18ns.template.priority}}</el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+                    </div>
+
+
+                    <div style="margin-top:10px;">
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target0TargetWWPN">
+                                    <el-input v-model="wwpn.Target0TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target0TargetLUN">
+                                    <el-input v-model="wwpn.Target0TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">0(highest priority)</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target1TargetWWPN">
+                                    <el-input v-model="wwpn.Target1TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target1TargetLUN">
+                                    <el-input v-model="wwpn.Target1TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">1</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target2TargetWWPN">
+                                    <el-input v-model="wwpn.Target2TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target2TargetLUN">
+                                    <el-input v-model="wwpn.Target2TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">2</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target3TargetWWPN">
+                                    <el-input v-model="wwpn.Target3TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target3TargetLUN">
+                                    <el-input class="middleInput" v-model="wwpn.Target3TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">3</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target4TargetWWPN">
+                                    <el-input v-model="wwpn.Target4TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target4TargetLUN">
+                                    <el-input class="middleInput" v-model="wwpn.Target4TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">4</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target5TargetWWPN">
+                                    <el-input v-model="wwpn.Target5TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target5TargetLUN">
+                                    <el-input class="middleInput" v-model="wwpn.Target5TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">5</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target6TargetWWPN">
+                                    <el-input v-model="wwpn.Target6TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target6TargetLUN">
+                                    <el-input class="middleInput" v-model="wwpn.Target6TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">6</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target7TargetWWPN">
+                                    <el-input v-model="wwpn.Target7TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content" prop="Target7TargetLUN">
+                                    <el-input class="middleInput" v-model="wwpn.Target7TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">7</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+                    </div>
+
+                </div>
+                <div style="text-align:right;">
+                    <el-button @click="wwpnSubmit('wwpn')">{{i18ns.common.confirm}}</el-button>
+                    <el-button @click="wwpnCancel">{{i18ns.common.cancel}}</el-button>
+                </div>
+            </el-form>
+        </el-dialog>
+
+        <!--包含WWNN选项的Advanced弹窗-->
+        <el-dialog v-bind:title="i18ns.template.advanced" :visible.sync="wwnnDialogVisible" size="small">
+
+            <el-row style="margin-top:3px;margin-bottom:8px;">
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title">
+                        <span class="nem_component_content_title_lbl">{{i18ns.template.SANProperties}}</span>
+                    </div>
+                </el-col>
+            </el-row>
+
+            <el-form v-bind:model="wwnn" ref="wwnn" :rules="SANBootRules">
+                <el-form-item label="SANBoot" style="margin-left: 2px;">&nbsp;
+                    <el-select v-model="wwnn.SANBoot" style="margin-bottom:8px;" @change="wwnnSanBootChange">
+                        <el-option v-for="item in SANBootOptions" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
+                <div v-show="wwnnItemsVisible">
+                    <el-row>
+                        <el-col :span="24">
+                            <div class="nem_component_content_title" style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
+                                <el-row>
+                                    <el-col :span="6">Target WWPN</el-col>
+                                    <el-col :span="1">&nbsp;</el-col>
+                                    <el-col :span="6">Target WWNN</el-col>
+                                    <el-col :span="1">&nbsp;</el-col>
+                                    <el-col :span="6">Target LUN ID</el-col>
+                                    <el-col :span="3" style="text-align:right;">{{i18ns.template.priority}}</el-col>
+                                    <el-col :span="1">&nbsp;</el-col>
+                                </el-row>
+                            </div>
+                        </el-col>
+                    </el-row>
+
+                    <div style="margin-top:10px;">
+                        <el-row>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target00TargetWWPN">
+                                    <el-input v-model="wwnn.Target00TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target00TargetWWNN">
+                                    <el-input v-model="wwnn.Target00TargetWWNN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target00TargetLUN">
+                                    <el-input v-model="wwnn.Target00TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="3">
+                                <div class="grid-content bg-purple" style="text-align:right;">0(highest priority)</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target01TargetWWPN">
+                                    <el-input v-model="wwnn.Target01TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target01TargetWWNN">
+                                    <el-input v-model="wwnn.Target01TargetWWNN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target01TargetLUN">
+                                    <el-input v-model="wwnn.Target01TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="3">
+                                <div class="grid-content bg-purple">1</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+
+                        <el-row>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target02TargetWWPN">
+                                    <el-input v-model="wwnn.Target02TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target02TargetWWNN">
+                                    <el-input v-model="wwnn.Target02TargetWWNN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target02TargetLUN">
+                                    <el-input v-model="wwnn.Target02TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="3">
+                                <div class="grid-content bg-purple">2</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+
+                        <el-row>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target03TargetWWPN">
+                                    <el-input v-model="wwnn.Target03TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target03TargetWWNN">
+                                    <el-input v-model="wwnn.Target03TargetWWNN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content" prop="Target03TargetLUN">
+                                    <el-input v-model="wwnn.Target03TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="3">
+                                <div class="grid-content bg-purple">3</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+                    </div>
+                </div>
+                <div style="text-align:right;">
+                    <el-button @click="wwnnSubmit('wwnn')">{{i18ns.common.confirm}}</el-button>
+                    <el-button @click="wwnnCancel">{{i18ns.common.cancel}}</el-button>
+                </div>
+            </el-form>
+        </el-dialog>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                i18ns: [],
+                classData: {
+                    isPort0: true,
+                    isPort1: true,
+                    openClass: 'nem_component_content_title_icon_open',
+                    closeClass: 'nem_component_content_title_icon_close'
+                },
+                templateOptions: [],
+                adapterModels: [{
+                    value: 'LPE12000',
+                    label: 'LPE12000'
+                }, {
+                    value: 'LPE12002',
+                    label: 'LPE12002'
+                }, {
+                    value: 'LPE16000',
+                    label: 'LPE16000'
+                }, {
+                    value: 'LPE16002',
+                    label: 'LPE16002'
+                }, {
+                    value: 'QLE2560',
+                    label: 'QLE2560'
+                }, {
+                    value: 'QLE2562',
+                    label: 'QLE2562'
+                }, {
+                    value: 'QLE2670',
+                    label: 'QLE2670'
+                }, {
+                    value: 'QLE2672',
+                    label: 'QLE2672'
+                }, {
+                    value: 'MZ220',
+                    label: 'MZ220'
+                }, ],
+                slots: [{
+                    value: '1',
+                    label: 'slot1'
+                }, {
+                    value: '2',
+                    label: 'slot2'
+                }, {
+                    value: '3',
+                    label: 'slot3'
+                }, {
+                    value: '4',
+                    label: 'slot4'
+                }, {
+                    value: '5',
+                    label: 'slot5'
+                }, {
+                    value: '6',
+                    label: 'slot6'
+                }, {
+                    value: '7',
+                    label: 'slot7'
+                }, {
+                    value: '8',
+                    label: 'slot8'
+                }, ],
+                esightOptions: [],
+                activeNames: ['1', '2'],
+
+                Port0: {},
+                Port1: {},
+
+                wwpnCollapseVisible: false,
+                wwnnCollapseVisible: false,
+
+                wwpnDialogVisible: false,
+                wwnnDialogVisible: false,
+
+                wwpnItemsVisible: true,
+                wwnnItemsVisible: true,
+
+                IsPort0Dialog: false,
+
+                SANBootOptions: [],
+                //由于element UI不支持多级验证，所以把Target0下的数据结构重新构建
+                "wwpn": {
+                    "SANBoot": "Enabled",
+                    "Target0TargetWWPN": "",
+                    "Target0TargetLUN": "",
+                    "Target1TargetWWPN": "",
+                    "Target1TargetLUN": "",
+                    "Target2TargetWWPN": "",
+                    "Target2TargetLUN": "",
+                    "Target3TargetWWPN": "",
+                    "Target3TargetLUN": "",
+                    "Target4TargetWWPN": "",
+                    "Target4TargetLUN": "",
+                    "Target5TargetWWPN": "",
+                    "Target5TargetLUN": "",
+                    "Target6TargetWWPN": "",
+                    "Target6TargetLUN": "",
+                    "Target7TargetWWPN": "",
+                    "Target7TargetLUN": ""
+                },
+                "wwnn": {
+                    "SANBoot": "Enabled",
+                    "Target00TargetWWPN": "",
+                    "Target00TargetWWNN": "",
+                    "Target00TargetLUN": "",
+                    "Target01TargetWWPN": "",
+                    "Target01TargetWWNN": "",
+                    "Target01TargetLUN": "",
+                    "Target02TargetWWPN": "",
+                    "Target02TargetWWNN": "",
+                    "Target02TargetLUN": "",
+                    "Target03TargetWWPN": "",
+                    "Target03TargetWWNN": "",
+                    "Target03TargetLUN": "",
+
+                },
+                fullscreenLoading: false,
+                mainForm: {
+                    templateType: 'HBA',
+                    templateName: '',
+                    templateDesc: '',
+                    slot: '1',
+                    adapterModel: '',
+                    checkEsightList: [],
+                },
+                formLabelWidth: '120px',
+                //HBA主页面验证规则
+                mainRules: {
+                    templateDesc: {
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (/[\u4E00-\u9FA5\uF900-\uFA2D]/.test(value)) {
+                                    callback(new Error(app.i18ns.template.templateDescErrorMsg));
+                                } else if (value.length > 128) {
+                                    callback(new Error(app.i18ns.template.templateDescErrorMsg));
+                                } else {
+                                    callback();
+                                }
+                            } else {
+                                callback();
+                            }
+                        },
+                        trigger: 'change'
+                    },
+                    checkEsightList: {
+                        type: 'array',
+                        required: true,
+                        message: '必填项',
+                        trigger: 'change'
+                    },
+                    adapterModel: [{
+                        required: true,
+                        message: '必须选择模式',
+                        trigger: 'change'
+                    }],
+                    templateName: {
+                        required: true,
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (!/^[a-zA-Z0-9_\-\u4e00-\u9fa5]{6,32}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.templateNameErrorMsg));
+                                } else
+                                    return callback();
+                            } else {
+                                return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                            }
+                        },
+                        trigger: 'change'
+                    },
+                },
+                SANBootRules: {
+                    //wwpn弹出窗口各个输入框的验证
+                    Target0TargetWWPN: {},
+                    Target0TargetLUN: {},
+                    Target1TargetWWPN: {},
+                    Target1TargetLUN: {},
+                    Target2TargetWWPN: {},
+                    Target2TargetLUN: {},
+                    Target3TargetWWPN: {},
+                    Target3TargetLUN: {},
+                    Target4TargetWWPN: {},
+                    Target4TargetLUN: {},
+                    Target5TargetWWPN: {},
+                    Target5TargetLUN: {},
+                    Target6TargetWWPN: {},
+                    Target6TargetLUN: {},
+                    Target7TargetWWPN: {},
+                    Target7TargetLUN: {},
+                    //wwnn弹出窗口各个输入框的验证
+                    Target00TargetWWPN: {},
+                    Target00TargetWWNN: {},
+                    Target00TargetLUN: {},
+                    Target01TargetWWPN: {},
+                    Target01TargetWWNN: {},
+                    Target01TargetLUN: {},
+                    Target02TargetWWPN: {},
+                    Target02TargetWWNN: {},
+                    Target02TargetLUN: {},
+                    Target03TargetWWPN: {},
+                    Target03TargetWWNN: {},
+                    Target03TargetLUN: {}
+                }
+            },
+            created: function() {
+                this.i18ns = getIn18();
+                this.templateOptions = getTemplateType();
+                this.SANBootOptions = getForbiddenType();
+                this.mainRules.checkEsightList.message = this.i18ns.common.requiredErrorMsg;
+                this.mainRules.adapterModel.message = this.i18ns.template.adapterModelErrorMsg;
+
+                //wwpn输入框的验证规则
+                var wwpnRule = {
+                    validator: function(rule, value, callback) {
+                        var lunName = rule.field.replace("TargetWWPN", "TargetLUN");
+                        if (app.wwpn[lunName]) {
+                            if (value) {
+                                if (!/^[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.wwpnErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+                            return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                        } else {
+                            if (value) {
+                                if (!/^[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.wwpnErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+                        }
+                        return callback();
+                    },
+                    trigger: 'change'
+                };
+                //LUN输入框的验证规则
+                var lunRule = {
+                    validator: function(rule, value, callback) {
+                        var wwpnName = rule.field.replace("TargetLUN", "TargetWWPN");
+                        if (app.wwpn[wwpnName]) {
+                            if (value) {
+                                if (!/^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.lunErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+                            return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                        } else {
+                            if (value) {
+                                if (!/^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.lunErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            } else {
+                                return callback();
+
+                            }
+
+                        }
+                        return callback();
+                    },
+                    trigger: 'change'
+                };
+                //wwnn输入框的验证规则
+                var wwnnRule = {
+                    validator: function(rule, value, callback) {
+                        var name = rule.field.replace("TargetWWNN", "TargetLUN");
+                        var name2 = rule.field.replace("TargetWWNN", "TargetWWPN");
+                        if (app.wwnn[name]) {
+                            if (value) {
+                                if (!/^[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.wwpnErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+                            return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                        } else if (app.wwnn[name2]) {
+
+                            if (value) {
+                                if (!/^[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.wwpnErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+                            return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                        } else {
+                            if (value) {
+                                if (!/^[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.wwpnErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+                        }
+                        return callback();
+                    },
+                    trigger: 'change'
+                };
+                //wwnn下的lun验证规则
+                var lunRule2 = {
+                    validator: function(rule, value, callback) {
+                        var name = rule.field.replace("TargetLUN", "TargetWWPN");
+                        var name2 = rule.field.replace("TargetLUN", "TargetWWNN");
+                        if (app.wwnn[name]) {
+                            if (value) {
+                                if (!/^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.lunErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+                            return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                        } else if (app.wwnn[name2]) {
+                            if (value) {
+                                if (!/^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.lunErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+                            return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                        } else {
+                            if (value) {
+                                if (!/^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.lunErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+
+                        }
+                        return callback();
+                    },
+                    trigger: 'change'
+                };
+                //wwnn下的wwpn验证
+                var wwpnRule2 = {
+                    validator: function(rule, value, callback) {
+                        var lunName = rule.field.replace("TargetWWPN", "TargetLUN");
+                        var wwnnName = rule.field.replace("TargetWWPN", "TargetWWNN");
+                        if (app.wwnn[lunName]) {
+                            if (value) {
+                                if (!/^([A-F0-9]{2}|\d\d):([A-F0-9]{2}|\d\d):([A-F0-9]{2}|\d\d):([A-F0-9]{2}|\d\d):([A-F0-9]{2}|\d\d):([A-F0-9]{2}|\d\d):[A-F0-9]{2}:[A-F0-9]{2}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.wwpnErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+                            return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                        } else if (app.wwnn[wwnnName]) {
+                            if (value) {
+                                if (!/^[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.wwpnErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+                            return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                        } else {
+                            if (value) {
+                                if (!/^[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.wwpnErrorMsg));
+                                } else {
+                                    return callback();
+                                }
+                            }
+                        }
+                        return callback();
+                    },
+                    trigger: 'change'
+                };
+                this.SANBootRules = {
+                    //wwpn弹出窗口各个输入框的验证
+                    Target0TargetWWPN: wwpnRule,
+                    Target0TargetLUN: lunRule,
+                    Target1TargetWWPN: wwpnRule,
+                    Target1TargetLUN: lunRule,
+                    Target2TargetWWPN: wwpnRule,
+                    Target2TargetLUN: lunRule,
+                    Target3TargetWWPN: wwpnRule,
+                    Target3TargetLUN: lunRule,
+                    Target4TargetWWPN: wwpnRule,
+                    Target4TargetLUN: lunRule,
+                    Target5TargetWWPN: wwpnRule,
+                    Target5TargetLUN: lunRule,
+                    Target6TargetWWPN: wwpnRule,
+                    Target6TargetLUN: lunRule,
+                    Target7TargetWWPN: wwpnRule,
+                    Target7TargetLUN: lunRule,
+                    //wwnn弹出窗口各个输入框的验证
+                    Target00TargetWWPN: wwpnRule2,
+                    Target00TargetWWNN: wwnnRule,
+                    Target00TargetLUN: lunRule2,
+                    Target01TargetWWPN: wwpnRule2,
+                    Target01TargetWWNN: wwnnRule,
+                    Target01TargetLUN: lunRule2,
+                    Target02TargetWWPN: wwpnRule2,
+                    Target02TargetWWNN: wwnnRule,
+                    Target02TargetLUN: lunRule2,
+                    Target03TargetWWPN: wwpnRule2,
+                    Target03TargetWWNN: wwnnRule,
+                    Target03TargetLUN: lunRule2
+                }
+            },
+            mounted: function() {
+                this.getEsightListData();
+            },
+            methods: {
+                //没有wwnn选项的Advanced窗口退出方法，退出后所有内容清空
+                wwpnCancel: function() {
+                    this.wwpnDialogVisible = false;
+                    this.wwpn.Target0TargetWWPN = '';
+                    this.wwpn.Target1TargetWWPN = '';
+                    this.wwpn.Target2TargetWWPN = '';
+                    this.wwpn.Target3TargetWWPN = '';
+                    this.wwpn.Target4TargetWWPN = '';
+                    this.wwpn.Target5TargetWWPN = '';
+                    this.wwpn.Target6TargetWWPN = '';
+                    this.wwpn.Target7TargetWWPN = '';
+                    this.wwpn.Target0TargetLUN = '';
+                    this.wwpn.Target1TargetLUN = '';
+                    this.wwpn.Target2TargetLUN = '';
+                    this.wwpn.Target3TargetLUN = '';
+                    this.wwpn.Target4TargetLUN = '';
+                    this.wwpn.Target5TargetLUN = '';
+                    this.wwpn.Target6TargetLUN = '';
+                    this.wwpn.Target7TargetLUN = '';
+                    this.wwpn.SANBoot = 'Enabled';
+                },
+                //包含wwnn选项的Advanced窗口退出方法，退出后所有内容清空
+                wwnnCancel: function() {
+                    this.wwnnDialogVisible = false;
+                    this.wwnn.Target00TargetWWPN = '';
+                    this.wwnn.Target01TargetWWPN = '';
+                    this.wwnn.Target02TargetWWPN = '';
+                    this.wwnn.Target03TargetWWPN = '';
+                    this.wwnn.Target00TargetWWNN = '';
+                    this.wwnn.Target01TargetWWNN = '';
+                    this.wwnn.Target02TargetWWNN = '';
+                    this.wwnn.Target03TargetWWNN = '';
+                    this.wwnn.Target00TargetLUN = '';
+                    this.wwnn.Target01TargetLUN = '';
+                    this.wwnn.Target02TargetLUN = '';
+                    this.wwnn.Target03TargetLUN = '';
+                    this.wwnn.SANBoot = 'Enabled'
+                },
+                //不包含wwnn选项的窗口内容提交
+                wwpnSubmit: function(formName) {
+                    this.$refs[formName].validate(function(valid) {
+                        if (valid) {
+                            //如果this.wwpn.Target0TargetWWPN不为空，就重新构建Target数据
+                            var tempObj = {
+                                SANBoot: app.wwpn.SANBoot
+                            }
+                            if (app.wwpn.Target0TargetWWPN && app.wwpn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target0: {
+                                        TargetWWPN: app.wwpn.Target0TargetWWPN,
+                                        TargetLUN: app.wwpn.Target0TargetLUN
+                                    }
+                                })
+                            }
+
+                            if (app.wwpn.Target1TargetWWPN && app.wwpn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target1: {
+                                        TargetWWPN: app.wwpn.Target1TargetWWPN,
+                                        TargetLUN: app.wwpn.Target1TargetLUN
+                                    }
+                                })
+                            }
+                            if (app.wwpn.Target2TargetWWPN && app.wwpn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target2: {
+                                        TargetWWPN: app.wwpn.Target2TargetWWPN,
+                                        TargetLUN: app.wwpn.Target2TargetLUN
+                                    }
+                                })
+                            }
+                            if (app.wwpn.Target3TargetWWPN && app.wwpn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target3: {
+                                        TargetWWPN: app.wwpn.Target3TargetWWPN,
+                                        TargetLUN: app.wwpn.Target3TargetLUN
+                                    }
+                                })
+                            }
+                            if (app.wwpn.Target4TargetWWPN && app.wwpn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target4: {
+                                        TargetWWPN: app.wwpn.Target4TargetWWPN,
+                                        TargetLUN: app.wwpn.Target4TargetLUN
+                                    }
+                                })
+                            }
+                            if (app.wwpn.Target5TargetWWPN && app.wwpn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target5: {
+                                        TargetWWPN: app.wwpn.Target5TargetWWPN,
+                                        TargetLUN: app.wwpn.Target5TargetLUN
+                                    }
+                                })
+                            }
+                            if (app.wwpn.Target6TargetWWPN && app.wwpn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target6: {
+                                        TargetWWPN: app.wwpn.Target6TargetWWPN,
+                                        TargetLUN: app.wwpn.Target6TargetLUN
+                                    }
+                                })
+                            }
+                            if (app.wwpn.Target7TargetWWPN && app.wwpn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target7: {
+                                        TargetWWPN: app.wwpn.Target7TargetWWPN,
+                                        TargetLUN: app.wwpn.Target7TargetLUN
+                                    }
+                                })
+                            }
+                            console.log(tempObj);
+                            if (app.IsPort0Dialog) {
+                                app.Port0 = tempObj;
+                            } else {
+                                app.Port1 = tempObj;
+                            }
+                            app.wwpnDialogVisible = false;
+                            app.$refs["wwpn"].resetFields();
+                            //如果当前窗口的SANBoot选项为“Disabled”，清空当前窗口内容
+                        } else if (app.wwpn.SANBoot == "Disabled") {
+                            app.wwpn.Target0TargetWWPN = ''
+                            app.wwpn.Target1TargetWWPN = ''
+                            app.wwpn.Target2TargetWWPN = ''
+                            app.wwpn.Target3TargetWWPN = ''
+                            app.wwpn.Target4TargetWWPN = ''
+                            app.wwpn.Target5TargetWWPN = ''
+                            app.wwpn.Target6TargetWWPN = ''
+                            app.wwpn.Target7TargetWWPN = ''
+
+
+                            app.wwpn.Target0TargetLUN = ''
+                            app.wwpn.Target1TargetLUN = ''
+                            app.wwpn.Target2TargetLUN = ''
+                            app.wwpn.Target3TargetLUN = ''
+                            app.wwpn.Target4TargetLUN = ''
+                            app.wwpn.Target5TargetLUN = ''
+                            app.wwpn.Target6TargetLUN = ''
+                            app.wwpn.Target7TargetLUN = ''
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+
+                },
+                //包含wwnn选项的窗口内容提交
+                wwnnSubmit: function(formName) {
+                    this.$refs[formName].validate(function(valid) {
+                        if (valid) {
+                            var tempObj = {
+                                    SANBoot: app.wwnn.SANBoot
+                                }
+                                //如果输入框不为空并且SANBoot选项值为"Enabled"，重新构建Target0数据
+                            if (app.wwnn.Target00TargetWWPN && app.wwnn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target0: {
+                                        TargetWWPN: app.wwnn.Target00TargetWWPN,
+                                        TargetWWNN: app.wwnn.Target00TargetWWNN,
+                                        TargetLUN: app.wwnn.Target00TargetLUN
+                                    }
+                                })
+                            }
+                            if (app.wwnn.Target01TargetWWPN && app.wwnn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target1: {
+                                        TargetWWPN: app.wwnn.Target01TargetWWPN,
+                                        TargetWWNN: app.wwnn.Target01TargetWWNN,
+                                        TargetLUN: app.wwnn.Target01TargetLUN
+                                    }
+                                })
+                            }
+                            if (app.wwnn.Target02TargetWWPN && app.wwnn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target2: {
+                                        TargetWWPN: app.wwnn.Target02TargetWWPN,
+                                        TargetWWNN: app.wwnn.Target02TargetWWNN,
+                                        TargetLUN: app.wwnn.Target02TargetLUN
+                                    }
+                                })
+                            };
+                            if (app.wwnn.Target03TargetWWPN && app.wwnn.SANBoot == "Enabled") {
+                                tempObj = _.assign(tempObj, {
+                                    Target3: {
+                                        TargetWWPN: app.wwnn.Target03TargetWWPN,
+                                        TargetWWNN: app.wwnn.Target03TargetWWNN,
+                                        TargetLUN: app.wwnn.Target03TargetLUN
+                                    }
+                                })
+                            };
+                            console.log(tempObj);
+                            if (app.IsPort0Dialog) {
+                                app.Port0 = tempObj;
+                            } else {
+                                app.Port1 = tempObj;
+                            }
+                            app.wwnnDialogVisible = false;
+                            app.$refs["wwnn"].resetFields();
+                            //如果当前窗口SANBoot值为"Disabled"，清空窗口内容
+                        } else if (app.wwnn.SANBoot == "Disabled") {
+                            app.wwnn.Target00TargetWWPN = '';
+                            app.wwnn.Target01TargetWWPN = '';
+                            app.wwnn.Target02TargetWWPN = '';
+                            app.wwnn.Target03TargetWWPN = '';
+                            app.wwnn.Target00TargetWWNN = '';
+                            app.wwnn.Target01TargetWWNN = '';
+                            app.wwnn.Target02TargetWWNN = '';
+                            app.wwnn.Target03TargetWWNN = '';
+                            app.wwnn.Target00TargetLUN = '';
+                            app.wwnn.Target01TargetLUN = '';
+                            app.wwnn.Target02TargetLUN = '';
+                            app.wwnn.Target03TargetLUN = '';
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+
+                },
+                //不包含wwnn的高级窗口SANBoot值的赋值方法
+                wwpnSanBootChange: function(val) {
+                    app.wwpn.SANBoot = val;
+                    app.wwpnItemsVisible = val == 'Enabled';
+                },
+                //包含wwnn的高级窗口SANBoot值的赋值方法
+                wwnnSanBootChange: function(val) {
+                    app.wwnn.SANBoot = val;
+                    app.wwnnItemsVisible = val == 'Enabled';
+                },
+                //获取eSight列表
+                getEsightListData: function() {
+                    getEsightList(this.bindEsightList)
+                },
+                //绑定eSight列表
+                bindEsightList: function(ret) {
+                    console.log(app);
+                    setTimeout(function() {
+                        app.esightOptions = [];
+                        var data = ret.data;
+                        if (ret.code === "0") {
+                            _.forEach(ret.data, function(x) {
+                                app.esightOptions.push({
+                                    label: x.aliasName || x.hostIp,
+                                    value: x.hostIp
+                                });
+                            })
+                            app.mainForm.checkEsightList.push(getCurrentEsight());
+                        } else {
+                            var msg = getErrorMsg(ret.code, ret.msg);
+                            this.alertMsg(msg);
+                        }
+                    }, 0);
+                    this.loading = false;
+                },
+                templateChange: function(val) {
+                    select_templateChange(val);
+                },
+                //根据选择的型号判断Port1选项是否显示
+                adapterModelChange: function(val) {
+                    this.Port0 = {};
+                    this.Port1 = {};
+                    if (val === "LPE12000" || val === "LPE16000" || val === "QLE2560" || val == "QLE2670") {
+                        app.wwpnCollapseVisible = true;
+                        app.wwnnCollapseVisible = false;
+                    } else {
+                        app.wwpnCollapseVisible = true;
+                        app.wwnnCollapseVisible = true;
+                    }
+                },
+
+                setWwpnValues: function(data) {
+                    this.wwpn.Target0TargetWWPN = ''
+                    this.wwpn.Target1TargetWWPN = ''
+                    this.wwpn.Target2TargetWWPN = ''
+                    this.wwpn.Target3TargetWWPN = ''
+                    this.wwpn.Target4TargetWWPN = ''
+                    this.wwpn.Target5TargetWWPN = ''
+                    this.wwpn.Target6TargetWWPN = ''
+                    this.wwpn.Target7TargetWWPN = ''
+
+
+                    this.wwpn.Target0TargetLUN = ''
+                    this.wwpn.Target1TargetLUN = ''
+                    this.wwpn.Target2TargetLUN = ''
+                    this.wwpn.Target3TargetLUN = ''
+                    this.wwpn.Target4TargetLUN = ''
+                    this.wwpn.Target5TargetLUN = ''
+                    this.wwpn.Target6TargetLUN = ''
+                    this.wwpn.Target7TargetLUN = ''
+                    this.wwpn.SANBoot = 'Enabled'
+                    data.SANBoot && (this.wwpn.SANBoot = data.SANBoot);
+
+                    data.Target0 && (this.wwpn.Target0TargetWWPN = data.Target0.TargetWWPN);
+                    data.Target1 && (this.wwpn.Target1TargetWWPN = data.Target1.TargetWWPN);
+                    data.Target2 && (this.wwpn.Target2TargetWWPN = data.Target2.TargetWWPN);
+                    data.Target3 && (this.wwpn.Target3TargetWWPN = data.Target3.TargetWWPN);
+                    data.Target4 && (this.wwpn.Target4TargetWWPN = data.Target4.TargetWWPN);
+                    data.Target5 && (this.wwpn.Target5TargetWWPN = data.Target5.TargetWWPN);
+                    data.Target6 && (this.wwpn.Target6TargetWWPN = data.Target6.TargetWWPN);
+                    data.Target7 && (this.wwpn.Target7TargetWWPN = data.Target7.TargetWWPN);
+
+                    data.Target0 && (this.wwpn.Target0TargetLUN = data.Target0.TargetLUN);
+                    data.Target1 && (this.wwpn.Target1TargetLUN = data.Target1.TargetLUN);
+                    data.Target2 && (this.wwpn.Target2TargetLUN = data.Target2.TargetLUN);
+                    data.Target3 && (this.wwpn.Target3TargetLUN = data.Target3.TargetLUN);
+                    data.Target4 && (this.wwpn.Target4TargetLUN = data.Target4.TargetLUN);
+                    data.Target5 && (this.wwpn.Target5TargetLUN = data.Target5.TargetLUN);
+                    data.Target6 && (this.wwpn.Target6TargetLUN = data.Target6.TargetLUN);
+                    data.Target7 && (this.wwpn.Target7TargetLUN = data.Target7.TargetLUN);
+                },
+                setWwnnValues: function(data) {
+                    this.wwnn.Target00TargetWWPN = '';
+                    this.wwnn.Target01TargetWWPN = '';
+                    this.wwnn.Target02TargetWWPN = '';
+                    this.wwnn.Target03TargetWWPN = '';
+                    this.wwnn.Target00TargetWWNN = '';
+                    this.wwnn.Target01TargetWWNN = '';
+                    this.wwnn.Target02TargetWWNN = '';
+                    this.wwnn.Target03TargetWWNN = '';
+                    this.wwnn.Target00TargetLUN = '';
+                    this.wwnn.Target01TargetLUN = '';
+                    this.wwnn.Target02TargetLUN = '';
+                    this.wwnn.Target03TargetLUN = '';
+                    this.wwnn.SANBoot = 'Enabled'
+
+                    data.SANBoot && (this.wwnn.SANBoot = data.SANBoot);
+
+                    data.Target0 && (this.wwnn.Target00TargetWWPN = data.Target0.TargetWWPN);
+                    data.Target1 && (this.wwnn.Target01TargetWWPN = data.Target1.TargetWWPN);
+                    data.Target2 && (this.wwnn.Target02TargetWWPN = data.Target2.TargetWWPN);
+                    data.Target3 && (this.wwnn.Target03TargetWWPN = data.Target3.TargetWWPN);
+
+                    data.Target0 && (this.wwnn.Target00TargetWWNN = data.Target0.TargetWWNN);
+                    data.Target1 && (this.wwnn.Target01TargetWWNN = data.Target1.TargetWWNN);
+                    data.Target2 && (this.wwnn.Target02TargetWWNN = data.Target2.TargetWWNN);
+                    data.Target3 && (this.wwnn.Target03TargetWWNN = data.Target3.TargetWWNN);
+
+                    data.Target0 && (this.wwnn.Target00TargetLUN = data.Target0.TargetLUN);
+                    data.Target1 && (this.wwnn.Target01TargetLUN = data.Target1.TargetLUN);
+                    data.Target2 && (this.wwnn.Target02TargetLUN = data.Target2.TargetLUN);
+                    data.Target3 && (this.wwnn.Target03TargetLUN = data.Target2.TargetLUN);
+                },
+                //Port0的高级按钮点击事件，根据型号给弹窗内容重新赋值
+                port0AdvanceClick: function() {
+                    this.IsPort0Dialog = true;
+                    var val = this.mainForm.adapterModel;
+                    if (val === "QLE2560" || val === "QLE2562" || val === "QLE2670" || val === "QLE2672") {
+                        this.setWwnnValues(this.Port0);
+                        this.wwnnDialogVisible = true;
+                    } else {
+                        this.setWwpnValues(this.Port0);
+                        this.wwpnDialogVisible = true;
+                    }
+                },
+                //Port1的高级按钮点击事件，根据型号给弹窗内容重新赋值
+                port1AdvanceClick: function() {
+                    this.IsPort0Dialog = false;
+                    var val = this.mainForm.adapterModel;
+                    if (val === "QLE2560" || val === "QLE2562" || val === "QLE2670" || val === "QLE2672") {
+                        this.setWwnnValues(this.Port1);
+                        this.wwnnDialogVisible = true;
+                    } else {
+                        this.setWwpnValues(this.Port1);
+                        this.wwpnDialogVisible = true;
+                    }
+                },
+                //为提交重新构建参数
+                createParams: function() {
+                    if (!this.Port0.SANBoot) {
+                        this.Port0.SANBoot = "Enabled";
+                    }
+                    if (!this.Port1.SANBoot) {
+                        this.Port1.SANBoot = "Enabled";
+                    }
+                    var data = {
+                        templateName: app.mainForm.templateName,
+                        templateType: "HBA",
+                        templateDesc: app.mainForm.templateDesc,
+                        templateProp: {
+                            adapterModel: app.mainForm.adapterModel,
+                            slot: app.mainForm.slot,
+                            Port0: this.Port0,
+                        }
+                    }
+                    if (data.templateProp.adapterModel != "LPE12000" && data.templateProp.adapterModel != "LPE16000" && data.templateProp.adapterModel != "QLE2560" && data.adapterModel != "QLE2670") {
+                        _.assign(data.templateProp, {
+                            Port1: this.Port1
+                        });
+                    }
+                    return {
+                        esights: this.mainForm.checkEsightList,
+                        data: data
+                    };
+                },
+                //提交内容的方法
+                submitForm: function(formName) {
+                    this.$refs[formName].validate(function(valid) {
+                        if (valid) {
+                            app.fullscreenLoading = true;
+                            var param = app.createParams();
+                            console.log(param);
+                            templateManage.addHBA(param, function(ret) {
+                                app.fullscreenLoading = false;
+                                if (ret.code === '0') {
+                                    app.alertMsg(app.i18ns.template.addSuccessMsg, function() {
+                                        location.href = 'list.html?s=' + Math.random();
+                                    })
+                                } else {
+                                    msg = getErrorMsg(ret.code);
+                                    app.alertMsg(msg);
+                                }
+                            });
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                //返回按钮的方法
+                resetForm: function(formName) {
+                    //this.$refs[formName].resetFields();
+                    this.$confirm(app.i18ns.common.beBackTips, app.i18ns.common.prompt, {
+                        confirmButtonText: app.i18ns.common.confirm,
+                        cancelButtonText: app.i18ns.common.cancel,
+                        closeOnClickModal: false,
+                        type: 'warning'
+                    }).then(function() {
+                        window.location.href = 'list.html';
+
+                    }).catch(function() {});
+                },
+                alertMsg: function(msg, callback) {
+                    this.$alert(msg, this.i18ns.common.prompt, {
+                        confirmButtonText: this.i18ns.common.confirm,
+                        callback: function action() {
+                            callback && callback()
+                        }
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

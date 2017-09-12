@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        body {
+            min-width: 700px;
+        }
+        
+        form input {
+            max-width: 217px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <template>
+            <el-form label-position="left" label-width="120px" label-suffix=":">
+                <el-form-item v-bind:label="i18ns.template.templateType">
+                    <el-select v-model="templateValue" @change="templateChange">
+                        <el-option v-for="item in options" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+        </template>
+        <template>
+            <el-form v-bind:model="ruleForm" v-bind:rules="rules" ref="ruleForm" label-width="120px" label-position="left" label-suffix=":">
+                <el-form-item v-bind:label="i18ns.template.templateName" prop="name">
+                    <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.template.templateDesc" prop="desc">
+                    <el-input type="textarea" v-model="ruleForm.desc"  style="max-width:400px;"></el-input>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.template.powerControl">
+                    <el-radio class="radio" v-model="ruleForm.policy" label="0">{{i18ns.template.powerOn}}</el-radio>
+                    <el-radio class="radio" v-model="ruleForm.policy" label="1">{{i18ns.template.powerOff}}</el-radio>
+                    <el-radio class="radio" v-model="ruleForm.policy" label="2">{{i18ns.template.restart}}</el-radio>
+                </el-form-item>
+                <el-form-item label="eSight" prop="esight">
+                    <el-checkbox-group v-model="ruleForm.esight">
+                        <el-checkbox v-for="item in esightList" v-bind:label="item.name" v-bind:key="item.name" name="esight">{{item.label}}</el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+            </el-form>
+            <div style="margin-left:10px; margin-top:20px;">
+                <el-button @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading"  v-bind:element-loading-text="i18ns.template.savingTips">{{i18ns.common.confirm}}</el-button>
+                <el-button @click="resetForm('ruleForm')">{{i18ns.common.back}}</el-button>
+            </div>
+        </template>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                i18ns: [],
+                options: [],
+                templateValue: 'POWER',
+                esightList: [],
+                fullscreenLoading: false,
+                ruleForm: {
+                    esight: [],
+                    name: '',
+                    desc: '',
+                    policy: '0'
+
+                },
+                rules: {
+                    name: {
+                        required: true,
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (!/^[a-zA-Z0-9_\-\u4e00-\u9fa5]{6,32}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.template.templateNameErrorMsg));
+                                } else
+                                    return callback();
+                            } else {
+                                return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                            }
+                        },
+                        trigger: 'change'
+                    },
+                    desc: {
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (/[\u4E00-\u9FA5\uF900-\uFA2D]/.test(value)) {
+                                    callback(new Error(app.i18ns.template.templateDescErrorMsg));
+                                } else if (value.length > 128) {
+                                    callback(new Error(app.i18ns.template.templateDescErrorMsg));
+                                } else {
+                                    callback();
+                                }
+                            } else {
+                                callback();
+                            }
+                        },
+                        trigger: 'change'
+                    },
+                    esight: {
+                        type: 'array',
+                        required: true,
+                        message: '必填项',
+                        trigger: 'change'
+                    }
+                }
+            },
+            created: function() {
+                this.i18ns = getIn18();
+                this.ruleForm.esight.push(getCurrentEsight());
+                this.rules.esight.message = this.i18ns.common.requiredErrorMsg;
+                this.options = getTemplateType();
+                var that = this;
+                //获取eSight列表
+                getEsightList(function(ret) {
+                    if (ret.code === '0') {
+                        var data = ret.data;
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].aliasName) {
+                                that.esightList.push({
+                                    label: data[i].aliasName,
+                                    name: data[i].hostIp
+                                });
+                            } else {
+                                that.esightList.push({
+                                    label: data[i].hostIp,
+                                    name: data[i].hostIp
+                                });
+                            }
+                        }
+                    }
+                });
+            },
+            methods: {
+                /**
+                 * 模板类型切换
+                 * 
+                 * @param {any} val 
+                 */
+                templateChange: function(val) {
+                    select_templateChange(val);
+                },
+                /**
+                 * 完成必填项数据 提交操作
+                 * 
+                 * @param {any} formName 
+                 */
+                submitForm: function(formName) {
+                    this.$refs[formName].validate(function(valid) {
+                        if (valid) {
+                            app.fullscreenLoading = true;
+                            templateManage.addOnePower({
+                                esights: app.ruleForm.esight,
+                                templateName: app.ruleForm.name,
+                                templateType: "POWER",
+                                templateDesc: app.ruleForm.desc,
+                                powerPolicy: app.ruleForm.policy
+                            }, function(ret) {
+                                app.fullscreenLoading = false;
+                                if (ret.code === '0') {
+                                    app.alertMsg(app.i18ns.template.addSuccessMsg, function() {
+                                        window.location.href = 'list.html?s=' + Math.random();
+                                    })
+                                } else {
+                                    msg = getErrorMsg(ret.code);
+                                    app.alertMsg(msg);
+                                }
+
+                            });
+
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                /**
+                 * 返回模板列表
+                 * 
+                 * @param {any} formName 
+                 */
+                resetForm: function(formName) {
+                    goBack('list.html');
+                },
+                /**
+                 * 消息提醒 弹出框
+                 * 
+                 * @param {any} msg 
+                 * @param {any} callback 
+                 */
+                alertMsg: function(msg, callback) {
+                    this.$alert(msg, this.i18ns.common.prompt, {
+                        confirmButtonText: this.i18ns.common.confirm,
+                        callback: function() {
+                            callback && callback()
+                        }
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -97,7 +97,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers.Tests
             _esSession.Open();
             string basepackageName = "test1";
             DeployTask deployTask = new DeployTask();
-            deployTask.DeviceDn = "NE=123;NE=1234";
+            deployTask.DeviceDn = "NE=123;NE=1234;NE=34603357;NE=34603313";
             deployTask.Templates = "template1,poweron1";
             var newSource = new { deployTaskName = basepackageName, deviceDn = deployTask.DeviceDn, templates = deployTask.Templates };
             WebOneESightParam<dynamic> postParam = new WebOneESightParam<dynamic>();

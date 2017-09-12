@@ -193,14 +193,13 @@
             <h4>{{i18ns.deviceInfo.onlineDeviceStatus}}</h4>
             <el-row>
                 <!--CPU饼状图-->
-                <el-col v-bind:span="3">
-                    <div style="height: 120px; width: 120px;margin-top: 15px;" v-show="isShowCpu">
+                <el-col v-bind:span="4">
+                    <div style="height: 120px; width: 120px;margin-top: 15px; float: right;" v-show="isShowCpu">
                         <canvas id="Cpu" width="120" height="120"></canvas>
                     </div>
                     <div style="margin-top: 80px; text-align: center" v-show="!isShowCpu">{{i18ns.deviceInfo.NoRecord}}</div>
                 </el-col>
-                <el-col v-bind:span="1"></el-col>
-                <el-col v-bind:span="3">
+                <el-col v-bind:span="4">
                     <div style="display:flex;align-items:center;margin-top:20px;margin-left:40px">
                         <div class="whiteClass"></div>
                         <span style="line-height: 10px;padding-left: 10px;padding-bottom:20px">{{i18ns.deviceInfo.cpu}}</span>
@@ -224,15 +223,15 @@
                         <span style="line-height: 10px;padding-left: 10px">{{i18ns.deviceInfo.unknown}}</span>
                     </div>
                 </el-col>
+
                 <!--内存饼状图-->
-                <el-col v-bind:span="3">
-                    <div style="height: 120px; width: 120px;margin-top: 15px;" v-show="isShowMemory">
+                <el-col v-bind:span="4">
+                    <div style="height: 120px; width: 120px;margin-top: 15px;;float:right;" v-show="isShowMemory">
                         <canvas id="Memory" width="120" height="120"></canvas>
                     </div>
                     <div style="margin-top: 80px; text-align: center" v-show="!isShowMemory">{{i18ns.deviceInfo.NoRecord}}</div>
                 </el-col>
-                <el-col v-bind:span="1"></el-col>
-                <el-col v-bind:span="3">
+                <el-col v-bind:span="4">
                     <div style="display:flex;align-items:center;margin-top:20px;margin-left:40px">
                         <div class="whiteClass"></div>
                         <span style="line-height: 10px;padding-left: 10px;padding-bottom:20px">{{i18ns.deviceInfo.memory}}</span>
@@ -256,15 +255,15 @@
                         <span style="line-height: 10px;padding-left: 10px">{{i18ns.deviceInfo.unknown}}</span>
                     </div>
                 </el-col>
+
                 <!--硬盘饼状图-->
-                <el-col v-bind:span="3">
-                    <div style="height: 120px; width: 120px;margin-top: 15px;" v-show="isShowDisk">
+                <el-col v-bind:span="4">
+                    <div style="height: 120px; width: 120px;margin-top: 15px;;float:right;" v-show="isShowDisk">
                         <canvas id="Disk" width="120" height="120"></canvas>
                     </div>
                     <div style="margin-top: 80px; text-align: center" v-show="!isShowDisk">{{i18ns.deviceInfo.NoRecord}}</div>
                 </el-col>
-                <el-col v-bind:span="1"></el-col>
-                <el-col v-bind:span="3">
+                <el-col v-bind:span="4">
                     <div style="display:flex;align-items:center;margin-top:20px;margin-left:40px">
                         <div class="whiteClass"></div>
                         <span style="line-height: 10px;padding-left: 10px;padding-bottom:20px">{{i18ns.deviceInfo.disk}}</span>
@@ -306,7 +305,7 @@
                             <el-table-column prop="partNumber" v-bind:label="i18ns.deviceInfo.partNumber">
                             </el-table-column>
                             <!-- 资产标签 -->
-                            <el-table-column prop="assetTag" v-bind:label="i18ns.deviceInfo.assetTag">
+                            <el-table-column prop="assertTag" v-bind:label="i18ns.deviceInfo.assetTag">
                             </el-table-column>
                             <!-- 单板制造日期 -->
                             <el-table-column prop="manuTime" v-bind:label="i18ns.deviceInfo.manuTime">
@@ -606,7 +605,7 @@
                  *  返回按钮方法 
                  * **/
                 back: function() {
-                    window.location.href = "../serverList/VServerList.html"
+                    window.location.href = '../serverList/VServerList.html?s=' + Math.random()
                 },
                 /**
                  * 获取刀片服务器的状态
