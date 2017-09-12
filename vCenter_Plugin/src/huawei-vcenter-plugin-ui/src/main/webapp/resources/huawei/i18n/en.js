@@ -488,7 +488,7 @@ var i18n_en = {
         acInputDcInput: "AC/DC",
         installed: "Installed",
         notInstalled: "Not Installed",
-        assetTag: "Asset tag",
+        assetTag: "Assert Tag",
         raid: 'RAID',
         raidType: "Raid Type",
         interfaceType: "Interface Type",

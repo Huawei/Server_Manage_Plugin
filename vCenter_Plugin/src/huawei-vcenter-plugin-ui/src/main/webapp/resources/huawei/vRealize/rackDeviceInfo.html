@@ -186,7 +186,7 @@
 
             <h4>{{i18ns.deviceInfo.onlineDeviceStatus}}</h4>
 
-            <div v-if="screenWidth>1250">
+            <div v-if="screenWidth>1650">
                 <el-row>
                     <!--CPU饼状图-->
                     <el-col :span="2">
@@ -344,7 +344,7 @@
                     </el-col>
                 </el-row>
             </div>
-            <div v-else-if="screenWidth>1000">
+            <div v-else-if="screenWidth>1150">
                 <el-row>
                     <!--CPU饼状图-->
                     <el-col :span="3">
@@ -681,7 +681,7 @@
                             <el-table-column prop="partNumber" v-bind:label="i18ns.deviceInfo.partNumber">
                             </el-table-column>
                             <!-- 资产标签 -->
-                            <el-table-column prop="assetTag" v-bind:label="i18ns.deviceInfo.assetTag">
+                            <el-table-column prop="assertTag" v-bind:label="i18ns.deviceInfo.assetTag">
                             </el-table-column>
                             <!-- 单板制造日期 -->
                             <el-table-column prop="manuTime" v-bind:label="i18ns.deviceInfo.manuTime">
