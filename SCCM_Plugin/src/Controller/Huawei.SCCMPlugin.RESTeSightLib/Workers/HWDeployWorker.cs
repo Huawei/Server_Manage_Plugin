@@ -258,7 +258,8 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
             hwtask.TaskStatus = deployProgress.TaskStatus;
 
             hwtask.TaskResult = deployProgress.TaskResult;
-            hwtask.TaskCode = errorPix + deployProgress.TaskCode;
+            hwtask.TaskCode =(!string.IsNullOrEmpty(deployProgress.TaskCode) && !string.Equals(deployProgress.TaskCode, "0")) ?
+                (errorPix + deployProgress.TaskCode) : deployProgress.TaskCode;
             hwtask.ErrorDetail = deployProgress.ErrorDetail;
 
             hwtask.LastModifyTime = System.DateTime.Now;
