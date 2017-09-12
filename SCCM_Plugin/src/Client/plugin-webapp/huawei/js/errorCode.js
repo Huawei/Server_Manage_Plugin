@@ -10,7 +10,7 @@
     "-99999": "操作失败：未知错误",
     "-90001": "系统内部错误，请先初始化", //系统内部错误 9xxxx
     "-90002": "请先配置eSight",
-    "-90003": "登录状态失效请重新登录",
+    "-90003": "登录状态失效请重新登录vCenter",
     "-90004": "当前没有失败任务可被清除",
     "-90005": "eSight用户名或者密码错误",
     "-80009": "连接当前eSight失败:访问eSight服务器时发生错误。", //网络错误  8xxxx
@@ -564,7 +564,7 @@ var errorCode_en = {
         "-99999": "OperationFailed: unknownerror",
         "-90001": "System internal error, please initialize",
         "-90002": "Please configure eSight first",
-        "-90003": "Login status effectiveness, Please login again",
+        "-90003": "Login status effectiveness, Please login vCenter again",
         "-90004": "Now there are no failed tasks that can be cleared",
         "-90005": "The user name of eSight does not match the password or the account does not exist.",
         "-80009": "Failed to connect current eSight:A error occurred when connecting to the eSight server.",

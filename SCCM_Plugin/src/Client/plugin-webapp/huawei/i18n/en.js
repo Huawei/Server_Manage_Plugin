@@ -521,6 +521,7 @@ var i18n_en = {
         bladeServer: "Blade Server",
         deviceModel: "Device Model",
         switchBoard: "Switch Board",
+        rackServer: 'Rack Server'
     }
 
 }
