@@ -1,0 +1,582 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>serverList</title>
+    <meta charset="utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        body {
+            min-width: 900px;
+        }
+        
+        .el-table__expanded-cell {
+            padding: 0px 0px 0px 0px;
+            border-right: 0px !important;
+            border-bottom: 0px !important;
+        }
+        
+        .el-table__expanded-cell .el-table {
+            border: 0px;
+        }
+        
+        .el-table__expanded-cell .border_right0 {
+            border-right: 0px;
+        }
+        
+        .el-table__expanded-cell .el-table th {
+            background-color: #fbfdff;
+        }
+        
+        .el-table__expanded-cell .el-table .el-table th>div {
+            background-color: #fbfdff;
+        }
+        
+        .el-table__expanded-cell .el-table__header-wrapper thead div {
+            background-color: #fbfdff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-row class="search-row">
+            <el-dropdown @command="changeClick">
+                <el-button>
+                    {{selectName}}<i class="el-icon-caret-bottom el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item v-for="item in esights" v-bind:command="item.name" v-bind:key="item.name">{{item.label}}</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+            <el-select v-model="server" filterable placeholder="" style="width:200px;" @change="serverChange(server)">
+                <el-option v-for="item in options" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                </el-option>
+            </el-select>
+        </el-row>
+        <div>
+            <template>
+                <div>
+
+                    <!--刀片服务器显示的table-->
+                    <el-table v-show="searchKey=='blade'" v-bind:data="listData" border style="width: 100%" v-loading="loading" element-loading-text="Loading" @expand="expandShow">
+                        <el-table-column type="expand">
+                            <template scope="props">
+                                <el-table  v-bind:data="props.row.childBlades" style="width: 100%">
+                                    <el-table-column width="48">
+                                    </el-table-column>
+                                    <el-table-column v-bind:label="i18ns.serverList.serverIPAddress" prop="ipAddress">
+                                    </el-table-column>
+                                    <el-table-column v-bind:label="i18ns.deviceInfo.name" prop="name">
+                                    </el-table-column>
+                                    <el-table-column v-bind:label="i18ns.deviceInfo.status" prop="status">
+                                        <template scope="scope">
+                                            <template v-if="scope.row.status=='0'">
+                                                <span>{{i18ns.serverList.serverNormal}}</span>
+                                            </template>
+            <template v-else-if="scope.row.status=='-2'">
+                                                <span>{{i18ns.serverList.serverUnknown}}</span>
+                                            </template>
+            <template v-else>
+                                                <span>{{i18ns.serverList.serverFault}}</span>
+                                            </template>
+            </template>
+            </el-table-column>
+            <el-table-column v-bind:label="i18ns.deviceInfo.mode" prop="mode">
+
+            </el-table-column>
+            <el-table-column v-bind:label="i18ns.common.operation" class-name="border_right0">
+                <template scope="scope">
+                                            <el-button @click="bladeServerDetails(scope.row,'Blade')" type="text">{{i18ns.deviceInfo.viewDeviceStatus}}</el-button>
+                                        </template>
+            </el-table-column>
+            </el-table>
+            </template>
+            </el-table-column>
+            <el-table-column prop="ipAddress" v-bind:label="i18ns.serverList.serverIPAddress">
+            </el-table-column>
+            <el-table-column prop="serverName" v-bind:label="i18ns.serverList.serverName">
+            </el-table-column>
+            <el-table-column prop="serverStatus" v-bind:label="i18ns.serverList.serverStatus">
+                <template scope="scope">
+                                <template v-if="scope.row.status=='0'">
+                                    <span>{{i18ns.serverList.serverNormal}}</span>
+                                </template>
+                <template v-else-if="scope.row.status=='-1'">
+                                    <span>{{i18ns.serverList.serverOffline}}</span>
+                                </template>
+                <template v-else-if="scope.row.status=='-2'">
+                                    <span>{{i18ns.serverList.serverUnknown}}</span>
+                                </template>
+                <template v-else>
+                                    <span>{{i18ns.serverList.serverFault}}</span>
+                                </template>
+                </template>
+            </el-table-column>
+            <el-table-column prop="serverModel" v-bind:label="i18ns.deviceInfo.mode">
+            </el-table-column>
+            <el-table-column prop="serverDetails" v-bind:label="i18ns.common.operation">
+                <template scope="scope">
+                                <el-button @click="viewBladeServerDetails(scope.row)" type="text">{{i18ns.deviceInfo.viewDeviceStatus}}</el-button>
+                            </template>
+            </el-table-column>
+            </el-table>
+
+
+            <!--机架服务器服务器显示的table-->
+            <el-table v-show="searchKey=='rack'" v-bind:data="listData" border style="width: 100%" v-loading="loading" element-loading-text="Loading">
+                <el-table-column prop="ipAddress" v-bind:label="i18ns.serverList.serverIPAddress">
+                </el-table-column>
+                <el-table-column prop="serverName" v-bind:label="i18ns.serverList.serverName">
+                </el-table-column>
+                <el-table-column prop="status" v-bind:label="i18ns.serverList.serverStatus">
+                    <template scope="scope">
+                                <template v-if="scope.row.status=='0'">
+                                    <span>{{i18ns.serverList.serverNormal}}</span>
+                                </template>
+                    <template v-else-if="scope.row.status=='-1'">
+                                    <span>{{i18ns.serverList.serverOffline}}</span>
+                                </template>
+                    <template v-else-if="scope.row.status=='-2'">
+                                    <span>{{i18ns.serverList.serverUnknown}}</span>
+                                </template>
+                    <template v-else>
+                                    <span>{{i18ns.serverList.serverFault}}</span>
+                                </template>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="serverModel" v-bind:label="i18ns.deviceInfo.mode">
+                </el-table-column>
+                <el-table-column prop="serverDetails" v-bind:label="i18ns.common.operation">
+                    <template scope="scope">
+                                <el-button @click="rackServerDetails(scope.row,'Rack')" type="text">{{i18ns.deviceInfo.viewDeviceStatus}}</el-button>
+                            </template>
+                </el-table-column>
+            </el-table>
+
+
+            <!--高密服务器服务器显示的table-->
+            <el-table v-show="searchKey=='highdensity'" v-bind:data="listData" border style="width: 100%" v-loading="loading" element-loading-text="Loading" @expand="expandShow1">
+                <el-table-column type="expand">
+                    <template scope="props">
+                                <el-table  v-bind:data="props.row.childBlades" style="width: 100%">
+                                    <el-table-column width="48">
+                                    </el-table-column>
+                                    <el-table-column v-bind:label="i18ns.serverList.serverIPAddress" prop="ipAddress">
+                                    </el-table-column>
+                                    <el-table-column v-bind:label="i18ns.deviceInfo.name" prop="name">
+                                    </el-table-column>
+                                    <el-table-column v-bind:label="i18ns.deviceInfo.status" prop="status">
+                                        <template scope="scope">
+                                            <template v-if="scope.row.status=='0'">
+                                                <span>{{i18ns.serverList.serverNormal}}</span>
+                                            </template>
+                    <template v-else-if="scope.row.status=='-2'">
+                                                <span>{{i18ns.serverList.serverUnknown}}</span>
+                                            </template>
+                    <template v-else>
+                                                <span>{{i18ns.serverList.serverFault}}</span>
+                                            </template>
+                    </template>
+                </el-table-column>
+                <el-table-column v-bind:label="i18ns.deviceInfo.mode" prop="type">
+
+                </el-table-column>
+                <el-table-column v-bind:label="i18ns.common.operation" class-name="border_right0">
+                    <template scope="scope">
+                                            <el-button @click="highdensityServerDetails(scope.row,'Highdensity')" type="text">{{i18ns.deviceInfo.viewDeviceStatus}}</el-button>
+                                        </template>
+                </el-table-column>
+            </el-table>
+            </template>
+            </el-table-column>
+            <el-table-column prop="ipAddress" v-bind:label="i18ns.serverList.serverIPAddress">
+            </el-table-column>
+            <el-table-column prop="serverName" v-bind:label="i18ns.serverList.serverName">
+            </el-table-column>
+            <el-table-column prop="serverStatus" v-bind:label="i18ns.serverList.serverStatus">
+                <template scope="scope">
+                                <template v-if="scope.row.status=='0'">
+                                    <span>{{i18ns.serverList.serverNormal}}</span>
+                                </template>
+                <template v-else-if="scope.row.status=='-1'">
+                                    <span>{{i18ns.serverList.serverOffline}}</span>
+                                </template>
+                <template v-else-if="scope.row.status=='-2'">
+                                    <span>{{i18ns.serverList.serverUnknown}}</span>
+                                </template>
+                <template v-else>
+                                    <span>{{i18ns.serverList.serverFault}}</span>
+                                </template>
+                </template>
+            </el-table-column>
+            <el-table-column prop="serverModel" v-bind:label="i18ns.deviceInfo.mode">
+            </el-table-column>
+            <el-table-column prop="serverDetails" v-bind:label="i18ns.common.operation">
+                <template scope="scope">
+                                <el-button @click="viewHighdensityServerDetails(scope.row)" type="text">{{i18ns.deviceInfo.viewDeviceStatus}}</el-button>
+                            </template>
+            </el-table-column>
+            </el-table>
+
+        </div>
+        </template>
+
+    </div>
+    <el-row class="pagination-row">
+        <el-col v-bind:span="24">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" v-bind:current-page="start" v-bind:page-sizes="pages" v-bind:page-size="size" layout="total, sizes, prev, pager, next, jumper" v-bind:total="totalCount">
+            </el-pagination>
+        </el-col>
+    </el-row>
+    </div>
+</body>
+<!--
+    作者：sanguineman91@163.com
+    时间：2017-05-30
+    描述：js脚本描述
+-->
+<script>
+    var app = new Vue({
+        el: ' #app ',
+        data: {
+            i18ns: {}, //国际化
+            loading: false,
+            allListData: [],
+            listData: [], //请求的IP数据列表
+            esights: [], //选择器IP数据列表
+            options: [],
+            server: '',
+            serverModel: '',
+            searchKey: '', //搜索关键字
+            selectName: '',
+            selectKey: '',
+            start: 1,
+            pages: [10, 20, 50, 100],
+            totalCount: 0,
+            size: 10,
+            status: ''
+        },
+        created: function() {
+            this.i18ns = getIn18();
+            this.options = getServerType();
+            this.server = this.options[0].value;
+            var _pageSize = localStorage.getItem("serverListPageSize");
+            if (_pageSize) {
+                this.size = parseInt(_pageSize);
+            };
+        },
+        mounted: function() {
+            setTimeout(function() {
+                getEsightList(app.bindEsight);
+            }, 0);
+            this.searchKey = 'rack';
+        },
+        methods: {
+            expandShow: function(row, expanded) {
+                if (row.childBlades) {
+                    this.getUnitsInfo(row, expanded, '1');
+                }
+            },
+            expandShow1: function(row, expanded) {
+                if (row.childBlades) {
+                    this.getUnitsInfo(row, expanded, '2');
+                }
+            },
+            getUnitsInfo: function(v, bl, type) {
+                if (!bl) {
+                    return;
+                }
+                if (v.childBlades.length > 0) {
+                    var index = _.findIndex(this.listData, v);
+                    for (var i = 0; i < v.childBlades.length; i++) {
+                        serverListManager.getUnits({
+                            dn: v.childBlades[i].dn,
+                            ip: app.selectKey,
+                            serverType: v.serverModel
+                        }, function(ret) {
+                            if (ret.data.data.length > 0) {
+                                var data = ret.data.data[0];
+                                var _index = _.findIndex(app.listData[index].childBlades, {
+                                    dn: data.dn
+                                });
+                                if (_index > -1) {
+                                    if (type == '1') {
+                                        _.assign(app.listData[index].childBlades[_index], {
+                                            mode: '',
+                                            status: ''
+                                        });
+                                        Vue.delete(app.listData[index].childBlades[_index], 'mode');
+                                        Vue.set(app.listData[index].childBlades[_index], 'mode', data.mode);
+                                        Vue.delete(app.listData[index].childBlades[_index], 'status');
+                                        Vue.set(app.listData[index].childBlades[_index], 'status', data.status);
+                                    } else {
+                                        _.assign(app.listData[index].childBlades[_index], {
+                                            type: '',
+                                            status: ''
+                                        });
+                                        Vue.delete(app.listData[index].childBlades[_index], 'type');
+                                        Vue.set(app.listData[index].childBlades[_index], 'type', data.type);
+                                        Vue.delete(app.listData[index].childBlades[_index], 'status');
+                                        Vue.set(app.listData[index].childBlades[_index], 'status', data.status);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                console.log(v);
+            },
+            /**
+             * 显式高密服务器细节
+             *  @param {any} row
+             */
+            viewHighdensityServerDetails: function(row) {
+                localStorage.setItem('highdensityData', JSON.stringify(row));
+                localStorage.setItem('name', row.serverName);
+                localStorage.setItem('dn', row.dn);
+                localStorage.setItem('serverType', 'Highdensity');
+                window.location.href = '../vRealize/HighdensityInfo.html?s=' + Math.random();
+            },
+            /**
+             * 显式刀片服务器细节
+             *  @param {any} row
+             */
+            viewBladeServerDetails: function(row) {
+                localStorage.setItem('bladeData', JSON.stringify(row));
+                localStorage.setItem('dn', row.dn);
+                localStorage.setItem('serverType', 'Blade');
+                window.location.href = '../vRealize/BladeInfo.html?s=' + Math.random();
+            },
+            /**
+             * 显式机架服务器细节
+             *  @param {any} row
+             */
+            rackServerDetails: function(row, serverType) {
+                console.log(row)
+                if (row.name) {
+                    var nameStr = row.name;
+                    var nameArr = nameStr.split('_');
+                    if (nameArr.length > 1) {
+                        localStorage.setItem('nameStr', nameArr[1]);
+                    }
+                }
+                localStorage.setItem('dn', row.dn);
+                window.location.href = '../vRealize/rackDeviceInfo.html?s=' + Math.random();
+            },
+            /**
+             * 跳转至显式子刀片服务器细节页面
+             *  @param {any} row
+             */
+            bladeServerDetails: function(row, serverType) {
+                console.log(row)
+                if (row.name) {
+                    var nameStr = row.name;
+                    var nameArr = nameStr.split('_');
+                    if (nameArr.length > 1) {
+                        localStorage.setItem('nameStr', nameArr[1]);
+                    }
+                }
+                localStorage.setItem('dn', row.dn);
+                window.location.href = '../vRealize/BladeDeviceInfo.html?s=' + Math.random();
+            },
+            /**
+             * 跳转至高密服务器细节页面
+             *  @param {any} row
+             */
+            highdensityServerDetails: function(row, serverType) {
+                console.log(row)
+                if (row.name) {
+                    var nameStr = row.name;
+                    var nameArr = nameStr.split('_');
+                    if (nameArr.length > 1) {
+                        localStorage.setItem('nameStr', nameArr[1]);
+                    }
+                }
+                localStorage.setItem('dn', row.dn);
+                window.location.href = '../vRealize/HighdensityDeviceInfo.html?s=' + Math.random();
+            },
+            /**
+             * 获取服务器列表
+             *
+             */
+            getListData: function() {
+                this.listData = [];
+                serverListManager.getList({
+                    esight: this.selectKey,
+                    param: {
+                        servertype: this.searchKey,
+                        start: this.start,
+                        size: this.size
+                    }
+                }, this.bindList);
+            },
+            /**
+             * 获取服务器列表回调函数
+             *
+             * @param {any} ret
+             */
+            bindEsight: function(ret) {
+                this.esights = [];
+                if (ret.code === '0') {
+                    var lg = ret.data.length;
+                    if (lg > 0) {
+                        for (var i = 0; i < lg; i++) {
+                            if (ret.data[i].aliasName) {
+                                this.esights.push({
+                                    label: ret.data[i].aliasName,
+                                    name: ret.data[i].hostIp
+                                });
+                            } else {
+                                this.esights.push({
+                                    label: ret.data[i].hostIp,
+                                    name: ret.data[i].hostIp
+                                });
+                            }
+                        }
+                        var currentEsight = getCurrentEsight();
+                        if (currentEsight) {
+                            var _currentEsight = _.find(this.esights, {
+                                name: currentEsight
+                            })
+                            if (_currentEsight) {
+                                this.selectName = _currentEsight.label; /*设置选项卡下拉框默认选中项*/
+                                this.selectKey = _currentEsight.name; /*设置选项卡下拉框默认选中项*/
+                            } else {
+                                setCurrentEsight(ret.data[0].hostIp);
+                                this.selectName = this.esights[0].label; /*设置选项卡下拉框默认选中项*/
+                                this.selectKey = this.esights[0].name; /*设置选项卡下拉框默认选中项*/
+                            }
+                        } else {
+                            setCurrentEsight(ret.data[0].hostIp);
+                            this.selectName = this.esights[0].label; /*设置选项卡下拉框默认选中项*/
+                            this.selectKey = this.esights[0].name; /*设置选项卡下拉框默认选中项*/
+                        }
+                        this.loading = true;
+                        this.getListData(); //获取服务器列表数据
+                    }
+                } else {
+                    var msg = getErrorMsg(ret.code);
+                    this.alertMsg(msg);
+                }
+            },
+            /**
+             * 顶部操作栏eSight切换操作
+             *
+             * @param {any} ip
+             * @param {any} aliasName
+             */
+            changeClick: function(ip, aliasName) {
+                this.selectName = aliasName.$el.innerText;
+                this.selectKey = ip;
+                setCurrentEsight(ip);
+                this.handleCurrentChange(1);
+            },
+            /**
+             * 获取列表数据回调函数
+             *
+             * @param {any} ret
+             */
+            bindList: function(ret) {
+                this.listData = [];
+                if (ret.code === '0') {
+                    this.totalCount = ret.data.totalCount;
+                    var list = ret.data.data;
+                    for (var i = 0; i < list.length; i++) {
+                        this.listData.push(list[i]);
+                    }
+                } else {
+                    var msg = getErrorMsg(ret.code);
+                    this.alertMsg(msg);
+                }
+                app.loading = false;
+            },
+            /**
+             * 操作提醒框
+             *
+             * @param {any} msg
+             * @param {any} callback
+             */
+            alertMsg: function(msg, callback) {
+                this.$alert(msg, this.i18ns.common.prompt, {
+                    confirmButtonText: this.i18ns.common.confirm,
+                    callback: function action() {
+                        callback && callback()
+                    }
+                });
+
+            },
+            /**
+             * 切换分页数据大小操作
+             *
+             * @param {any} val
+             */
+            handleSizeChange: function(val) {
+                this.size = val;
+                localStorage.setItem("serverListPageSize", val);
+                this.getListData();
+            },
+            /**
+             * 切换当前页操作
+             *
+             * @param {any} val
+             */
+            handleCurrentChange: function(val) {
+                this.start = val;
+                this.getListData();
+            },
+            /**
+             * 服务器类型切换操作
+             *
+             * @param {any} server
+             */
+            serverChange: function(server) {
+                if (server == this.i18ns.serverList.serverRack) {
+                    server = 'rack';
+                } else if (server == this.i18ns.serverList.serverBlade) {
+                    server = 'blade';
+                } else if (server == this.i18ns.serverList.serverHighdensity) {
+                    server = 'highdensity';
+                } else if (server == this.i18ns.serverList.serverStoragenode) {
+                    server = 'storagenode';
+                } else {
+                    server = 'thirdpartyserver';
+                }
+                this.searchKey = server;
+                this.handleCurrentChange(1);
+            },
+            getModelTxt: function(v) {
+                var model = '';
+                if (v) {
+                    var arry = v.split('-');
+                    if (arry.length > 1) {
+                        var _arry = arry[1].split('_');
+                        model = _arry[0]
+                    }
+                }
+                return model;
+            }
+        }
+    })
+</script>
+
+</html>

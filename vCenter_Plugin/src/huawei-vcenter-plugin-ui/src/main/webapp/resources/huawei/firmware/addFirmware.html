@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+
+    <style type="text/css">
+        [v-cloak] {
+            display: none;
+        }
+        
+        body {
+            min-width: 900px;
+        }
+        
+        .ow_el-checkbox {
+            margin-left: 0px !important;
+            margin-right: 15px;
+        }
+        
+        form input {
+            max-width: 217px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <template>
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="140px" label-suffix=":">
+                <el-form-item v-bind:label="i18ns.firmware.packageName" prop="basepackageName">
+                    <el-input v-model="ruleForm.basepackageName"></el-input>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.firmware.packageDesc" prop="basepackageDescription">
+                    <el-input type="textarea" v-model="ruleForm.basepackageDescription" style="max-width:400px;"></el-input>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.firmware.packageType" prop="packageType">
+                    <el-select v-model="ruleForm.basepackageType">
+                        <el-option v-for="item in ruleForm.basepackageTypeOptions" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.firmware.fileListL">
+                    <el-row>
+                        <el-input v-model="filename" style="max-width: 217px;">
+                            <el-button slot="append" v-on:click="addFile" :disabled="ruleForm.fileList.length===2">{{i18ns.common.add}}</el-button>
+                        </el-input>
+                    </el-row>
+                    <el-row class="el-form-item__error" style="color:gray" v-show="ruleForm.fileList.length===2" >{{i18ns.firmware.fileListLErrorMsg1}} </el-row>
+                    <el-row v-for="(tag,index) in ruleForm.fileList">
+                        <el-tag :key="tag" :closable="true" :close-transition="true" @close="tagClose(index)" type="primary">
+                            {{tag}}
+                        </el-tag>
+                    </el-row>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.firmware.sftpIp" prop="sftpserverIP">
+                    <el-input v-model="ruleForm.sftpserverIP"></el-input>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.firmware.sftpPort" prop="sftpPort">
+                    <el-input v-model="ruleForm.sftpPort" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.firmware.sftpUserName" prop="userName">
+                    <el-input v-model="ruleForm.userName"></el-input>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.firmware.sftpPassword" prop="passWord">
+                    <el-input type="password" v-model="ruleForm.passWord"></el-input>
+                </el-form-item>
+                <el-form-item label="eSight" prop="eSight">
+                    <el-checkbox-group v-model="ruleForm.eSight">
+                        <el-checkbox class="ow_el-checkbox" v-for="item in eSights" name="eSight" v-bind:label="item.name" v-bind:key="item.name">{{item.label}}</el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">{{i18ns.common.confirm}}</el-button>
+                    <el-button @click="goBack();">{{i18ns.common.back}}</el-button>
+                </el-form-item>
+            </el-form>
+        </template>
+    </div>
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                i18ns: [],
+                eSights: [], //eSight数据
+                fullscreenLoading: false,
+                filename: '',
+                fileError: false,
+                ruleForm: {
+                    basepackageName: '',
+                    basepackageDescription: '',
+                    basepackageType: 'Firmware',
+                    basepackageTypeOptions: [{
+                        value: 'Firmware',
+                        label: 'Firmware'
+                    }, {
+                        value: 'Driver',
+                        label: 'Driver'
+                    }, {
+                        value: 'Bundle',
+                        label: 'Bundle'
+                    }],
+                    fileList: [],
+                    sftpPort: '',
+                    sftpserverIP: '',
+                    userName: '',
+                    passWord: '',
+                    eSight: []
+                },
+                rules: {
+                    basepackageName: [{
+                        required: true,
+                        message: '请输入升级包名称',
+                        trigger: 'change'
+                    }, {
+                        min: 6,
+                        max: 32,
+                        pattern: /^[0-9a-zA-Z-_]{6,32}$/,
+                        message: '名称长度为6-32个字符，只能由字母、数字、“_” 或  “-” 组成。',
+                        trigger: 'change'
+                    }],
+                    basepackageDescription: {
+                        min: 0,
+                        max: 128,
+                        message: '长度在 0到 128个字符',
+                        trigger: 'change'
+                    },
+                    basepackageType: {
+                        required: true,
+                        message: '请选择升级包类型',
+                        trigger: 'change'
+                    },
+                    fileList: {
+                        required: true,
+                        message: '请输入升级包文件列表',
+                    },
+                    sftpPort: {
+                        required: true,
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (!/^[0-9]*$/.test(value) || value < 0 || value > 65535) {
+                                    return callback(new Error(app.i18ns.software.sftpPortError));
+                                } else
+                                    return callback();
+                            } else {
+                                return callback(new Error(app.i18ns.software.SFTPPortNull));
+                            }
+                        },
+                        trigger: 'change'
+                    },
+                    sftpserverIP: {
+                        required: true,
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (!/^(22[0-3]|2[0-1]\d|1[0-1][0-9]|12[012345689]|1[3-9]\d|[1-9]\d|[1-9])\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|[1-9])$/.test(value)) {
+                                    return callback(new Error(app.i18ns.software.sftpIPError));
+                                } else
+                                    return callback();
+                            } else {
+                                return callback(new Error(app.i18ns.common.requiredErrorMsg));
+                            }
+                        },
+                        trigger: 'change'
+                    },
+                    userName: [{
+                        required: false,
+                        trigger: 'change'
+
+                    }, {
+                        min: 0,
+                        max: 64,
+                        trigger: 'change'
+                    }],
+                    passWord: [{
+                        required: false,
+                        message: '',
+                        trigger: 'change'
+                    }, {
+                        min: 0,
+                        max: 64,
+                        trigger: 'change'
+                    }],
+                    eSight: {
+                        type: 'array',
+                        required: true,
+                        message: '请选择eSight',
+                        trigger: 'change'
+                    }
+                }
+            },
+            created: function() {
+                this.i18ns = getIn18();
+                localStorage.setItem('list_url', 'listFirmware.html')
+                var requiredErrorMsg = this.i18ns.common.requiredErrorMsg;
+                this.rules.basepackageName[0].message = requiredErrorMsg;
+                this.rules.basepackageName[1].message = this.i18ns.firmware.basepackageNameErrorMsg;
+                this.rules.basepackageDescription.message = this.i18ns.firmware.basepackageDescriptionErrorMsg;
+                this.rules.basepackageType.message = requiredErrorMsg;
+                this.rules.fileList.message = requiredErrorMsg;
+                this.rules.userName[1].message = this.i18ns.firmware.sftpUserNameErrorMsg;
+                this.rules.passWord[1].message = this.i18ns.firmware.passWordErrorMsg;
+                this.rules.eSight.message = requiredErrorMsg;
+                this.ruleForm.eSight.push(getCurrentEsight());
+            },
+            mounted: function() {
+                //获取eSight列表
+                getEsightList(this.bindEsight);
+            },
+            methods: {
+                /**
+                 * 添加文件
+                 * 
+                 */
+                addFile: function() {
+                    if (this.filename) {
+                        if (this.ruleForm.fileList.length < 2) {
+                            this.ruleForm.fileList.push(this.filename);
+                            this.filename = "";
+                        } else {
+                            this.fileError = true;
+                        }
+                    }
+                },
+                filenameChange: function() {},
+                tagClose: function(index) {
+                    this.ruleForm.fileList.splice(index, 1);
+                },
+                /**
+                 * 获取eSight列表的回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindEsight: function(ret) {
+                    if (ret.code === '0') {
+                        var data = ret.data;
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].aliasName) {
+                                this.eSights.push({
+                                    label: data[i].aliasName,
+                                    name: data[i].hostIp
+                                });
+                            } else {
+                                this.eSights.push({
+                                    label: data[i].hostIp,
+                                    name: data[i].hostIp
+                                });
+                            }
+                        }
+                    } else {
+                        msg = getErrorMsg(ret.code);
+                        this.alertMsg(msg);
+                    }
+                },
+                /**
+                 * 完成所有必填的数据之后 提交操作
+                 * 
+                 * @param {any} formName 
+                 */
+                submitForm: function(formName) {
+                    this.$refs[formName].validate(function(valid) {
+                        if (valid) {
+                            if (app.ruleForm.fileList.length === 0) {
+                                app.alertMsg(app.i18ns.firmware.fileListLErrorMsg);
+                                return false;
+                            }
+                            app.fullscreenLoading = true;
+                            var param = {
+                                esights: app.ruleForm.eSight,
+                                basepackageName: app.ruleForm.basepackageName,
+                                basepackageDescription: app.ruleForm.basepackageDescription,
+                                basepackageType: app.ruleForm.basepackageType,
+                                fileList: app.ruleForm.fileList.join(','),
+                                port: app.ruleForm.sftpPort,
+                                sftpserverIP: app.ruleForm.sftpserverIP,
+                                username: app.ruleForm.userName,
+                                password: app.ruleForm.passWord
+                            };
+                            firmwareManage.addFirmware(param, function(ret) {
+                                app.fullscreenLoading = false;
+                                if (ret.code === '0') {
+                                    app.alertMsg(app.i18ns.firmware.addSuccessMsg, function() {
+                                        location.href = 'listFirmware.html?s=' + Math.random();
+                                    })
+                                } else {
+                                    msg = getErrorMsg(ret.code);
+                                    app.alertMsg(msg);
+                                }
+                            });
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                /**
+                 * 返回模板列表
+                 * 
+                 */
+                goBack: function() {
+                    goBack('listFirmware.html');
+                },
+                /**
+                 * 消息提示弹出框
+                 * 
+                 * @param {any} msg 
+                 * @param {any} callback 
+                 */
+                alertMsg: function(msg, callback) {
+                    console.log(1);
+                    this.$alert(msg, this.i18ns.common.prompt, {
+                        confirmButtonText: this.i18ns.common.confirm,
+                        callback: function action() {
+                            callback && callback()
+                        }
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

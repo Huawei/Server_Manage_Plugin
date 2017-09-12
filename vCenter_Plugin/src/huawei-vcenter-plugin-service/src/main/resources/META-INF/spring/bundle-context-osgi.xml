@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:osgi="http://www.springframework.org/schema/osgi"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                      http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+   <!-- definitions using elements of the osgi namespace can be included
+      in this file. There is no requirement to keep these definitions
+      in a separate file if you do not want to. The rationale for
+      keeping these definitions separate is to facilitate integration
+      testing of the bundle outside of an OSGi container -->
+
+   <!-- Services defined by this module   -->
+
+   <osgi:service id="ESightService" ref="ESightServiceImpl"
+         interface="com.huawei.vcenterpluginui.services.ESightService" />
+
+   <osgi:service id="ServerApiService" ref="ServerApiServiceImpl"
+         interface="com.huawei.vcenterpluginui.services.ServerApiService" />
+         
+   <osgi:service id="SoftwareApiService" ref="SoftwareApiServiceImpl"
+         interface="com.huawei.vcenterpluginui.services.SoftwareApiService" />
+         
+   <osgi:service id="TemplateApiService" ref="TemplateApiServiceImpl"
+         interface="com.huawei.vcenterpluginui.services.TemplateApiService" />
+         
+   <osgi:service id="FirmwareApiService" ref="FirmwareApiServiceImpl"
+         interface="com.huawei.vcenterpluginui.services.FirmwareApiService" />
+         
+   <osgi:service id="SessionService" ref="SessionServiceImpl"
+         interface="com.huawei.vcenterpluginui.services.SessionService" />
+         
+   <osgi:reference id="userSessionService"
+         interface="com.vmware.vise.usersession.UserSessionService"/>
+</beans>

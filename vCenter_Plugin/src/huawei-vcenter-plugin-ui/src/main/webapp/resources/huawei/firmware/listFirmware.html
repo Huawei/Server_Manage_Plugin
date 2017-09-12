@@ -1,0 +1,662 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style type="text/css">
+        [v-cloak] {
+            display: none;
+        }
+        
+        body {
+            min-width: 900px;
+        }
+        
+        .margin-top-23 {
+            margin-top: 10px;
+        }
+        
+        .margin-top-7 {
+            margin-top: 7px;
+        }
+        
+        .el-table .cell {
+            white-space: pre-wrap;
+        }
+        
+        .el-tooltip__popper.is-dark {
+            background: #fbfdff;
+            color: #1f2d3d;
+            width: 260px;
+            word-wrap: break-word;
+            border: 1px solid rgb(31, 45, 61);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-row>
+            <el-button @click="addFirmware();">{{i18ns.common.add}}</el-button>
+            <el-button @click="deleteFailTask();" v-loading.fullscreen.lock="fullscreenLoading" :disabled="false">{{i18ns.firmware.clearFailedTask}}</el-button>
+            <el-button @click="refresh();">{{i18ns.common.refresh}}</el-button>
+        </el-row>
+        <div class="margin-top-23" v-if="isShowTaskList">
+            <template>
+                <el-table v-bind:data="taskListData" border style="width: 100%" v-loading="loading" element-loading-text="Loading">
+                    <el-table-column prop="softwareSourceName" v-bind:label="i18ns.firmware.packageName">
+                    </el-table-column>
+                    <el-table-column prop="reservedStr1" v-bind:label="i18ns.firmware.packageType">
+                    </el-table-column>
+                    <el-table-column prop="eSightIP" v-bind:label="i18ns.firmware.esightHost">
+                    </el-table-column>
+                    <el-table-column prop="taskProgress" v-bind:label="i18ns.firmware.progress">
+                    </el-table-column>
+                    <el-table-column prop="syncStatusTxt" v-bind:label="i18ns.firmware.status">
+                    </el-table-column>
+                    <el-table-column  v-bind:label="i18ns.firmware.detail_soft" >
+                            <template scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                            <div v-for="item in getErrorDetailTxt(scope.row.taskCode)">
+                                                <span>{{item}}</span>
+                                            </div>
+                                      <div slot="reference" class="name-wrapper">
+                                        <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ getErrorDetailTxt1(scope.row.taskCode) }}</div>
+                                      </div>
+                                    </el-popover>
+                                  </template>
+            </el-table-column>
+            <el-table-column prop="createTime" v-bind:label="i18ns.firmware.date">
+            </el-table-column>
+            </el-table>
+            </template>
+        </div>
+        <div class="margin-top-23">
+            <el-row>
+                <el-dropdown @command="commandClick">
+                    <el-button>
+                        {{menuName}}
+                        <i class="el-icon-caret-bottom el-icon--right"></i>
+                    </el-button>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item v-for="item in eSights" v-bind:command="item.name" v-bind:key="item.name">
+                            {{ item.label }}
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </el-row>
+        </div>
+        <div class="margin-top-7">
+            <template>
+                <el-table v-bind:data="firmwareListData" border style="width: 100%;" v-loading="loading" element-loading-text="Loading"
+                    @row-click="ShowFirmwareDetail">
+                    <el-table-column  prop="basepackageName" v-bind:label="i18ns.firmware.packageName">
+                    </el-table-column>
+                    <el-table-column  prop="basepackageType" v-bind:label="i18ns.firmware.packageType">
+                    </el-table-column>
+                    <el-table-column prop="basepackageDesc" v-bind:label="i18ns.firmware.packageDesc">
+                    </el-table-column>
+                    <el-table-column v-bind:label="i18ns.common.operation">
+                            <template scope="scope">
+                                <el-button type="text" size="small" @click.native.stop="delFirmware(scope.row)" >{{i18ns.common.delete}}</el-button>
+                            </template>
+            </el-table-column>
+            </el-table>
+            </template>
+        </div>
+        <div>
+            <el-row class="pagination-row">
+                <el-col v-bind:span="24" style="text-align:left;">
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" v-bind:current-page="currentPage" v-bind:page-sizes="pageSizes" v-bind:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" v-bind:total="total">
+                    </el-pagination>
+                </el-col>
+            </el-row>
+        </div>
+        <div class="margin-top-7" v-show="isShowDetail">
+            <hr style="height:2px;background-color: black; border-width:0px;margin-bottom:3px;margin-top:10px" />
+            <template>
+                <span style="font-size:12px; margin-top:2px">{{i18ns.firmware.package_firm}}</span>
+                <el-table v-bind:data="firmwareDetails" border style="width: 100%; cursor: default; margin-top:5px" v-loading="loading3" element-loading-text="Loading"
+                    @row-click="ShowFirmwareDetail2">
+                    <el-table-column prop="packageName" v-bind:label="i18ns.firmware.firmwareDetails_packageName">
+                    </el-table-column>
+                    <el-table-column prop="support" v-bind:label="i18ns.firmware.firmwareDetails_support">
+                    </el-table-column>
+                    <el-table-column prop="type" v-bind:label="i18ns.firmware.type_firm">
+                    </el-table-column>
+                    <el-table-column prop="releaseDate" v-bind:label="i18ns.firmware.firmwareDetails_releaseDate">
+                    </el-table-column>
+                </el-table>
+            </template>
+        </div>
+        <div class="margin-top-7" v-show="isShowDetail2">
+            <hr style="height:2px;background-color: black; border-width:0px;margin-bottom:3px;margin-top:15px" />
+            <template>
+                <span style="font-size:12px">{{i18ns.firmware.packageList_firm}}</span>
+                <el-table v-bind:data="firmwareDetails2" border style="width: 100%; margin-top:5px" v-loading="lowloading" element-loading-text="Loading">
+                    <el-table-column prop="firmwareType" v-bind:label="i18ns.firmware.firmwareType">
+                    </el-table-column>
+                    <el-table-column prop="type" v-bind:label="i18ns.firmware.type_firm">
+                    </el-table-column>
+                    <el-table-column prop="version" v-bind:label="i18ns.firmware.firmwareVersion">
+                    </el-table-column>
+                    <el-table-column prop="activeMode" v-bind:label="i18ns.firmware.liveMode_firm">
+                    </el-table-column>
+                    <el-table-column prop="supportModel" v-bind:label="i18ns.firmware.supportedDeviceModels">
+                    </el-table-column>
+            </el-table>
+            </template>
+        </div>
+    </div>
+
+    <script src="js/rest.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                currentPage: 1,
+                pageSize: 10,
+                pageSizes: [10, 20, 50, 100],
+                total: 0,
+                i18ns: [],
+                eSights: [], //eSight列表
+                menuName: '',
+                currentESight: '', //当前选择的eSight
+                taskListData: [], //存放固件上传任务列表数据
+                isShowTaskList: true, //是否显示固件上传任务列表
+                firmwareListData: [], //存放已上传成功的固件列表数据
+                firmwareName: '', //升级包名称，用在升级包详情
+                isShowDetail: false, //是否显示升级包详情
+                isShowDetail2: false, //是否显示升级包详情2
+                firmwareDetailsTotal: {}, //升级包详情数据 - 总
+                firmwareDetails: [], //升级包详情数据 - 第2层
+                firmwareDetails2: [], //升级包详情数据 - 第3层
+                loading: false, //显示表格数据加载中
+                lowloading: false,
+                fullscreenLoading: false, //删除操作遮罩
+                showDeleteBtn: false,
+                isDisable: false,
+                syncStatus: [],
+                failListData: [],
+                type: '',
+                loading3: false
+            },
+            created: function() {
+                this.i18ns = getIn18();
+                this.syncStatus = getTaskStatus();
+                var _pageSize = localStorage.getItem("listFirmwarePageSize");
+                if (_pageSize) {
+                    this.pageSize = parseInt(_pageSize);
+                };
+            },
+            mounted: function() {
+                setTimeout(function() {
+                    //获取eSight数据
+                    getEsightList(app.bindEsight);
+                }, 0);
+            },
+            methods: {
+                /**
+                 * 设置一页显示的数据总条数
+                 * 
+                 * @param {any} val 
+                 */
+                handleSizeChange: function(val) {
+                    this.pageSize = val;
+                    localStorage.setItem("listFirmwarePageSize", val);
+                    this.getFirmwareListData();
+                },
+                /**
+                 * 切换当前显示页
+                 * 
+                 * @param {any} val 
+                 */
+                handleCurrentChange: function(val) {
+                    this.currentPage = val;
+                    this.getFirmwareListData();
+                },
+                /**
+                 * 跳转到添加固件页面
+                 * 
+                 */
+                addFirmware: function() {
+                    window.location.href = 'addFirmware.html?s=' + Math.random();
+                },
+                /**
+                 * 清除失败任务
+                 * 
+                 */
+                deleteFailTask: function() {
+                    for (var i = 0; i < app.taskListData.length; i++) {
+                        var dd = app.taskListData[i];
+                        if (dd.syncStatus == 'SYNC_FAILED' || dd.syncStatus == 'HW_FAILED') {
+                            this.isDisable = true;
+                        }
+                    }
+                    if (this.isDisable) {
+                        this.$confirm(app.i18ns.firmware.deleteTips, app.i18ns.common.prompt, {
+                            confirmButtonText: app.i18ns.common.confirm,
+                            cancelButtonText: app.i18ns.common.cancel,
+                            closeOnClickModal: false,
+                            type: 'warning'
+                        }).then(function() {
+                            app.fullscreenLoading = true;
+                            firmwareManage.deleteFailTask({}, function(ret) {
+                                if (ret.code === '0') {
+                                    app.taskListData = [];
+                                    app.alertMsg(app.i18ns.firmware.deleteSucc);
+                                    app.fullscreenLoading = false;
+                                    for (var i = 0; i < app.failListData.length; i++) {
+                                        var dd = app.failListData[i];
+                                        if (dd.syncStatus == 'CREATED' || dd.syncStatus == 'FINISHED') {
+                                            app.taskListData.push(dd);
+                                        }
+                                    }
+                                    app.isDisable = false;
+                                } else {
+                                    app.fullscreenLoading = false;
+                                    var msg = getErrorMsg(ret.code, ret.msg);
+                                    //要根据Code得到错误提示。
+                                    app.alertMsg(msg);
+                                }
+                            });
+                            firmwareManage.getTaskList({}, this.bindTaskList);
+                        }).catch(function() {
+
+                        });
+                    } else {
+                        this.alertMsg(app.i18ns.firmware.clearFirmTask);
+                    }
+                },
+                /**
+                 * 刷新
+                 * 
+                 */
+                refresh: function() {
+                    this.loading = true;
+                    this.lowloading = true;
+                    this.isShowDetail = false;
+                    this.isShowDetail2 = false;
+                    this.firmwareDetails = [];
+                    this.firmwareDetails2 = [];
+                    this.getTaskListData(); //获取固件上传任务列表数据
+                    this.getFirmwareListData(); //获取已上传成功的固件列表数据
+                },
+                /**
+                 * 获取上传中的升级包 任务列表
+                 * 
+                 */
+                getTaskListData: function() {
+                    firmwareManage.getTaskList({}, this.bindTaskList);
+                },
+                /** 
+                 * 获取上传中的升级包任务列表 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindTaskList: function(ret) {
+
+                    this.loading = false; //隐藏loading提示
+                    if (ret.code === '0') {
+                        var _failListData = [];
+                        var _taskListData = [];
+                        var data = ret.data;
+                        for (var i = 0; i < data.length; i++) {
+
+                            var eSightItem = _.find(app.eSights, function(x) {
+                                return x.id === data[i].hwEsighthostId
+                            });
+                            var eSightIp = '';
+                            if (eSightItem) {
+                                eSightIp = eSightItem.label;
+                            }
+                            var item = {
+                                taskName: data[i].taskName,
+                                softwareSourceName: data[i].softwareSourceName,
+                                syncStatus: data[i].syncStatus,
+                                reservedStr1: data[i].reservedStr1,
+                                createTime: data[i].createTime,
+                                eSightIP: eSightIp,
+                                errorDetail: data[i].errorDetail,
+                                taskCode: data[i].taskCode
+                            };
+                            _.assign(item, {
+                                taskProgress: data[i].taskProgress + '%',
+                                syncStatusTxt: _.find(app.syncStatus, function(x) {
+                                    return x.value == data[i].syncStatus;
+                                }).label
+                            });
+                            if (data[i].syncStatus == 'SYNC_FAILED' || data[i].syncStatus == 'HW_FAILED') {}
+                            _failListData.push(item);
+                            _taskListData.push(item);
+                        }
+                        app.taskListData = _failListData;
+                        app.failListData = _taskListData;
+                        if (app.taskListData.length === 0) {
+                            app.showDeleteBtn = false;
+                        } else {
+                            app.isShowTaskList = true;
+                        }
+                    } else {
+                        this.failListData = [];
+                        this.taskListData = [];
+                        app.fullscreenLoading = false;
+                        msg = getErrorMsg(ret.code);
+                        this.alertMsg(msg);
+                    }
+                },
+                /**
+                 * 获取eSight列表 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindEsight: function(ret) {
+                    if (ret.code === '0') {
+                        var data = ret.data;
+                        var lg = data.length;
+                        if (lg > 0) {
+                            for (var i = 0; i < lg; i++) {
+                                if (data[i].aliasName) {
+                                    this.eSights.push({
+                                        id: data[i].id,
+                                        label: data[i].aliasName,
+                                        name: data[i].hostIp
+                                    });
+                                } else {
+                                    this.eSights.push({
+                                        id: data[i].id,
+                                        label: data[i].hostIp,
+                                        name: data[i].hostIp
+                                    });
+                                }
+                            }
+                            this.currentESight = getCurrentEsight();
+                            if (this.currentESight) {
+                                var _currentEsight = _.find(this.eSights, function(x) {
+                                    return x.name == getCurrentEsight()
+                                })
+                                if (_currentEsight) {
+                                    this.menuName = _currentEsight.label;
+                                    this.currentESight = _currentEsight.name;
+                                } else {
+                                    setCurrentEsight(data[0].hostIp);
+                                    this.menuName = this.eSights[0].label;
+                                    this.currentESight = this.eSights[0].name;
+                                }
+                            } else {
+                                setCurrentEsight(data[0].hostIp);
+                                this.menuName = this.eSights[0].label;
+                                this.currentESight = this.eSights[0].name;
+                            }
+                            console.log('22')
+                            this.loading = true;
+                            this.lowloading = true;
+                            this.getTaskListData(); //获取固件上传任务列表数据
+                            this.getFirmwareListData(); //获取已上传成功的固件列表数据
+                        }
+                    } else {
+                        app.fullscreenLoading = false;
+                        msg = getErrorMsg(ret.code);
+                        this.alertMsg(msg);
+                    }
+                },
+                /**
+                 * eSight 下拉框切换点击事件
+                 * 
+                 * @param {any} command 
+                 * @param {any} com 
+                 */
+                commandClick: function(command, com) {
+                    this.firmwareDetails = [];
+                    this.firmwareDetails2 = [];
+                    this.currentESight = command;
+                    setCurrentEsight(command);
+                    this.menuName = com.$el.innerText;
+                    this.lowloading = true;
+                    this.getFirmwareListData();
+                    this.isShowDetail = false;
+                    this.isShowDetail2 = false;
+                },
+                /**
+                 * 获取已上传成功的固件列表数据
+                 * 
+                 */
+                getFirmwareListData: function() {
+                    this.firmwareDetails = [];
+                    this.firmwareDetails2 = [];
+                    this.isShowDetail = false;
+                    this.isShowDetail2 = false;
+                    firmwareManage.getFirmwareList({
+                        "esight": this.currentESight,
+                        "param": {
+                            "pageNo": this.currentPage,
+                            "pageSize": this.pageSize,
+                        }
+                    }, this.bindFirmwareList);
+                },
+                /**
+                 * 获取已上传成功的固件列表数据 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindFirmwareList: function(ret) {
+
+                    this.lowloading = false; //隐藏loading提示
+                    var _firmwareListData = [];
+                    if (ret.code === '0') {
+                        this.total = ret.totalNum;
+                        var data = ret.data;
+                        for (var i = 0; i < data.length; i++) {
+                            _firmwareListData.push(data[i]);
+                        }
+                        this.firmwareListData = _firmwareListData;
+                    } else {
+                        this.firmwareListData = [];
+                        app.fullscreenLoading = false;
+                        //要根据Code得到错误提示。
+                        msg = getErrorMsg(ret.code);
+                        this.alertMsg(msg);
+                    }
+                },
+                /**
+                 * 上传完成的升级包任务列表 行点击事件 获取详情
+                 * 
+                 * @param {any} row 
+                 * @param {any} event 
+                 */
+                ShowFirmwareDetail: function(row, event, column) {
+                    this.loading3 = true;
+                    this.firmwareName = row.basepackageName;
+                    this.type = row.basepackageType;
+                    this.firmwareDetails = [];
+                    this.firmwareDetails2 = [];
+                    firmwareManage.getFirmwareDetails({
+                        "esight": this.currentESight,
+                        "param": {
+                            "basepackageName": this.firmwareName
+                        }
+                    }, this.bindFirmwareDetails)
+                },
+                /**
+                 * 固件以及驱动包 行点击事件
+                 * 
+                 * @param {any} row 
+                 * @param {any} event 
+                 */
+                ShowFirmwareDetail2: function(row, event) {
+                    this.firmwareDetails2 = [];
+                    this.isShowDetail2 = true;
+                    var packageName1 = row.packageName;
+                    var packageDetail = [];
+                    var basepackageProp = this.firmwareDetailsTotal["basepackageProp"];
+                    for (var o in basepackageProp) {
+                        var packageName2 = basepackageProp[o].driverPackageName || "";
+                        if (packageName2 === packageName1) {
+                            packageDetail = basepackageProp[o].driverPackageProp || [];
+                            break;
+                        }
+                    }
+                    for (var o in packageDetail) {
+                        var item = {
+                            firmwareType: packageDetail[o].firmwareType || "",
+                            version: packageDetail[o].version || "",
+                            type: this.type,
+                            activeMode: packageDetail[o].activeMode || "",
+                            supportModel: packageDetail[o]["supported device models"] || ""
+                        };
+                        this.firmwareDetails2.push(item);
+                    }
+                },
+                /**
+                 * 上传完成的升级包任务列表 行点击事件 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindFirmwareDetails: function(ret) {
+                    if (ret.code == '0') {
+                        app.loading3 = false;
+                        this.lowloading = false; //隐藏loading提示
+                        this.firmwareDetails2 = [];
+                        this.firmwareDetails = [];
+
+                        var data = ret.data;
+                        if (data) {
+                            this.firmwareDetailsTotal = data;
+                            var basepackageProp = data.basepackageProp;
+                            var basepackageType = data.basepackageType;
+                            if (basepackageType === 'Firmware') {
+                                this.isShowDetail = false;
+                                this.isShowDetail2 = true;
+                                for (var o in basepackageProp) {
+                                    var item = {
+                                        firmwareType: basepackageProp[o].firmwareType || "",
+                                        type: this.type,
+                                        version: basepackageProp[o].version || "",
+                                        activeMode: basepackageProp[o].activeMode || "",
+                                        supportModel: basepackageProp[o]["supported device models"] || ""
+                                    };
+                                    this.firmwareDetails2.push(item);
+                                }
+                                console.log('列表');
+                                console.log(this.firmwareDetails2);
+                            } else {
+                                this.isShowDetail = true;
+                                this.isShowDetail2 = false;
+                                for (var o in basepackageProp) {
+                                    var item = {
+                                        packageName: basepackageProp[o].driverPackageName || "",
+                                        support: basepackageProp[o]["supportOS or device type"] || "",
+                                        releaseDate: basepackageProp[o].releaseDate || "",
+                                        type: this.type
+                                    };
+                                    this.firmwareDetails.push(item);
+                                }
+                                console.log(this.firmwareDetails);
+                            }
+                        } else {
+                            app.fullscreenLoading = false;
+                            msg = getErrorMsg(ret.code);
+                            this.alertMsg(msg);
+                        }
+                    }
+                    this.lowloading = false; //隐藏loading提示
+                },
+                /**
+                 * 消息提醒 弹出框
+                 * 
+                 * @param {any} msg 
+                 * @param {any} callback 
+                 */
+                alertMsg: function(msg, callback) {
+                    console.log(1);
+                    this.$alert(msg, this.i18ns.common.prompt, {
+                        confirmButtonText: this.i18ns.common.confirm,
+                        callback: function action() {
+                            callback && callback()
+                        }
+                    });
+                },
+                /**
+                 * 删除固件
+                 * 
+                 * @param {any} v 
+                 */
+                delFirmware: function(row) {
+                    this.$confirm(app.i18ns.firmware.deleteTips1, app.i18ns.common.prompt, {
+                        confirmButtonText: app.i18ns.common.confirm,
+                        cancelButtonText: app.i18ns.common.cancel,
+                        closeOnClickModal: false,
+                        type: 'warning'
+                    }).then(function() {
+                        app.fullscreenLoading = true;
+                        firmwareManage.deleteFirmware({
+                            esight: app.currentESight,
+                            param: {
+                                "basepackageName": row.basepackageName
+                            }
+                        }, function(ret) {
+                            app.fullscreenLoading = false;
+                            if (ret.code === '0') {
+                                alertMsg(app.i18ns.firmware.deleteSucc1);
+                                app.isShowDetail = false;
+                                app.isShowDetail2 = false;
+                                app.firmwareDetails = [];
+                                app.firmwareDetails2 = [];
+                                app.getFirmwareListData(); //获取已上传成功的固件列表数据
+                            } else {
+                                var msg = getErrorMsg(ret.code);
+                                alertMsg(msg);
+                            }
+                        });
+
+                    }).catch(function() {
+
+                    });
+                },
+                /**
+                 * 获取错误码对应的提示
+                 * 
+                 * @param {any} v 
+                 */
+                getErrorDetailTxt: function(v) {
+                    var error = getErrorMsg(v);;
+                    if (error) {
+                        return error.split('</br>')
+                    }
+                    return [];
+                },
+                /**
+                 * 获取错误码对应的提示
+                 * 
+                 * @param {any} v 
+                 */
+                getErrorDetailTxt1: function(v) {
+                    var error = getErrorMsg(v);;
+                    if (error) {
+                        return error.replace(/<\/br>/g, '');
+                    }
+                    return '';
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   vcenterpluginui plugin metadata.
+   The <plugin> tag doesn't contain any moduleUri property because it is an HTML plugin.
+-->
+
+<plugin id="com.huawei.vcenterpluginui.vcenterpluginui"
+      defaultBundle="com_huawei_vcenterpluginui">
+
+   <resources>
+      <resource locale="{locale}">
+         <module uri="locales/huawei-vcenter-plugin-ui-{locale}.swf"/>
+      </resource>
+   </resources>
+
+   <dependencies>
+      <!-- Allow HTML Client to display plugin icons in menus, shortcuts, object lists -->
+      <dependency type="css" uri="vcenterpluginui/assets/css/plugin-icons.css" />
+   </dependencies>
+
+    <!-- Home view shortcut -->
+
+   <extension id="com.huawei.vcenterpluginui.homeShortcut">
+      <extendedPoint>vise.home.shortcuts</extendedPoint>
+      <object>
+         <name>#{app.name}</name>
+         <icon>#{appIcon}</icon>
+         <categoryUid>vsphere.core.controlcenter.monitoringCategory</categoryUid>
+         <targetViewUid>com.huawei.vcenterpluginui.mainView</targetViewUid>
+      </object>
+   </extension>
+
+   <!-- Main view -->
+
+   <extension id="com.huawei.vcenterpluginui.mainView">
+      <extendedPoint>vise.global.views</extendedPoint>
+      <object>
+         <name>#{app.name}</name>
+         <componentClass className="com.vmware.vsphere.client.htmlbridge.HtmlView">
+            <object>
+               <root>
+                  <url>/vsphere-client/vcenterpluginui/resources/mainView.html</url>
+               </root>
+            </object>
+         </componentClass>
+      </object>
+   </extension>
+
+</plugin>
