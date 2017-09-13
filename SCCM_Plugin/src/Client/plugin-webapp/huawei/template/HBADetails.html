@@ -117,7 +117,7 @@
             </el-row>
 
             <el-form v-bind:model="wwpn" ref="wwpn" style="margin-top:8px;">
-                <el-form-item label="SANBoot" style="margin-left:3%;">&nbsp;
+                <el-form-item label="SANBoot" style="margin-left: 2px;">&nbsp;
                     <el-select v-model="wwpn.SANBoot" disabled>
                         <el-option v-for="item in SANBootOptions" :label="item.label" :key="item.value" :value="item.value">
                         </el-option>
@@ -301,7 +301,7 @@
             </el-row>
 
             <el-form v-bind:model="wwnn" ref="wwnn">
-                <el-form-item label="SANBoot" style="margin-left:3%;">&nbsp;
+                <el-form-item label="SANBoot" style="margin-left: 2px;">&nbsp;
                     <el-select v-model="wwpn.SANBoot" disabled>
                         <el-option v-for="item in SANBootOptions" :label="item.label" :key="item.value" :value="item.value">
                         </el-option>

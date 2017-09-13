@@ -153,7 +153,8 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
                 hwtask.TaskStatus = basePackageProgess.TaskStatus;
                 hwtask.TaskProgress = basePackageProgess.TaskProgress;
                 hwtask.TaskResult = basePackageProgess.TaskResult;
-                hwtask.TaskCode = errorPix + basePackageProgess.TaskCode;
+                hwtask.TaskCode = (!string.IsNullOrEmpty(basePackageProgess.TaskCode) && !string.Equals(basePackageProgess.TaskCode, "0"))?
+                (errorPix+ basePackageProgess.TaskCode):basePackageProgess.TaskCode;
                 hwtask.ErrorDetail = basePackageProgess.ErrorDetail;
                 hwtask.SyncStatus = GetTaskStatus(hwtask.SyncStatus, basePackageProgess.TaskStatus, basePackageProgess.TaskResult);
                 hwtask.LastModifyTime = System.DateTime.Now;

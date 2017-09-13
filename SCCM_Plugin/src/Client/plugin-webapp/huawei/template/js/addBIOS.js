@@ -134,7 +134,7 @@ var bios_en = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                "LABEL": { "ZH_CN": "Restore on AC power loss" },
+                "LABEL": { "ZH_CN": "Restore on AC Power Loss" },
                 "TIPS": "Set how the BMC restores after an AC power failure.",
                 "HTML": {
                     "INPUTTYPE": "select",
@@ -142,15 +142,15 @@ var bios_en = {
                     "INPUTID": "PowerStateRestoreOnACLoss",
                     "OPTIONS": {
                         "OPTION": [{
-                                "KEY": "Poweroff",
+                                "KEY": "Power Off",
                                 "VALUE": "Power Off"
                             },
                             {
-                                "KEY": "Laststate",
+                                "KEY": "Last State",
                                 "VALUE": "Last State"
                             },
                             {
-                                "KEY": "Poweron",
+                                "KEY": "Power On",
                                 "VALUE": "Power On"
                             },
                             {
@@ -1219,7 +1219,7 @@ var bios_zh_CN = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                "LABEL": { "ZH_CN": "Restore on AC power loss" },
+                "LABEL": { "ZH_CN": "Restore on AC Power Loss" },
                 "TIPS": "设置BMC在AC掉电后的恢复模式。",
                 "HTML": {
                     "INPUTTYPE": "select",
@@ -1227,15 +1227,15 @@ var bios_zh_CN = {
                     "INPUTID": "PowerStateRestoreOnACLoss",
                     "OPTIONS": {
                         "OPTION": [{
-                                "KEY": "Poweroff",
+                                "KEY": "Power Off",
                                 "VALUE": "Power Off"
                             },
                             {
-                                "KEY": "Laststate",
+                                "KEY": "Last State",
                                 "VALUE": "Last State"
                             },
                             {
-                                "KEY": "Poweron",
+                                "KEY": "Power On",
                                 "VALUE": "Power On"
                             },
                             {

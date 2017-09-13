@@ -72,7 +72,7 @@ json:'{"code":0,"description":"Delete template success."}'
   ,{
 	url:'/rest/openapi/server/deploy/task/detail',
   openid:true,
-json:'{\"code\":0,\"data\":{\"taskName\":\"API@DeployTask_1497943969620\",\"templates\":\"powertest2\",\"deviceDetails\":[{\"dn\":\"NE=34603009\",\"deviceProgress\":\"\",\"deviceResult\":\"\",\"errorDetail\":\"\"}],\"taskStatus\":\"Idel\",\"taskResult\":\"\",\"taskCode\":\"\"},\"resverd\":null,\"description\":\"get task detail success.\"}'	  
+json:'{"code":0,"data":{"taskName":"API@Task_1456209500919","templates":"iBMC-NTP","deviceDetails":[{"deviceProgress":100,"deviceResult":"Failed","errorDetail":"该设备类型不支持iBMC配置部署。","errorCode":148411},{"deviceProgress":100,"deviceResult":"Failed","errorDetail":"该设备类型不支持iBMC配置部署。","errorCode":148411},{"dn":"NE=34603313","deviceProgress":100,"deviceResult":"Success","errorDetail":"部署成功。","errorCode":0},{"dn":"NE=34603627","deviceProgress":100,"deviceResult":"Success","errorDetail":"部署成功。","errorCode":0}],"taskStatus":"Complete","taskResult":"Failed","taskCode":-2},"resverd":null,"description":"get task detail success."} '	  
   }
     ,{
 	url:'/rest/openapi/server/firmware/basepackages/upload',

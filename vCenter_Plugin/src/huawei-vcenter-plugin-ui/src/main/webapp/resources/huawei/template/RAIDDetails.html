@@ -1,0 +1,577 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        form input {
+            max-width: 217px;
+        }
+        
+        .el-dialog {
+            min-width: 600px;
+            max-width: 800px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <template>
+            <el-form label-position="left" v-bind:label-width="labelWidth" label-suffix=":">
+                <el-form-item v-bind:label="i18ns.template.templateType">
+                    {{ruleForm.templateTypeName}}
+                </el-form-item>
+            </el-form>
+        </template>
+
+        <el-form v-bind:model="ruleForm" ref="ruleForm" v-bind:label-width="labelWidth" label-position="left" label-suffix=":">
+            <el-form-item v-bind:label="i18ns.template.templateName" prop="name">
+                {{ruleForm.name}}
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.template.templateDesc" prop="desc">
+                <pre style="max-width:500px;  white-space: pre-wrap;margin:0px; word-wrap:break-word;">{{ruleForm.desc}}</pre>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.template.deleteOriginalRAID" prop="DeleteOriginRAID">
+                <el-checkbox v-model="ruleForm.DeleteOriginRAID" disabled></el-checkbox>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.template.globalHotSpareDisk" prop="GlobalHSP">
+                {{ruleForm.GlobalHSP}}
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.template.RAIDAdapterModel" prop="AdapterType">
+                {{ruleForm.AdapterTypeTxt}}
+            </el-form-item>
+            <el-row>
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title" v-on:click="classData.isOsOpen=!classData.isOsOpen">
+                        <span v-bind:class="[classData.isOsOpen ? classData.openClass : classData.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">{{i18ns.template.RAIDGroup}}</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="classData.isOsOpen" style="margin-top: 10px; margin-bottom:10px;">
+                <el-table ref="multipleTable" v-bind:data="RAIDArrays" border tooltip-effect="dark" style="width: 100%">
+
+                    <el-table-column v-bind:label="i18ns.template.RAIDGroupLevel">
+                        <template scope="scope">
+                            {{getRAIDLevelTxt(scope.row.RAIDType)}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column v-bind:label="i18ns.template.privateHotSpareDisk" v-if="ruleForm.AdapterType=='LSI2208'||ruleForm.AdapterType=='LSI3108'" prop="DedicateHSP">
+                    </el-table-column>
+                    <el-table-column v-bind:label="i18ns.template.diskGroupQuantity">
+                        <template scope="scope">
+                            <a href="javascript:" v-on:click="showRAID(scope.row)">{{scope.row.DiskArray.length}}</a>
+
+                        </template>
+                    </el-table-column>
+                    <el-table-column v-bind:label="i18ns.template.LUNID">
+                        <template scope="scope">
+                            {{getLunId(scope.row.lunInfo)}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column v-bind:label="i18ns.template.operation" width="120" v-if="ruleForm.AdapterType=='LSI2208'||ruleForm.AdapterType=='LSI3108'">
+                        <template scope="scope">
+                            <el-button type="text" icon="edit" size="small" v-on:click="edit(scope.$index,scope.row)"></el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+            <el-form-item v-bind:label="i18ns.template.startLUNID" prop="BootDrive" style="margin-top:10px;">
+                {{ruleForm.BootDrive}}
+            </el-form-item>
+            <el-form-item label="eSight" prop="esight">
+                {{ruleForm.esight}}
+            </el-form-item>
+        </el-form>
+        <el-dialog v-bind:title="i18ns.template.RAIDDetails" v-bind:visible.sync="editRaidDialog" size="small" v-bind:close-on-click-modal="false">
+            <el-form label-width="120px" label-position="left" label-suffix=":">
+                <el-form-item v-bind:label="i18ns.template.writePolicy">
+                    <el-select v-model="editDialogData.RAIDArray.WritePolicy" disabled>
+                        <el-option v-for="item in editDialogData.WritePolicys" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.template.readPolicy">
+                    <el-select v-model="editDialogData.RAIDArray.ReadPolicy" disabled>
+                        <el-option v-for="item in editDialogData.ReadPolicys" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.template.IOPolicy">
+                    <el-select v-model="editDialogData.RAIDArray.CachePolicy" disabled>
+                        <el-option v-for="item in editDialogData.CachePolicys" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.template.divisionMode">
+                    <el-select v-model="editDialogData.RAIDArray.isCustom" disabled>
+                        <el-option v-for="item in editDialogData.isCustoms" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value" disabled>
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <el-table ref="editDialogDataTable" v-bind:data="editDialogData.editLUNlist" highlight-current-row border max-height="200">
+                <el-table-column prop="LUNId" v-bind:label="i18ns.template.LUNID">
+                </el-table-column>
+                <el-table-column v-bind:label="i18ns.template.raid_capacity" show-overflow-tooltip width="300px;">
+                    <template scope="scope">
+                        <span v-if="editDialogData.RAIDArray.isCustom&&!scope.row.isUseResidualCcapacity"  style="max-width:150px;" disabled>{{scope.row.LUNSize}}</span>
+                        <span v-else-if="scope.row.isUseResidualCcapacity">
+                                {{i18ns.template.useAvailableCapacity}}
+                        </span>
+                        <span v-else-if="!editDialogData.RAIDArray.isCustom">{{i18ns.template.maximumAvailableCapacity}}</span>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="editRaidDialog=false">{{i18ns.common.confirm}}</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog v-bind:title="i18ns.template.viewRAIDGroup" v-bind:visible.sync="showRaidDialog" size="small">
+            <el-form label-width="180px" label-position="left" label-suffix=":">
+                <el-form-item v-bind:label="i18ns.template.RAIDlevel">
+                    <el-select v-model="showDialogData.RAIDLevel" disabled>
+                        <el-option v-for="item in createDialogData.RAIDLevels" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.template.privateHotSpareDisk" v-if="(ruleForm.AdapterType=='LSI2208'||ruleForm.AdapterType=='LSI3108')&&isShowprivateHSP">
+                    {{showDialogData.DedicateHSP}}
+                </el-form-item>
+            </el-form>
+            <el-table ref="showRaidlistTable" v-bind:data="showDialogData.showRaidlist" highlight-current-row border>
+                <el-table-column prop="name" v-bind:label="i18ns.common.name">
+                </el-table-column>
+                <el-table-column v-bind:label="i18ns.template.slotID" show-overflow-tooltip prop="diskArray">
+
+                </el-table-column>
+            </el-table>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="showRaidDialog = false">{{i18ns.common.confirm}}</el-button>
+            </div>
+        </el-dialog>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                i18ns: [],
+                labelWidth: '150px',
+                HSPOptions: [],
+                options: [],
+                GlobalHSPs: [],
+                HSPChecked: [],
+                privateHSPChecked: [], //硬盘组中硬盘数组，存放已经选择的硬盘
+                RAIDArrays: [],
+                isShowprivateHSP: true,
+                AdapterTypes: [{
+                    label: 'LSI2308(SR120/RU120)',
+                    value: 'LSI2308'
+                }, {
+                    label: 'LSI2208(RU320BC/SR320/SR520/SR420)',
+                    value: 'LSI2208'
+                }, {
+                    label: 'LSI3008(SR130/RU130)',
+                    value: 'LSI3008'
+                }, {
+                    label: 'LSI3108(SR430C/RU430C)',
+                    value: 'LSI3108'
+                }],
+                createDialogData: {
+                    diskGroupCount: 1,
+                    createRaidlist: [{
+                        name: '硬盘组-0',
+                        diskArray: []
+                    }],
+                    privateHSPs: [],
+                    privateHSPs1: [],
+                    privateHSP: '',
+                    RAIDLevels: [],
+                    RAIDLevel: '',
+                },
+                showDialogData: {
+                    RAIDLevel: '',
+                    showRaidlist: [],
+                    DedicateHSP: ''
+                },
+                BootDrives: [{
+                    label: '0',
+                    value: '0'
+                }],
+                editDialogData: {
+                    RAIDArray: {
+                        id: 0,
+                        WritePolicy: "WriteBack",
+                        ReadPolicy: "ReadAhead", // 读策略：正常预读
+                        CachePolicy: "Cached", // IO策略：高速缓存
+                        isCustom: false // 是否自定义LUN划分：否
+                    },
+                    thisLUNCount: 0,
+                    WritePolicys: getWritePolicy(),
+                    ReadPolicys: getReadPolicy(),
+                    CachePolicys: getIOPolicy(),
+                    isCustoms: getDivisionMode(),
+                    editLUNlist: [{
+                        LUNSize: '',
+                        LUNId: '0',
+                        isUseResidualCcapacity: false
+                    }],
+                    editLUNlistBak: [{
+                        LUNSize: '',
+                        LUNId: '0',
+                        isUseResidualCcapacity: false
+                    }],
+                    isSubmit: false,
+
+                },
+                templateValue: 'RAID',
+                fullscreenLoading: false,
+                createRaidDialog: false,
+                editRaidDialog: false,
+                showRaidDialog: false,
+                ruleForm: {
+                    esight: getEsightaliasName(getCurrentEsight()),
+                    name: '',
+                    desc: '',
+                    DeleteOriginRAID: true,
+                    GlobalHSP: '',
+                    BootDrive: '0',
+                    AdapterType: '',
+                    AdapterTypeTxt: ''
+                },
+                classData: {
+                    isOsOpen: true,
+                    openClass: 'nem_component_content_title_icon_open',
+                    closeClass: 'nem_component_content_title_icon_close'
+                }
+            },
+            created: function() {
+                this.i18ns = getIn18();
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '180px'
+                    }
+                }
+                this.options = getTemplateType();
+                var that = this;
+                for (var i = 0; i < 27; i++) {
+                    this.HSPOptions.push({
+                        label: i,
+                        value: i,
+                        disabled: false
+                    })
+                }
+                this.GlobalHSPsBak = this.HSPOptions;
+                this.GlobalHSPs = this.HSPOptions;
+                this.getTemplateDetail();
+
+            },
+            methods: {
+                getTemplateDetail: function() {
+                    var param = {
+                        "esight": getCurrentEsight(),
+                        "param": {
+                            "templateName": localStorage.getItem('templateName')
+                        }
+                    }
+                    var that = this;
+                    templateManage.getTemplateDetail(param, function(ret) {
+                        if (ret.code == '0') {
+                            var data = ret.data;
+                            if (data) {
+                                that.ruleForm.name = data.templateName;
+                                that.ruleForm.desc = data.templateDesc;
+                                that.ruleForm.DeleteOriginRAID = data.templateProp.DeleteOriginRAID;
+                                that.ruleForm.GlobalHSP = data.templateProp.GlobalHSP;
+                                that.ruleForm.BootDrive = data.templateProp.BootDrive;
+                                that.ruleForm.AdapterType = data.templateProp.AdapterType;
+                                that.ruleForm.AdapterTypeTxt = getOptionlabel(that.AdapterTypes, data.templateProp.AdapterType);
+
+                                var k = 0;
+                                for (var i = 0; i < data.templateProp.RAIDArray.length; i++) {
+                                    var raid = data.templateProp.RAIDArray[i];
+                                    var lunInfo = [];
+                                    var DiskName = [];
+                                    if (raid.isCustom) {
+                                        var LUNSizeArry = raid.LUNSize.split(';');
+                                        for (var j = 0; j < LUNSizeArry.length; j++) {
+                                            lunInfo.push({
+                                                LUNSize: LUNSizeArry[j],
+                                                LUNId: k,
+                                                isUseResidualCcapacity: LUNSizeArry[j] == "MAXSIZE"
+                                            });
+                                            k++;
+                                        }
+                                    } else {
+                                        lunInfo.push({
+                                            LUNSize: '',
+                                            LUNId: k,
+                                            isUseResidualCcapacity: false
+                                        });
+                                        k++;
+                                    }
+                                    for (var j = 0; j < raid.DiskArray.length; j++) {
+                                        DiskName.push(that.i18ns.template.diskgroup + '-' + j)
+                                    }
+                                    that.RAIDArrays.push({
+                                        DiskName: DiskName,
+                                        RAIDType: raid.RAIDType, // RAID类型
+                                        DedicateHSP: raid.DedicateHSP, // 私有热备盘：无
+                                        DiskArray: raid.DiskArray,
+                                        WritePolicy: raid.WritePolicy,
+                                        ReadPolicy: raid.ReadPolicy, // 读策略：正常预读
+                                        CachePolicy: raid.CachePolicy, // IO策略：高速缓存
+                                        isCustom: raid.isCustom, // 是否自定义LUN划分：否
+                                        lunInfo: lunInfo
+                                    });
+                                }
+                                if (that.ruleForm.AdapterType == 'LSI2308' || that.ruleForm.AdapterType == 'LSI3008') {
+                                    that.createDialogData.RAIDLevels = [{
+                                        label: 'RAID0',
+                                        value: '0'
+                                    }, {
+                                        label: 'RAID1',
+                                        value: '1'
+                                    }, {
+                                        label: 'RAID10',
+                                        value: '10'
+                                    }, {
+                                        label: 'RAID1E',
+                                        value: '1E'
+                                    }];
+                                } else {
+                                    that.createDialogData.RAIDLevels = [{
+                                        label: 'RAID0',
+                                        value: '0'
+                                    }, {
+                                        label: 'RAID1',
+                                        value: '1'
+                                    }, {
+                                        label: 'RAID5',
+                                        value: '5'
+                                    }, {
+                                        label: 'RAID6',
+                                        value: '6'
+                                    }, {
+                                        label: 'RAID10',
+                                        value: '10'
+                                    }, {
+                                        label: 'RAID50',
+                                        value: '50'
+                                    }, {
+                                        label: 'RAID60',
+                                        value: '60'
+                                    }];
+                                }
+                                that.ruleForm.templateTypeName = getOptionlabel(getTemplateType(), data.templateType);
+
+                            }
+                        }
+                    })
+
+                },
+                /**
+                 * LSI2208 & LSI3108 Raid组配置完成后 LUN ID栏值显示
+                 * 
+                 * @param {any} lunInfo 
+                 * @returns 
+                 */
+                getLunId: function(lunInfo) {
+                    var lunId = [];
+                    _.forEach(lunInfo, function(item) {
+                        lunId.push(item.LUNId);
+                    });
+                    return lunId.join();
+                },
+                /**
+                 * 硬盘组数量 点击展示操作
+                 * 
+                 * @param {any} row 
+                 */
+                showRAID: function(row) {
+                    this.showDialogData.RAIDLevel = row.RAIDType
+                    this.showDialogData.showRaidlist = [];
+                    this.showDialogData.DedicateHSP = row.DedicateHSP;
+                    var l = row.DiskArray.length;
+                    for (var i = 0; i < l; i++) {
+                        this.showDialogData.showRaidlist.push({
+                            name: row.DiskName[i],
+                            diskArray: row.DiskArray[i].DiskSlot,
+                        })
+                    };
+
+                    this.isShowprivateHSP = row.RAIDType != 0;
+                    this.showRaidDialog = true;
+                },
+                /**
+                 * LSI2208 & LSI3108 Raid组配置完成后 操作栏 打开编辑弹出框
+                 * 
+                 * @param {any} index 
+                 * @param {any} row 
+                 */
+                edit: function(index, row) {
+                    this.editDialogData.RAIDArray = {
+                            WritePolicy: row.WritePolicy,
+                            ReadPolicy: row.ReadPolicy, // 读策略：正常预读
+                            CachePolicy: row.CachePolicy, // IO策略：高速缓存
+                            isCustom: row.isCustom // 是否自定义LUN划分：否
+                        },
+
+                        this.editDialogData.editLUNlist = row.lunInfo;
+
+                    this.editRaidDialog = true;
+                },
+                /**
+                 * 获取RAID级别文本值
+                 * 
+                 * @param {any} v 
+                 */
+                getRAIDLevelTxt: function(v) {
+                    return {
+                        '0': 'RAID0',
+                        '1': 'RAID1',
+                        '5': 'RAID5',
+                        '6': 'RAID6',
+                        '10': 'RAID10',
+                        '50': 'RAID50',
+                        '60': 'RAID60',
+                        '1E': 'RAID1E'
+                    }[v] || v;
+
+                }
+            }
+        });
+
+        /**
+         * RAID详情 写策略 选择器值配置
+         *
+         * @returns
+         */
+        function getWritePolicy() {
+            var lang = localStorage.getItem('lang');
+            if (lang) {
+                if (lang == 'en') {
+                    return [{
+                        value: 'WriteThrough',
+                        label: 'Write through'
+                    }, {
+                        value: 'WriteBack',
+                        label: 'Write back'
+                    }];
+                }
+            }
+            return [{
+                value: 'WriteThrough',
+                label: '透写'
+            }, {
+                value: 'WriteBack',
+                label: '回写'
+            }];
+        }
+
+        /**
+         * RAID详情 读策略 选择器值配置
+         *
+         * @returns
+         */
+        function getReadPolicy() {
+            var lang = localStorage.getItem('lang');
+            if (lang) {
+                if (lang == 'en') {
+                    return [{
+                        value: 'ReadAhead',
+                        label: 'Normal prefetch'
+                    }, {
+                        value: 'ReadAheadNone',
+                        label: 'No prefetch'
+                    }];
+                }
+            }
+            return [{
+                value: 'ReadAhead',
+                label: '正常预读'
+            }, {
+                value: 'ReadAheadNone',
+                label: '无预读'
+            }];
+        }
+        /**
+         * RAID详情 IO策略 选择器值配置
+         *
+         * @returns
+         */
+        function getIOPolicy() {
+            var lang = localStorage.getItem('lang');
+            if (lang) {
+                if (lang == 'en') {
+                    return [{
+                        value: 'Cached',
+                        label: 'High-speed cache'
+                    }, {
+                        value: 'Direct',
+                        label: 'Direct'
+                    }];
+                }
+            }
+            return [{
+                value: 'Cached',
+                label: '高速缓存'
+            }, {
+                value: 'Direct',
+                label: '直接'
+            }];
+        }
+        /**
+         * RAID详情 划分方式 选择器值配置
+         *
+         * @returns
+         */
+        function getDivisionMode() {
+            var lang = localStorage.getItem('lang');
+            if (lang) {
+                if (lang == 'en') {
+                    return [{
+                        value: "false",
+                        label: 'Default'
+                    }, {
+                        value: true,
+                        label: 'Custom'
+                    }];
+                }
+            }
+            return [{
+                value: false,
+                label: '默认'
+            }, {
+                value: true,
+                label: '自定义'
+            }];
+        }
+    </script>
+</body>
+
+</html>

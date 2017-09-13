@@ -35,6 +35,10 @@
         .el-form-item {
             margin-bottom: 5px;
         }
+        
+        .el-table .cell {
+            white-space: pre-wrap;
+        }
     </style>
 </head>
 
@@ -56,7 +60,7 @@
             </el-table-column>
             <el-table-column width="200px" prop="basepackageType" v-bind:label="i18ns.firmware.packageType">
             </el-table-column>
-            <el-table-column v-bind:show-overflow-tooltip="true" prop="basepackageDesc" v-bind:label="i18ns.firmware.packageDesc">
+            <el-table-column prop="basepackageDesc" v-bind:label="i18ns.firmware.packageDesc">
             </el-table-column>
             </el-table>
             </template>
@@ -685,7 +689,7 @@
                         app.fullscreenLoading = false;
                         if (ret.code === '0') {
                             alertMsg(app.i18ns.firmware.addSuccessMsg, function() {
-                                window.location.href = 'listFirmwareTask.html';
+                                window.location.href = 'listFirmwareTask.html?s=' + Math.random();
                             })
                         } else {
                             msg = getErrorMsg(ret.code);

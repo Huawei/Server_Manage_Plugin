@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="js/addBIOS.js"></script>
+    <script src="js/listsort.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        form input {
+            max-width: 217px;
+        }
+        
+        .el-tooltip__popper.is-light {
+            max-width: 300px;
+        }
+        
+        .el-dialog {
+            min-width: 750px;
+            max-width: 1300px;
+        }
+        
+        .el-dialog__body {
+            min-height: 300px;
+        }
+        
+        .el-dialog .nem_component_content_title {
+            background: none repeat scroll 0 0 #EAEAEA;
+            padding: 0 0 0 20px;
+            line-height: 13px;
+            border: 0 none !important;
+            cursor: pointer;
+            height: 26px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div>
+            <el-form v-bind:model="ruleForm" label-width="120px" label-position="left" label-suffix=":">
+                <el-form-item v-bind:label="i18ns.template.templateType">
+                    {{templateValue|getLabel(options)}}
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.template.templateName">
+                    {{ruleForm.name}}
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.template.templateDesc">
+                    <pre style="max-width:500px;  white-space: pre-wrap;margin:0px; word-wrap:break-word;">{{ruleForm.desc}}</pre>
+                </el-form-item>
+                <bios-item v-bind:class_data="classData" v-bind:form_data="ruleForm"></bios-item>
+                <el-button type="text" @click="showDialog('ruleForm')">{{i18ns.common.advanced}}</el-button>
+                <el-form-item label="eSight">
+                    {{checkEsight}}
+                </el-form-item>
+            </el-form>
+        </div>
+
+        <el-dialog v-bind:title="i18ns.common.advancedSet" v-bind:visible.sync="dialogFormVisible" :close-on-click-modal="false">
+            <el-form v-bind:model="ruleForm" ref="dialogForm" label-position="left" label-width="150px" label-suffix=":" id="#dialogForm">
+                <el-row style="margin-top:3px;">
+                    <el-col v-bind:span="24">
+                        <div class="nem_component_content_title" v-on:click="closeAllClass();classData.isPropertyBootOpen=!classData.isPropertyBootOpen">
+                            <span v-bind:class="[classData.isPropertyBootOpen ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">Boot</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isPropertyBootOpen" style="margin-top: 10px; margin-bottom:10px;">
+                    <el-row>
+                        <el-col v-bind:span="12" v-for="(col,index) in ruleForm.BIOS.Property_Boot.CHILDREN.CHILD" v-bind:key="col.LABEL.ZH_CN">
+                            <el-form-item v-bind:label="col.LABEL.ZH_CN" label-width="120px">
+                                {{col.HTML.DEFAULT}}
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+
+                <el-row style="margin-top:3px;">
+                    <el-col v-bind:span="24">
+                        <div class="nem_component_content_title" v-on:click="closeAllClass();classData.isPropertyVirtualizationOpen=!classData.isPropertyVirtualizationOpen">
+                            <span v-bind:class="[classData.isPropertyVirtualizationOpen ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">Virtualization</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isPropertyVirtualizationOpen" style="margin-top: 10px; margin-bottom:10px;">
+                    <el-row>
+                        <el-col v-bind:span="12" v-for="(col,index) in ruleForm.BIOS.Property_Virtual.CHILDREN.CHILD" v-bind:key="col.LABEL.ZH_CN" v-show="index == 0 ? true : classData.showVirtualization">
+                            <el-form-item v-bind:label="col.LABEL.ZH_CN" v-bind:label-width="index%2==0?'220px':'150px'">
+                                {{col.HTML.DEFAULT}}
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+
+
+                <el-row style="margin-top:3px;">
+                    <el-col v-bind:span="24">
+                        <div class="nem_component_content_title" v-on:click="closeAllClass();classData.isPropertyAPOpen=!classData.isPropertyAPOpen">
+                            <span v-bind:class="[classData.isPropertyAPOpen ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">Advanced Processor</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isPropertyAPOpen" style="margin-top: 10px; margin-bottom:10px;">
+                    <el-row>
+                        <el-col v-bind:span="12" v-for="(col,index) in ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD" v-bind:key="col.LABEL.ZH_CN" v-show="index == 5 || index == 7 || index == 9 || index == 11 ||index == 13 ? classData.showAdvanceProcessor : true">
+                            <el-form-item v-bind:label="col.LABEL.ZH_CN" v-bind:label-width="index%2==0?'200px':'150px'">
+                                {{col.HTML.DEFAULT}}
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+
+
+                <el-row style="margin-top:3px;">
+                    <el-col v-bind:span="24">
+                        <div class="nem_component_content_title" v-on:click="closeAllClass();classData.isPropertyConsoleOpen=!classData.isPropertyConsoleOpen">
+                            <span v-bind:class="[classData.isPropertyConsoleOpen ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">Console Serial Port</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isPropertyConsoleOpen" style="margin-top: 10px; margin-bottom:10px;">
+                    <el-row>
+                        <el-col v-bind:span="12" v-for="(col,index) in ruleForm.BIOS.Property_Console.CHILDREN.CHILD" v-bind:key="col.LABEL.ZH_CN" v-show="index == 0 ? true : classData.showConsole">
+                            <el-form-item v-bind:label="col.LABEL.ZH_CN" v-bind:label-width="index%2==0?'200px':'150px'">
+                                {{col.HTML.DEFAULT}}
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+
+                <el-row style="margin-top:3px;">
+                    <el-col v-bind:span="24">
+                        <div class="nem_component_content_title" v-on:click="closeAllClass();classData.isPropertyIPMIOpen=!classData.isPropertyIPMIOpen">
+                            <span v-bind:class="[classData.isPropertyIPMIOpen ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">IPMI</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isPropertyIPMIOpen" style="margin-top: 10px; margin-bottom:10px;">
+                    <el-row>
+                        <el-col v-bind:span="index%2==0?10:14" v-for="(col,index) in ruleForm.BIOS.Property_IPMI.CHILDREN.CHILD" v-bind:key="col.LABEL.ZH_CN" v-show="index == 0 ? true : classData.showIPMI">
+                            <el-form-item v-bind:label="col.LABEL.ZH_CN" v-bind:label-width="index%2==0?'200px':'240px'">
+                                {{col.HTML.DEFAULT}}
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="closeDialog()">{{i18ns.common.confirm}}</el-button>
+            </div>
+        </el-dialog>
+    </div>
+    <!--template -->
+    <script type="text/template" id="bios">
+        <div>
+            <el-row style="margin-top:3px;">
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title" v-on:click="class_data.isBootOpen=!class_data.isBootOpen">
+                        <span v-bind:class="[class_data.isBootOpen ? class_data.openClass : class_data.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">Boot</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="class_data.isBootOpen" style="margin-top: 10px; margin-bottom:10px;">
+                <div style="position: absolute;top: 250px;left: 106px;">
+                </div>
+                <el-row>
+                    <el-col>
+                        <el-form-item label="Set boot order">
+                            <el-row v-for="(item, index) in form_data.bootOrder">
+                                <el-col v-bind:span="24" class="list-order">
+                                    <span class="title">{{index}}:&nbsp&nbsp{{item.label}}</span>
+                                </el-col>
+                            </el-row>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </div>
+
+            <el-row style="margin-top:3px;">
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title" v-on:click="class_data.isVirtualizationOpen=!class_data.isVirtualizationOpen">
+                        <span v-bind:class="[class_data.isVirtualizationOpen ? class_data.openClass : class_data.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">Virtualization</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="class_data.isVirtualizationOpen" style="margin-top: 10px; margin-bottom:10px;">
+                <el-row>
+                    <el-col v-bind:span="11" v-for="(col,index) in form_data.BIOS.Virtual.CHILDREN.CHILD" v-bind:key="col.LABEL.ZH_CN">
+                        <el-form-item v-bind:label="col.LABEL.ZH_CN">
+                            {{col.HTML.DEFAULT}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </div>
+            <el-row style="margin-top:3px;">
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title" v-on:click="class_data.isAPOpen=!class_data.isAPOpen">
+                        <span v-bind:class="[class_data.isAPOpen ? class_data.openClass : class_data.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">Advanced Processor</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="class_data.isAPOpen" style="margin-top: 10px; margin-bottom:10px;">
+                <el-row>
+                    <el-col v-bind:span="11" v-for="(col,index) in form_data.BIOS.AdvanceProcessor.CHILDREN.CHILD" v-bind:key="col.LABEL.ZH_CN">
+                        <el-form-item v-bind:label="col.LABEL.ZH_CN" v-bind:label-width="index%2==0?'150px':'200px'">
+                            {{col.HTML.DEFAULT}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+            </div>
+            <el-row style="margin-top:3px;">
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title" v-on:click="class_data.isIPMIOpen=!class_data.isIPMIOpen">
+                        <span v-bind:class="[class_data.isIPMIOpen ? class_data.openClass : class_data.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">IPMI</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="class_data.isIPMIOpen" style="margin-top: 10px; margin-bottom:10px;">
+                <el-row>
+                    <el-col v-bind:span="11" v-for="(col,index) in form_data.BIOS.IPMI.CHILDREN.CHILD" v-bind:key="col.LABEL.ZH_CN">
+                        <el-form-item v-bind:label="col.LABEL.ZH_CN" label-width="200">
+                            {{col.HTML.DEFAULT}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+            </div>
+        </div>
+    </script>
+
+    <script>
+        Vue.component('bios-item', {
+            template: '#bios',
+            replace: true,
+            props: {
+                class_data: Object,
+                form_data: Object
+            },
+            data: function() {
+                return {
+                    i18ns: []
+                }
+            },
+            created: function() {
+                this.i18ns = getIn18(); //国际化
+            }
+        });
+        var property = _.cloneDeep(getBiosData());
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                i18ns: [],
+                lang: [],
+                options: [],
+                templateValue: 'BIOS',
+                esightList: [],
+                checkEsight: "",
+                ruleForm: {
+                    name: '',
+                    desc: '',
+                    osType: 'BIOS',
+                    bootOrder: [],
+                    BIOS: getBiosData()
+
+                },
+                classData: {
+                    isOsOpen: true,
+                    isBootOpen: true,
+                    isVirtualizationOpen: true,
+                    isAPOpen: true,
+                    isIPMIOpen: true,
+
+                    isPropertyBootOpen: true,
+                    isPropertyVirtualizationOpen: false,
+                    isPropertyAPOpen: false,
+                    isPropertyConsoleOpen: false,
+                    isPropertyIPMIOpen: false,
+
+                    showIPMI: false,
+                    showConsole: false,
+                    showVirtualization: false,
+                    showAdvanceProcessor: false,
+
+                    openClass: 'nem_component_content_title_icon_open',
+                    closeClass: 'nem_component_content_title_icon_close'
+                },
+                dialogTableVisible: false,
+                dialogFormVisible: false,
+            },
+            created: function() {
+                this.i18ns = getIn18();
+                this.options = getTemplateType();
+
+                this.checkEsight = getEsightaliasName(getCurrentEsight());
+
+            },
+            mounted: function() {
+                this.getDetails();
+            },
+            filters: {
+                getLabel: function(v, arry) {
+                    if (typeof(v) != "undefined") {
+                        var c = _.find(arry, function(x) {
+                            return x.value.toString() == v.toString();
+                        });
+                        return c ? c.label : "";
+                    }
+                }
+            },
+            methods: {
+                getDetails: function(result) {
+                    setTimeout(function() {
+                        console.log(result);
+                        var param = {
+                            esight: getCurrentEsight(),
+                            param: {
+                                templateName: localStorage.getItem('templateName')
+                            }
+                        }
+                        templateManage.getTemplateDetail(param, function(result) {
+                            var data = result.data;
+                            var prop = data.templateProp;
+                            console.log(prop)
+
+                            app.ruleForm.name = data.templateName;
+                            app.ruleForm.desc = data.templateDesc;
+
+                            var defaultOrder = getBootOrder();
+                            var nowOrder = _.map(prop.BootOrder.split(''), function(x) {
+                                return _.find(defaultOrder, function(y) {
+                                    return y.value == x;
+                                })
+                            });
+                            app.ruleForm.bootOrder = nowOrder;
+                            app.ruleForm.BIOS.Virtual.CHILDREN.CHILD[0].HTML.DEFAULT = prop.VTSupport;
+                            app.ruleForm.BIOS.Virtual.CHILDREN.CHILD[1].HTML.DEFAULT = prop.PCIeSRIOVSupport;
+                            app.ruleForm.BIOS.AdvanceProcessor.CHILDREN.CHILD[0].HTML.DEFAULT = prop.CustomPowerPolicy;
+                            app.ruleForm.BIOS.AdvanceProcessor.CHILDREN.CHILD[1].HTML.DEFAULT = prop.ProcessorEistEnable;
+                            app.ruleForm.BIOS.AdvanceProcessor.CHILDREN.CHILD[2].HTML.DEFAULT = prop.PowerSaving;
+                            app.ruleForm.BIOS.AdvanceProcessor.CHILDREN.CHILD[3].HTML.DEFAULT = prop.HTSupport;
+                            app.ruleForm.BIOS.IPMI.CHILDREN.CHILD[0].HTML.DEFAULT = prop.PowerStateRestoreOnACLoss;
+                            app.ruleForm.BIOS.Property_Boot.CHILDREN.CHILD[0].HTML.DEFAULT = prop.QuickBoot;
+                            app.ruleForm.BIOS.Property_Boot.CHILDREN.CHILD[1].HTML.DEFAULT = prop.QuietBoot;
+                            app.ruleForm.BIOS.Property_Boot.CHILDREN.CHILD[2].HTML.DEFAULT = prop.BootType;
+                            app.ruleForm.BIOS.Property_Boot.CHILDREN.CHILD[3].HTML.DEFAULT = prop.WakeOnPME;
+                            app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[0].HTML.DEFAULT = prop.EnableTurboMode;
+                            app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[1].HTML.DEFAULT = prop.AcpiVer;
+                            app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[2].HTML.DEFAULT = prop.NumaEn;
+                            app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[4].HTML.DEFAULT = prop.RasMode;
+                            app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[6].HTML.DEFAULT = prop.MLCSpatialPrefetcherEnable;
+                            app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[8].HTML.DEFAULT = prop.MLCStreamerPrefetcherEnable;
+                            app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[10].HTML.DEFAULT = prop.DCUIPPrefetcherEnable;
+                            app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[12].HTML.DEFAULT = prop.DCUStreamerPrefetcherEnable;
+
+                            app.ruleForm.BIOS.Property_Virtual.CHILDREN.CHILD[0].HTML.DEFAULT = prop["VTdSupport"];
+                            if (prop.VTdSupport != "Disabled") {
+                                app.ruleForm.BIOS.Property_Virtual.CHILDREN.CHILD[1].HTML.DEFAULT = prop["InterruptRemap"];
+                                app.ruleForm.BIOS.Property_Virtual.CHILDREN.CHILD[2].HTML.DEFAULT = prop["ATS"];
+                                app.ruleForm.BIOS.Property_Virtual.CHILDREN.CHILD[3].HTML.DEFAULT = prop["CoherencySupport"];
+                                app.ruleForm.BIOS.Property_Virtual.CHILDREN.CHILD[4].HTML.DEFAULT = prop["PassThroughDma"];
+                                app.classData.showVirtualization = true;
+                            }
+
+                            app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[3].HTML.DEFAULT = prop["ProcessorCcxEnable"];
+                            if (prop["ProcessorCcxEnable"] != "Disabled") {
+                                app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[5].HTML.DEFAULT = prop["OsAcpiCx"];
+                                app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[7].HTML.DEFAULT = prop["EnCStates"];
+                                app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[9].HTML.DEFAULT = prop["EnableC3"];
+                                app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[11].HTML.DEFAULT = prop["EnableC6"];
+                                app.ruleForm.BIOS.Property_AdvanceProcessor.CHILDREN.CHILD[13].HTML.DEFAULT = prop["EnableC7"];
+                                app.classData.showAdvanceProcessor = true;
+                            }
+                            app.ruleForm.BIOS.Property_Console.CHILDREN.CHILD[0].HTML.DEFAULT = prop["CREnable"];
+                            if (prop["CREnable"] != "Disabled") {
+                                app.ruleForm.BIOS.Property_Console.CHILDREN.CHILD[1].HTML.DEFAULT = prop["CRTerminalType"];
+                                app.ruleForm.BIOS.Property_Console.CHILDREN.CHILD[2].HTML.DEFAULT = prop["CRParity"];
+                                app.ruleForm.BIOS.Property_Console.CHILDREN.CHILD[3].HTML.DEFAULT = prop["CRBaudRate"];
+                                app.ruleForm.BIOS.Property_Console.CHILDREN.CHILD[4].HTML.DEFAULT = prop["CRStopBits"];
+                                app.ruleForm.BIOS.Property_Console.CHILDREN.CHILD[5].HTML.DEFAULT = prop["CRDataBits"];
+                                app.classData.showConsole = true;
+                            }
+
+                            app.ruleForm.BIOS.Property_IPMI.CHILDREN.CHILD[0].HTML.DEFAULT = prop["OSWdtEnable"];
+                            if (prop["OSWdtEnable"] != "Disabled") {
+                                app.ruleForm.BIOS.Property_IPMI.CHILDREN.CHILD[1].HTML.DEFAULT = prop["OSWdtTimeout"];
+                                app.ruleForm.BIOS.Property_IPMI.CHILDREN.CHILD[2].HTML.DEFAULT = prop["OSWdtAction"];
+                                app.classData.showIPMI = true;
+                            }
+                        });
+                    })
+                },
+                closeDialog: function() {
+                    this.dialogFormVisible = false;
+                },
+
+                /**
+                 * 高级设置 点击某一行额折叠打开事件
+                 * 
+                 */
+                closeAllClass: function() {
+                    this.classData.isPropertyBootOpen = false;
+                    this.classData.isPropertyVirtualizationOpen = false;
+                    this.classData.isPropertyAPOpen = false;
+                    this.classData.isPropertyConsoleOpen = false;
+                    this.classData.isPropertyIPMIOpen = false;
+                },
+                /**
+                 * 返回模板列表
+                 * 
+                 * @param {any} formName 
+                 */
+                goBack: function() {
+                    goBack('list.html');
+                },
+
+                /**
+                 * 弹出高级设置弹出框
+                 * 
+                 * @param {any} formName 
+                 */
+                showDialog: function(formName) {
+                    property = _.cloneDeep(this.ruleForm.BIOS);
+                    this.dialogFormVisible = true;
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

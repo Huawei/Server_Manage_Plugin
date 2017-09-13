@@ -1,0 +1,633 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="js/listsort.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        form input {
+            max-width: 217px;
+        }
+        
+        .select input {
+            width: 287px;
+        }
+        
+        .cdkey input {
+            max-width: 80px;
+        }
+        
+        .margin-top-8 {
+            margin-top: 8px;
+        }
+        
+        .el-form-item__error {
+            z-index: 2;
+            background-color: #FFFFFF;
+        }
+        
+        .el-dialog {
+            min-width: 820px;
+            max-width: 1300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <template>
+            <el-form label-position="left" v-bind:label-width="labelWidth" label-suffix=":">
+                <el-form-item v-bind:label="i18ns.template.templateType">
+                    {{ruleForm.templateTypeName}}
+                </el-form-item>
+            </el-form>
+        </template>
+        <template>
+            <div>
+                <el-form v-bind:model="ruleForm" ref="ruleForm" v-bind:label-width="labelWidth" label-position="left" label-suffix=":">
+                    <el-form-item v-bind:label="i18ns.template.templateName">
+                        {{ruleForm.name}}
+                    </el-form-item>
+                    <el-form-item v-bind:label="i18ns.template.templateDesc" prop="desc">
+                        <pre style="max-width:500px;  white-space: pre-wrap;margin:0px;word-wrap:break-word;">{{ruleForm.desc}}</pre>                        
+                    </el-form-item>
+                    <el-form-item v-bind:label="i18ns.template.osType" prop="osType">
+                        {{ruleForm.osTypeName}}
+                    </el-form-item>
+                    <os-item-windows v-if="ruleForm.osType=='1'" v-bind:class_data="classData" v-bind:form_data="ruleForm"></os-item-windows>
+                    <os-item-linux v-else-if="ruleForm.osType=='2'" v-bind:class_data="classData" v-bind:form_data="ruleForm"></os-item-linux>
+                    <os-item-linux v-else-if="ruleForm.osType=='3'" v-bind:class_data="classData" v-bind:form_data="ruleForm"></os-item-linux>
+                    <os-item-linux v-else-if="ruleForm.osType=='4'" v-bind:class_data="classData" v-bind:form_data="ruleForm"></os-item-linux>
+                    <os-item-vmware v-else-if="ruleForm.osType=='5'||ruleForm.osType=='6'" v-bind:class_data="classData" v-bind:form_data="ruleForm"></os-item-vmware>
+
+                    <os-item-ubuntu v-else-if="ruleForm.osType=='7'" v-bind:class_data="classData" v-bind:form_data="ruleForm"></os-item-ubuntu>
+                    <el-form-item label="eSight" prop="esight">
+                        {{ruleForm.esight}}
+                    </el-form-item>
+                </el-form>
+            </div>
+        </template>
+    </div>
+    <!--Windows Server template -->
+    <script type="text/template" id="os_windows">
+        <div>
+            <el-row>
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title" v-on:click="class_data.isOsOpen=!class_data.isOsOpen">
+                        <span v-bind:class="[class_data.isOsOpen ? class_data.openClass : class_data.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">{{i18ns.template.osSettings}}</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="class_data.isOsOpen" style="margin-top: 23px;">
+                <el-row>
+                    <el-col v-bind:span="24">
+                        <el-form-item v-bind:label="i18ns.template.Software">
+                            {{form_data.software}}
+                        </el-form-item>
+                    </el-col>
+
+                </el-row>
+                <el-row>
+                    <el-col v-bind:span="24">
+                        <el-form-item label="CD Key">
+                            {{form_data.CDKey}}
+                        </el-form-item>
+                    </el-col>
+
+                </el-row>
+                <el-row>
+                    <el-col v-bind:span="11">
+                        <el-form-item v-bind:label="i18ns.template.deployDevice" prop="osDeployPolicy">
+                            {{form_data.osDeployPolicyTxt}}
+                        </el-form-item>
+                    </el-col>
+
+                </el-row>
+
+            </div>
+            <el-row class="margin-top-8">
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title" v-on:click="class_data.isPartitionOpen=!class_data.isPartitionOpen">
+                        <span v-bind:class="[class_data.isPartitionOpen ? class_data.openClass : class_data.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">{{i18ns.template.partitionSettings}}</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="class_data.isPartitionOpen" style="margin-top: 10px; margin-bottom:10px;">
+                <el-row style="margin-top:5px;">
+                    <template v-for="(item,index) in form_data.disk">
+                        <el-table v-bind:data="item.paritions" border style="width: 100%">
+                            <el-table-column prop="driver" v-bind:label="i18ns.template.partition">
+                            </el-table-column>
+                            <el-table-column v-bind:label="i18ns.template.fileSystem">
+                                <template scope="scope">
+                                    {{scope.row.fileSystem==0?'NTFS':'FAT32'}}
+
+                                </template>
+                    </el-table-column>
+                    <el-table-column v-bind:label="i18ns.template.capacity" min-width="345">
+                        <template scope="scope">
+                                    <span v-if="scope.row.isUseFreeCapacity">
+                                        {{i18ns.template.useAvailableCapacity}}
+                                    </span>
+                                    <span v-else> {{scope.row.capacity}}{{scope.row.unit==1?'GB':'MB'}}</span>
+                                </template>
+                    </el-table-column>
+
+                    </el-table>
+                    </template>
+
+                </el-row>
+            </div>
+        </div>
+    </script>
+    <!-- Linux template -->
+    <script type="text/template" id="os_linux">
+        <div>
+            <el-row>
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title" v-on:click="class_data.isOsOpen=!class_data.isOsOpen">
+                        <span v-bind:class="[class_data.isOsOpen ? class_data.openClass : class_data.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">{{i18ns.template.osSettings}}</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="class_data.isOsOpen" style="margin-top: 23px;">
+                <el-row>
+                    <el-col v-bind:span="24">
+                        <el-form-item v-bind:label="i18ns.template.Software" prop="software">
+                            {{form_data.software}}
+                        </el-form-item>
+                    </el-col>
+
+                </el-row>
+                <el-row>
+                    <el-col v-bind:span="24">
+                        <el-form-item v-bind:label="i18ns.template.deployDevice" prop="osDeployPolicy">
+                            {{form_data.osDeployPolicyTxt}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </div>
+            <el-row class="margin-top-8">
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title" v-on:click="class_data.isPartitionOpen=!class_data.isPartitionOpen">
+                        <span v-bind:class="[class_data.isPartitionOpen ? class_data.openClass : class_data.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">{{i18ns.template.partitionSettings}}</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="class_data.isPartitionOpen" style="margin-top: 10px; margin-bottom:10px;">
+                <el-row style="margin-top:5px;">
+                    <template v-for="(item,index) in form_data.disk">
+                        <el-table v-bind:data="item.paritions" border style="width: 100%">
+                            <el-table-column v-bind:label="i18ns.template.mountPoint" prop="driver">
+                            </el-table-column>
+                            <el-table-column v-bind:label="i18ns.template.fileSystem">
+                                <template scope="scope">
+                                    <span v-if="scope.row.fileSystem==0">swap</span>
+                                    <span v-else-if="scope.row.fileSystem==1"> reiser</span>
+                                    <span v-else-if="scope.row.fileSystem==2"> ext2</span>
+                                    <span v-else-if="scope.row.fileSystem==3">ext3</span>
+                                    <span v-else-if="scope.row.fileSystem==4"> ext4 </span>
+                                </template>
+                    </el-table-column>
+                    <el-table-column v-bind:label="i18ns.template.capacity" min-width="345">
+                        <template scope="scope">
+                                    <span v-if="scope.row.isUseFreeCapacity">
+                                        {{i18ns.template.useAvailableCapacity}}
+                                    </span>
+                                    <span v-else> {{scope.row.capacity}}{{scope.row.unit==1?'GB':'MB'}}</span>
+                                </template>
+                    </el-table-column>
+                    </el-table>
+                    </template>
+
+                </el-row>
+            </div>
+        </div>
+    </script>
+
+    <!--VMware  template -->
+    <script type="text/template" id="os_vmware">
+        <div>
+            <el-row>
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title" v-on:click="class_data.isOsOpen=!class_data.isOsOpen">
+                        <span v-bind:class="[class_data.isOsOpen ? class_data.openClass : class_data.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">{{i18ns.template.osSettings}}</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="class_data.isOsOpen" style="margin-top: 23px;">
+
+                <el-row>
+                    <el-col v-bind:span="24">
+                        <el-form-item v-bind:label="i18ns.template.Software" prop="software">
+                            {{form_data.software}}
+                        </el-form-item>
+                    </el-col>
+
+                </el-row>
+                <el-row>
+                    <el-col v-bind:span="24">
+                        <el-form-item v-bind:label="i18ns.template.deployDevice" prop="osDeployPolicy">
+                            {{form_data.osDeployPolicyTxt}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
+    </script>
+    <!--Ubuntu template -->
+    <script type="text/template" id="os_ubuntu">
+        <div>
+            <el-row>
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title" v-on:click="class_data.isOsOpen=!class_data.isOsOpen">
+                        <span v-bind:class="[class_data.isOsOpen ? class_data.openClass : class_data.closeClass]"></span>
+                        <span class="nem_component_content_title_lbl">{{i18ns.template.osSettings}}</span>
+                    </div>
+                </el-col>
+            </el-row>
+            <div v-show="class_data.isOsOpen" style="margin-top: 23px;">
+                <el-row>
+                    <el-col v-bind:span="24">
+                        <el-form-item v-bind:label="i18ns.template.Software" prop="software">
+                            {{form_data.software}}
+                        </el-form-item>
+                    </el-col>
+
+                </el-row>
+                <el-row>
+                    <el-col v-bind:span="24">
+                        <el-form-item v-bind:label="i18ns.template.deployDevice" prop="osDeployPolicy">
+                            {{form_data.osDeployPolicyTxt}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
+    </script>
+    <script>
+        Vue.component('os-item-windows', {
+            template: '#os_windows',
+            props: {
+                class_data: Object,
+                form_data: Object
+            },
+            data: function() {
+                return {
+                    i18ns: []
+                };
+            },
+            created: function() {
+                //国际化信息
+                this.i18ns = getIn18();
+            },
+            methods: {}
+        });
+        Vue.component('os-item-linux', {
+            template: '#os_linux',
+            props: {
+                class_data: Object,
+                form_data: Object
+            },
+            data: function() {
+                return {
+                    i18ns: []
+                };
+            },
+            created: function() {
+                //国际化信息
+                this.i18ns = getIn18();
+            }
+
+        });
+
+        Vue.component('os-item-vmware', {
+            template: '#os_vmware',
+            props: {
+                class_data: Object,
+                form_data: Object
+            },
+            data: function() {
+                return {
+                    i18ns: [],
+                    letterIndex: 0
+                };
+            },
+            created: function() {
+                //国际化信息
+                this.i18ns = getIn18();
+            },
+            methods: {
+                /**
+                 * 弹出选择选软件源窗口
+                 *
+                 */
+                showSoftware: function() {
+                    //触发父组件弹出选择选软件源窗口
+                    this.$emit('show-software');
+                },
+
+                /*  getIcon: function(index) {
+                     var icon = index === this.form_data.osDeployPolicyOption.length - 1 ? 'caret-top' : 'caret-bottom';
+                     return icon;
+                 },
+                 move: function() {
+                     this.form_data.osDeployPolicyOption.reverse();
+                 } */
+
+            }
+        });
+
+        Vue.component('os-item-ubuntu', {
+            template: '#os_ubuntu',
+            props: {
+                class_data: Object,
+                form_data: Object
+            },
+            data: function() {
+                return {
+                    i18ns: [],
+                    letterIndex: 0
+                };
+            },
+            created: function() {
+                //国际化信息
+                this.i18ns = getIn18();
+            },
+            methods: {
+                /**
+                 * 弹出选择选软件源窗口
+                 *
+                 */
+                showSoftware: function() {
+                    //触发父组件弹出选择选软件源窗口
+                    this.$emit('show-software');
+                },
+                /**
+                 * 添加硬盘组
+                 *
+                 * @returns
+                 */
+                addDisk: function() {
+                    //判断硬盘组是否超过12个
+                    if (this.letterIndex === 12) {
+                        this.$alert(app.i18ns.template.moreHardDiskErrorMsg2, app.i18ns.template.prompt, {
+                            confirmButtonText: app.i18ns.common.confirm,
+                            callback: function() {}
+                        });
+                        return;
+                    }
+                    //盘符索引+1
+                    this.letterIndex += 1;
+                    //添加一组硬盘组信息
+                    this.form_data.disk.push({
+                        paritions: [{
+                            driver: '',
+                            fileSystem: '1',
+                            capacity: '',
+                            unit: '1',
+                            isUseFreeCapacity: false
+                        }]
+                    });
+                },
+                /**
+                 * 删除一组硬盘组（从后向前删除）
+                 *
+                 */
+                deleteDisk: function() {
+                    //硬盘组总长度
+                    var diskLength = this.form_data.disk.length;
+                    //如果硬盘组总长度大于1
+                    if (diskLength > 1) {
+                        //移除最后一组
+                        this.form_data.disk.splice(diskLength - 1, 1);
+                        //盘符索引-1
+                        this.letterIndex -= 1;
+                    }
+                },
+                /**
+                 *添加分区
+                 * @param {any} diskIndex  硬盘组索引
+                 * @param {any} rowIndex   硬盘组内索引
+                 * @returns
+                 */
+                addDriver: function(diskIndex, rowIndex) {
+                    //判断硬盘组是否超过12个
+                    if (this.letterIndex === 12) {
+                        this.$alert(app.i18ns.template.moreHardDiskErrorMsg2, app.i18ns.template.prompt, {
+                            confirmButtonText: app.i18ns.common.confirm,
+                            callback: function() {}
+                        });
+                        return;
+                    }
+                    //盘符索引+1
+                    this.letterIndex += 1;
+                    //硬盘组内添加分区
+                    this.form_data.disk[diskIndex].paritions.push({
+                        driver: '',
+                        fileSystem: '1',
+                        capacity: '',
+                        unit: '1',
+                        isUseFreeCapacity: false
+                    });
+                    //当前分区的是否使用剩余容量设置为false
+                    this.form_data.disk[diskIndex].paritions[rowIndex].isUseFreeCapacity = false;
+                },
+                /**
+                 * 删除分区
+                 *
+                 * @param {any} diskIndex 硬盘组索引
+                 * @param {any} row 硬盘组数据
+                 */
+                deleteDriver: function(diskIndex, row) {
+                    //得到要删除索引
+                    var _index = _.findIndex(this.form_data.disk[diskIndex].paritions, {
+                        driver: row.driver
+                    });
+                    //根据索引删除分区
+                    this.form_data.disk[diskIndex].paritions.splice(_index, 1);
+                    var diskLength = this.form_data.disk.length;
+                    //盘符索引-1
+                    this.letterIndex -= 1;
+                },
+                cdkeyinput: function() {
+
+                },
+                /**
+                 * validateCapacity
+                 *
+                 * @param {any} index
+                 * @param {any} rowIndex
+                 * @param {any} val
+                 */
+                validateCapacity: function(index, rowIndex, val) {
+                    if (val) {
+                        if (val.split('.').length > 2) {
+                            var v = val.substring(0, val.length - 1);
+                            setTimeout(function() {
+                                app.ruleForm.disk[index].paritions[rowIndex].capacity = v;
+                            }, 0);
+                        }
+
+                    }
+                }
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                i18ns: [],
+                options: [],
+                templateValue: 'OS',
+                esightList: [],
+                labelWidth: '120px',
+                fullscreenLoading: false,
+                ruleForm: {
+                    name: '',
+                    desc: '',
+                    osType: '',
+                    osTypeName: '',
+                    templateTypeName: '',
+                    options: [{
+                        value: '1',
+                        label: 'Windows Server'
+                    }, {
+                        value: '2',
+                        label: 'SUSE Linux'
+                    }, {
+                        value: '3',
+                        label: 'Red Hat'
+                    }, {
+                        value: '4',
+                        label: 'CentOS'
+                    }, {
+                        value: '5',
+                        label: 'VMware ESXi 5.0'
+                    }, {
+                        value: '6',
+                        label: 'VMware ESXi 5.1/5.5/6.0'
+                    }, {
+                        value: '7',
+                        label: 'Ubuntu'
+                    }],
+                    software: '',
+                    CDKey: '',
+                    passWord: '',
+                    disk: [],
+                    osDeployPolicyOption: [],
+                    osDeployPolicy: '1',
+                    osDeployPolicyTxt: '',
+                    esight: getEsightaliasName(getCurrentEsight()),
+                    hostOwnerName: '',
+                    hostOwnerCompany: '',
+                    softSourceVersions: [],
+                    softSourceVersion: ''
+                },
+                classData: {
+                    isOsOpen: true,
+                    isPartitionOpen: true,
+                    openClass: 'nem_component_content_title_icon_open',
+                    closeClass: 'nem_component_content_title_icon_close'
+                },
+
+                softwareLoading: false,
+                softwareData: [],
+                currentPage: 1,
+                pageSizes: [10, 20, 50, 100],
+                pageSize: 10,
+                total: 0
+            },
+            created: function() {
+                //国际化信息
+                this.i18ns = getIn18();
+                //根据中英文设置labelWidth
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '200px'
+                    }
+                }
+                this.ruleForm.osDeployPolicyOption = getOSDeployPolicys();
+                var that = this;
+                getEsightList(function(ret) {
+                    if (ret.code === '0') {
+                        var data = ret.data;
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].hostIp == getCurrentEsight()) {
+                                if (data[i].aliasName) {
+                                    that.esightList.push({
+                                        label: data[i].aliasName,
+                                        name: data[i].hostIp
+                                    });
+                                } else {
+                                    that.esightList.push({
+                                        label: data[i].hostIp,
+                                        name: data[i].hostIp
+                                    });
+                                }
+                            }
+                        }
+                    }
+                });
+                this.getTemplateDetail();
+            },
+            methods: {
+                getTemplateDetail: function() {
+                    var param = {
+                        "esight": getCurrentEsight(),
+                        "param": {
+                            "templateName": localStorage.getItem('templateName')
+                        }
+                    }
+                    var that = this;
+                    templateManage.getTemplateDetail(param, function(ret) {
+                        if (ret.code == '0') {
+                            var data = ret.data;
+                            if (data) {
+                                that.ruleForm.name = data.templateName;
+                                that.ruleForm.desc = data.templateDesc;
+                                that.ruleForm.osType = data.templateProp.osType;
+                                that.ruleForm.software = data.templateProp.softSourceName;
+                                that.ruleForm.CDKey = data.templateProp.cdKey;
+                                that.ruleForm.disk = data.templateProp.disk;
+                                that.ruleForm.osDeployPolicy = data.templateProp.osDeployPolicy;
+                                that.ruleForm.templateTypeName = getOptionlabel(getTemplateType(), data.templateType);
+                                that.ruleForm.osTypeName = getOptionlabel(that.ruleForm.options, data.templateProp.osType)
+                                that.ruleForm.osDeployPolicyTxt = getOptionlabel(getOSDeployPolicys(), data.templateProp.osDeployPolicy)
+                            }
+                        }
+                    })
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

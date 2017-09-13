@@ -36,12 +36,21 @@
         }
         
         .el-dialog {
-            min-width: 700px;
+            min-width: 750px;
             max-width: 1300px;
         }
         
         .el-dialog__body {
             min-height: 300px;
+        }
+        
+        .el-dialog .nem_component_content_title {
+            background: none repeat scroll 0 0 #EAEAEA;
+            padding: 0 0 0 20px;
+            line-height: 13px;
+            border: 0 none !important;
+            cursor: pointer;
+            height: 26px;
         }
     </style>
 </head>
@@ -98,7 +107,7 @@
                 <div v-show="classData.isPropertyVirtualizationOpen" style="margin-top: 10px; margin-bottom:10px;">
                     <el-row>
                         <el-col v-bind:span="12" v-for="(col,index) in ruleForm.BIOS.Property_Virtual.CHILDREN.CHILD" v-bind:key="col.LABEL.ZH_CN" v-show="index == 0 ? true : classData.showVirtualization">
-                            <el-form-item v-bind:label="col.LABEL.ZH_CN" v-bind:label-width="index%2==0?'190px':'120px'">
+                            <el-form-item v-bind:label="col.LABEL.ZH_CN" v-bind:label-width="index%2==0?'220px':'150px'">
                                 {{col.HTML.DEFAULT}}
                             </el-form-item>
                         </el-col>

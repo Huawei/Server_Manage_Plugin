@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="UT coverage with Ant and JaCoCo running tests" default="all" basedir="."
+         xmlns:jacoco="antlib:org.jacoco.ant">
+
+    <!-- ========= Define the main properties of this project ========= -->
+    <property name="src.dir" value="./src/main/java"/>
+    <property name="src.resources.dir" value="./src/main/resources"/>
+    <property name="test.dir" value="../../test/test/java"/>
+    <property name="test.resources.dir" value="../../test/test/resources"/>
+    <property name="build.dir" value="./build"/>
+	<property name="api.lib" value="../../src_bin"/>
+    <property name="sdk.lib" value="../../third_party"/>
+	<property name="test-sdk.lib" value="../../test/test-lib"/>
+
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="test.classes.dir" value="${build.dir}/testclasses"/>
+    <property name="reports.dir" value="./reports"/>
+    <property name="reports.junit.xml.dir" value="${reports.dir}/junit"/>
+
+    <!-- ========= Define "regular" targets: clean, compile, test, ... ========= -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${classes.dir}"/>
+        <delete dir="${test.classes.dir}"/>
+        <delete dir="${reports.dir}"/>
+        <delete dir="${reports.junit.xml.dir}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${test.classes.dir}"/>
+        <mkdir dir="${reports.dir}"/>
+        <mkdir dir="${reports.junit.xml.dir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac encoding="UTF-8" srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" fork="true"
+               debug="true" includeAntRuntime="false"/>
+        <javac encoding="UTF-8" srcdir="${test.dir}" destdir="${test.classes.dir}" classpathref="classpath" fork="true"
+               debug="true" includeAntRuntime="false">
+            <classpath path="${classes.dir}" />
+        </javac>
+        <copydir src="${test.resources.dir}" dest="${test.classes.dir}"/>
+        <copydir src="${src.resources.dir}/db" dest="${test.classes.dir}/db" includes="*.sql"/>
+    </target>
+
+
+    <path id="classpath">
+    	<fileset dir="${api.lib}" includes="*.jar"/>
+        <fileset dir="${sdk.lib}" includes="*.jar"/>
+    	<fileset dir="${test-sdk.lib}" includes="*.jar"/>
+    </path>
+
+    <target name="test" depends="compile">
+        <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask">
+            <classpath>
+                <path refid="classpath"/>
+            </classpath>
+        </taskdef>
+
+        <!-- Import the JaCoCo Ant Task -->
+        <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+            <!-- Update the following line, or put the "jacocoant.jar" file in your "$HOME/.ant/lib" folder -->
+            <classpath path="${test-sdk.lib}/jacocoant.jar"/>
+        </taskdef>
+
+        <!-- Run your unit tests, adding the JaCoCo agent -->
+        <jacoco:coverage destfile="${build.dir}/jacoco.exec" xmlns:jacoco="antlib:org.jacoco.ant">
+            <junit fork="yes" dir="${basedir}" failureProperty="test.failed">
+                <classpath location="${classes.dir}"/>
+                <classpath location="${test.classes.dir}"/>
+                <classpath refid="classpath"/>
+
+                <formatter type="xml"/>
+                <batchtest todir="${reports.junit.xml.dir}">
+                    <fileset dir="${test.dir}">
+                        <include name="**/*Test.java"/>
+                    </fileset>
+                </batchtest>
+            </junit>
+        </jacoco:coverage>
+    </target>
+
+    <target name="report" depends="test">
+        <!-- Step 3: Create coverage report -->
+        <jacoco:report>
+
+            <!-- This task needs the collected execution data and ... -->
+            <executiondata>
+                <file file="${build.dir}/jacoco.exec"/>
+            </executiondata>
+
+            <!-- the class files and optional source files ... -->
+            <structure name="Huawei vCenter Plugin">
+                <classfiles>
+                    <fileset dir="${classes.dir}">
+                    	<exclude name="**/utils/*.class" />
+                    	<exclude name="**/*Exception*.class" />
+                    	<exclude name="**/constant/*.class" />
+                    	<exclude name="**/*BaseController*.class" />
+                    	<exclude name="**/entity/*.class" />
+                    	<exclude name="**/interceptor/*.class" />
+                    	<exclude name="**/provider/*.class" />
+                    	<exclude name="**/*LogAspect*.class" />
+                    	<exclude name="**/*InstantiationBeanService*.class" />
+                    	<exclude name="**/*SystemService*.class" />
+                    	<exclude name="**/*SessionService*.class" />
+                    </fileset>
+                </classfiles>
+                <sourcefiles encoding="UTF-8">
+                    <fileset dir="${src.dir}"/>
+                </sourcefiles>
+            </structure>
+
+            <!-- to produce reports in different formats. -->
+            <html destdir="${reports.dir}"/>
+            <csv destfile="${reports.dir}/report.csv"/>
+            <xml destfile="${reports.dir}/report.xml"/>
+        </jacoco:report>
+    </target>
+
+    <!-- ========= The main target "all" ========= -->
+    <target name="all" depends="clean,compile,test,report"/>
+
+</project>
