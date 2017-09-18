@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <bean name="ESightServiceImpl" class="com.huawei.vcenterpluginui.services.ESightServiceImpl">
+        <property name="eSightDao" ref="eSightDao"/>
+    </bean>
+    <bean name="systemService" class="com.huawei.vcenterpluginui.services.SystemServiceImpl">
+        <property name="h2DataBaseDao" ref="h2DataBaseDao"/>
+    </bean>
+
+    <!--    <bean name="ESightOpenApi" class="com.huawei.vcenterpluginui.services.ESightOpenApi"/> -->
+    <bean name="h2DataBaseDao" class="com.huawei.vcenterpluginui.dao.H2DataBaseDao">
+        <property name="url" value="${h2.url}"/>
+    </bean>
+
+    <bean name="eSightDao" class="com.huawei.vcenterpluginui.dao.ESightDao">
+        <property name="url" value="${h2.url}"/>
+    </bean>
+    
+    <bean name="taskDao" class="com.huawei.vcenterpluginui.dao.TaskDao">
+        <property name="url" value="${h2.url}"/>
+    </bean>
+    
+    <bean name="taskResourceDao" class="com.huawei.vcenterpluginui.dao.TaskResourceDao">
+        <property name="url" value="${h2.url}"/>
+    </bean>
+
+    <bean name="ServerApiServiceImpl" class="com.huawei.vcenterpluginui.services.ServerApiServiceImpl">
+        <property name="eSightDao" ref="eSightDao"/>
+    </bean>
+
+    <bean name="SoftwareApiServiceImpl" class="com.huawei.vcenterpluginui.services.SoftwareApiServiceImpl">
+        <property name="eSightDao" ref="eSightDao"/>
+        <property name="taskDao" ref="taskDao"/>
+    </bean>
+    
+    <bean name="TemplateApiServiceImpl" class="com.huawei.vcenterpluginui.services.TemplateApiServiceImpl">
+        <property name="eSightDao" ref="eSightDao"/>
+        <property name="taskDao" ref="taskDao"/>
+        <property name="taskResourceDao" ref="taskResourceDao"/>
+    </bean>
+    
+    <bean name="FirmwareApiServiceImpl" class="com.huawei.vcenterpluginui.services.FirmwareApiServiceImpl">
+        <property name="eSightDao" ref="eSightDao"/>
+        <property name="taskDao" ref="taskDao"/>
+    </bean>
+    
+    <bean name="SessionServiceImpl" class="com.huawei.vcenterpluginui.services.SessionServiceImpl">
+        <property name="userSessionService" ref="userSessionService"/>
+    </bean>
+
+    <bean name="InstantiationBeanServiceImpl" class="com.huawei.vcenterpluginui.services.InstantiationBeanServiceImpl">
+        <property name="systemService" ref="systemService" />
+    </bean>
+
+</beans>

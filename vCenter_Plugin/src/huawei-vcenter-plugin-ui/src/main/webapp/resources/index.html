@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <meta charset="utf-8"/>
+    <link href="css/element.css" rel="stylesheet"/>
+    <script src="scripts/vue.js"></script>
+    <script src="scripts/element.js"></script>
+    <script src="scripts/i18n/zh-CN.js"></script>
+    <script src="scripts/i18n/en.js"></script>
+    <script src="../assets/jquery-2.1.3.min.js"></script>
+    <script src="./js/web-platform.js"></script>
+    <script src="./huawei/i18n/V-zh-CN.js"></script>
+    <script src="./huawei/i18n/V-en.js"></script>
+    <script>
+        var curPath = window.document.location.href;
+        var here = curPath.substring(0, curPath.lastIndexOf("/") + 1);
+
+        $("script").each(function () {
+            var src = $(this).attr("src");
+            if (src != undefined) {
+                $(this).attr("src", here + src);
+            }
+        });
+
+        $("link").each(function () {
+            var href = $(this).attr("href");
+            if (href != undefined) {
+                $(this).attr("href", here + href);
+            }
+        });
+    </script>
+    
+    <style type="text/css">
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<div id="mainapp" v-cloak>
+    <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu-item id="menu-eSight" index="huawei/eSight/eSightConfig.html">{{i18ns.menu_eSight}}</el-menu-item>
+        <el-submenu index="2">
+            <template slot="title"><a id="menu-server">{{i18ns.menu_server}}</a></template>
+            <el-menu-item id="menu-server-list" index="huawei/serverList/VServerList.html">{{i18ns.menu_server_list}}
+            </el-menu-item>
+            <el-menu-item id="menu-server-sourceManage" index="huawei/softwareManager/softManager.html">
+                {{i18ns.menu_server_sourceManage}}
+            </el-menu-item>
+            <el-menu-item id="menu-server-moduleManage" index="huawei/template/List.html">
+                {{i18ns.menu_server_moduleManage}}
+            </el-menu-item>
+            <el-menu-item id="menu-server-moduleManage-task" index="huawei/task/list.html">
+                {{i18ns.menu_server_moduleManage_task}}
+            </el-menu-item>
+            <el-menu-item id="menu-server-firmware-upload" index="huawei/firmware/listFirmware.html">
+                {{i18ns.menu_server_firmware_upload}}
+            </el-menu-item>
+            <el-menu-item id="menu-server-firmware-upgrade" index="huawei/firmware/listFirmwareTask.html">
+                {{i18ns.menu_server_firmware_upgrade}}
+            </el-menu-item>
+        </el-submenu>
+        <el-menu-item style="float: right;" index="huawei/about/about.html">
+        	{{i18ns.menu_about}}
+        </el-menu-item>
+    </el-menu>
+    <iframe width="100%" id="mainViewIframe" v-bind:height="iframeHeight" frameborder="0" v-bind:src="iframeSrc"
+            scrolling="yes"></iframe>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#mainapp",
+        data: {
+            activeIndex: 'huawei/eSight/eSightConfig.html',
+            i18ns: {}, //国际化
+            iframeSrc: here + 'huawei/eSight/eSightConfig.html',
+            iframeHeight: 400
+        }, created: function () {
+        	if (navigator.languages != undefined) {
+                localStorage.setItem('lang', navigator.languages[0].slice(0, 2));
+            }else if (navigator.language != undefined) {
+                localStorage.setItem('lang', navigator.language.slice(0, 2));
+            }
+            this.i18ns = getVCenterIn18();
+        }, methods: {
+            handleSelect: function (key, keyPath) {
+                activeIndex = key;
+                this.iframeSrc = here + key + "?" + Math.random();
+            }
+        }
+    })
+
+    function doResize() {
+        var explorer = navigator.userAgent;
+        if (explorer.indexOf("Firefox") >= 0 || explorer.indexOf("Windows") >= 0) {
+            app.iframeHeight = $(document).height() - 80;
+        } else {
+            app.iframeHeight = document.body.scrollHeight - 80;
+        }
+    }
+
+    $(document).ready(function () {
+        doResize();
+        $(window).resize(function () {
+            doResize();
+        });
+    });
+    
+    function _refresh(){ 
+    	var eSightListUrl = com_huawei_vcenterpluginui.webContextPath + "/rest/services/esight/version?"+Math.random();
+        //通过API获取数据
+        $.get(eSightListUrl, function(response){
+        	console.log(response);
+          },"json");
+    	} 
+    var timer = window.setInterval(_refresh,1*60*1000); 
+
+    /**
+     * vCenter菜单国际化
+     **/
+    function getVCenterIn18() {
+        var lang = localStorage.getItem('lang');
+        if (lang) {
+            if (lang == 'en') {
+                ELEMENT.locale(ELEMENT.lang.en);
+                return i18n_v_en;
+            } else {
+                ELEMENT.locale(ELEMENT.lang.zhCN);
+                return i18n_v_zh_CN;
+            }
+        } else {
+            ELEMENT.locale(ELEMENT.lang.zhCN);
+            return i18n_v_zh_CN;
+        }
+    }
+</script>
+
+</body>
+
+</html>

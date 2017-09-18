@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:osgi="http://www.springframework.org/schema/osgi"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:aop="http://www.springframework.org/schema/aop"
+   xmlns:mvc="http://www.springframework.org/schema/mvc"
+   xmlns:context="http://www.springframework.org/schema/context"
+   xsi:schemaLocation="
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/osgi
+      http://www.springframework.org/schema/osgi/spring-osgi.xsd
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-3.0.xsd
+      http://www.springframework.org/schema/aop
+      http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+   <!-- DO NOT CHANGE this section, it enables Spring MVC @Controller programming model -->
+
+   <mvc:annotation-driven />
+   <context:annotation-config/>
+   
+   <!-- 拦截器 -->
+	<mvc:interceptors>
+	     <mvc:interceptor>  
+	     <!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->
+	       <mvc:mapping path="/**" />
+	         <!-- 拦截器类 --> 
+	         <bean class="com.huawei.vcenterpluginui.interceptor.SessionHandlerInterceptor">
+	         </bean>
+	     </mvc:interceptor>
+	        <!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->
+	</mvc:interceptors> 
+
+   <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+      <property name="mediaTypes">
+         <map>
+            <entry key="json" value="application/json"/>
+         </map>
+      </property>
+      <property name="defaultViews">
+         <list>
+            <!-- This is required to render the controller responses as Json -->
+            <bean
+               class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+         </list>
+      </property>
+   </bean>
+
+
+   <!-- Standard controller beans: you can modify them if necessary -->
+
+   <bean name="eSightController" class="com.huawei.vcenterpluginui.mvc.ESightController" />
+
+   <bean name="softwareResourceController" class="com.huawei.vcenterpluginui.mvc.SoftwareResourceController" />
+   
+   <bean name="serverController" class="com.huawei.vcenterpluginui.mvc.ServerController" />
+   
+   <bean name="templateController" class="com.huawei.vcenterpluginui.mvc.TemplateController" />
+
+   <bean name="firmwareController" class="com.huawei.vcenterpluginui.mvc.FirmwareController" />
+
+   <!-- AOP -->
+   <bean name="aspectBean" class="com.huawei.vcenterpluginui.services.LogAspect" />
+
+   <!-- OSGI references to platform services used by the controllers -->
+
+   <!-- OSGI references to your services used by the controllers -->
+
+   <osgi:reference id="eSightService"
+         interface="com.huawei.vcenterpluginui.services.ESightService" />
+
+   <osgi:reference id="serverApiService"
+         interface="com.huawei.vcenterpluginui.services.ServerApiService" />
+         
+   <osgi:reference id="softwareApiService"
+         interface="com.huawei.vcenterpluginui.services.SoftwareApiService" />
+         
+  <osgi:reference id="templateApiService"
+         interface="com.huawei.vcenterpluginui.services.TemplateApiService" />
+         
+   <osgi:reference id="firmwareApiService"
+         interface="com.huawei.vcenterpluginui.services.FirmwareApiService" />
+         
+   <osgi:reference id="sessionService"
+         interface="com.huawei.vcenterpluginui.services.SessionService" />
+
+   <osgi:reference id="instantiationBeanService"
+         interface="com.huawei.vcenterpluginui.services.InstantiationBeanService" />
+         
+
+   <aop:config proxy-target-class="false">
+      <aop:aspect ref="aspectBean">
+         <aop:pointcut id="controllerPointcut"
+                       expression="execution(public * com.huawei.vcenterpluginui.mvc.*Controller.*(..))" />
+         <aop:before pointcut-ref="controllerPointcut" method="logRequest"/>
+      </aop:aspect>
+   </aop:config>
+</beans>
+

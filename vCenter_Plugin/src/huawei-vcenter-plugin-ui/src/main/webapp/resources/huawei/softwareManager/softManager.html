@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>softManager</title>
+    <meta charset="utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        body {
+            min-width: 900px;
+        }
+        
+        .el-table__body-wrapper {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .el-tabs__item {
+            font-size: 18px;
+        }
+        
+        .bg-purple-dark {
+            background: none repeat scroll 0 0 #EAEAEA;
+            height: 30px;
+            padding: 0 0 0 20px;
+            border: 0 none !important;
+            margin-top: 100px;
+        }
+        
+        .grid-content {
+            position: relative;
+            font-size: 14px;
+            top: 3px;
+            text-align: left;
+        }
+        
+        .dialog-footer {
+            margin-top: 10px;
+        }
+        
+        .el-dialog__body {
+            padding-bottom: 0px;
+        }
+        
+        form .el-select {
+            width: 250px;
+        }
+        
+        form input {
+            max-width: 250px;
+        }
+        
+        .el-dialog {
+            width: 705px;
+        }
+        
+        .el-table .cell {
+            white-space: pre-wrap;
+        }
+        
+        .el-tooltip__popper.is-dark {
+            background: #fbfdff;
+            color: #1f2d3d;
+            width: 260px;
+            word-wrap: break-word;
+            border: 1px solid rgb(31, 45, 61);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-row class="search-row">
+            <el-button style="margin-left: 10px;" @click="addSoft()">{{i18ns.software.add}}</el-button>
+            <el-button style="margin-left: 10px;" @click="clearFailSoft()" :disabled="false">{{i18ns.firmware.clearFailedTask}}</el-button>
+            <el-button @click="refresh();">{{i18ns.common.refresh}}</el-button>
+        </el-row>
+        <div>
+            <template>
+                <div>
+                    <el-table v-bind:data="listData" border style="width: 100%" v-loading="loading">
+                        <el-table-column prop="softwareSourceName" v-bind:label="i18ns.software.name">
+                        </el-table-column>
+                        <el-table-column prop="taskName" v-bind:label="i18ns.software.task">
+                        </el-table-column>
+                        <el-table-column prop="hostId" v-bind:label="i18ns.software.esightHost">
+                        </el-table-column>
+                        <el-table-column prop="taskProgress" v-bind:label="i18ns.software.synchronousState" >
+                        </el-table-column>
+                        <el-table-column prop="syncStatusTxt" v-bind:label="i18ns.software.taskState">
+                        </el-table-column>
+                        <el-table-column prop="errorDetail" v-bind:label="i18ns.software.detail_soft">
+                                <template scope="scope">
+                                        <el-popover trigger="hover" placement="top">
+                                                <div v-for="item in getErrorDetailTxt(scope.row.taskCode)">
+                                                    <span>{{item}}</span>
+                                                </div>
+                                          <div slot="reference" class="name-wrapper">
+                                            <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ getErrorDetailTxt1(scope.row.taskCode) }}</div>
+                                          </div>
+                                        </el-popover>
+                                      </template>
+            </el-table-column>
+            <el-table-column prop="createTime" v-bind:label="i18ns.software.time">
+            </el-table-column>
+            </el-table>
+        </div>
+        </template>
+    </div>
+    <div style="margin-top:80px; margin-left: 10px;">
+        <el-row class="search-row">
+            <el-col>
+                <el-dropdown @command="commandClick">
+                    <el-button>
+                        {{menuName}}<i class="el-icon-caret-bottom el-icon--right"></i>
+                    </el-button>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item v-for="item in esights" v-bind:command="item.name" v-bind:key="item.name">{{item.label}}</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+                <span style="margin-left:50px; font-size:12px;">{{i18ns.software.inputName}}</span>
+                <el-input v-model.lazy="keyword" v-on:change="search(keyword)" placeholder="" style="margin-left:10px; width:240px;"></el-input>
+            </el-col>
+        </el-row>
+    </div>
+    <div>
+        <template>
+                <div>
+                    <el-table v-bind:data="doneListData" border style="width: 100%;" v-loading="secondloading"> 
+                        <el-table-column prop="softwareName" v-bind:label="i18ns.software.name">
+                        </el-table-column>
+                        <el-table-column prop="softwareDescription" v-bind:label="i18ns.software.desc">
+                        </el-table-column>
+                        <el-table-column prop="softwareType" v-bind:label="i18ns.software.detail">
+                        </el-table-column>
+                        <el-table-column v-bind:label="i18ns.software.handle">
+                            <template scope="scope">
+                                <el-button type="text" size="small" v-on:click="deleteDoneSoftware(scope.$index, scope.row)">{{i18ns.common.delete}}</el-button>
+                            </template>
+        </el-table-column>
+        </el-table>
+    </div>
+    <el-row class="pagination-row">
+        <el-col v-bind:span="24" style="text-align:left;">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" v-bind:current-page="currentPage" v-bind:page-sizes="pageSizes" v-bind:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" v-bind:total="total">
+            </el-pagination>
+        </el-col>
+    </el-row>
+    </template>
+    </div>
+    <el-dialog v-bind:title="i18ns.software.addSoftware" v-bind:visible.sync="dialogFormVisible" @close="closeDialog" top="10%">
+        <el-form v-bind:model="ruleForm" v-bind:rules="rules" ref="ruleForm" label-width="130px" label-position="left">
+            <el-form-item v-bind:label="i18ns.software.softName" prop="softwareName">
+                <div>
+                    <el-input v-model="ruleForm.softwareName" :disabled="false" auto-complete="off"></el-input>
+                </div>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.software.softDesc" prop="softwareDescription">
+                <div>
+                    <el-input v-model="ruleForm.softwareDescription" type="textarea" auto-complete="off" @change="onVlaueChange()" style="width:520px;"></el-input>
+                </div>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.software.softType" prop="softwareType" class="softType">
+                <div>
+                    <el-col v-bind:span="12">
+                        <el-select v-model="templateValue" placeholder="">
+                            <el-option v-for="item in templateOptions" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col v-bind:span="12">
+                        <!--ruleForm.softwareType-->
+                        <el-select v-model="ruleForm.softwareType" placeholder="" @change="systemTypeValueChange">
+                            <el-option v-for="item in systemTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                </div>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.software.softVersion" prop="softwareVersion" class="softVersion">
+                <div>
+                    <el-col v-bind:span="12">
+                        <el-select v-model="ruleForm.softwareVersion" placeholder="" @change="versionTypeValueChange">
+                            <el-option v-for="item in versionTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col v-bind:span="12">
+                        <!--ruleForm.softwareVersion-->
+                        <el-select v-model="ruleForm.softwareEdition" placeholder="" @change="softwareEditionValueChange" v-show="showSoftEdition">
+                            <el-option v-for="item in softEditionOptions" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                </div>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.software.softLanguage" prop="softwareLanguage" v-show="showLanguage" class="softLanguage">
+                <div>
+                    <el-col v-bind:span="12">
+                        <!--ruleForm.softwareLanguage-->
+                        <el-select v-model="ruleForm.softwareLanguage" placeholder="">
+                            <el-option v-for="item in languageValueOptions" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                </div>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.software.sourceName" prop="sourceName">
+                <div>
+                    <el-input v-model="ruleForm.sourceName" auto-complete="off" @change="onVlaueChange()"></el-input>
+                </div>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.software.sftipIP" prop="sftpServerIP">
+                <div>
+                    <el-input v-model="ruleForm.sftpServerIP" auto-complete="off" @change="onVlaueChange()"></el-input>
+                </div>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.software.sftpPort" prop="sftpPort">
+                <div>
+                    <el-input v-model="ruleForm.sftpPort" auto-complete="off" @change="onVlaueChange()"></el-input>
+                </div>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.software.sftipIPName" prop="username">
+                <div>
+                    <el-input v-model="ruleForm.username" auto-complete="off" @change="onVlaueChange()"></el-input>
+                </div>
+            </el-form-item>
+            <el-form-item v-bind:label="i18ns.software.sftipIPpwd" prop="password">
+                <div>
+                    <el-input type="password" v-model="ruleForm.password" auto-complete="off" @change="onVlaueChange()"></el-input>
+                </div>
+            </el-form-item>
+            <el-form-item label="eSight:" prop="esight">
+                <el-checkbox-group v-model="ruleForm.esight">
+                    <el-checkbox v-for="item in esightList" v-bind:label="item.name" v-bind:key="item.name">{{item.label}}</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="confirm()">{{i18ns.common.confirm}}</el-button>
+            <el-button @click="cancel()">{{i18ns.common.cancel}}</el-button>
+        </div>
+    </el-dialog>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                currentPage: 1,
+                pageSize: 10,
+                pageSizes: [10, 20, 50, 100],
+                total: 0,
+                i18ns: [],
+                esights: [],
+                options: [],
+                syncStatus: [],
+                menuName: '',
+                menuKey: '',
+                keyword: '',
+                allListData: [],
+                listData: [],
+                doneListData: [],
+                failListData: [],
+                loading: false, //显示表格数据加载中
+                secondloading: false,
+                fullscreenLoading: false, //删除操作遮罩
+                dialogFormVisible: false,
+                systemTypeOptions: [],
+                versionTypeOptions: [],
+                softEditionOptions: [],
+                esightList: [],
+                showLanguage: false,
+                showSoftEdition: false,
+                showDeleteBtn: false,
+                isDisable: false,
+                languageValueOptions: [{
+                    value: 'Chinese',
+                    label: 'Chinese'
+                }, {
+                    value: 'English',
+                    label: 'English'
+                }],
+                templateOptions: [{
+                    value: 'OS',
+                    label: 'OS'
+                }],
+                templateValue: 'OS',
+                ruleForm: {
+                    esight: [],
+                    softwareName: '',
+                    softwareDescription: '',
+
+                    softwareType: '',
+                    softwareVersion: '',
+                    softwareEdition: '',
+                    softwareLanguage: 'Chinese',
+
+                    sourceName: '',
+                    sftpPort: '',
+                    sftpServerIP: '',
+                    username: '',
+                    password: ''
+                },
+                rules: {
+                    esight: [{
+                        type: 'array',
+                        required: true,
+                        message: '',
+                        trigger: 'change'
+                    }],
+                    softwareName: {
+                        required: true,
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (!/^[a-zA-Z0-9_\-]{6,32}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.software.templateNameErrorMsg));
+                                } else
+                                    return callback();
+                            } else {
+                                return callback(new Error(app.i18ns.software.nameNull));
+                            }
+                        },
+                        trigger: 'change'
+                    },
+                    softwareDescription: [{
+                        required: false,
+                        message: '',
+                        tigger: 'blur'
+                    }, {
+                        min: 0,
+                        max: 128,
+                        message: '',
+                        trigger: 'blur'
+                    }],
+                    // 此处以下为选择器控件
+                    softwareType: [{
+                        required: true,
+                        message: '',
+                        tigger: 'blur'
+                    }, {
+                        min: 1,
+                        max: 200,
+                        message: '',
+                        trigger: 'blur'
+                    }],
+                    softwareVersion: [{
+                        required: true,
+                        message: '',
+                        tigger: 'blur'
+                    }, {
+                        min: 1,
+                        max: 100,
+                        message: '',
+                        trigger: 'blur'
+                    }],
+                    softwareLanguage: [{
+                        required: true,
+                        message: '',
+                        tigger: 'blur'
+                    }, {
+                        min: 1,
+                        max: 100,
+                        message: '',
+                        trigger: 'blur'
+                    }],
+                    // 此处以上为选择器控件
+                    sourceName: {
+                        required: true,
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (!/^[a-zA-Z0-9_\-\.]{1,100}$/.test(value)) {
+                                    return callback(new Error(app.i18ns.software.sourceNameError));
+                                } else
+                                    return callback();
+                            } else {
+                                return callback(new Error(app.i18ns.software.sourceNameNull));
+                            }
+                        },
+                        trigger: 'change'
+                    },
+                    sftpPort: {
+                        required: true,
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (!/^[0-9]*$/.test(value) || value < 0 || value > 65535) {
+                                    return callback(new Error(app.i18ns.software.sftpPortError));
+                                } else
+                                    return callback();
+                            } else {
+                                return callback(new Error(app.i18ns.software.SFTPPortNull));
+                            }
+                        }
+                    },
+                    sftpServerIP: {
+                        required: true,
+                        validator: function(rule, value, callback) {
+                            if (value) {
+                                if (!/^(22[0-3]|2[0-1]\d|1[0-1][0-9]|12[012345689]|1[3-9]\d|[1-9]\d|[1-9])\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|[1-9])$/.test(value)) {
+                                    return callback(new Error(app.i18ns.software.sftpIPError));
+                                } else
+                                    return callback();
+                            } else {
+                                return callback(new Error(app.i18ns.software.SFTPIPNull));
+                            }
+                        },
+                        trigger: 'change'
+                    },
+                    username: [{
+
+                        required: false,
+                        trigger: 'change'
+                    }, {
+                        min: 0,
+                        max: 64,
+                        trigger: 'change'
+                    }],
+                    password: [{
+
+                        required: false,
+                        trigger: 'change'
+                    }, {
+                        min: 0,
+                        max: 64,
+                        trigger: 'change'
+                    }]
+                }
+
+            },
+            created: function() {
+                this.i18ns = getIn18();
+                this.syncStatus = getTaskStatus();
+                this.rules.username[1].message = this.i18ns.software.sftpNameError;
+                this.rules.password[1].message = this.i18ns.software.passWordErrorMsg;
+                var _pageSize = localStorage.getItem("softManagerPageSize");
+                if (_pageSize) {
+                    this.pageSize = parseInt(_pageSize);
+                };
+            },
+            mounted: function() {
+                setTimeout(function() {
+                    //获取eSight数据配置
+                    getEsightList(app.bindEsight);
+                }, 0);
+                this.resetType();
+            },
+            methods: {
+                /**
+                 * 设置一页显示的数据总条数
+                 * 
+                 * @param {any} val 
+                 */
+                handleSizeChange: function(val) {
+                    this.pageSize = val;
+                    localStorage.setItem("softManagerPageSize", val);
+                    this.getDoneListData();
+                },
+                /**
+                 * 切换当前显示页
+                 * 
+                 * @param {any} val 
+                 */
+                handleCurrentChange: function(val) {
+                    this.currentPage = val;
+                    this.getDoneListData();
+                },
+                /**
+                 * 搜索功能
+                 * 
+                 * @param {any} keyword 
+                 */
+                search: function(keyword) {
+                    app.doneListData = [];
+                    for (var i = 0; i < app.allListData.length; i++) {
+                        if (app.allListData[i].softwareName.toUpperCase().indexOf(keyword.toUpperCase()) >= 0) {
+                            app.doneListData.push(app.allListData[i]);
+                        }
+                    }
+                },
+                /**
+                 * 获取eSight数据配置 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindEsight: function(ret) {
+                    if (ret.code == '0') {
+                        var lg = ret.data.length;
+                        if (lg > 0) {
+                            for (var i = 0; i < lg; i++) {
+                                if (ret.data[i].aliasName) {
+                                    this.esights.push({
+                                        label: ret.data[i].aliasName,
+                                        name: ret.data[i].hostIp
+                                    });
+                                    this.esightList.push({
+                                        id: ret.data[i].id,
+                                        label: ret.data[i].aliasName,
+                                        name: ret.data[i].hostIp
+                                    })
+                                } else {
+                                    this.esights.push({
+                                        label: ret.data[i].hostIp,
+                                        name: ret.data[i].hostIp
+                                    });
+                                    this.esightList.push({
+                                        id: ret.data[i].id,
+                                        label: ret.data[i].hostIp,
+                                        name: ret.data[i].hostIp
+                                    })
+                                }
+                            }
+                            var currentEsight = getCurrentEsight();
+                            if (currentEsight) {
+                                var _currentEsight = _.find(this.esights, {
+                                    name: currentEsight
+                                })
+                                if (_currentEsight) {
+                                    this.menuName = _currentEsight.label; /*设置选项卡下拉框默认选中项*/
+                                    this.menuKey = _currentEsight.name; /*设置选项卡下拉框默认选中项*/
+                                } else {
+                                    setCurrentEsight(ret.data[0].hostIp);
+                                    this.menuName = this.esights[0].label; /*设置选项卡下拉框默认选中项*/
+                                    this.menuKey = this.esights[0].name; /*设置选项卡下拉框默认选中项*/
+                                }
+                            } else {
+                                setCurrentEsight(ret.data[0].hostIp);
+                                this.menuName = this.esights[0].label; /*设置选项卡下拉框默认选中项*/
+                                this.menuKey = this.esights[0].name; /*设置选项卡下拉框默认选中项*/
+                            }
+                            this.loading = true;
+                            this.secondloading = true;
+                            this.getListData(); //获取列表数据
+                        }
+                    } else {
+                        app.loading = false;
+                        app.secondloading = false;
+                        msg = getErrorMsg(ret.code);
+                        this.alertMsg(msg);
+                    }
+                },
+                /**
+                 * eSight 列表的点击切换操作
+                 * 
+                 * @param {any} command 
+                 * @param {any} com 
+                 */
+                commandClick: function(command, com) {
+                    this.menuName = com.$el.innerText;
+                    this.menuKey = command;
+                    setCurrentEsight(command);
+                    this.doneListData = [];
+                    this.keyword = '';
+                    this.secondloading = true;
+                    this.getDoneListData();
+                },
+                /**
+                 * 设置默认数据
+                 * 
+                 */
+                resetType: function() {
+                    this.commonfunc();
+                    this.systemTypeValueChange(this.ruleForm.softwareType);
+                    this.versionTypeValueChange(this.ruleForm.softwareVersion);
+                },
+                /**
+                 * 顶部添加操作
+                 * 
+                 */
+                addSoft: function() {
+                    this.rules.esight[0].message = this.i18ns.software.eSightnull;
+                    this.dialogFormVisible = true;
+                    if (this.$refs['ruleForm']) {
+                        this.$refs['ruleForm'].resetFields();
+                    }
+                    this.ruleForm.esight = [];
+                    this.ruleForm.esight.push(getCurrentEsight());
+                    this.resetType();
+                },
+                /**
+                 * 顶部栏清除失败数据操作
+                 * 
+                 */
+                clearFailSoft: function() {
+                    for (var i = 0; i < app.failListData.length; i++) {
+                        var dd = app.failListData[i];
+                        if (dd.syncStatus == 'SYNC_FAILED' || dd.syncStatus == 'HW_FAILED') {
+                            this.isDisable = true;
+                        }
+                    }
+                    if (this.isDisable) {
+                        this.$confirm(app.i18ns.software.beforDeleteAlert, app.i18ns.common.prompt, {
+                            confirmButtonText: app.i18ns.common.confirm,
+                            cancelButtonText: app.i18ns.common.cancel,
+                            closeOnClickModal: false,
+                            type: 'warning'
+                        }).then(function() {
+                            softManager.clear({}, function(ret) {
+                                if (ret.code == '0') {
+                                    app.listData = [];
+                                    app.alertMsg(app.i18ns.software.clearSuccess);
+
+                                    for (var i = 0; i < app.failListData.length; i++) {
+                                        var dd = app.failListData[i];
+                                        if (dd.syncStatus == 'CREATED' || dd.syncStatus == 'FINISHED') {
+                                            app.listData.push(dd);
+                                        }
+                                    }
+                                    app.isDisable = false;
+                                } else {
+                                    app.loading = false;
+                                    app.secondloading = false;
+                                    msg = getErrorMsg(ret.code);
+                                    app.alertMsg(msg);
+                                }
+                            });
+                            softManager.getList({}, app.bindList);
+                        }).catch(function() {
+
+                        });
+                    } else {
+                        app.alertMsg(app.i18ns.software.clearTask);
+                    }
+                },
+                /**
+                 * 刷新
+                 * 
+                 */
+                refresh: function() {
+                    this.loading = true;
+                    this.secondloading = true;
+                    softManager.getList({}, this.bindList);
+                    this.getDoneListData(); //获取上传完成的软件源列表
+                },
+                /**
+                 * 完成添加软件源页面所有必填项之后的 提交操作
+                 * 
+                 */
+                confirm: function() {
+                    this.$refs['ruleForm'].validate(function(valid) {
+                        if (valid) {
+                            var _softwareEdition = "";
+                            var _softwareEditionOption = _.find(app.softEditionOptions, function(x) {
+                                return x.value == app.ruleForm.softwareEdition;
+                            })
+                            if (_softwareEditionOption) {
+                                _softwareEdition = _softwareEditionOption.label;
+                            }
+                            var param = {
+                                esights: app.ruleForm.esight,
+                                data: {
+                                    softwareName: app.ruleForm.softwareName,
+                                    softwareDescription: app.ruleForm.softwareDescription,
+                                    softwareType: _.find(app.systemTypeOptions, function(x) {
+                                        return x.value == app.ruleForm.softwareType;
+                                    }).label,
+                                    softwareVersion: _.find(app.versionTypeOptions, function(x) {
+                                        return x.value == app.ruleForm.softwareVersion;
+                                    }).label,
+                                    softwareLanguage: app.ruleForm.softwareLanguage,
+                                    softwareEdition: _softwareEdition,
+                                    sourceName: app.ruleForm.sourceName,
+                                    port: app.ruleForm.sftpPort,
+                                    sftpServerIP: app.ruleForm.sftpServerIP,
+                                    username: app.ruleForm.username,
+                                    password: app.ruleForm.password
+                                }
+                            }
+                            softManager.add(param, app.postDataCallback, function(ret) {
+                                if (ret.code == "-100000") {
+                                    app.dialogFormVisible = false;
+                                    app.getListData();
+                                }
+                            });
+
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                /**
+                 * 添加软件源弹出框 取消操作
+                 * 
+                 */
+                cancel: function() {
+                    this.dialogFormVisible = false;
+                },
+                /**
+                 * 添加软件源弹出框 系统版本类型 切换操作
+                 * 
+                 * @param {any} val 
+                 */
+                systemTypeValueChange: function(val) {
+                    this.showLanguage = true;
+                    this.showSoftEdition = true;
+                    var list = softManager.getChildDropList(val);
+                    this.versionTypeOptions = list;
+                    this.ruleForm.softwareVersion = this.versionTypeOptions[0].value;
+                    console.log(list);
+                },
+                /**
+                 * 添加软件源弹出框 软件版本类型 切换操作
+                 * 
+                 * @param {any} val 
+                 */
+                versionTypeValueChange: function(val) {
+                    this.softEditionOptions = [];
+                    var list = softManager.getChildDropList(val);
+                    if (list.length <= 0) {
+                        this.showSoftEdition = false;
+                        this.showLanguage = false;
+
+                    } else {
+                        this.softEditionOptions = list;
+                        this.showSoftEdition = true;
+                        this.showLanguage = true;
+                        this.ruleForm.softwareEdition = this.softEditionOptions[0].value;
+                        console.log(list);
+                    }
+                },
+                softwareEditionValueChange: function(val) {
+                    console.log(val);
+                },
+                /**
+                 * 上传完成后的删除操作
+                 * 
+                 * @param {any} index 
+                 * @param {any} row 
+                 */
+                deleteDoneSoftware: function(index, row) {
+                    var param = {
+                        esight: this.menuKey,
+                        param: row.softwareName
+                    }
+                    this.$confirm(app.i18ns.software.beforeDeleteTips, app.i18ns.common.prompt, {
+                        confirmButtonText: app.i18ns.common.confirm,
+                        cancelButtonText: app.i18ns.common.cancel,
+                        closeOnClickModal: false,
+                        type: 'warning'
+                    }).then(function() {
+                        softManager.delete(param, function(ret) {
+                            if (ret.code == '0') {
+                                app.alertMsg(app.i18ns.software.delSuccessMsg);
+                                var index = _.findIndex(app.doneListData, function(x) {
+                                    return x.softwareName === row.softwareName;
+                                });
+                                app.doneListData.splice(index, 1);
+                                var _index = _.findIndex(app.allListData, function(x) {
+                                    return x.softwareName === row.softwareName;
+                                });
+                                app.allListData.splice(_index, 1);
+                            } else {
+                                app.loading = false;
+                                app.secondloading = false;
+                                var msg = getErrorMsg(ret.code);
+                                app.alertMsg(msg);
+                            }
+                        });
+                    }).catch(function() {
+
+                    });
+                },
+                /**
+                 * 关闭弹出框
+                 * 
+                 */
+                closeDialog: function() {
+
+                    if (this.$refs['ruleForm']) {
+                        this.$refs['ruleForm'].resetFields();
+                    }
+                },
+                onVlaueChange: function() {},
+                /**
+                 * 获取页面 列表数据
+                 * 
+                 * @param {any} keyword 
+                 */
+                getListData: function(keyword) {
+                    this.loading = true;
+                    this.secondloading = true;
+                    softManager.getList({}, this.bindList);
+                    this.getDoneListData(); //获取上传完成的软件源列表
+                    this.commonfunc();
+                },
+                /**
+                 * 获取上传完成的软件源列表
+                 * 
+                 * @param {any} keyword 
+                 */
+                getDoneListData: function() {
+                    var queryParam = {
+                        esight: this.menuKey,
+                        param: {
+                            pageNo: this.currentPage,
+                            pageSize: this.pageSize,
+                        }
+                    }
+                    softManager.getDoneList(queryParam, this.bindDoneList);
+                },
+                /**
+                 * 添加软件源弹出框中 获取系统类型操作
+                 * 
+                 */
+                commonfunc: function() {
+                    var list = softManager.getChildDropList('0001');
+                    this.systemTypeOptions = list;
+                    this.ruleForm.softwareType = this.systemTypeOptions[0].value;
+                    console.log(list);
+                },
+                /**
+                 * 获取上传中的软件源 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindList: function(ret) {
+                    var _listData = [];
+                    var _failListData = [];
+                    if (ret.code == '0') {
+                        var list = ret.data.data;
+                        if (list.length > 0) {
+                            this.showDeleteBtn = true;
+                            for (var i = 0; i < list.length; i++) {
+                                var d = list[i];
+                                var eSightItem = _.find(this.esightList, function(x) {
+                                    return x.id === list[i].hwEsighthostId;
+                                })
+
+                                var eSightIp = '';
+                                if (eSightItem) {
+                                    eSightIp = eSightItem.label;
+                                }
+                                Object.assign(d, {
+                                    hostId: eSightIp,
+                                    taskProgress: d.taskProgress + '%',
+                                    syncStatusTxt: _.find(this.syncStatus, function(x) {
+                                        return x.value == list[i].syncStatus;
+                                    }).label
+                                });
+                                _listData.push(list[i]);
+                                _failListData.push(list[i]);
+                                if (d.syncStatus == 'SYNC_FAILED' || d.syncStatus == 'HW_FAILED') {}
+                            }
+                            this.listData = _listData;
+                            this.failListData = _failListData;
+                        } else {
+                            this.listData = [];
+                            this.failListData = [];
+                            this.showDeleteBtn = false;
+                        }
+                    } else {
+                        this.listData = [];
+                        this.failListData = [];
+                        var msg = getErrorMsg(ret.code);
+                        this.alertMsg(msg);
+                    }
+                    app.loading = false;
+                    app.secondloading = false;
+                },
+                /**
+                 * 获取已经上传完成的软件源 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindDoneList: function(ret) {
+                    var _doneListData = [];
+                    if (ret.code == '0') {
+                        this.total = ret.totalNum;
+                        app.allListData = ret.data;
+                        var list = ret.data;
+                        if (list) {
+                            for (var i = 0; i < list.length; i++) {
+                                _doneListData.push(list[i]);
+                            }
+                            this.doneListData = _doneListData;
+                        } else {
+                            this.doneListData = [];
+                        }
+                    } else {
+                        this.doneListData = [];
+                        app.secondloading = false;
+                        var msg = getErrorMsg(ret.code);
+                        this.alertMsg(msg);
+                    }
+                    app.loading = false;
+                    app.secondloading = false;
+                },
+                /**
+                 * 添加软件源 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                postDataCallback: function(ret) {
+                    var msg = app.i18ns.software.addSuccessMsg;
+                    if (ret.code == '0') {
+                        this.alertMsg(msg, function() {
+                            app.dialogFormVisible = false;
+                            app.getListData();
+                        });
+                    } else {
+                        msg = getErrorMsg(ret.code);
+                        this.alertMsg(msg);
+                    }
+                    app.loading = false;
+                    app.secondloading = false;
+                },
+                /**
+                 * 消息提醒 弹出框
+                 * 
+                 * @param {any} msg 
+                 * @param {any} callback 
+                 */
+                alertMsg: function(msg, callback) {
+                    this.$alert(msg, this.i18ns.common.prompt, {
+                        confirmButtonText: this.i18ns.common.confirm,
+                        callback: function() {
+                            callback && callback()
+                        }
+                    });
+                },
+                /**
+                 * 获取错误码对应的提示
+                 * 
+                 * @param {any} v 
+                 */
+                getErrorDetailTxt: function(v) {
+                    var error = getErrorMsg(v);;
+                    if (error) {
+                        return error.split('</br>')
+                    }
+                    return [];
+                },
+                /**
+                 * 获取错误码对应的提示
+                 * 
+                 * @param {any} v 
+                 */
+                getErrorDetailTxt1: function(v) {
+                    var error = getErrorMsg(v);;
+                    if (error) {
+                        return error.replace(/<\/br>/g, '');
+                    }
+                    return '';
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

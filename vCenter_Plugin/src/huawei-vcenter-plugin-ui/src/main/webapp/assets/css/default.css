@@ -1,0 +1,42 @@
+@CHARSET "US-ASCII";
+body {
+   font-size: 12px;
+   font-family: Arial;
+}
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+
+a{ text-decoration:none} 
+.ep-pages{padding:10px 12px;clear:both;text-align:left;
+font-family:Arial, "\5B8B\4F53", sans-serif;font-size:14px;vertical-align:top} 
+.ep-pages a, .ep-pages span{display:inline-block;height:23px;line-height:23px;padding:0 8px;
+margin:5px 1px 0 0;background:#fff;border:1px solid #e5e5e5;overflow:hidden;vertical-align:top} 
+.ep-pages a:hover{background:#cc1b1b;border:1px solid #cc1b1b;text-decoration:none} 
+.ep-pages a, .ep-pages a:visited{color:#252525} 
+.ep-pages a:hover, .ep-pages a:active{color:#ffffff} 
+.ep-pages .current{background:#cc1b1b;border:1px solid #cc1b1b;color:#fff} 
+.ep-pages a.current, .ep-pages a.current:visited{color:#ffffff} 
+.ep-pages a.current:hover, .ep-pages a.current:active{color:#ffffff} 
+.ep-pages-ctrl{font-family:"\5B8B\4F53", sans-serif;font-weight:bold;font-size:16px} 
+.ep-pages-e5e5e5{color:#e5e5e5} 
+.ep-pages-all{font-size:12px;vertical-align:top} 
