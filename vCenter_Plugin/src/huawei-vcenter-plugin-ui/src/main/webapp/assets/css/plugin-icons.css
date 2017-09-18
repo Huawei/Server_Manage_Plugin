@@ -1,0 +1,24 @@
+/*
+ * EXTERNAL ICONS SUPPORT: plugin-icons.css contain "external" icons, i.e. the ones
+ * displayed outside plugin's views, in the main app menus, shortcuts or object lists.
+ * Do not include other CSS rules here!
+ *
+ * Css name format must be ".bundleName-iconKey", where bundleName is the
+ * defaultBundle and iconKey the resource key used in plugin.xml:
+ *
+ *   <plugin id="..." defaultBundle="bundleName">
+ *    ...
+ *      <icon>#{iconKey}</icon>
+ *
+ * The same iconKey is defined in the .properties file used to compile Flex resources:
+ *   iconKey = Embed("../../webapp/assets/images/someIcon.png")
+ *
+ * Follow the SDK doc or other samples for the correct attributes based on the type of icon.
+ */
+.com_huawei_vcenterpluginui-appIcon {
+    background: url("../images/appIcon.png");
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    vertical-align: top;
+}

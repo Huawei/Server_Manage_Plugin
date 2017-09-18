@@ -1,0 +1,597 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style type="text/css">
+        [v-cloak] {
+            display: none;
+        }
+        
+        body {
+            min-width: 900px;
+        }
+        
+        .el-tooltip__popper.is-dark {
+            background: #fbfdff;
+            color: #1f2d3d;
+            width: 260px;
+            word-wrap: break-word;
+            border: 1px solid rgb(31, 45, 61);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-row>
+            <el-dropdown @command="commandClick">
+                <el-button>
+                    {{ menuName }}
+                    <i class="el-icon-caret-bottom el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item v-for="item in eSights" :command="item.name" :key="item.name">
+                        {{ item.label }}
+                    </el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+            <el-button @click="addFirmwareTask();">{{i18ns.firmware.createTask}}</el-button>
+        </el-row>
+        <div style="margin-top: 10px;">
+            <el-row>
+                <el-input v-bind:placeholder="i18ns.firmware.taskName" style="width: 200px;" v-model="currentTaskName"></el-input>
+                <el-select v-model="currentTaskStatus">
+                    <el-option v-for="item in taskStatusOptions" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
+                <el-button icon="search" @click="searchFirmwareTask();">{{i18ns.common.search}}</el-button>
+                <el-button @click="resetSearch();">{{i18ns.common.reset}}</el-button>
+                <el-button @click="refresh();">{{i18ns.common.refresh}}</el-button>
+            </el-row>
+
+            <div style="margin-top:10px;">
+                <template>
+                    <el-table :data="taskListData" border style="width: 100%" v-loading="loading" v-bind:element-loading-text="Loadingtxt"  @sort-change="sortChange" v-loading.fullscreen.lock="fullscreenLoading" @row-click="rowClick">
+                        <el-table-column prop="taskName" v-bind:label="i18ns.firmware.taskName" sortable >
+                        </el-table-column>
+                        <el-table-column prop="firmwareList" v-bind:label="i18ns.firmware.bujianlist">
+                        </el-table-column>
+                        <el-table-column prop="taskProgress" v-bind:label="i18ns.firmware.taskProgress" sortable>
+                        </el-table-column>
+                        <el-table-column prop="syncStatus" v-bind:label="i18ns.firmware.taskResult" sortable>
+                        </el-table-column>
+                        <el-table-column prop="createTime" v-bind:label="i18ns.firmware.createTime" sortable>
+                        </el-table-column>
+                        <el-table-column v-bind:label="i18ns.common.operation">
+                            <template scope="scope">
+                                <el-button type="text" size="small" @click.native.stop="delFirmwareTask(scope.row)" :disabled="scope.row.syncStatusTxt==='CREATED'">{{i18ns.common.delete}}</el-button>
+                            </template>
+                </el-table-column>
+                </el-table>
+                </template>
+            </div>
+            <el-row class="pagination-row">
+                <el-col v-bind:span="24" style="text-align: left;">
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" v-bind:current-page="currentPage" v-bind:page-sizes="pageSizes" v-bind:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" v-bind:total="total">
+                    </el-pagination>
+                </el-col>
+            </el-row>
+            <div>
+                <el-table :data="deviceListData" v-show="deviceListData.length>0" border style="width: 100%" v-loading="loading1" element-loading-text="Loading">
+                    <el-table-column type="expand">
+                        <template scope="scope">
+                                <el-table :data="scope.row.firmwarelist" border style="width: 100%" >
+                                        <el-table-column prop="firmwareType" v-bind:label="i18ns.firmware.firmwareType">
+                                        </el-table-column>
+                                        <el-table-column prop="currentVersion" v-bind:label="i18ns.firmware.currentVersion">
+                                        </el-table-column>
+                                        <el-table-column prop="upgradeVersion" v-bind:label="i18ns.firmware.upgradeVersion">
+                                        </el-table-column>
+                                        <el-table-column prop="firmwareProgress" v-bind:label="i18ns.firmware.firmwareProgress">
+                                             <template scope="scope">
+                                                {{scope.row.firmwareProgress+'%'}}
+                                            </template>
+                    </el-table-column>
+                    <el-table-column prop="result" v-bind:label="i18ns.firmware.deviceTaskResult">
+                        <template scope="scope">
+                                    {{ getDeviceResultTxt(scope.row.result)}}
+                                </template>
+
+                    </el-table-column>
+
+                    <el-table-column v-bind:label="i18ns.firmware.details">
+                        <template scope="scope">
+                                        <el-popover trigger="hover" placement="top">
+                                                <div v-for="item in getErrorDetailTxt(scope.row.details)">
+                                                    <span>{{item}}</span>
+                                                </div>
+                                          <div slot="reference" class="name-wrapper">
+                                            <div style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ getErrorDetailTxt1(scope.row.details) }}</div>
+                                          </div>
+                                        </el-popover>
+                                      </template>
+                    </el-table-column>
+                </el-table>
+                </template>
+                </el-table-column>
+
+                <el-table-column prop="name" v-bind:label="i18ns.firmware.serverName" width="450">
+                </el-table-column>
+                <el-table-column prop="dn" v-bind:label="i18ns.firmware.dn">
+                </el-table-column>
+                <el-table-column prop="deviceTaskStatus" v-bind:label="i18ns.firmware.status">
+                    <template scope="scope">
+                                {{getDeviceTaskStatusTxt(scope.row.deviceTaskStatus)}}
+                            </template>
+                </el-table-column>
+                <el-table-column v-bind:label="i18ns.firmware.taskProgress">
+                    <template scope="scope">
+                            {{scope.row.deviceTaskProgress +'%'}}
+                        </template>
+                </el-table-column>
+                <el-table-column prop="deviceTaskResult" v-bind:label="i18ns.firmware.deviceTaskResult">
+                    <template scope="scope">
+                                {{getDeviceTaskResultTxt(scope.row.deviceTaskResult)}}
+                            </template>
+                </el-table-column>
+                </el-table>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/rest.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                i18ns: [],
+                loadingText: 'Loading',
+                eSights: [], //eSight列表
+                currentESight: '', //当前选择的eSight
+                menuName: '',
+                currentTaskStatus: '', //当前选择的状态
+                taskStatusOptions: [], //状态选项
+                taskListData: [], //任务列表
+                loading: false, //显示表格数据加载中
+                fullscreenLoading: false, //删除操作遮罩
+                currentPage: 1,
+                pageSizes: [10, 20, 50, 100],
+                pageSize: 10,
+                total: 100,
+                orderField: 'createTime',
+                orderDesc: false,
+                currentTaskName: '',
+                deviceListData: [],
+                loading1: false,
+                currentRow: '',
+                Loadingtxt: 'Loading'
+            },
+            created: function() {
+                this.i18ns = getIn18();
+                this.taskStatusOptions = getTaskStatus();
+                this.taskStatusOptions.unshift(this.i18ns.firmware.taskStatusOptin);
+                var _pageSize = localStorage.getItem("firmwareTaskPageSize");
+                if (_pageSize) {
+                    this.pageSize = parseInt(_pageSize);
+                };
+            },
+            mounted: function() {
+                setTimeout(function() {
+                    //获取eSight数据
+                    getEsightList(app.bindEsight);
+                }, 0)
+            },
+            methods: {
+                /**
+                 * 跳转到添加固件任务列表页面
+                 * 
+                 */
+                addFirmwareTask: function() {
+                    window.location.href = 'addFirmwareTask.html?s=' + Math.random();
+                },
+                /**
+                 * 搜索功能
+                 * 
+                 */
+                searchFirmwareTask: function() {
+                    this.deviceListData = [];
+                    this.currentPage = 1;
+                    this.getTaskListData(); //获取任务列表数据
+                },
+                /**
+                 * 重置搜索数据
+                 * 
+                 */
+                resetSearch: function() {
+                    this.currentTaskName = '';
+                    this.currentTaskStatus = '';
+                },
+                /**
+                 * 获取eSight 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindEsight: function(ret) {
+                    if (ret.code === '0') {
+                        var lg = ret.data.length;
+                        if (lg > 0) {
+                            for (var i = 0; i < lg; i++) {
+                                if (ret.data[i].aliasName) {
+                                    this.eSights.push({
+                                        label: ret.data[i].aliasName,
+                                        name: ret.data[i].hostIp
+                                    });
+                                } else {
+                                    this.eSights.push({
+                                        label: ret.data[i].hostIp,
+                                        name: ret.data[i].hostIp
+                                    });
+                                }
+                            }
+                            var currentEsight = getCurrentEsight();
+                            if (currentEsight) {
+                                var _currentEsight = _.find(this.eSights, function(x) {
+                                    return x.name == currentEsight
+                                })
+                                if (_currentEsight) {
+                                    this.currentESight = _currentEsight.name; //
+                                    this.menuName = _currentEsight.label;
+                                } else {
+                                    setCurrentEsight(ret.data[0].hostIp);
+                                    this.menuName = this.eSights[0].label;
+                                    this.currentESight = this.eSights[0].name; //
+                                }
+                            } else {
+                                setCurrentEsight(ret.data[0].hostIp);
+                                this.menuName = this.eSights[0].label;
+                                this.currentESight = this.eSights[0].name; //
+                            }
+                            this.loading = true;
+                            this.getTaskListData(); //获取任务列表数据
+                        }
+                    } else {
+                        alertMsg(getErrorMsg(ret.code));
+                    }
+
+                },
+                /**
+                 * eSight列表下拉框 切换事件
+                 * 
+                 * @param {any} command 
+                 * @param {any} com 
+                 */
+                commandClick: function(command, com) {
+                    this.currentESight = command;
+                    this.menuName = com.$el.innerText;
+                    setCurrentEsight(command);
+                    app.deviceListData = [];
+                    this.currentPage = 1;
+                    this.getTaskListData(); //获取任务列表数据
+                },
+                /**
+                 * 获取任务列表数据
+                 * 
+                 */
+                getTaskListData: function() {
+                    this.deviceListData = [];
+                    this.loading = true;
+                    var queryParam = {
+                        "esight": this.currentESight,
+                        "param": {
+                            "taskName": this.currentTaskName,
+                            "taskStatus": this.currentTaskStatus,
+                            "pageNo": this.currentPage,
+                            "pageSize": this.pageSize,
+                            "order": this.orderField,
+                            "orderDesc": this.orderDesc
+                        }
+                    }
+                    firmwareTaskManage.getTaskList(queryParam, this.bindTaskList);
+                },
+                /**
+                 * 获取任务列表数据 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindTaskList: function(ret) {
+                    var _taskListData = [];
+                    if (ret.code == '0') {
+                        this.loading = false;
+                        this.fullscreenLoading = false;
+                        this.total = ret.data.totalNum;
+                        var data = ret.data.data;
+                        for (var i = 0; i < data.length; i++) {
+                            _taskListData.push({
+                                id: data[i].id,
+                                taskName: data[i].taskName,
+                                softwareSourceName: data[i].softwareSourceName,
+                                firmwareList: data[i].reservedStr1,
+                                taskProgress: data[i].taskProgress + '%',
+                                syncStatus: _.find(this.taskStatusOptions, function(x) {
+                                    return x.value == data[i].syncStatus
+                                }).label,
+                                syncStatusTxt: data[i].syncStatus,
+                                createTime: data[i].createTime,
+                                errorDetail: data[i].errorDetail,
+                                deviceIp: data[i].deviceIp,
+                            });
+                        }
+                        this.taskListData = _taskListData;
+                    } else {
+                        this.taskListData = [];
+                        alertMsg(getErrorMsg(ret.code));
+                    }
+                },
+                /**
+                 * 刷新
+                 * 
+                 */
+                refresh: function() {
+                    this.getTaskListData();
+                    this.deviceListData = [];
+                },
+
+                /**
+                 * 删除任务
+                 * 
+                 * @param {any} row 
+                 */
+                delFirmwareTask: function(row) {
+                    this.$confirm(app.i18ns.firmware.deleteTaskTips, app.i18ns.common.prompt, {
+                        confirmButtonText: app.i18ns.common.confirm,
+                        cancelButtonText: app.i18ns.common.cancel,
+                        closeOnClickModal: false,
+                        type: 'warning'
+                    }).then(function() {
+                        app.fullscreenLoading = true;
+                        firmwareTaskManage.deleteFirmwareTask({
+                            esight: app.currentESight,
+                            param: {
+                                "taskId": row.id
+                            }
+                        }, function(ret) {
+                            app.fullscreenLoading = false;
+                            if (ret.code === '0') {
+                                if (app.currentRow.id == row.id) {
+                                    app.deviceListData = [];
+                                }
+                                alertMsg(app.i18ns.firmware.deleteSucc1);
+                                app.getTaskListData(); //获取任务列表数据
+                            } else {
+                                var msg = getErrorMsg(ret.code);
+                                alertMsg(msg);
+                            }
+                        });
+
+                    }).catch(function() {
+
+                    });
+                },
+                /**
+                 * 设置当前显示数据的总数
+                 * 
+                 * @param {any} val 
+                 */
+                handleSizeChange: function(val) {
+                    this.pageSize = val;
+                    localStorage.setItem("firmwareTaskPageSize", val);
+                    this.getTaskListData();
+                },
+                /**
+                 * 切换当前显示页
+                 * 
+                 * @param {any} val 
+                 */
+                handleCurrentChange: function(val) {
+                    this.currentPage = val;
+                    this.getTaskListData();
+                },
+                /**
+                 * 列表排序
+                 * 
+                 * @param {any} orderInfo 
+                 */
+                sortChange: function(orderInfo) {
+                    console.log(orderInfo);
+                    this.orderField = orderInfo.prop;
+                    this.orderDesc = orderInfo.order === 'descending' ? true : false;
+                    this.getTaskListData(); //获取任务列表数据
+                },
+                /**
+                 * 获取任务列表单击事件
+                 * 
+                 * @param {any} row 
+                 * @param {any} event
+                 * @param {any} column
+                 */
+                rowClick: function(row, event, column) {
+                    app.deviceListData = [];
+                    if (row.deviceIp) {
+                        app.Loadingtxt = app.i18ns.firmware.getDNInfoTips;
+                        this.loading = true;
+                        this.currentRow = row;
+                        var dn_arry = row.deviceIp.split(';')
+                        var k = 0;
+                        var l = dn_arry.length;
+                        var errorInfo = [];
+                        if (l > 0) {
+                            for (var i = 0; i < dn_arry.length; i++) {
+                                (function(agr) {
+                                    var param = {
+                                        "esight": app.currentESight,
+                                        "param": {
+                                            "taskName": row.taskName,
+                                            "dn": encodeURI(dn_arry[agr])
+                                        }
+                                    }
+                                    firmwareTaskManage.getDeviceTaskInfo(param, function(ret) {
+                                        if (ret.code == "0") {
+                                            (function(index, dn, d) {
+                                                firmwareTaskManage.getServerInfo({
+                                                    dn: dn,
+                                                    ip: app.currentESight
+                                                }, function(ret) {
+                                                    k++;
+                                                    if (ret.code == '0') {
+                                                        if (ret.data.data.length > 0) {
+                                                            var _data = ret.data.data[0];
+                                                            _.assign(d, {
+                                                                name: _data.name,
+                                                            });
+                                                        }
+                                                    } else {
+                                                        errorInfo.push({
+                                                            msg: getErrorMsg(ret.code),
+                                                            dn: dn
+                                                        });
+                                                    }
+                                                    app.deviceListData.push(d);
+                                                });
+                                            })(agr, encodeURI(dn_arry[agr]), ret.data.data)
+                                        } else {
+                                            k++;
+                                            errorInfo.push({
+                                                msg: getErrorMsg(ret.code),
+                                                dn: dn_arry[agr]
+                                            });
+                                        }
+                                    });
+                                })(i)
+                            }
+                        };
+                        var mysetInterval = setInterval(function() {
+                            if (k == l) {
+                                app.Loadingtxt = 'Loading';
+                                app.loading = false;
+                                if (errorInfo.length > 0) {
+                                    var h = app.$createElement;
+                                    var nodes = [];
+                                    for (var i = 0; i < errorInfo.length; i++) {
+                                        nodes.push(h('li', {
+                                            type: "circle"
+                                        }, errorInfo[i].dn + ':' + errorInfo[i].msg));
+                                    }
+                                    var context = h('ul', null, nodes);
+                                    app.$msgbox({
+                                        title: app.i18ns.firmware.getDNInfoErrorTips,
+                                        message: context,
+                                        confirmButtonText: app.i18ns.common.confirm,
+                                    }).then(function() {});
+                                }
+                                window.clearInterval(mysetInterval);
+                            }
+                        }, 100)
+                    }
+                },
+                /**
+                 * 获取设备任务状态
+                 * 
+                 * @param {any} v 
+                 */
+                getDeviceTaskStatusTxt: function(v) {
+                    var lang = localStorage.getItem('lang');
+                    if (lang) {
+                        if (lang == 'en') {
+                            return {
+                                Complete: 'Complete',
+                                Running: 'Running'
+                            }[v] || v;
+                        }
+                    }
+                    return {
+                        Complete: '完成',
+                        Running: '运行中'
+                    }[v] || v;
+                },
+                /**
+                 * 获取设备任务结果
+                 * 
+                 * @param {any} v 
+                 */
+                getDeviceTaskResultTxt: function(v) {
+                    var lang = localStorage.getItem('lang');
+                    if (lang) {
+                        if (lang == 'en') {
+                            return {
+                                Success: 'Success',
+                                Failed: 'Failed',
+                                'Partion Success': 'Partion Success'
+                            }[v] || v;
+                        }
+                    }
+                    return {
+                        Success: '全部成功',
+                        Failed: '失败',
+                        'Partion Success': '部分成功'
+                    }[v] || v;
+                },
+                /**
+                 * 获取设备结果
+                 * 
+                 * @param {any} v 
+                 */
+                getDeviceResultTxt: function(v) {
+                    var lang = localStorage.getItem('lang');
+                    if (lang) {
+                        if (lang == 'en') {
+                            return {
+                                Success: 'Success',
+                                Failed: 'Failed'
+                            }[v] || v;
+                        }
+                    }
+                    return {
+                        Success: '成功',
+                        Failed: '失败'
+
+                    }[v] || v;
+                },
+                /**
+                 * 获取错误码对应的提示
+                 * 
+                 * @param {any} v 
+                 */
+                getErrorDetailTxt: function(v) {
+                    var error = getErrorMsg(v);;
+                    if (error) {
+                        return error.split('</br>')
+                    }
+                    return [];
+                },
+                /**
+                 * 获取错误码对应的提示
+                 * 
+                 * @param {any} v 
+                 */
+                getErrorDetailTxt1: function(v) {
+                    var error = getErrorMsg(v);;
+                    if (error) {
+                        return error.replace(/<\/br>/g, '');
+                    }
+                    return '';
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

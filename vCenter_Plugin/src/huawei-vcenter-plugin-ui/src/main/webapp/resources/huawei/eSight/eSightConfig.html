@@ -1,0 +1,737 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>eSight</title>
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        body {
+            min-width: 900px;
+        }
+        
+        .el-alert--error {
+            background: transparent;
+            color: red;
+            text-align: left;
+        }
+        
+        .el-dialog__body {
+            padding-bottom: 5px;
+        }
+        
+        .el-form-item__error {
+            z-index: 2;
+            background-color: #FFFFFF;
+        }
+        
+        form input {
+            max-width: 350px;
+        }
+        
+        .el-dialog {
+            width: 525px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <!-- 顶部操作栏 -->
+        <el-row class="search-row">
+            <el-col v-bind:span="7">
+                <el-input placeholder="IP" v-model.lazy="keyword" v-on:change="search(keyword)"></el-input>
+            </el-col>
+            <el-col v-bind:span="11">
+                <el-button style="margin-left: 10px;" @click="addESight()" :disabled="!isDisable">{{i18ns.eSight.addeSight}}</el-button>
+                <el-button @click="batchDeleteESight()" :disabled="listData.length===0||multipleSelection.length===0">{{i18ns.eSight.batchDelete}}</el-button>
+            </el-col>
+        </el-row>
+        <!-- 表格信息 -->
+        <div>
+            <el-table v-bind:data="listData" border style="width: 100%" v-loading="loading" element-loading-text="Loading" @selection-change="handleSelectionChange">
+                <el-table-column type="selection" width="55">
+                </el-table-column>
+                <el-table-column prop="hostIp" v-bind:label="i18ns.eSight.templateHost">
+                </el-table-column>
+                <el-table-column prop="aliasName" v-bind:label="i18ns.eSight.templateAliasName">
+                </el-table-column>
+                <el-table-column prop="hostPort" v-bind:label="i18ns.eSight.templatePort">
+                </el-table-column>
+                <el-table-column prop="loginAccount" v-bind:label="i18ns.eSight.templateName">
+                </el-table-column>
+                <el-table-column prop="createTime" v-bind:label="i18ns.eSight.templateDate">
+                </el-table-column>
+                <el-table-column prop="lastModify" v-bind:label="i18ns.eSight.templateUpdate">
+                </el-table-column>
+                <el-table-column v-bind:label="i18ns.eSight.templateHandle" width="160">
+                    <template scope="scope">
+                                <el-button type="text" size="small" v-on:click="editESight(scope.$index, scope.row)">{{i18ns.eSight.Edit}}</el-button>
+                                <el-button type="text" size="small" v-on:click="deleteESight(scope.$index, scope.row)">{{i18ns.eSight.Delete}}</el-button>
+                            </template>
+                </el-table-column>
+            </el-table>
+            <el-row class="pagination-row">
+                <el-col v-bind:span="24" style="text-align:left;">
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" v-bind:current-page="currentPage" v-bind:page-sizes="pageSizes" v-bind:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" v-bind:total="total">
+                    </el-pagination>
+                </el-col>
+            </el-row>
+        </div>
+        <!-- 编辑 和 添加弹出对话框 -->
+        <el-dialog v-bind:title="dialogTitle" v-bind:visible.sync="dialogFormVisible" @close="closeDialog" size="small" top="10%">
+            <el-form v-bind:model="ruleForm" v-bind:rules="rules" ref="ruleForm" label-width="80px" label-position="left">
+                <el-form-item v-bind:label="i18ns.eSight.eSightHost" prop="hostIp">
+                    <div>
+                        <el-input v-model="ruleForm.hostIp" :disabled="isUpdate" auto-complete="off"></el-input>
+                    </div>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.eSight.eSightAliasName" prop="aliasName">
+                    <div>
+                        <el-input v-model="ruleForm.aliasName" auto-complete="off" @change="onVlaueChange()"></el-input>
+                    </div>
+                </el-form-item>
+                <el-form-item v-bind:label="i18ns.eSight.eSightPort" prop="hostPort">
+                    <div>
+                        <el-input type="number" v-model="ruleForm.hostPort" onkeypress="preventNonNum(event)" @change="onVlaueChange()"></el-input>
+                    </div>
+                </el-form-item>
+                <div v-if="showCheckbox" style="margin-top:15px;margin-bottom:15px;margin-left:10px">
+                    <el-checkbox v-model="checked" @change="checkboxChange">{{i18ns.eSight.changeInfo}}</el-checkbox>
+                </div>
+                <!-- 用户名和密码设定 -->
+                <el-row v-show="isShow">
+                    <el-form-item v-bind:label="i18ns.eSight.eSightName" prop="loginAccount">
+                        <div>
+                            <el-input v-model="ruleForm.loginAccount" auto-complete="off" @change="onVlaueChange()"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item v-bind:label="i18ns.eSight.eSightPassWord" prop="loginPwd">
+                        <div>
+                            <el-input type="password" v-model="ruleForm.loginPwd" auto-complete="off" @change="onVlaueChange()"></el-input>
+                        </div>
+                    </el-form-item>
+                </el-row>
+                <!-- 用户名和密码设定区分 -->
+                <el-row v-show="!isShow">
+                    <el-form-item v-bind:label="i18ns.eSight.eSightName" prop="loginAccount1">
+                        <div>
+                            <el-input v-model="ruleForm.loginAccount1" :disabled="isEnable" auto-complete="off" @change="onVlaueChange()"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item v-bind:label="i18ns.eSight.eSightPassWord" prop="loginPwd1">
+                        <div>
+                            <el-input type="password" v-model="ruleForm.loginPwd1" :disabled="isEnable" auto-complete="off" @change="onVlaueChange()"></el-input>
+                        </div>
+                    </el-form-item>
+                </el-row>
+                <el-form-item>
+                    <span style="font-size:12px; text-align:left; color:green;" v-show="isVisible ">{{isWhatDescription}}</span>
+                </el-form-item>
+                <el-form-item>
+                    <span style="font-size:12px; text-align:left; color:red;" v-show="isFalseVisible ">{{isFalseWhatDescription}}</span>
+                </el-form-item>
+            </el-form>
+            <!-- 测试链接  和 保存按钮 -->
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="linkTest()" :disabled="isEnable">{{i18ns.eSight.linkTest}}</el-button>
+                <el-button @click="saveCong()" v-loading.fullscreen.lock="fullscreenLoading " element-loading-text="Loading">{{i18ns.eSight.SaveCong}}</el-button>
+            </div>
+        </el-dialog>
+    </div>
+</body>
+<script type="text/javascript">
+    function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
+    var app = new Vue({
+        el: '#app',
+        data: {
+            currentPage: 1,
+            pageSize: 10,
+            pageSizes: [10, 20, 50, 100],
+            total: 0,
+            showCheckbox: false,
+            checked: false,
+            isEnable: false,
+            isShow: false,
+            row: [],
+            //国际化
+            i18ns: {},
+            allListData: [],
+            //eSight数据列表
+            listData: [],
+            loading: false,
+            fullscreenLoading: false,
+            dialogTableVisible: false,
+            dialogFormVisible: false,
+            isUpdate: false,
+            isSubmit: false,
+            keyword: '',
+            dialogTitle: '',
+            isVisible: false,
+            isFalseVisible: false,
+            isWhatDescription: '',
+            isFalseWhatDescription: '',
+            multipleSelection: [],
+            isDisable: false,
+            ruleForm: {
+                id: '',
+                hostIp: '',
+                aliasName: '',
+                loginAccount: '',
+                hostPort: 32102,
+                loginAccount1: '',
+                loginPwd: '',
+                loginPwd1: ''
+            },
+            // 验证规则设定
+            rules: {
+                hostIp: {
+                    required: true,
+                    validator: function(rule, value, callback) {
+                        if (value) {
+                            if (!/^(22[0-3]|2[0-1]\d|1[0-1][0-9]|12[012345689]|1[3-9]\d|[1-9]\d|[1-9])\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|[1-9])$/.test(value)) {
+                                return callback(new Error(app.i18ns.eSight.hostIPError));
+                            } else
+                                return callback();
+                        } else {
+                            return callback(new Error(app.i18ns.eSight.hostNull));
+                        }
+                    },
+                    trigger: 'change'
+                },
+                aliasName: {
+                    required: false,
+                    validator: function(rule, value, callback) {
+                        if (value) {
+                            if (!/^[a-zA-Z0-9_\-\.]{1,100}$/.test(value)) {
+                                return callback(new Error(app.i18ns.eSight.aliasNameError));
+                            } else
+                                return callback();
+                        } else {
+                            return callback();
+                        }
+                    },
+                    trigger: 'change'
+                },
+                hostPort: {
+                    required: true,
+                    validator: function(rule, value, callback) {
+                        if (value) {
+                            if (value > 65535 || value < 1) {
+                                return callback(new Error(app.i18ns.eSight.legthCheckMore));
+                            } else
+                                return callback();
+                        } else {
+                            return callback(new Error(app.i18ns.eSight.portNull));
+                        }
+                    },
+                    trigger: 'change'
+                },
+                loginAccount: [{
+                    required: true,
+                    validator: function(rule, value, callback) {
+                        if (value) {
+                            if (!/^[a-zA-Z0-9_\-\.]{1,100}$/.test(value)) {
+                                return callback(new Error(app.i18ns.eSight.userNameError));
+                            } else
+                                return callback();
+                        } else {
+                            return callback(new Error(app.i18ns.eSight.nameNull));
+                        }
+                    },
+                    trigger: 'change'
+                }],
+                loginPwd: {
+                    required: true,
+                    validator: function(rule, value, callback) {
+                        if (value) {
+                            if (!/^[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\(\)\_\+\-\=\[\]|{\}\;\'\:\"\,\.\/\<\>\?]{1,100}$/.test(value)) {
+                                return callback(new Error(app.i18ns.eSight.passWordErrorMsg));
+                            } else
+                                return callback();
+                        } else {
+                            if (app.isUpdate && !app.checked) {
+                                return callback();
+                            }
+                            return callback(new Error(app.i18ns.eSight.pwdNull));
+                        }
+                    },
+                    trigger: 'change'
+                },
+                loginAccount1: [{
+                    required: false,
+                    validator: function(rule, value, callback) {
+                        if (value) {
+                            if (!/^[a-zA-Z0-9_\-\.]{1,100}$/.test(value)) {
+                                return callback(new Error(app.i18ns.eSight.userNameError));
+                            } else
+                                return callback();
+                        }
+                        return callback();
+                    },
+                    trigger: 'change'
+                }],
+                loginPwd1: {
+                    required: false,
+                    validator: function(rule, value, callback) {
+                        if (value) {
+                            if (!/^[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\(\)\_\+\-\=\[\]|{\}\;\'\:\"\,\.\/\<\>\?]{1,100}$/.test(value)) {
+                                return callback(new Error(app.i18ns.eSight.passWordErrorMsg));
+                            } else
+                                return callback();
+                        }
+                        return callback();
+                    },
+                    trigger: 'change'
+                }
+            }
+        },
+        created: function() {
+            this.i18ns = getIn18();
+            var _pageSize = localStorage.getItem("eSightPageSize");
+            if (_pageSize) {
+                this.pageSize = parseInt(_pageSize);
+            };
+        },
+        mounted: function() {
+            //获取列表数据
+            this.getListData('');
+            console.log(getCookie('JSESSIONID'));
+        },
+        methods: {
+            /**
+             * 设置一页显示的数据总条数
+             * 
+             * @param {any} val 
+             */
+            handleSizeChange: function(val) {
+                this.pageSize = val;
+                localStorage.setItem("eSightPageSize", val);
+                this.getListData('');
+            },
+            /**
+             * 切换当前显示页
+             * 
+             * @param {any} val 
+             */
+            handleCurrentChange: function(val) {
+                this.currentPage = val;
+                this.getListData('');
+            },
+            /**
+             * 是否修改密码操作
+             * 
+             * @param {any} val 
+             */
+            checkboxChange: function(val) {
+                if (val.target.checked == true) {
+                    this.isShow = true;
+                    this.checked = true;
+                    this.isEnable = false;
+                } else {
+                    app.ruleForm.loginPwd = this.row.loginPwd;
+                    app.ruleForm.loginAccount = this.row.loginAccount;
+                    this.isShow = false;
+                    this.checked = false;
+                    this.isEnable = true;
+                }
+            },
+            /**
+             * 搜索功能
+             * 
+             * @param {any} keyword 
+             */
+            search: function(keyword) {
+                this.getListData(keyword);
+            },
+            /**
+             * 测试链接
+             * 
+             */
+            linkTest: function() {
+                this.$refs['ruleForm'].validate(function(valid) {
+                    if (valid) {
+                        app.fullscreenLoading = true;
+                        app.isSubmit = false;
+                        eSightManage.test({
+                            hostIp: app.ruleForm.hostIp,
+                            aliasName: app.ruleForm.aliasName,
+                            hostPort: app.ruleForm.hostPort,
+                            loginAccount: app.ruleForm.loginAccount,
+                            loginPwd: app.ruleForm.loginPwd
+                        }, app.linkTestCallBack);
+
+                    } else {
+                        app.fullscreenLoading = false;
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            /**
+             * 添加eSight
+             * 
+             */
+            addESight: function() {
+                this.showCheckbox = false;
+                this.isEnable = false;
+                this.isShow = true;
+                this.isUpdate = false;
+                app.ruleForm.loginAccount1 = '';
+                app.ruleForm.loginPwd1 = '';
+                this.dialogTitle = app.i18ns.eSight.addeSight;
+                this.dialogFormVisible = true;
+                if (this.$refs['ruleForm']) {
+                    this.$refs['ruleForm'].resetFields();
+                }
+            },
+            /**
+             * 编辑eSight
+             * 
+             * @param {any} index 
+             * @param {any} row 
+             */
+            editESight: function(index, row) {
+                this.showCheckbox = true;
+                this.isShow = false;
+                this.isUpdate = true;
+                this.isEnable = true;
+                this.dialogTitle = app.i18ns.eSight.editSight;
+                app.dialogFormVisible = true;
+                this.row = row;
+                Vue.nextTick(function() {
+
+                    app.ruleForm.id = row.id;
+                    app.ruleForm.hostIp = row.hostIp;
+                    app.ruleForm.aliasName = row.aliasName;
+                    app.ruleForm.hostPort = row.hostPort;
+                    app.ruleForm.loginPwd = row.loginPwd;
+                    app.ruleForm.loginAccount = row.loginAccount;
+                    app.ruleForm.loginAccount1 = row.loginAccount;
+                    app.ruleForm.loginPwd1 = row.loginPwd;
+                });
+
+            },
+            /**
+             * 保存配置
+             * 
+             */
+            saveCong: function() {
+                if (this.checked === true) {
+                    this.$refs['ruleForm'].validate(function(valid) {
+                        if (valid) {
+                            app.fullscreenLoading = true;
+                            app.isSubmit = true;
+                            var param = {
+                                hostIp: app.ruleForm.hostIp,
+                                aliasName: app.ruleForm.aliasName,
+                                hostPort: app.ruleForm.hostPort,
+                                loginAccount: app.ruleForm.loginAccount,
+                                loginPwd: app.ruleForm.loginPwd
+                            }
+                            eSightManage.edit(param, app.formCallBack);
+
+                        } else {
+                            app.fullscreenLoading = false;
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                } else {
+                    this.$refs['ruleForm'].validate(function(valid) {
+                        if (valid) {
+                            app.fullscreenLoading = true;
+                            app.isSubmit = true;
+                            if (app.isUpdate) {
+                                if (app.checked) {
+                                    eSightManage.edit({
+                                        hostIp: app.ruleForm.hostIp,
+                                        aliasName: app.ruleForm.aliasName,
+                                        hostPort: app.ruleForm.hostPort,
+                                        loginAccount: app.ruleForm.loginAccount,
+                                        loginPwd: app.ruleForm.loginPwd
+                                    }, app.formCallBack);
+                                } else {
+                                    eSightManage.edit({
+                                        hostIp: app.ruleForm.hostIp,
+                                        aliasName: app.ruleForm.aliasName,
+                                        hostPort: app.ruleForm.hostPort
+                                    }, app.formCallBack);
+                                }
+                            } else {
+                                var param = {
+                                    hostIp: app.ruleForm.hostIp,
+                                    aliasName: app.ruleForm.aliasName,
+                                    hostPort: app.ruleForm.hostPort,
+                                    loginAccount: app.ruleForm.loginAccount,
+                                    loginPwd: app.ruleForm.loginPwd
+                                }
+                                eSightManage.add(param, app.formCallBack);
+                            }
+                        } else {
+                            app.fullscreenLoading = false;
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                }
+            },
+            /**
+             * 删除eSight配置
+             * 
+             * @param {any} index 
+             * @param {any} row 
+             */
+            deleteESight: function(index, row) {
+                this.$confirm(app.i18ns.eSight.deleteTips, app.i18ns.common.prompt, {
+                    confirmButtonText: app.i18ns.common.confirm,
+                    cancelButtonText: app.i18ns.common.cancel,
+                    closeOnClickModal: false,
+                    type: 'warning'
+                }).then(function() {
+                    app.fullscreenLoading = true;
+                    eSightManage.delete({
+                        ids: [row.id]
+                    }, function(ret) {
+                        app.fullscreenLoading = false;
+                        setCurrentEsight('');
+                        if (ret.code === '0') {
+                            app.alertMsg(app.i18ns.eSight.deleteSucc);
+                            app.getListData('');
+                        } else {
+                            var msg = getErrorMsg(ret.code, ret.msg);
+                            //要根据Code得到错误提示。
+                            app.alertMsg(msg);
+                        }
+                    });
+                }).catch(function() {
+
+                });
+            },
+            /**
+             * 获取eSight列表
+             * 
+             * @param {any} keyword 
+             */
+            getListData: function(keyword) {
+                var queryParam = {
+                    param: {
+                        pageNo: this.currentPage,
+                        pageSize: this.pageSize,
+                        hostIP: keyword
+                    }
+                }
+                eSightManage.getList(queryParam, this.bindList);
+            },
+            /**
+             * 数据回调函数
+             * 
+             * @param {any} ret 
+             */
+            bindList: function(ret) {
+                this.loading = true;
+                this.isDisable = true;
+                this.listData = [];
+                this.allListData = [];
+                if (ret.code === '0') {
+
+                    this.allListData = ret.data;
+                    this.listData = ret.data;
+                    this.total = ret.totalNum || 0;
+                } else {
+                    var msg = getErrorMsg(ret.code, ret.msg);
+                    this.alertMsg(msg);
+                    this.fullscreenLoading = false;
+                }
+                this.fullscreenLoading = false;
+                this.loading = false;
+
+            },
+            closeAlert: function() {
+                app.isVisible = false;
+                app.isFalseVisible = false;
+            },
+            /**
+             * 测试链接回调函数
+             * 
+             * @param {any} ret 
+             */
+            linkTestCallBack: function(ret) {
+
+                var msg = '';
+                if (ret.code == '0') {
+                    msg = app.i18ns.eSight.linkTestSucc;
+                    if (app.isSubmit) { //是否点击的提交按钮
+                        if (app.isUpdate) {
+                            if (app.checked == true) {
+                                eSightManage.edit({
+                                    hostIp: app.ruleForm.hostIp,
+                                    aliasName: app.ruleForm.aliasName,
+                                    hostPort: app.ruleForm.hostPort,
+                                    loginAccount: app.ruleForm.loginAccount,
+                                    loginPwd: app.ruleForm.loginPwd
+                                }, app.formCallBack);
+                            } else {
+                                eSightManage.edit({
+                                    hostIp: app.ruleForm.hostIp,
+                                    aliasName: app.ruleForm.aliasName,
+                                    hostPort: app.ruleForm.hostPort
+                                }, app.formCallBack);
+                            }
+
+                        } else {
+                            var param = {
+                                hostIp: app.ruleForm.hostIp,
+                                aliasName: app.ruleForm.aliasName,
+                                hostPort: app.ruleForm.hostPort,
+                                loginAccount: app.ruleForm.loginAccount,
+                                loginPwd: app.ruleForm.loginPwd
+                            }
+                            eSightManage.add(param, app.formCallBack);
+                        }
+                    } else {
+                        app.fullscreenLoading = false;
+                        app.isVisible = true;
+                        app.isFalseVisible = false;
+                        app.isWhatDescription = msg;
+                    }
+                } else {
+
+                    app.fullscreenLoading = false;
+                    msg = getErrorMsg(ret.code);
+                    app.isFalseWhatDescription = app.i18ns.eSight.linkTestFalse + ":" + msg;
+                    app.isVisible = false;
+                    app.isFalseVisible = true;
+                }
+            },
+            /**
+             * 保存eSight回调函数
+             * 
+             * @param {any} ret 
+             */
+            formCallBack: function(ret) {
+                var msg = !app.isUpdate ? app.i18ns.eSight.addSucc : app.i18ns.eSight.editSucc;
+                if (ret.code === '0') {
+                    app.fullscreenLoading = false;
+                    app.alertMsg(msg, function() {
+                        app.dialogFormVisible = false;
+                        app.checked = false;
+                        app.getListData('');
+                    });
+                } else {
+                    msg = getErrorMsg(ret.code);
+                    this.alertMsg(msg);
+                    app.fullscreenLoading = false;
+                }
+            },
+            /**
+             * 提醒框方法
+             * 
+             * @param {any} msg 
+             * @param {any} callback 
+             */
+            alertMsg: function(msg, callback) {
+                this.$alert(msg, this.i18ns.common.prompt, {
+                    confirmButtonText: this.i18ns.common.confirm,
+                    callback: function() {
+                        callback && callback()
+                    }
+                });
+
+            },
+            /**
+             * 关闭弹出框
+             * 
+             */
+            closeDialog: function() {
+                this.checked = false;
+                this.isVisible = false;
+                this.isFalseVisible = false;
+                if (this.$refs['ruleForm']) {
+                    this.$refs['ruleForm'].resetFields();
+                }
+            },
+            /**
+             * input输入框事件
+             * 
+             */
+            onVlaueChange: function() {
+                app.isVisible = false;
+                app.isFalseVisible = false;
+            },
+            /**
+             * 全选事件
+             * 
+             * @param {any} val 
+             */
+            handleSelectionChange: function(val) {
+                console.log(val);
+                this.multipleSelection = val;
+            },
+            /**
+             * 批量删除事件
+             * 
+             * @returns 
+             */
+            batchDeleteESight: function() {
+                if (this.multipleSelection.length === 0) {
+                    return false;
+                }
+                this.$confirm(app.i18ns.eSight.batchDeleteTips, app.i18ns.common.prompt, {
+                    confirmButtonText: app.i18ns.common.confirm,
+                    cancelButtonText: app.i18ns.common.cancel,
+                    closeOnClickModal: false,
+                    type: 'warning'
+                }).then(function() {
+                    setCurrentEsight('');
+                    app.fullscreenLoading = true;
+                    var ids = [];
+                    for (var i = 0; i < app.multipleSelection.length; i++) {
+                        ids.push(app.multipleSelection[i].id);
+                    }
+                    eSightManage.delete({
+                        ids: ids
+                    }, function(ret) {
+                        app.fullscreenLoading = false;
+                        if (ret.code === '0') {
+                            app.alertMsg(app.i18ns.eSight.deleteSucc);
+                            app.getListData('');
+                        } else {
+                            var msg = getErrorMsg(ret.code, ret.msg);
+                            //要根据Code得到错误提示。
+                            app.alertMsg(msg);
+                        }
+                    });
+                }).catch(function() {
+
+                });
+            }
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faceted-project>
+  <!-- runtime name should not be hard-coded when sharing this project.
+  <runtime name="Virgo Web Server"/ -->
+
+  <!-- jst.web facet needed so that the springsource bundle plugin deploys it as a war. -->
+  <fixed facet="jst.web"/>
+  <installed facet="jst.web" version="2.4"/>
+  <installed facet="org.eclipse.virgo.server.bundle" version="1.0"/>
+
+  <!-- java version should not be hard-coded when sharing this project.
+    It allows to remove the Dynamic Web Module error in Eclipse Project Facets editor.
+  <installed facet="java" version="1.7"/ -->
+</faceted-project>

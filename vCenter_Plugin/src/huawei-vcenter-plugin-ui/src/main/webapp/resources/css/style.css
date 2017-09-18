@@ -1,0 +1,89 @@
+﻿[v-cloak] {
+    display: none;
+}
+
+.nem_component_content_title {
+    background: none repeat scroll 0 0 #EAEAEA;
+    padding: 0 0 0 20px;
+    line-height: 13px;
+    border: 0 none !important;
+    cursor: pointer;
+    height: 26px;
+}
+
+.el-dialog .nem_component_content_title {
+    background: none repeat scroll 0 0 #EAEAEA;
+    padding: 0 0 0 0;
+    line-height: 13px;
+    border: 0 none !important;
+    cursor: pointer;
+    height: 26px;
+}
+
+.nem_component_content_title_lbl {
+    position: relative;
+    top: 7px;
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.nem_component_content_title_lbl_dialog {
+    position: relative;
+    top: -2px;
+    margin-left: 10px;
+}
+
+.nem_component_content_title_icon_open {
+    background: url(../images/deploy.png) no-repeat scroll center center rgba(0, 0, 0, 0);
+    height: 17px;
+    left: 8px !important;
+    top: 50% !important;
+    margin-top: -8px;
+    position: absolute;
+    width: 17px;
+}
+
+.nem_component_content_title_icon_close {
+    background: url(../images/collapse.png) no-repeat scroll center center rgba(0, 0, 0, 0);
+    height: 17px;
+    left: 8px !important;
+    top: 50% !important;
+    margin-top: -8px;
+    position: absolute;
+    width: 17px;
+}
+
+.list-order .title {
+    width: 200px;
+    display: inline-block;
+}
+
+.list-order span {
+    width: 20px;
+    display: inline-block;
+}
+
+.list-order img {
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.pagination-row {
+    text-align: left;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.search-row {
+    margin-bottom: 10px;
+}
+
+.el-message-box__btns :first-child {
+    float: right;
+    margin-left: 8px;
+}
+
+.el-message-box__btns span {
+    margin-left: 0px !important;
+}

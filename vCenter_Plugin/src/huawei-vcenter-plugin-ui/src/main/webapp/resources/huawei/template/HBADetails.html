@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        form input {
+            max-width: 217px;
+        }
+        
+        .bg-purple-dark {
+            background: #F9FAFC;
+        }
+        
+        .bg-purple {
+            float: right;
+        }
+        
+        .grid-content {
+            border-radius: 4px;
+            min-height: 36px;
+        }
+        
+        .el-dialog {
+            min-width: 700px;
+            max-width: 780px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-form v-bind:model="mainForm" ref="mainForm" label-width="120px" label-position="left" label-suffix=":">
+            <!--模板类型-->
+            <el-form-item v-bind:label="i18ns.template.templateType">
+                {{templateTypeName}}
+            </el-form-item>
+            <!--名称输入框-->
+            <el-form-item v-bind:label="i18ns.template.templateName">
+                {{mainForm.templateName}}
+            </el-form-item>
+            <!--描述文本框-->
+            <el-form-item v-bind:label="i18ns.template.templateDesc">
+                <pre style="max-width:500px;  white-space: pre-wrap;margin:0px; word-wrap:break-word;">{{mainForm.templateDesc}}</pre>
+            </el-form-item>
+            <!--型号选择框-->
+            <el-form-item v-bind:label="i18ns.template.adapterModel">
+                {{mainForm.adapterModel}}
+            </el-form-item>
+            <!--槽位选择框-->
+            <el-form-item v-bind:label="i18ns.template.slot">
+                {{mainForm.slot}}
+            </el-form-item>
+            <el-form-item label="eSight" prop="esight">
+                {{mainForm.esight}}
+            </el-form-item>
+            <!--Port0折叠窗-->
+            <div>
+                <el-row style="margin-top:3px;">
+                    <el-col v-bind:span="24">
+                        <div class="nem_component_content_title" v-on:click="classData.isPort0=!classData.isPort0">
+                            <span v-bind:class="[classData.isPort0 ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">Port0</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isPort0" style="margin-top:8px;margin-bottom:8px;">
+                    <el-button @click="port0AdvanceClick">{{i18ns.common.advanced}}</el-button>
+                </div>
+            </div>
+
+            <!--Port1折叠窗-->
+            <div v-show="wwnnCollapseVisible">
+                <el-row style="margin-top:3px;">
+                    <el-col v-bind:span="24">
+                        <div class="nem_component_content_title" v-on:click="classData.isPort1=!classData.isPort1">
+                            <span v-bind:class="[classData.isPort1 ? classData.openClass : classData.closeClass]"></span>
+                            <span class="nem_component_content_title_lbl">Port1</span>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-show="classData.isPort1" style="margin-top:8px;">
+                    <el-button @click="port1AdvanceClick">{{i18ns.common.advanced}}</el-button>
+                </div>
+            </div>
+        </el-form>
+
+        <!--不包含WWNN选项的Port0 Advanced 弹出窗口-->
+        <el-dialog v-bind:title="i18ns.template.advanced" size="small" :visible.sync="wwpnDialogVisible" :before-close="wwpnCancel">
+            <el-row style="margin-top:3px;">
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title">
+                        <span class="nem_component_content_title_lbl">{{i18ns.template.SANProperties}}</span>
+                    </div>
+                </el-col>
+            </el-row>
+
+            <el-form v-bind:model="wwpn" ref="wwpn" style="margin-top:8px;">
+                <el-form-item label="SANBoot" style="margin-left: 2px;">&nbsp;
+                    <el-select v-model="wwpn.SANBoot" disabled>
+                        <el-option v-for="item in SANBootOptions" :label="item.label" :key="item.value" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
+                <div v-show="wwpnItemsVisible">
+                    <div class="nem_component_content_title" style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
+                        <el-row>
+                            <el-col :span="8">Target WWPN</el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">Target LUN ID</el-col>
+                            <el-col :span="6" style="display:inline-block; text-align:right;">{{i18ns.template.priority}}</el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+                    </div>
+
+                    <div style="margin-top:10px;">
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwpn.Target0.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwpn.Target0.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">0(highest priority)</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwpn.Target1.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwpn.Target1.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">1</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwpn.Target2.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwpn.Target2.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">2</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwpn.Target3.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled class="middleInput" v-model="wwpn.Target3.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">3</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwpn.Target4.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled class="middleInput" v-model="wwpn.Target4.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">4</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwpn.Target5.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled class="middleInput" v-model="wwpn.Target5.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">5</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwpn.Target6.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled class="middleInput" v-model="wwpn.Target6.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">6</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwpn.Target7.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="8">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled class="middleInput" v-model="wwpn.Target7.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">7</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+                    </div>
+                </div>
+
+                <div style="text-align:right;">
+                    <el-button @click="wwpnCancel">{{i18ns.common.confirm}}</el-button>
+                </div>
+            </el-form>
+        </el-dialog>
+
+
+        <!--包含WWNN选项的Port0 Advanced弹窗-->
+        <el-dialog v-bind:title="i18ns.template.advanced" :visible.sync="wwnnDialogVisible" size="small" :before-close="wwnnCancel">
+            <el-row style="margin-top:3px;margin-bottom:8px;">
+                <el-col v-bind:span="24">
+                    <div class="nem_component_content_title">
+                        <span class="nem_component_content_title_lbl">{{i18ns.template.SANProperties}}</span>
+                    </div>
+                </el-col>
+            </el-row>
+
+            <el-form v-bind:model="wwnn" ref="wwnn">
+                <el-form-item label="SANBoot" style="margin-left: 2px;">&nbsp;
+                    <el-select v-model="wwpn.SANBoot" disabled>
+                        <el-option v-for="item in SANBootOptions" :label="item.label" :key="item.value" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
+                <div div v-show="wwnnItemsVisible">
+                    <el-row>
+                        <el-col :span="24">
+                            <div class="nem_component_content_title" style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
+                                <el-row>
+                                    <el-col :span="6">Target WWPN</el-col>
+                                    <el-col :span="1">&nbsp;</el-col>
+                                    <el-col :span="6">Target WWNN</el-col>
+                                    <el-col :span="1">&nbsp;</el-col>
+                                    <el-col :span="6">Target LUN ID</el-col>
+                                    <el-col :span="3" style="text-align:right;">{{i18ns.template.priority}}</el-col>
+                                    <el-col :span="1">&nbsp;</el-col>
+                                </el-row>
+                            </div>
+                        </el-col>
+                    </el-row>
+
+                    <div style="margin-top:10px;">
+                        <el-row>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target0.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target0.TargetWWNN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target0.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="3">
+                                <div class="grid-content bg-purple" style="text-align:right;">0(highest priority)</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target1.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target1.TargetWWNN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target1.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="3">
+                                <div class="grid-content bg-purple">1</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+
+                        <el-row>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target2.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target2.TargetWWNN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target2.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="3">
+                                <div class="grid-content bg-purple">2</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+
+
+                        <el-row>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target3.TargetWWPN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target3.TargetWWNN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="6">
+                                <el-form-item class="grid-content">
+                                    <el-input disabled v-model="wwnn.Target3.TargetLUN"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="3">
+                                <div class="grid-content bg-purple">3</div>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                        </el-row>
+                    </div>
+                </div>
+                <div style="text-align:right;">
+                    <el-button @click="wwnnCancel">{{i18ns.common.confirm}}</el-button>
+                </div>
+            </el-form>
+        </el-dialog>
+
+
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                i18ns: [],
+                classData: {
+                    isPort0: true,
+                    isPort1: true,
+                    openClass: 'nem_component_content_title_icon_open',
+                    closeClass: 'nem_component_content_title_icon_close'
+                },
+                templateTypeName: "",
+                Port0: {},
+                Port1: {},
+                "wwpn": {
+                    "SANBoot": "Enabled",
+                    "Target0": {
+                        "TargetWWPN": "",
+                        "TargetLUN": "",
+                    },
+                    "Target1": {
+                        "TargetWWPN": "",
+                        "TargetLUN": "",
+                    },
+                    "Target2": {
+                        "TargetWWPN": "",
+                        "TargetLUN": "",
+                    },
+                    "Target3": {
+                        "TargetWWPN": "",
+                        "TargetLUN": "",
+                    },
+                    "Target4": {
+                        "TargetWWPN": "",
+                        "TargetLUN": "",
+                    },
+                    "Target5": {
+                        "TargetWWPN": "",
+                        "TargetLUN": "",
+                    },
+                    "Target6": {
+                        "TargetWWPN": "",
+                        "TargetLUN": "",
+                    },
+                    "Target7": {
+                        "TargetWWPN": "",
+                        "TargetLUN": "",
+                    }
+                },
+
+                "wwnn": {
+                    "SANBoot": "Enabled",
+                    "Target0": {
+                        "TargetWWPN": "",
+                        "TargetWWNN": "",
+                        "TargetLUN": "",
+                    },
+                    "Target1": {
+                        "TargetWWPN": "",
+                        "TargetWWNN": "",
+                        "TargetLUN": "",
+                    },
+                    "Target2": {
+                        "TargetWWPN": "",
+                        "TargetWWNN": "",
+                        "TargetLUN": "",
+                    },
+                    "Target3": {
+                        "TargetWWPN": "",
+                        "TargetWWNN": "",
+                        "TargetLUN": "",
+                    }
+                },
+
+
+                wwnnItemsVisible: true,
+                wwpnItemsVisible: true,
+
+                wwnnCollapseVisible: true,
+
+                wwpnDialogVisible: false,
+                wwnnDialogVisible: false,
+
+                IsPort0Dialog: false,
+                esightList: [],
+                SANBootOptions: [],
+
+                fullscreenLoading: false,
+                mainForm: {
+                    esight: getEsightaliasName(getCurrentEsight()),
+                    templateType: '',
+                    templateName: '',
+                    templateDesc: '',
+                    slot: '',
+                    adapterModel: '',
+                    templateProp: {},
+                },
+                formLabelWidth: '120px',
+            },
+
+            created: function() {
+                //国际化信息
+                this.i18ns = getIn18();
+                //根据中英文设置labelWidth
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '200px'
+                    }
+                }
+                this.SANBootOptions = getForbiddenType();
+                var that = this;
+                getEsightList(function(ret) {
+                    if (ret.code === '0') {
+                        var data = ret.data;
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].hostIp == getCurrentEsight()) {
+                                if (data[i].aliasName) {
+                                    that.esightList.push({
+                                        label: data[i].aliasName,
+                                        name: data[i].hostIp
+                                    });
+                                } else {
+                                    that.esightList.push({
+                                        label: data[i].hostIp,
+                                        name: data[i].hostIp
+                                    });
+                                }
+                            }
+                        }
+                    }
+                });
+                this.getTemplateName();
+            },
+            mounted: function() {
+                this.getHbaDetails();
+            },
+            methods: {
+                /**
+                 * 没有wwnn选项的Advanced窗口退出方法，退出后所有内容清空
+                 **/
+                wwpnCancel: function() {
+                    this.wwpnDialogVisible = false;
+                    this.wwpn.Target0.TargetWWPN = ''
+                    this.wwpn.Target1.TargetWWPN = ''
+                    this.wwpn.Target2.TargetWWPN = ''
+                    this.wwpn.Target3.TargetWWPN = ''
+                    this.wwpn.Target4.TargetWWPN = ''
+                    this.wwpn.Target5.TargetWWPN = ''
+                    this.wwpn.Target6.TargetWWPN = ''
+                    this.wwpn.Target7.TargetWWPN = ''
+
+
+                    this.wwpn.Target0.TargetLUN = ''
+                    this.wwpn.Target1.TargetLUN = ''
+                    this.wwpn.Target2.TargetLUN = ''
+                    this.wwpn.Target3.TargetLUN = ''
+                    this.wwpn.Target4.TargetLUN = ''
+                    this.wwpn.Target5.TargetLUN = ''
+                    this.wwpn.Target6.TargetLUN = ''
+                    this.wwpn.Target7.TargetLUN = ''
+                },
+                /**
+                 * 包含wwnn选项的Advanced窗口退出方法，退出后所有内容清空
+                 * **/
+                wwnnCancel: function() {
+                    this.wwnnDialogVisible = false;
+                    this.wwnn.Target0.TargetWWPN = '';
+                    this.wwnn.Target1.TargetWWPN = '';
+                    this.wwnn.Target2.TargetWWPN = '';
+                    this.wwnn.Target3.TargetWWPN = '';
+                    this.wwnn.Target0.TargetWWNN = '';
+                    this.wwnn.Target1.TargetWWNN = '';
+                    this.wwnn.Target2.TargetWWNN = '';
+                    this.wwnn.Target3.TargetWWNN = '';
+                    this.wwnn.Target0.TargetLUN = '';
+                    this.wwnn.Target1.TargetLUN = '';
+                    this.wwnn.Target2.TargetLUN = '';
+                    this.wwnn.Target3.TargetLUN = '';
+                },
+                /**
+                 * 获取模板名称
+                 * **/
+                getTemplateName: function() {
+                    this.mainForm.templateName = localStorage.getItem("templateName");
+                },
+                getHbaDetails: function(ret) {
+                    param = {
+                        "esight": getCurrentEsight(),
+                        "param": {
+                            "templateName": this.mainForm.templateName
+                        }
+                    }
+                    var that = this;
+                    templateManage.getTemplateDetail(param, function(ret) {
+                        console.log("ret:")
+                        console.log(ret);
+                        if (ret.code == "0") {
+                            that.mainForm.templateName = ret.data.templateName;
+                            that.mainForm.templateDesc = ret.data.templateDesc;
+                            that.mainForm.templateType = ret.data.templateType;
+                            that.mainForm.templateProp = ret.data.templateProp;
+                            that.mainForm.adapterModel = ret.data.templateProp.adapterModel;
+                            that.mainForm.slot = ret.data.templateProp.slot;
+                            that.templateTypeName = getOptionlabel(getTemplateType(), ret.data.templateType);
+                        }
+                        if (that.mainForm.adapterModel === "LPE12000" || that.mainForm.adapterModel === "LPE16000" || that.mainForm.adapterModel === "QLE2560" || that.mainForm.adapterModel == "QLE2670") {
+                            that.wwnnCollapseVisible = false;
+                        } else {
+                            that.wwnnCollapseVisible = true;
+                        }
+                    });
+
+                },
+                //Port0下wwnn取值
+                setPort0WwnnValues: function() {
+                    var defaultWwpn = {
+                        TargetWWPN: ""
+                    };
+                    var defaultLun = {
+                        TargetLUN: ""
+                    };
+                    var defaultWwnn = {
+                        TargetWWNN: ""
+                    };
+                    if (this.mainForm.templateProp.Port0.SANBoot == "Enabled") {
+                        this.wwnnItemsVisible = true;
+                        this.wwnn.Target0.TargetWWPN = (this.mainForm.templateProp.Port0.Target0 || defaultWwpn).TargetWWPN
+                        this.wwnn.Target1.TargetWWPN = (this.mainForm.templateProp.Port0.Target1 || defaultWwpn).TargetWWPN
+                        this.wwnn.Target2.TargetWWPN = (this.mainForm.templateProp.Port0.Target2 || defaultWwpn).TargetWWPN
+                        this.wwnn.Target3.TargetWWPN = (this.mainForm.templateProp.Port0.Target3 || defaultWwpn).TargetWWPN
+                        this.wwnn.Target0.TargetWWNN = (this.mainForm.templateProp.Port0.Target0 || defaultWwnn).TargetWWNN
+                        this.wwnn.Target1.TargetWWNN = (this.mainForm.templateProp.Port0.Target1 || defaultWwnn).TargetWWNN
+                        this.wwnn.Target2.TargetWWNN = (this.mainForm.templateProp.Port0.Target2 || defaultWwnn).TargetWWNN
+                        this.wwnn.Target3.TargetWWNN = (this.mainForm.templateProp.Port0.Target3 || defaultWwnn).TargetWWNN
+                        this.wwnn.Target0.TargetLUN = (this.mainForm.templateProp.Port0.Target0 || defaultLun).TargetLUN;
+                        this.wwnn.Target1.TargetLUN = (this.mainForm.templateProp.Port0.Target1 || defaultLun).TargetLUN;
+                        this.wwnn.Target2.TargetLUN = (this.mainForm.templateProp.Port0.Target2 || defaultLun).TargetLUN;
+                        this.wwnn.Target3.TargetLUN = (this.mainForm.templateProp.Port0.Target3 || defaultLun).TargetLUN;
+                        this.wwnn.SANBoot = this.mainForm.templateProp.Port0.SANBoot;
+                    } else {
+                        this.wwnn.SANBoot = this.mainForm.templateProp.Port0.SANBoot;
+                        this.wwnnItemsVisible = false;
+                    }
+
+                },
+                //Port0下wwpn取值
+                setPort0WwpnValues: function() {
+                    var defaultWwpn = {
+                        TargetWWPN: ""
+                    };
+                    var defaultLun = {
+                        TargetLUN: ""
+                    };
+                    if (this.mainForm.templateProp.Port0.SANBoot == "Enabled") {
+                        this.wwpnItemsVisible = true;
+                        this.wwpn.Target0.TargetWWPN = (this.mainForm.templateProp.Port0.Target0 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target1.TargetWWPN = (this.mainForm.templateProp.Port0.Target1 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target2.TargetWWPN = (this.mainForm.templateProp.Port0.Target2 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target3.TargetWWPN = (this.mainForm.templateProp.Port0.Target3 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target4.TargetWWPN = (this.mainForm.templateProp.Port0.Target4 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target5.TargetWWPN = (this.mainForm.templateProp.Port0.Target5 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target6.TargetWWPN = (this.mainForm.templateProp.Port0.Target6 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target7.TargetWWPN = (this.mainForm.templateProp.Port0.Target7 || defaultWwpn).TargetWWPN
+
+                        this.wwpn.Target0.TargetLUN = (this.mainForm.templateProp.Port0.Target0 || defaultLun).TargetLUN
+                        this.wwpn.Target1.TargetLUN = (this.mainForm.templateProp.Port0.Target1 || defaultLun).TargetLUN
+                        this.wwpn.Target2.TargetLUN = (this.mainForm.templateProp.Port0.Target2 || defaultLun).TargetLUN
+                        this.wwpn.Target3.TargetLUN = (this.mainForm.templateProp.Port0.Target3 || defaultLun).TargetLUN
+                        this.wwpn.Target4.TargetLUN = (this.mainForm.templateProp.Port0.Target4 || defaultLun).TargetLUN
+                        this.wwpn.Target5.TargetLUN = (this.mainForm.templateProp.Port0.Target5 || defaultLun).TargetLUN
+                        this.wwpn.Target6.TargetLUN = (this.mainForm.templateProp.Port0.Target6 || defaultLun).TargetLUN
+                        this.wwpn.Target7.TargetLUN = (this.mainForm.templateProp.Port0.Target7 || defaultLun).TargetLUN
+                        this.wwpn.SANBoot = this.mainForm.templateProp.Port0.SANBoot
+                    } else {
+                        this.wwpn.SANBoot = this.mainForm.templateProp.Port0.SANBoot;
+                        this.wwpnItemsVisible = false;
+                    }
+
+                },
+                //Port1下wwnn取值
+                setPort1WwnnValues: function() {
+                    var defaultWwpn = {
+                        TargetWWPN: ""
+                    };
+                    var defaultLun = {
+                        TargetLUN: ""
+                    };
+                    var defaultWwnn = {
+                        TargetWWNN: ""
+                    };
+                    if (this.mainForm.templateProp.Port1.SANBoot == "Enabled") {
+                        this.wwnnItemsVisible = true;
+                        this.wwnn.Target0.TargetWWPN = (this.mainForm.templateProp.Port1.Target0 || defaultWwpn).TargetWWPN
+                        this.wwnn.Target1.TargetWWPN = (this.mainForm.templateProp.Port1.Target1 || defaultWwpn).TargetWWPN
+                        this.wwnn.Target2.TargetWWPN = (this.mainForm.templateProp.Port1.Target2 || defaultWwpn).TargetWWPN
+                        this.wwnn.Target3.TargetWWPN = (this.mainForm.templateProp.Port1.Target3 || defaultWwpn).TargetWWPN
+                        this.wwnn.Target0.TargetWWNN = (this.mainForm.templateProp.Port1.Target0 || defaultWwnn).TargetWWNN
+                        this.wwnn.Target1.TargetWWNN = (this.mainForm.templateProp.Port1.Target1 || defaultWwnn).TargetWWNN
+                        this.wwnn.Target2.TargetWWNN = (this.mainForm.templateProp.Port1.Target2 || defaultWwnn).TargetWWNN
+                        this.wwnn.Target3.TargetWWNN = (this.mainForm.templateProp.Port1.Target3 || defaultWwnn).TargetWWNN
+                        this.wwnn.Target0.TargetLUN = (this.mainForm.templateProp.Port1.Target0 || defaultLun).TargetLUN;
+                        this.wwnn.Target1.TargetLUN = (this.mainForm.templateProp.Port1.Target1 || defaultLun).TargetLUN;
+                        this.wwnn.Target2.TargetLUN = (this.mainForm.templateProp.Port1.Target2 || defaultLun).TargetLUN;
+                        this.wwnn.Target3.TargetLUN = (this.mainForm.templateProp.Port1.Target3 || defaultLun).TargetLUN;
+                        this.wwnn.SANBoot = this.mainForm.templateProp.Port1.SANBoot
+                    } else {
+                        this.wwnn.SANBoot = this.mainForm.templateProp.Port1.SANBoot;
+                        this.wwnnItemsVisible = false;
+                    }
+
+                },
+                //Port1下wwpn取值
+                setPort1WwpnValues: function() {
+                    var defaultWwpn = {
+                        TargetWWPN: ""
+                    };
+                    var defaultLun = {
+                        TargetLUN: ""
+                    };
+
+                    if (this.mainForm.templateProp.Port1.SANBoot == "Enabled") {
+                        this.wwpnItemsVisible = true;
+                        this.wwpn.Target0.TargetWWPN = (this.mainForm.templateProp.Port1.Target0 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target1.TargetWWPN = (this.mainForm.templateProp.Port1.Target1 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target2.TargetWWPN = (this.mainForm.templateProp.Port1.Target2 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target3.TargetWWPN = (this.mainForm.templateProp.Port1.Target3 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target4.TargetWWPN = (this.mainForm.templateProp.Port1.Target4 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target5.TargetWWPN = (this.mainForm.templateProp.Port1.Target5 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target6.TargetWWPN = (this.mainForm.templateProp.Port1.Target6 || defaultWwpn).TargetWWPN
+                        this.wwpn.Target7.TargetWWPN = (this.mainForm.templateProp.Port1.Target7 || defaultWwpn).TargetWWPN
+
+                        this.wwpn.Target0.TargetLUN = (this.mainForm.templateProp.Port1.Target0 || defaultLun).TargetLUN
+                        this.wwpn.Target1.TargetLUN = (this.mainForm.templateProp.Port1.Target1 || defaultLun).TargetLUN
+                        this.wwpn.Target2.TargetLUN = (this.mainForm.templateProp.Port1.Target2 || defaultLun).TargetLUN
+                        this.wwpn.Target3.TargetLUN = (this.mainForm.templateProp.Port1.Target3 || defaultLun).TargetLUN
+                        this.wwpn.Target4.TargetLUN = (this.mainForm.templateProp.Port1.Target4 || defaultLun).TargetLUN
+                        this.wwpn.Target5.TargetLUN = (this.mainForm.templateProp.Port1.Target5 || defaultLun).TargetLUN
+                        this.wwpn.Target6.TargetLUN = (this.mainForm.templateProp.Port1.Target6 || defaultLun).TargetLUN
+                        this.wwpn.Target7.TargetLUN = (this.mainForm.templateProp.Port1.Target7 || defaultLun).TargetLUN
+                        this.wwpn.SANBoot = this.mainForm.templateProp.Port1.SANBoot;
+                    } else {
+                        this.wwpn.SANBoot = this.mainForm.templateProp.Port1.SANBoot;
+                        this.wwpnItemsVisible = false;
+                    }
+
+                },
+
+
+                //Port0的高级按钮点击事件，根据型号给弹窗内容重新赋值
+                port0AdvanceClick: function() {
+                    this.IsPort0Dialog = true;
+                    var val = this.mainForm.adapterModel;
+                    if (val === "QLE2560" || val === "QLE2562" || val === "QLE2670" || val === "QLE2672") {
+                        this.setPort0WwnnValues(this.Port0);
+                        this.wwnnDialogVisible = true;
+                    } else {
+                        this.setPort0WwpnValues(this.Port0);
+                        this.wwpnDialogVisible = true;
+                    }
+                },
+
+                //Port1的高级按钮点击事件，根据型号给弹窗内容重新赋值
+                port1AdvanceClick: function() {
+                    this.IsPort0Dialog = false;
+                    var val = this.mainForm.adapterModel;
+                    if (val === "QLE2560" || val === "QLE2562" || val === "QLE2670" || val === "QLE2672") {
+                        this.setPort1WwnnValues(this.Port1);
+                        this.wwnnDialogVisible = true;
+                    } else {
+                        this.setPort1WwpnValues(this.Port1);
+                        this.wwpnDialogVisible = true;
+                    }
+                },
+                alertMsg: function(msg, callback) {
+                    this.$alert(msg, this.i18ns.common.prompt, {
+                        confirmButtonText: this.i18ns.common.confirm,
+                        callback: function action() {
+                            callback && callback()
+                        }
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

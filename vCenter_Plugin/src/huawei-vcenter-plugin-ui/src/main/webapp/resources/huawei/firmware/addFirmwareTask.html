@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        body {
+            min-width: 900px;
+        }
+        
+        .row-checkbox {
+            margin-top: 0px;
+        }
+        
+        .el-form-item {
+            margin-bottom: 5px;
+        }
+        
+        .el-table .cell {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-row>
+            <h4>{{i18ns.firmware.selectPackage}}</h4>
+        </el-row>
+        <div class="margin-top-7">
+            <template>
+                <el-table v-bind:data="firmwareListData" border style="width: 100%; cursor: default;" v-loading="tableloading" element-loading-text="Loading"
+                    @row-dblclick="firmwaredoubleRow">
+                    <el-table-column width="55">
+                        <template scope="scope">
+                            <el-checkbox v-model="scope.row.isChecked" @change="firmwareChange(scope.$index)"></el-checkbox>
+                        </template>
+            </el-table-column>
+            <el-table-column width="240px" prop="basepackageName" v-bind:label="i18ns.firmware.packageName">
+            </el-table-column>
+            <el-table-column width="200px" prop="basepackageType" v-bind:label="i18ns.firmware.packageType">
+            </el-table-column>
+            <el-table-column prop="basepackageDesc" v-bind:label="i18ns.firmware.packageDesc">
+            </el-table-column>
+            </el-table>
+            </template>
+            <!-- 升级固件包分页 -->
+            <el-row class="pagination-row">
+                <el-col v-bind:span="24" style="text-align:left;">
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" v-bind:current-page="currentPage" v-bind:page-sizes="pageSizes" v-bind:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" v-bind:total="total">
+                    </el-pagination>
+                </el-col>
+            </el-row>
+
+            <el-row>
+                <h4>{{i18ns.firmware.selectFirmware}}</h4>
+            </el-row>
+            <el-form label-width="80px" label-position="left">
+                <el-row>
+                    <el-form-item label="">
+                        <el-checkbox :label="firmwareTypeList[0].label" :key="firmwareTypeList[0].value" v-model="checkAll" @change="firmwareTypeChangeAll">{{firmwareTypeList[0].label}}</el-checkbox>
+                    </el-form-item>
+                </el-row>
+                <el-checkbox-group v-model="firmwareTypes" @change="firmwareTypeChange">
+                    <el-row class="row-checkbox">
+                        <el-form-item v-bind:label="i18ns.firmware.driver_firm">
+                            <el-checkbox :label="firmwareTypeList[1].value" :key="firmwareTypeList[1].value" name="firmwareTypes">{{firmwareTypeList[1].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[2].value" :key="firmwareTypeList[2].value" name="firmwareTypes">{{firmwareTypeList[2].label}}</el-checkbox>
+                        </el-form-item>
+                    </el-row>
+                    <el-row class="row-checkbox">
+                        <el-form-item v-bind:label="i18ns.firmware.outBand_firm">
+                            <el-checkbox :label="firmwareTypeList[3].label" :key="firmwareTypeList[3].value" name="firmwareTypes">{{firmwareTypeList[3].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[4].label" :key="firmwareTypeList[4].value" name="firmwareTypes">{{firmwareTypeList[4].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[5].label" :key="firmwareTypeList[5].value" name="firmwareTypes">{{firmwareTypeList[5].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[6].label" :key="firmwareTypeList[6].value" name="firmwareTypes">{{firmwareTypeList[6].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[7].label" :key="firmwareTypeList[7].value" name="firmwareTypes">{{firmwareTypeList[7].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[8].label" :key="firmwareTypeList[8].value" name="firmwareTypes">{{firmwareTypeList[8].label}}</el-checkbox>
+                        </el-form-item>
+                    </el-row>
+                    <el-row class="row-checkbox">
+                        <el-form-item v-bind:label="i18ns.firmware.inBand_firm">
+                            <el-checkbox :label="firmwareTypeList[9].value" :key="firmwareTypeList[9].value" :value="firmwareTypeList[9].value" name="firmwareTypes">{{firmwareTypeList[9].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[10].label" :key="firmwareTypeList[10].value" name="firmwareTypes">{{firmwareTypeList[10].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[11].label" :key="firmwareTypeList[11].value" name="firmwareTypes">{{firmwareTypeList[11].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[12].label" :key="firmwareTypeList[12].value" name="firmwareTypes">{{firmwareTypeList[12].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[13].label" :key="firmwareTypeList[13].value" name="firmwareTypes">{{firmwareTypeList[13].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[14].label" :key="firmwareTypeList[13].value" name="firmwareTypes">{{firmwareTypeList[14].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[15].label" :key="firmwareTypeList[13].value" name="firmwareTypes">{{firmwareTypeList[15].label}}</el-checkbox>
+                            <el-checkbox :label="firmwareTypeList[16].label" :key="firmwareTypeList[13].value" name="firmwareTypes">{{firmwareTypeList[16].label}}</el-checkbox>
+                        </el-form-item>
+                    </el-row>
+                </el-checkbox-group>
+            </el-form>
+
+            <el-row>
+                <h4>{{i18ns.firmware.selectServer}}</h4>
+            </el-row>
+            <el-row>
+                <el-tabs type="card" v-model="activeTab">
+                    <el-tab-pane :label="i18ns.serverList.serverBlade" name="bladeTab" v-loading="loading" element-loading-text="Loading">
+                        <el-row>
+                            <el-col :span="8" class="title div-center">{{i18ns.serverList.serverName}}</el-col>
+                            <el-col :span="8" class="title div-center">{{i18ns.task.dn}}</el-col>
+                            <el-col :span="8" class="title div-center">{{i18ns.serverList.serverIPAddress}}</el-col>
+                        </el-row>
+                        <el-tree :data="blade.listData" :props="defaultProps" ref="bladeTree" show-checkbox node-key="dn" default-expand-all :expand-on-click-node="false" :render-content="renderContent" @check-change="handleServerChange1" :check-strictly="true">
+                        </el-tree>
+                        <el-row class="pagination-row">
+                            <el-col v-bind:span="24" style="text-align: left;  margin-top: 15px; padding-bottom: 12px; position: relative;">
+                                <el-pagination @size-change="bladeSizeChange" @current-change="bladeCurrentChange" :current-page="blade.param.start" :page-sizes="blade.pageSizes" :page-size="blade.param.size" layout="total, sizes, prev, pager, next, jumper" :total="blade.totalCount">
+                                </el-pagination>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                    <el-tab-pane :label="i18ns.serverList.serverRack" name="rackTab" v-loading="loading" element-loading-text="Loading">
+                        <el-row>
+                            <el-col :span="8" class="title div-center">{{i18ns.serverList.serverName}}</el-col>
+                            <el-col :span="8" class="title div-center">{{i18ns.task.dn}}</el-col>
+                            <el-col :span="8" class="title div-center">{{i18ns.serverList.serverIPAddress}}</el-col>
+                        </el-row>
+                        <el-tree :data="rack.listData" :props="defaultProps" ref="rackTree" show-checkbox node-key="dn" default-expand-all :expand-on-click-node="false" :render-content="renderContent" @check-change="handleServerChange2" :check-strictly="true">
+                        </el-tree>
+                        <el-row class="pagination-row">
+                            <el-col v-bind:span="24" style="text-align: left;  margin-top: 15px; padding-bottom: 12px; position: relative;">
+                                <el-pagination @size-change="rackSizeChange" @current-change="rackCurrentChange" :current-page="rack.param.start" :page-sizes="rack.pageSizes" :page-size="rack.param.size" layout="total, sizes, prev, pager, next, jumper" :total="rack.totalCount">
+                                </el-pagination>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                    <el-tab-pane :label="i18ns.serverList.serverHighdensity" name="highdensityTab" v-loading="loading" element-loading-text="Loading">
+                        <el-row>
+                            <el-col :span="8" class="title div-center">{{i18ns.serverList.serverName}}</el-col>
+                            <el-col :span="8" class="title div-center">{{i18ns.task.dn}}</el-col>
+                            <el-col :span="8" class="title div-center">{{i18ns.serverList.serverIPAddress}}</el-col>
+                        </el-row>
+                        <el-tree :data="highdensity.listData" :props="defaultProps" ref="highdensityTree" show-checkbox node-key="dn" default-expand-all :expand-on-click-node="false" :render-content="renderContent1" @check-change="handleServerChange3" :check-strictly="true"
+                            id="highdensity">
+                        </el-tree>
+                        <el-row class="pagination-row">
+                            <el-col v-bind:span="24" style="text-align: left;  margin-top: 15px; padding-bottom: 12px; position: relative;">
+                                <el-pagination @size-change="highdensitySizeChange" @current-change="highdensityCurrentChange" :current-page="highdensity.param.start" :page-sizes="highdensity.pageSizes" :page-size="highdensity.param.size" layout="total, sizes, prev, pager, next, jumper"
+                                    :total="highdensity.totalCount">
+                                </el-pagination>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                </el-tabs>
+                <el-table v-bind:data="selectServers" border style="width: 100%">
+                    <el-table-column prop="name" v-bind:label="i18ns.task.name">
+                    </el-table-column>
+                    <el-table-column prop="dn" v-bind:label="i18ns.task.dn">
+                    </el-table-column>
+                    <el-table-column prop="ipAddress" v-bind:label="i18ns.serverList.serverIPAddress">
+                    </el-table-column>
+                    <el-table-column prop="servertype" v-bind:label="i18ns.task.servertype">
+                    </el-table-column>
+                    <el-table-column v-bind:label="i18ns.common.operation">
+                        <template scope="scope">
+                            <el-button type="text" size="small" v-on:click="confirmDelete(scope.$index, scope.row)">{{i18ns.common.delete}}
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+            </el-row>
+            <el-row>
+                <h4>{{i18ns.firmware.selectupgradePolicy}}</h4>
+            </el-row>
+            <el-row>
+                <el-alert v-bind:title="i18ns.firmware.selectupgradePolicyTips" show-icon :closable="false"></el-alert>
+                <el-checkbox v-model="isforceupgrade">{{i18ns.firmware.selectupgradePolicyItem}}</el-checkbox>
+            </el-row>
+            <el-row>
+                <h4>{{i18ns.firmware.SelectEffectiveMode}}</h4>
+            </el-row>
+            <el-row>
+                <el-alert v-bind:title="i18ns.firmware.SelectEffectiveModeTips" show-icon :closable="false"></el-alert>
+                <el-radio class="radio" v-model="effectiveMethod" label="0">{{i18ns.firmware.SelectEffectiveModeItem1}}</el-radio>
+                <el-radio class="radio" v-model="effectiveMethod" label="1">{{i18ns.firmware.SelectEffectiveModeItem2}}</el-radio>
+            </el-row>
+            <el-row style="margin-top:8px;">
+                <el-button @click="submit" v-loading.fullscreen.lock="fullscreenLoading" element-loading-text="Loading">{{i18ns.common.confirm}}</el-button>
+                <el-button @click="goBack">{{i18ns.common.back}}</el-button>
+            </el-row>
+        </div>
+
+    </div>
+    <style>
+        .el-alert__icon {
+            color: #20a0ff;
+        }
+        
+        .el-tree__empty-text {
+            font-size: 12px;
+        }
+        
+        .el-alert--info {
+            background-color: #FFF5EA;
+            color: #1f2d3d;
+            margin-bottom: 8px;
+        }
+        
+        .el-tree-node__content {
+            line-height: 30px;
+            height: 30px;
+            position: relative;
+            border-bottom: 1px solid #e0e6ed;
+            font-size: 12px;
+        }
+        
+        .title {
+            padding: 0 14px;
+            font-weight: bold;
+            border-bottom: 1px solid #e0e6ed;
+            border-right: 1px solid #e0e6ed;
+            white-space: nowrap;
+            overflow: hidden;
+            background-color: #EFF2F7;
+            height: 30px;
+            line-height: 30px;
+            min-width: 0;
+            text-overflow: ellipsis;
+            box-sizing: border-box;
+            font-size: 12px;
+            color: #1f2d3d;
+        }
+        
+        .line-row {
+            position: absolute;
+            left: 33.33%;
+            top: 0;
+            width: 66.66%;
+        }
+        
+        .el-tabs__header {
+            margin-bottom: 0px;
+        }
+        
+        .el-input {
+            max-width: 500px;
+        }
+    </style>
+    <script src="js/rest.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                currentPage: 1,
+                pageSize: 10,
+                pageSizes: [10, 20, 50, 100],
+                total: 0,
+                hide: false,
+                i18ns: [],
+                eSights: [], //eSight列表
+                currentESight: getCurrentEsight(),
+                firmwareTypes: [],
+                firmwareTypeList: [],
+                firmwareListData: [], //存放已上传成功的固件列表数据
+                firmwareName: '', //升级包名称，用在升级包详情
+                tableloading: true, //显示表格数据加载中
+                checkAll: false,
+                loading: false,
+                activeTab: 'bladeTab',
+                isforceupgrade: false,
+                effectiveMethod: '0',
+                fullscreenLoading: false,
+                defaultProps: {
+                    children: 'childBlades',
+                    label: 'dn',
+                    disabled: 'disabled',
+                },
+                blade: {
+                    listData: [],
+                    param: {
+                        servertype: "blade",
+                        orderby: "ipAddress",
+                        desc: true,
+                        start: 1,
+                        size: 5,
+                    },
+                    pageSizes: [5, 10, 20],
+                    totalCount: 0
+                },
+                rack: {
+                    listData: [],
+                    param: {
+                        servertype: "rack",
+                        orderby: "ipAddress",
+                        desc: true,
+                        start: 1,
+                        size: 5,
+                    },
+                    pageSizes: [5, 10, 20],
+                    totalCount: 0
+                },
+                highdensity: {
+                    listData: [],
+                    param: {
+                        servertype: "highdensity",
+                        orderby: "ipAddress",
+                        desc: true,
+                        start: 1,
+                        size: 5,
+                    },
+                    pageSizes: [5, 10, 20],
+                    totalCount: 0
+                },
+                selectServers: []
+            },
+            computed: {
+                bladeParams: function() {
+                    return {
+                        esight: this.currentESight,
+                        param: this.blade.param
+                    }
+                },
+                rackParams: function() {
+                    return {
+                        esight: this.currentESight,
+                        param: this.rack.param
+                    }
+                },
+                highdensityParams: function() {
+                    return {
+                        esight: this.currentESight,
+                        param: this.highdensity.param
+                    }
+                }
+            },
+            created: function() {
+                this.i18ns = getIn18();
+                this.firmwareTypeList = getFirmwareTypeList();
+                this.currentESight = getCurrentEsight();
+                var _pageSize = localStorage.getItem("addFirmwareTaskSize");
+                if (_pageSize) {
+                    this.pageSize = parseInt(_pageSize);
+                };
+            },
+            mounted: function() {
+                setTimeout(function() {
+                    app.getFirmwareListData(); //获取已上传成功的固件列表数据
+                }, 0);
+            },
+            methods: {
+                /**
+                 * 设置一页显示的数据总条数
+                 * 
+                 * @param {any} val 
+                 */
+                handleSizeChange: function(val) {
+                    this.pageSize = val;
+                    localStorage.setItem("addFirmwareTaskSize", val);
+                    this.getFirmwareListData();
+                },
+                /**
+                 * 切换当前显示页
+                 * 
+                 * @param {any} val 
+                 */
+                handleCurrentChange: function(val) {
+                    this.currentPage = val;
+                    this.getFirmwareListData();
+                },
+                /**
+                 * 获取升级包列表
+                 * 
+                 */
+                getFirmwareListData: function() {
+                    firmwareManage.getFirmwareList({
+                        "esight": this.currentESight,
+                        "param": {
+                            "pageNo": this.currentPage,
+                            "pageSize": this.pageSize
+                        }
+                    }, this.bindFirmwareList);
+                },
+                /**
+                 * 获取升级包列表回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindFirmwareList: function(ret) {
+                    this.firmwareListData = [];
+                    this.tableloading = false; //隐藏loading提示
+                    if (ret.code === '0') {
+                        this.total = ret.totalNum;
+                        app.getBladeList();
+                        app.getRackList();
+                        app.gethighdensityList();
+                        var data = ret.data;
+                        for (var i = 0; i < data.length; i++) {
+                            var d = data[i];
+                            _.assign(d, {
+                                isChecked: false
+                            });
+                            this.firmwareListData.push(d);
+                        }
+                    } else {
+                        //要根据Code得到错误提示。
+                        msg = getErrorMsg(ret.code);
+                        this.alertMsg(msg);
+                    }
+                },
+                /**
+                 * 消息提醒 弹出框
+                 * 
+                 * @param {any} msg 
+                 * @param {any} callback 
+                 */
+                alertMsg: function(msg, callback) {
+                    console.log(1);
+                    this.$alert(msg, this.i18ns.common.prompt, {
+                        confirmButtonText: this.i18ns.common.confirm,
+                        callback: function action() {
+                            callback && callback()
+                        }
+                    });
+                },
+                /**
+                 * 升级包列表 checkbox 单行点击切换事件
+                 * 
+                 * @param {any} index 
+                 */
+                firmwareChange: function(index) {
+                    var lg = this.firmwareListData.length;
+                    for (var i = 0; i < lg; i++) {
+                        if (index != i) {
+                            this.firmwareListData[i].isChecked = false;
+                        }
+                    }
+                    this.firmwareName = this.firmwareListData[index].isChecked == true ? this.firmwareListData[index].basepackageName : '';
+                },
+                /**
+                 * 升级包列表双击某一行 checkbox 切换选择事件
+                 * 
+                 * @param {any} index 
+                 */
+                firmwaredoubleRow: function(row) {
+                    var index = _.findIndex(this.firmwareListData, function(x) {
+                        return x == row
+                    });
+                    var lg = this.firmwareListData.length;
+                    for (var i = 0; i < lg; i++) {
+                        if (index != i) {
+                            this.firmwareListData[i].isChecked = false;
+                        } else {
+                            this.firmwareListData[i].isChecked = true;
+
+                        }
+                    }
+                },
+                /**
+                 * 选择升级固件类型 checkbox 切换全选事件
+                 * 
+                 * @param {any} event 
+                 */
+                firmwareTypeChangeAll: function(event) {
+                    var allTypes = [];
+                    _.forEach(this.firmwareTypeList, function(item) {
+                        allTypes.push(item.value);
+                    });
+                    this.firmwareTypes = event.target.checked ? allTypes : [];
+                },
+                /**
+                 * 选择升级固件类型 checkbox 单个切换选择事件
+                 * 
+                 * @param {any} value 
+                 */
+                firmwareTypeChange: function(value) {
+                    var checkedCount = value.length - 1;
+                    this.checkAll = checkedCount === this.firmwareTypeList.length - 1;
+
+                },
+                /**
+                 * 获取刀片服务器列表
+                 * 
+                 */
+                getBladeList: function() {
+                    this.loading = true;
+                    firmwareTaskManage.getServerList(this.bladeParams, function(res) {
+                        var data = res.data;
+                        app.blade.listData = [];
+                        app.blade.totalCount = data.totalNum;
+                        _.forEach(data.data, function(x) {
+                            app.blade.listData.push(x);
+                        })
+                        app.setCurrentPageChecked();
+                        app.loading = false;
+                    });
+                },
+                /**
+                 * 获取机架服务器列表
+                 * 
+                 */
+                getRackList: function() {
+                    this.loading = true;
+                    firmwareTaskManage.getServerList(this.rackParams, function(res) {
+                        var data = res.data;
+                        app.rack.listData = [];
+                        app.rack.totalCount = data.totalNum;
+                        _.forEach(data.data, function(x) {
+                            return app.rack.listData.push(x);
+                        })
+                        app.setCurrentPageChecked();
+                        app.loading = false;
+                    });
+                },
+                /**
+                 * 获取高密服务器列表
+                 * 
+                 */
+                gethighdensityList: function() {
+                    this.loading = true;
+                    console.log(this.highdensityParams);
+                    firmwareTaskManage.getServerList(this.highdensityParams, function(res) {
+                        var data = res.data;
+                        app.highdensity.listData = [];
+                        app.highdensity.totalCount = data.totalNum;
+                        _.forEach(data.data, function(x) {
+
+                            app.highdensity.listData.push({
+                                dn: x.dn,
+                                ipAddress: x.ipAddress,
+                                serverName: x.serverName,
+                                serverModel: x.serverModel,
+                                childBlades: x.childBlades,
+                                disabled: true
+                            });
+                        });
+                        app.setCurrentPageChecked();
+                        app.loading = false;
+                        setTimeout(function() {
+                            var cks = document.querySelectorAll('#highdensity .pcc');
+                            for (var i = 0; i < cks.length; i++) {
+                                var ck = cks[i].parentNode.childNodes[1];
+                                ck.className = "el-checkbox__input is-disabled";
+                                ck.childNodes[0].childNodes[1].setAttribute('disabled', 'disabled')
+                            }
+                        }, 100);
+                    });
+                },
+                /**
+                 * 设置当前页选中的服务器类型
+                 * 
+                 */
+                setCurrentPageChecked: function() {
+                    var tree = this.activeTab == 'bladeTab' ? this.$refs['bladeTree'] : this.$refs['rackTree'];
+                    var keys = this.selectServers.map(function(i) {
+                        return i.dn
+                    });
+                    //设置当前页面的选中
+                    tree.setCheckedKeys(keys, false);
+                },
+                /**
+                 * 删除对应行的数据
+                 * 
+                 * @param {any} index 
+                 * @param {any} row 
+                 */
+                confirmDelete: function(index, row) {
+                    //得到三个tree的选中的key
+                    var checkKeys = this.$refs['bladeTree'].getCheckedKeys().concat(this.$refs['rackTree'].getCheckedKeys()).concat(this.$refs['highdensityTree'].getCheckedKeys());
+                    if (_.find(checkKeys, function(x) {
+                            return x == row.dn
+                        })) {
+                        this.$refs['bladeTree'].setChecked(row.dn, false);
+                        this.$refs['rackTree'].setChecked(row.dn, false);
+                        this.$refs['highdensityTree'].setChecked(row.dn, false);
+                    } else {
+                        this.taskForm.selectServers.splice(index, 1);
+                    }
+                },
+                /**
+                 * 切换刀片服务器一页显示的数量
+                 * 
+                 * @param {any} pageSize 
+                 */
+                bladeSizeChange: function(pageSize) {
+                    this.blade.param.size = pageSize;
+                    this.getBladeList();
+                },
+                /**
+                 * 切换刀片服务器当前页
+                 * 
+                 * @param {any} pageNo 
+                 */
+                bladeCurrentChange: function(pageNo) {
+                    this.blade.param.start = pageNo;
+                    this.getBladeList();
+                },
+                /**
+                 * 切换机架服务器一页显示的数量
+                 * 
+                 * @param {any} pageSize 
+                 */
+                rackSizeChange: function(pageSize) {
+                    this.rack.param.size = pageSize;
+                    this.getRackList();
+                },
+                /**
+                 * 切换机架服务器当前页
+                 * 
+                 * @param {any} pageNo 
+                 */
+                rackCurrentChange: function(pageNo) {
+                    this.rack.param.start = pageNo;
+                    this.getRackList();
+                },
+                /**
+                 * 切换高密服务器一页显示的数量
+                 * 
+                 * @param {any} pageSize 
+                 */
+                highdensitySizeChange: function(pageSize) {
+                    this.rack.param.size = pageSize;
+                    this.gethighdensityList();
+                },
+                /**
+                 * 切换高密服务器当前页
+                 * 
+                 * @param {any} pageNo 
+                 */
+                highdensityCurrentChange: function(pageNo) {
+                    this.rack.param.start = pageNo;
+                    this.gethighdensityList();
+                },
+                /**
+                 * 完成必填数据后 提交操作
+                 * 
+                 * @returns 
+                 */
+                submit: function() {
+                    var _firmwareList;
+                    if (!this.firmwareName) {
+                        alertMsg(app.i18ns.firmware.basepackageNameTips);
+                        return;
+                    }
+                    if (this.firmwareTypes.length === 0) {
+                        alertMsg(app.i18ns.firmware.firmwareListTips);
+                        return;
+                    } else {
+                        var i = _.findIndex(this.firmwareTypes, function(x) {
+                            return x == 'All'
+                        });
+                        if (i != -1) {
+                            this.firmwareTypes.splice(i, 1)
+                        }
+                        _firmwareList = this.firmwareTypes.join(';');
+                    }
+                    if (this.selectServers.length === 0) {
+                        alertMsg(app.i18ns.firmware.dntips);
+                        return;
+                    }
+                    var param = {
+                        esight: this.currentESight,
+                        param: {
+                            basepackageName: this.firmwareName,
+                            firmwareList: _firmwareList,
+                            isforceupgrade: this.isforceupgrade,
+                            effectiveMethod: parseInt(this.effectiveMethod),
+                            dn: this.selectServers.map(function(i) {
+                                return i.dn
+                            }).join(';')
+                        }
+                    }
+                    this.fullscreenLoading = true;
+                    firmwareTaskManage.addFirmwareTask(param, function(ret) {
+                        app.fullscreenLoading = false;
+                        if (ret.code === '0') {
+                            alertMsg(app.i18ns.firmware.addSuccessMsg, function() {
+                                window.location.href = 'listFirmwareTask.html?s=' + Math.random();
+                            })
+                        } else {
+                            msg = getErrorMsg(ret.code);
+                            alertMsg(msg);
+                        }
+                    })
+                },
+                /**
+                 * 返回模板列表
+                 * 
+                 */
+                goBack: function() {
+                    goBack('listFirmwareTask.html');
+                },
+                /**
+                 * 自定义服务器下树节点内容
+                 * 
+                 * @param {any} h 
+                 * @param {any} node 
+                 * @returns 
+                 */
+                renderContent: function(h, node) {
+                    return h('span', [
+                        h('span', node.data.serverName || node.data.name || '--'),
+                        h('div', {
+                            class: {
+                                'line-row': true
+                            }
+                        }, [h('el-col', {
+                            props: {
+                                span: 12
+                            }
+                        }, node.data["dn"]), h('el-col', {
+                            props: {
+                                span: 12
+                            }
+                        }, node.data["ipAddress"])])
+                    ])
+                },
+                /**
+                 * 自定义服务器下树节点内容
+                 * 
+                 * @param {any} h 
+                 * @param {any} node 
+                 * @returns 
+                 */
+                renderContent1: function(h, node) {
+                    if (node.data.childBlades) {
+                        return h('span', {
+                            class: 'pcc'
+                        }, [
+                            h('span', node.data.serverName || node.data.name || '--'),
+
+                            h('div', {
+                                class: {
+                                    'line-row': true
+                                }
+                            }, [h('el-col', {
+                                props: {
+                                    span: 12
+                                }
+                            }, node.data["dn"]), h('el-col', {
+                                props: {
+                                    span: 12
+                                }
+                            }, node.data["ipAddress"])])
+                        ])
+                    } else {
+                        return h('span', [
+                            h('span', node.data.serverName || node.data.name || '--'),
+
+                            h('div', {
+                                class: {
+                                    'line-row': true
+                                }
+                            }, [h('el-col', {
+                                props: {
+                                    span: 12
+                                }
+                            }, node.data["dn"]), h('el-col', {
+                                props: {
+                                    span: 12
+                                }
+                            }, node.data["ipAddress"])])
+                        ])
+                    };
+                },
+                /**
+                 * 选择服务器时 对应的checkbox的 选择事件
+                 * 
+                 * @param {any} data 
+                 * @param {any} checked 
+                 * @param {any} indeterminate 
+                 */
+                handleServerChange1: function(data, checked, indeterminate) {
+                    if (checked) {
+                        this.selectServers.push({
+                            name: data.serverName || data.name || '',
+                            dn: data.dn,
+                            ipAddress: data.ipAddress,
+                            servertype: this.ChoiceServerType('blade')
+                        });
+                    } else {
+                        var index = _.findIndex(this.selectServers, function(x) {
+                            return x.dn == data.dn
+                        });
+                        this.selectServers.splice(index, 1);
+                    }
+                },
+                /**
+                 * 选择服务器时 对应的checkbox的 选择事件
+                 * 
+                 * @param {any} data 
+                 * @param {any} checked 
+                 * @param {any} indeterminate 
+                 */
+                handleServerChange2: function(data, checked, indeterminate) {
+                    if (checked) {
+                        this.selectServers.push({
+                            name: data.serverName || data.name || '',
+                            dn: data.dn,
+                            ipAddress: data.ipAddress,
+                            servertype: this.ChoiceServerType('rack')
+                        });
+                    } else {
+                        var index = _.findIndex(this.selectServers, function(x) {
+                            return x.dn == data.dn
+                        });
+                        this.selectServers.splice(index, 1);
+                    }
+                },
+                /**
+                 * 选择服务器时 对应的checkbox的 选择事件
+                 * 
+                 * @param {any} data 
+                 * @param {any} checked 
+                 * @param {any} indeterminate 
+                 */
+                handleServerChange3: function(data, checked, indeterminate) {
+                    if (checked) {
+                        this.selectServers.push({
+                            name: data.serverName || data.name || '',
+                            dn: data.dn,
+                            ipAddress: data.ipAddress,
+                            servertype: this.ChoiceServerType('highdensity')
+                        });
+                    } else {
+                        var index = _.findIndex(this.selectServers, function(x) {
+                            return x.dn == data.dn
+                        });
+                        this.selectServers.splice(index, 1);
+                    }
+                },
+                /**
+                 * 服务器类型国际化
+                 * 
+                 * @param {any} servertype 
+                 */
+                ChoiceServerType: function(servertype) {
+                    var lang = localStorage.getItem('lang');
+                    if (lang) {
+                        if (lang == 'en') {
+                            return {
+                                blade: 'blade',
+                                rack: 'Rack',
+                                highdensity: 'highdensity'
+                            }[servertype];
+                        }
+                    }
+                    return {
+                        blade: '刀片服务器',
+                        rack: '机架服务器',
+                        highdensity: '高密服务器'
+                    }[servertype];
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
