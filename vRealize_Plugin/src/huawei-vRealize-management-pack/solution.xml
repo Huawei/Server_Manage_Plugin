@@ -26,7 +26,7 @@
 <adapters>
 <adapter>E:/project/v_realize/git-src/vRealize-plugin/src/huawei-vRealize-plugin</adapter>
 </adapters>
-<scripts runScriptsOnAllNodes="true">
+<scripts runScriptsOnAllNodes="false">
 <pre>preAdapters.py</pre>
 <post>postAdapters.py</post>
 <validation>validate.py</validation>

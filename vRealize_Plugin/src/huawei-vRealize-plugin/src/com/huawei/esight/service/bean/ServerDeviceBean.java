@@ -145,7 +145,7 @@ public class ServerDeviceBean implements Comparable<ServerDeviceBean> {
     public boolean hasChild(String dn){
         
         for (ChildBladeBean childBladeBean : this.childBlades) {
-            if(childBladeBean.getDn().equals(dn)){
+        	if ((childBladeBean.getDn().compareTo(dn)==0) && (childBladeBean.getDn().equals(dn))) {
                 return true;
             }
         }
@@ -180,7 +180,7 @@ public class ServerDeviceBean implements Comparable<ServerDeviceBean> {
             String json = ow.writeValueAsString(this);
             return json;
         } catch (JsonProcessingException e) {
-            return null;
+            return "";
         }
     }
     

@@ -355,7 +355,7 @@ public class ServerDeviceDetailBean implements TreeNodeResource {
             String json = ow.writeValueAsString(this);
             return json;
         } catch (JsonProcessingException e) {
-            return null; 
+            return ""; 
         }
         
     }
