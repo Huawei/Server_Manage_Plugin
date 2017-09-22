@@ -101,6 +101,7 @@
     <Compile Include="IWorkers\ISoftwareSourceWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IWorkers\IESSession.cs" />
+    <Compile Include="Util\DynamicContractResolver.cs" />
     <Compile Include="Workers\DeviceWorker.cs" />
     <Compile Include="Workers\ESSession.cs" />
     <Compile Include="Workers\HWDeployWorker.cs" />

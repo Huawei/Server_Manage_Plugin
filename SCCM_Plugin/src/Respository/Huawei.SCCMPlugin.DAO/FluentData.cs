@@ -1855,9 +1855,12 @@ namespace FluentData
                 System.Data.IDbCommand dbCommand = Data.InnerCommand;
 
                 if (Data != null && dbCommand != null && Data.InnerCommand.Parameters != null)
-                {                    
-                    System.Data.IDataParameter parameter = dbCommand.Parameters[outputParameterName] as System.Data.IDataParameter;
-                    value = parameter.Value;
+                {
+                    if (dbCommand.Parameters.Contains(outputParameterName))
+                    {
+                        System.Data.IDataParameter parameter = dbCommand.Parameters[outputParameterName] as System.Data.IDataParameter;
+                        if (parameter != null) value = parameter.Value;
+                    }
                 }
 
                 if (value == DBNull.Value)
@@ -2885,7 +2888,7 @@ namespace FluentData
             else result = ((MemberExpression)exp.Body).Member as PropertyInfo;
 
             Type t = typeof(T);
-            if (result != null && t != null)
+            if (result != null && result.Name!=null && t != null)
             {                
                 return t.GetProperty(result.Name);
             }               

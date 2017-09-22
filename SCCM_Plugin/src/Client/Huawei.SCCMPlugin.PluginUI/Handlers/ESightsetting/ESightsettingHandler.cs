@@ -105,6 +105,7 @@ namespace Huawei.SCCMPlugin.PluginUI.Handlers
             }
             catch (Exception ex)
             {
+                LogUtil.HWLogger.UI.Error(ex);
                 ret.Code        = CoreUtil.GetObjTranNull<int>(ConstMgr.ErrorCode.SYS_UNKNOWN_ERR);
                 ret.Description = ex.InnerException.Message ?? ex.Message;
                 ret.Data        = null;

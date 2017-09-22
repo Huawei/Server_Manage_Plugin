@@ -23,6 +23,14 @@ namespace Huawei.SCCMPlugin.DAO
             get { return SingletonProvider<HWESightHostDal>.Instance; }
         }
         /// <summary>
+        /// 根据IP查找ESight实体。
+        /// </summary>
+        /// <param name="eSightIp">IP地址</param>
+        /// <returns></returns>
+        public HWESightHost FindByIP(string eSightIp) {
+            return DBUtility.Context.Sql("select * from  HWESightHosts where HOST_IP=@0", eSightIp).QuerySingle<HWESightHost>();
+        }
+        /// <summary>
         /// 删除eSight
         /// </summary>
         /// <param name="eSightId">eSight Id</param>

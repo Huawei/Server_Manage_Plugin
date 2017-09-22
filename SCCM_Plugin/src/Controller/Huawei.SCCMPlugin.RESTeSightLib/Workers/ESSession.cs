@@ -908,7 +908,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
         {
             if (_hwESightHost.ID > 0)//是否新的eSight对象
             {
-                SaveToDB();
+               // SaveToDB();
             }
         }
         /// <summary>
