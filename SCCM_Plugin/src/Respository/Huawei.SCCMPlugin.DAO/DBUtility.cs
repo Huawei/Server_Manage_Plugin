@@ -45,15 +45,15 @@ namespace Huawei.SCCMPlugin.DAO
 
                         var allUserPath = System.Environment.GetEnvironmentVariable("PUBLIC");
 
-                        userDBPath = localPath + "\\Huawei\\SCCM Plugin\\DB\\db.sqlite";
-                        string allDBPath = allUserPath + "\\Huawei\\SCCM Plugin\\DB\\db.sqlite";
+                        userDBPath = Path.Combine(localPath , "Huawei","SCCM Plugin","DB","db.sqlite");
+                        string allDBPath = Path.Combine(allUserPath , "Huawei","SCCM Plugin","DB","db.sqlite");
                         if (!File.Exists(userDBPath))
                         {
                             //Init folder.
                             FileInfo file = new FileInfo(userDBPath);
                             if (!file.Directory.Exists) file.Directory.Create();
                             //Copy
-                            File.Copy(allDBPath, userDBPath);
+                            if(File.Exists(allDBPath)) File.Copy(allDBPath, userDBPath);
 
                             AuthorizationRuleCollection accessRules = file.GetAccessControl().GetAccessRules(true, true,
                                                     typeof(System.Security.Principal.SecurityIdentifier));

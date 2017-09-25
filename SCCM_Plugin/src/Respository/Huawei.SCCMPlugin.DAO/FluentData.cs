@@ -2889,11 +2889,13 @@ namespace FluentData
 
             Type t = typeof(T);
             if (result != null && result.Name!=null && t != null)
-            {                
-                return t.GetProperty(result.Name);
-            }               
-
-            throw new ArgumentException(string.Format("Expression '{0}' does not refer to a property.", exp.ToString()));
+            {
+                result= t.GetProperty(result.Name);
+            }
+            if (result == null)
+                throw new ArgumentException(string.Format("Expression '{0}' does not refer to a property.", exp.ToString()));
+            else
+                return result;
         }
 
         public object Value
