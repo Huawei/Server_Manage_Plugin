@@ -138,7 +138,7 @@
         </div>
 
         <el-dialog v-bind:title="i18ns.template.createRAIDGroup" v-bind:visible.sync="createRaidDialog" size="small">
-            <el-form label-width="120px" label-position="left" label-suffix=":">
+            <el-form label-width="180px" label-position="left" label-suffix=":">
                 <el-form-item v-bind:label="i18ns.template.RAIDlevel">
                     <el-select v-model="createDialogData.RAIDLevel" v-bind:placeholder="i18ns.common.pleaseSelect" @change="RAIDLevelChange">
                         <el-option v-for="item in createDialogData.RAIDLevels" :key="item.value" :label="item.label" :value="item.value">
@@ -227,7 +227,7 @@
             </div>
         </el-dialog>
         <el-dialog v-bind:title="i18ns.template.viewRAIDGroup" v-bind:visible.sync="showRaidDialog" size="small">
-            <el-form label-width="120px" label-position="left" label-suffix=":">
+            <el-form label-width="180px" label-position="left" label-suffix=":">
                 <el-form-item v-bind:label="i18ns.template.RAIDlevel">
                     <el-select v-model="showDialogData.RAIDLevel" disabled>
                         <el-option v-for="item in createDialogData.RAIDLevels" :key="item.value" :label="item.label" :value="item.value">

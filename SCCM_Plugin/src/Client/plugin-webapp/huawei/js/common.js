@@ -58,25 +58,25 @@ function getTemplateType() {
         if (lang == 'en') {
             return [{
                 value: 'OS',
-                label: 'OS template'
+                label: 'OS Template'
             }, {
                 value: 'POWER',
-                label: 'Power template'
+                label: 'Power Template'
             }, {
                 value: 'BIOS',
-                label: 'BIOS template'
+                label: 'BIOS Template'
             }, {
                 value: 'HBA',
-                label: 'HBA template'
+                label: 'HBA Template'
             }, {
                 value: 'RAID',
-                label: 'RAID template'
+                label: 'RAID Template'
             }, {
                 value: 'CNA',
-                label: 'CNA template'
+                label: 'CNA Template'
             }, {
                 value: 'IBMC',
-                label: 'iBMC template'
+                label: 'iBMC Template'
             }];
         }
     }

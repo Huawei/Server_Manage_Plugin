@@ -151,7 +151,7 @@
             </div>
         </el-dialog>
         <el-dialog v-bind:title="i18ns.template.viewRAIDGroup" v-bind:visible.sync="showRaidDialog" size="small">
-            <el-form label-width="120px" label-position="left" label-suffix=":">
+            <el-form label-width="180px" label-position="left" label-suffix=":">
                 <el-form-item v-bind:label="i18ns.template.RAIDlevel">
                     <el-select v-model="showDialogData.RAIDLevel" disabled>
                         <el-option v-for="item in createDialogData.RAIDLevels" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
