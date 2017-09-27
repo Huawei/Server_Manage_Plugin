@@ -348,7 +348,7 @@ var bios_en = {
                                     "VALUE": "RankSpare"
                                 },
                                 {
-                                    "KEY": "LockStepAndRankSpare",
+                                    "KEY": "LockStep And RankSpare",
                                     "VALUE": "LockStep And RankSpare"
                                 },
                                 {
@@ -1057,15 +1057,15 @@ var bios_en = {
                         "INPUTID": "BootType",
                         "OPTIONS": {
                             "OPTION": [{
-                                    "KEY": "LegacyBootType",
+                                    "KEY": "Legacy Boot Type",
                                     "VALUE": "Legacy Boot Type"
                                 },
                                 {
-                                    "KEY": "DualBootType",
+                                    "KEY": "Dual Boot Type",
                                     "VALUE": "Dual Boot Type"
                                 },
                                 {
-                                    "KEY": "UEFIBootType",
+                                    "KEY": "UEFI Boot Type",
                                     "VALUE": "UEFI Boot Type"
                                 },
                                 {
@@ -1433,7 +1433,7 @@ var bios_zh_CN = {
                                     "VALUE": "RankSpare"
                                 },
                                 {
-                                    "KEY": "LockStepAndRankSpare",
+                                    "KEY": "LockStep And RankSpare",
                                     "VALUE": "LockStep And RankSpare"
                                 },
                                 {
@@ -2142,15 +2142,15 @@ var bios_zh_CN = {
                         "INPUTID": "BootType",
                         "OPTIONS": {
                             "OPTION": [{
-                                    "KEY": "LegacyBootType",
+                                    "KEY": "Legacy Boot Type",
                                     "VALUE": "Legacy Boot Type"
                                 },
                                 {
-                                    "KEY": "DualBootType",
+                                    "KEY": "Dual Boot Type",
                                     "VALUE": "Dual Boot Type"
                                 },
                                 {
-                                    "KEY": "UEFIBootType",
+                                    "KEY": "UEFI Boot Type",
                                     "VALUE": "UEFI Boot Type"
                                 },
                                 {

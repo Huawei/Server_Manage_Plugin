@@ -767,7 +767,7 @@ function getGroupPrivileges() {
         if (lang == 'en') {
             return [{
                 value: '1',
-                label: 'CommonUser'
+                label: 'Common User'
             }, {
                 value: '2',
                 label: 'Operator'
