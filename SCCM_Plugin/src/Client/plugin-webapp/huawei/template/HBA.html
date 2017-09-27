@@ -55,7 +55,7 @@
 
 <body>
     <div id="app" v-cloak>
-        <el-form v-bind:model="mainForm" v-bind:rules="mainRules" ref="mainForm" label-width="120px" label-position="left" label-suffix=":">
+        <el-form v-bind:model="mainForm" v-bind:rules="mainRules" ref="mainForm" v-bind:label-width="labelWidth" label-position="left" label-suffix=":">
             <!--模板类型选择框-->
             <el-form-item v-bind:label="i18ns.template.templateType">
                 <el-select v-model="mainForm.templateType" @change="templateChange">
@@ -459,6 +459,7 @@
         var app = new Vue({
             el: '#app',
             data: {
+                labelWidth: '120px',
                 i18ns: [],
                 classData: {
                     isPort0: true,
@@ -663,6 +664,12 @@
             },
             created: function() {
                 this.i18ns = getIn18();
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '140px'
+                    }
+                }
                 this.templateOptions = getTemplateType();
                 this.SANBootOptions = getForbiddenType();
                 this.mainRules.checkEsightList.message = this.i18ns.common.requiredErrorMsg;
