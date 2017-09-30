@@ -1,0 +1,37 @@
+<!-- 
+ Filename:      huawei-server-hmm.xml
+ Version:       v1.0
+ Created:       09.21.2017
+ Author:        y
+ Description:   HMM data collection oid
+ History:		
+-->
+<datacollection-group xmlns="http://xmlns.opennms.org/xsd/config/datacollection" name="HWSMM-MIB">
+   <resourceType name="smmTemperatureDescriptionEntry" label="smmTemperatureDescriptionEntry" resourceLabel="Temperature (${index})">
+      <persistenceSelectorStrategy class="org.opennms.netmgt.collection.support.PersistAllSelectorStrategy"/>
+      <storageStrategy class="org.opennms.netmgt.collection.support.IndexStorageStrategy"/>
+   </resourceType>
+   
+   <group name="shelf" ifType="ignore">
+      <mibObj oid=".1.3.6.1.4.1.2011.2.82.1.82.2.13" instance="0" alias="shelfRealTimePower" type="integer"/>
+   </group>
+   <group name="smmTemperatureDescriptionTable" ifType="all">
+      <mibObj oid=".1.3.6.1.4.1.2011.2.82.1.82.3.2008.1.1" instance="smmTemperatureDescriptionEntry" alias="smmTemperatureIndex" type="integer"/>
+      <mibObj oid=".1.3.6.1.4.1.2011.2.82.1.82.3.2008.1.2" instance="smmTemperatureDescriptionEntry" alias="smmTemperatureReading" type="integer"/>
+   </group>
+   <group name="hmmtemperature" ifType="ignore">
+      <mibObj oid=".1.3.6.1.4.1.2011.2.82.1.82.3.2008.1.2" instance="1" alias="InletTemp" type="integer"/>
+      <mibObj oid=".1.3.6.1.4.1.2011.2.82.1.82.3.2008.1.2" instance="2" alias="OutletTemp" type="integer"/>
+      <mibObj oid=".1.3.6.1.4.1.2011.2.82.1.82.3.2008.1.2" instance="3" alias="LSWTemp" type="integer"/>
+      <mibObj oid=".1.3.6.1.4.1.2011.2.82.1.82.3.2008.1.2" instance="4" alias="AmbientTemp" type="integer"/>
+   </group>
+   
+   <systemDef name="Huawei HMM">
+      <sysoid>.1.3.6.1.4.1.2011.2.82</sysoid>
+      <collect>
+        <includeGroup>shelf</includeGroup>
+        <includeGroup>hmmtemperature</includeGroup>
+      </collect>
+    </systemDef>
+   
+</datacollection-group>

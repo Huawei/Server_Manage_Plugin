@@ -1,0 +1,41 @@
+<!-- 
+ Filename:      huawei-server-ibmc.xml
+ Version:       v1.0
+ Created:       09.21.2017
+ Author:        y
+ Description:   IBMC data collection oid
+ History:		
+-->
+<datacollection-group xmlns="http://xmlns.opennms.org/xsd/config/datacollection" name="HUAWEI-SERVER-IBMC-MIB">
+   <resourceType name="temperatureDescriptionEntry" label="temperatureDescriptionEntry" resourceLabel="Temperature ${temperatureObject}">
+      <persistenceSelectorStrategy class="org.opennms.netmgt.collection.support.PersistAllSelectorStrategy"/>
+      <storageStrategy class="org.opennms.netmgt.collection.support.IndexStorageStrategy"/>
+   </resourceType>
+   
+   <group name="system" ifType="ignore">
+      <mibObj oid=".1.3.6.1.4.1.2011.2.235.1.1.1.23" instance="0" alias="systemCpuUsage" type="integer"/>
+      <mibObj oid=".1.3.6.1.4.1.2011.2.235.1.1.1.13" instance="0" alias="presentSystemPower" type="integer"/>
+   </group>
+   <group name="temperatureDescriptionTable" ifType="all">
+      <mibObj oid=".1.3.6.1.4.1.2011.2.235.1.1.26.50.1.1" instance="temperatureDescriptionEntry" alias="temperatureIndex" type="integer"/>
+      <mibObj oid=".1.3.6.1.4.1.2011.2.235.1.1.26.50.1.2" instance="temperatureDescriptionEntry" alias="temperatureObject" type="string"/>
+      <mibObj oid=".1.3.6.1.4.1.2011.2.235.1.1.26.50.1.3" instance="temperatureDescriptionEntry" alias="temperatureReading" type="integer"/>
+   </group>
+   <group name="bmctemperature" ifType="ignore">
+      <mibObj oid=".1.3.6.1.4.1.2011.2.235.1.1.26.50.1.3" instance="1" alias="temperatureInlet" type="integer"/>
+   </group>
+   <group name="powerStatistic" ifType="ignore">
+      <mibObj oid=".1.3.6.1.4.1.2011.2.235.1.1.20.1" instance="0" alias="peakPower" type="integer"/>
+      <mibObj oid=".1.3.6.1.4.1.2011.2.235.1.1.20.3" instance="0" alias="averagePower" type="integer"/>
+      <mibObj oid=".1.3.6.1.4.1.2011.2.235.1.1.20.4" instance="0" alias="powerConsumption" type="integer"/>
+   </group>
+   
+   <systemDef name="Huawei iBMC">
+      <sysoid>.1.3.6.1.4.1.2011.2.235</sysoid>
+      <collect>
+        <includeGroup>system</includeGroup>
+        <includeGroup>bmctemperature</includeGroup>
+        <includeGroup>powerStatistic</includeGroup>
+      </collect>
+    </systemDef>
+</datacollection-group>
