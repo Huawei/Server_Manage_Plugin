@@ -158,7 +158,7 @@
                         </el-table-column>
                         <el-table-column :label="i18ns.template.groupPrivilege">
                             <template scope="scope">
-                                <el-select v-model="scope.row.groupPrivilege">
+                                <el-select v-model="scope.row.groupPrivilege" style="min-width:60%">
                                     <el-option v-for="item in groupPrivileges" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value"></el-option>
                                 </el-select>
                             </template>
@@ -683,7 +683,7 @@
                                 app.fullscreenLoading = false;
                                 if (ret.code === '0') {
                                     alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                        location.href = 'list.html?s=' + Math.random();
+                                        location.href = 'List.html?s=' + Math.random();
                                     })
                                 } else {
                                     msg = getErrorMsg(ret.code);
@@ -700,7 +700,7 @@
                  *返回上级页面
                  * */
                 resetForm: function(formName) {
-                    goBack('list.html');
+                    goBack('List.html');
                 },
             }
         })

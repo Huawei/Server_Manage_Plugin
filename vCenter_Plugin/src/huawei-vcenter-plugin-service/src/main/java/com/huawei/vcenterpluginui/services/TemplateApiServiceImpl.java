@@ -44,7 +44,7 @@ public class TemplateApiServiceImpl extends ESightOpenApiService implements Temp
 			Map<String, Object> responseData = new HashMap<String, Object>();
 			responseData.put("esight", ip);
 			try {
-				ESight esight = getEsightByIp(ip);
+				ESight esight = getESightByIp(ip);
 				if (esight != null) {
 					Map<String, Object> dataMap = new PostTemplateApi<Map>(esight, new SessionOpenIdProvider(esight, session)).doCall(condition, Map.class);
 					responseData.putAll(dataMap);
@@ -65,14 +65,14 @@ public class TemplateApiServiceImpl extends ESightOpenApiService implements Temp
 
 	@Override
 	public String list(String ip, HttpSession session, String templateType, String pageNo, String pageSize) throws SQLException {
-		ESight esight = getEsightByIp(ip);
+		ESight esight = getESightByIp(ip);
 		String response = new GetTemplateListApi<String>(esight, new SessionOpenIdProvider(esight, session)).doCall(templateType, pageNo, pageSize, String.class);
 		return response;
 	}
 
 	@Override
 	public String delete(String ip, String templateName, HttpSession session) throws SQLException {
-		ESight esight = getEsightByIp(ip);
+		ESight esight = getESightByIp(ip);
 		String response = new DeleteTemplateApi<String>(esight, new SessionOpenIdProvider(esight, session)).doCall(templateName, String.class);
 		return response;
 	}
@@ -145,11 +145,10 @@ public class TemplateApiServiceImpl extends ESightOpenApiService implements Temp
 					}
 					taskDao.saveTaskStatus(task);
 				}
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
+			    throw e;
+			}  catch (Exception e) {
 				LOGGER.error(e.getMessage());
-//				e.printStackTrace();
-//				task.setSyncStatus(SyncStatus.STATUS_SYNC_FAILED);
-//				taskDao.saveTaskStatus(task);
 			}
 		}
 		// 同步时会更新状态，需要重新拿
@@ -188,7 +187,7 @@ public class TemplateApiServiceImpl extends ESightOpenApiService implements Temp
 	public String postTemplateTask(String data, HttpSession session) throws IOException, SQLException {
 		Map<String, Object> reqMap = JsonUtil.readAsMap(data);
 		String ip = (String)reqMap.get("esight");
-		ESight esight = getEsightByIp(ip);
+		ESight esight = getESightByIp(ip);
 		String responseBody = new PostDeployTaskApi<String>(esight, new SessionOpenIdProvider(esight, session)).doCall(((Map) reqMap.get("param")).get("templates").toString(),
 				((Map) reqMap.get("param")).get("dn").toString(), String.class);
 
@@ -219,18 +218,18 @@ public class TemplateApiServiceImpl extends ESightOpenApiService implements Temp
 		return taskDao.deleteTaskById(taskId);
 	}
 
+	@Override
+	public String getDetail(String ip, String templateName, HttpSession session) throws SQLException {
+		ESight esight = getESightByIp(ip);
+		String response = new GetTemplateDetailApi<String>(esight, new SessionOpenIdProvider(esight, session)).doCall(templateName, String.class);
+		return response;
+	}
+	
 	public void setTaskDao(TaskDao taskDao) {
 		this.taskDao = taskDao;
 	}
 
 	public void setTaskResourceDao(TaskResourceDao taskResourceDao) {
 		this.taskResourceDao = taskResourceDao;
-	}
-
-	@Override
-	public String getDetail(String ip, String templateName, HttpSession session) throws SQLException {
-		ESight esight = getEsightByIp(ip);
-		String response = new GetTemplateDetailApi<String>(esight, new SessionOpenIdProvider(esight, session)).doCall(templateName, String.class);
-		return response;
 	}
 }

@@ -38,11 +38,9 @@ public class Validations {
         if ((vcenterPort == null) || (vcenterPort.isEmpty())) {
             return Collections.singletonMap("error", "vCenter端口号不能为空");
         }
-
-        File keystore = new File(Constants.KEYSTORE_FILE);
         String serverThumbprint;
         try {
-            serverThumbprint = KeytookUtil.getKeystoreServerThumbprint(keystore.getAbsolutePath());
+            serverThumbprint = KeytookUtil.getKeystoreServerThumbprint();
         } catch (IOException e) {
             e.printStackTrace();
             return Collections.singletonMap("error", "获取证书指纹出错");
@@ -79,16 +77,19 @@ public class Validations {
         List<String> versionList = new ArrayList<>();
 
         // check file
-        File fileList = new File("./");
-        for(File file : fileList.listFiles()){
-            if(file.getName().lastIndexOf(".zip")>=0){
-                // check version
-                String version = getPackageVersion(file.getName());
-                if ((version == null) || (version.trim().equals(""))) {
-                    return Collections.singletonMap("error", "安装包版本号读取错误，请放入正确的zip包然后刷新页面.");
+        File rootFile = new File("./");
+        File[] fileList = rootFile.listFiles();
+        if(fileList != null) {
+            for (File file : fileList) {
+                if (file.getName().lastIndexOf(".zip") >= 0) {
+                    // check version
+                    String version = getPackageVersion(file.getName());
+                    if ((version == null) || (version.trim().equals(""))) {
+                        continue;
+                    }
+                    packageNameList.add(file.getName());
+                    versionList.add(version);
                 }
-                packageNameList.add(file.getName());
-                versionList.add(version);
             }
         }
 

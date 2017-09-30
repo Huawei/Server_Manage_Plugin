@@ -58,7 +58,7 @@
 <body>
     <div id="app" v-cloak>
         <div>
-            <el-form v-bind:model="ruleForm" label-width="120px" label-position="left" label-suffix=":">
+            <el-form v-bind:model="ruleForm" v-bind:label-width="labelWidth" label-position="left" label-suffix=":">
                 <el-form-item v-bind:label="i18ns.template.templateType">
                     {{templateValue|getLabel(options)}}
                 </el-form-item>
@@ -280,6 +280,7 @@
         var app = new Vue({
             el: '#app',
             data: {
+                labelWidth: "120px",
                 i18ns: [],
                 lang: [],
                 options: [],
@@ -319,6 +320,12 @@
                 dialogFormVisible: false,
             },
             created: function() {
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '140px'
+                    }
+                }
                 this.i18ns = getIn18();
                 this.options = getTemplateType();
 
@@ -441,7 +448,7 @@
                  * @param {any} formName 
                  */
                 goBack: function() {
-                    goBack('list.html');
+                    goBack('List.html');
                 },
 
                 /**

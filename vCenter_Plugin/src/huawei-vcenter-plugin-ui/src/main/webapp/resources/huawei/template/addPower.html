@@ -38,7 +38,7 @@
 <body>
     <div id="app" v-cloak>
         <template>
-            <el-form label-position="left" label-width="120px" label-suffix=":">
+            <el-form label-position="left" v-bind:label-width="labelWidth" label-suffix=":">
                 <el-form-item v-bind:label="i18ns.template.templateType">
                     <el-select v-model="templateValue" @change="templateChange">
                         <el-option v-for="item in options" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
@@ -48,7 +48,7 @@
             </el-form>
         </template>
         <template>
-            <el-form v-bind:model="ruleForm" v-bind:rules="rules" ref="ruleForm" label-width="120px" label-position="left" label-suffix=":">
+            <el-form v-bind:model="ruleForm" v-bind:rules="rules" ref="ruleForm" v-bind:label-width="labelWidth" label-position="left" label-suffix=":">
                 <el-form-item v-bind:label="i18ns.template.templateName" prop="name">
                     <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
@@ -76,6 +76,7 @@
         var app = new Vue({
             el: '#app',
             data: {
+                labelWidth: '120px',
                 i18ns: [],
                 options: [],
                 templateValue: 'POWER',
@@ -129,6 +130,12 @@
             },
             created: function() {
                 this.i18ns = getIn18();
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '140px'
+                    }
+                }
                 this.ruleForm.esight.push(getCurrentEsight());
                 this.rules.esight.message = this.i18ns.common.requiredErrorMsg;
                 this.options = getTemplateType();
@@ -181,7 +188,7 @@
                                 app.fullscreenLoading = false;
                                 if (ret.code === '0') {
                                     app.alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                        window.location.href = 'list.html?s=' + Math.random();
+                                        window.location.href = 'List.html?s=' + Math.random();
                                     })
                                 } else {
                                     msg = getErrorMsg(ret.code);
@@ -202,7 +209,7 @@
                  * @param {any} formName 
                  */
                 resetForm: function(formName) {
-                    goBack('list.html');
+                    goBack('List.html');
                 },
                 /**
                  * 消息提醒 弹出框

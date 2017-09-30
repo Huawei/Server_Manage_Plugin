@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=11">
-    <title>Huawei vCenter插件更新程序</title>
+    <title></title>
     <link href="./css/element.css" rel="stylesheet" />
     <script src="./js/vue.js"></script>
     <script src="./js/element.js"></script>
@@ -116,8 +116,20 @@
                 //获取数据
                 var serverListUrl = window.document.location.href + "rest";
                 //通过API获取数据
-                $.get(serverListUrl, function(response) {
+                $.get(serverListUrl, function(response, textStatus, jqXHR) {
                     console.log(response);
+                    console.log(jqXHR.getAllResponseHeaders());
+
+                    localStorage.setItem('lang', jqXHR.getResponseHeader("Accept-Language").slice(0, 2));
+                    var lang = jqXHR.getResponseHeader("Accept-Language").slice(0, 2);
+                    if (lang == 'en') {
+                        app.indexNum = 1;
+                    } else {
+                        app.indexNum = -1;
+                    }
+                    app.i18ns = getIn18();
+                    document.title = app.i18ns.index.updateProgram;
+
                     if (response.error != undefined) {
                         var h3 = document.getElementById("h3");
                         h3.innerHTML = response.error;
@@ -158,6 +170,7 @@
             },
             created: function() {
                 this.i18ns = getIn18();
+                document.title = this.i18ns.index.updateProgram;
                 var lang = localStorage.getItem('lang');
                 if (lang == 'en') {
                     this.indexNum = 1;

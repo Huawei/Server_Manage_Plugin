@@ -55,7 +55,7 @@
 
 <body>
     <div id="app" v-cloak>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" label-position="left" class="cna-ruleForm" label-suffix=":">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" v-bind:label-width="labelWidth" label-position="left" class="cna-ruleForm" label-suffix=":">
             <el-form-item v-bind:label="i18ns.CNA_template.templateType" prop="templateType">
                 {{ruleForm.templateType}}
             </el-form-item>
@@ -227,10 +227,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="class_data.pxeShow0">
@@ -239,13 +239,13 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="class_data.pxeShow1">
                     {{i18ns.CNA_template.pxeProp}}
                 </div>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow0">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow0">
                     <el-select disabled v-model="form_data.oce111PXEBoot0" placeholder="" disabled>
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow1">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow1">
                     <el-select disabled v-model="form_data.oce111PXEBoot1" placeholder="" disabled>
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -260,10 +260,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -471,10 +471,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -682,10 +682,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
@@ -730,10 +730,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
@@ -1056,10 +1056,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="class_data.pxeShow2">
@@ -1074,25 +1074,25 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="class_data.pxeShow5">
                     {{i18ns.CNA_template.pxeProp}}
                 </div>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow2">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow2">
                     <el-select disabled v-model="form_data.oce111PXEBoot0" placeholder="" disabled>
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow3">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow3">
                     <el-select disabled v-model="form_data.oce111PXEBoot1" placeholder="" disabled>
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow4">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow4">
                     <el-select disabled v-model="form_data.oce111PXEBoot2" placeholder="" disabled>
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow5">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow5">
                     <el-select disabled v-model="form_data.oce111PXEBoot3" placeholder="" disabled>
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -1108,10 +1108,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -1319,10 +1319,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -1530,10 +1530,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -1741,10 +1741,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -1952,10 +1952,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
@@ -2000,10 +2000,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
@@ -2048,10 +2048,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
@@ -2096,10 +2096,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input disabled type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
@@ -2217,13 +2217,13 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
                     {{i18ns.CNA_template.pxeProp}}
                 </div>
-                <el-form-item label=" PXE boot" prop="PXEBoot" v-if="mzPXEBoot0Show">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="mzPXEBoot0Show">
                     <el-select disabled v-model="form_data.mzPXEBoot0" placeholder="" disabled>
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label=" PXE boot" prop="PXEBoot" v-if="mzPXEBoot1Show">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="mzPXEBoot1Show">
                     <el-select disabled v-model="form_data.mzPXEBoot1" placeholder="" disabled>
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -3610,6 +3610,7 @@
         var app = new Vue({
             el: '#app',
             data: {
+                labelWidth: "120px",
                 templateName: '',
                 templateEsight: '',
                 i18ns: [],
@@ -4362,6 +4363,12 @@
                 }
             },
             created: function() {
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '140px'
+                    }
+                }
                 this.i18ns = getIn18();
                 this.templateName = localStorage.getItem('templateName');
                 this.templateEsight = getCurrentEsight();

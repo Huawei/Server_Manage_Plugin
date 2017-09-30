@@ -46,25 +46,25 @@ function getTemplateType() {
         if (lang == 'en') {
             return [{
                 value: 'OS',
-                label: 'OS template'
+                label: 'OS Template'
             }, {
                 value: 'POWER',
-                label: 'Power template'
+                label: 'Power Template'
             }, {
                 value: 'BIOS',
-                label: 'BIOS template'
+                label: 'BIOS Template'
             }, {
                 value: 'HBA',
-                label: 'HBA template'
+                label: 'HBA Template'
             }, {
                 value: 'RAID',
-                label: 'RAID template'
+                label: 'RAID Template'
             }, {
                 value: 'CNA',
-                label: 'CNA template'
+                label: 'CNA Template'
             }, {
                 value: 'IBMC',
-                label: 'iBMC template'
+                label: 'iBMC Template'
             }];
         }
     }
@@ -127,13 +127,13 @@ function getServerType() {
         }
     }
     return [{
-        value: '机架服务器',
+        value: 'Rack',
         label: '机架服务器'
     }, {
-        value: '刀片服务器',
+        value: 'Blade',
         label: '刀片服务器'
     }, {
-        value: '高密服务器',
+        value: 'Highdensity',
         label: '高密服务器'
     }];
 }
@@ -749,7 +749,7 @@ function getGroupPrivileges() {
         if (lang == 'en') {
             return [{
                 value: '1',
-                label: 'CommonUser'
+                label: 'Common User'
             }, {
                 value: '2',
                 label: 'Operator'

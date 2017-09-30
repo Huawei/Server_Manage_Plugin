@@ -195,12 +195,12 @@ public class BaseController {
 		String errorDescription = null;
 
 		for (Map<String, Object> dataMap : dataMapList) {
-			int code = (int) dataMap.get(FIELD_CODE);
-			if (code != Integer.valueOf(CODE_SUCCESS)) {
+			if (!CODE_SUCCESS.equals(String.valueOf(dataMap.get(FIELD_CODE)))) {
 				if (!failure) {
-					errorCode = code;
+					errorCode = (int) dataMap.get(FIELD_CODE);
 					errorDescription = (String) dataMap.get(FIELD_DESCRIPTION);
 				}
+				dataMap.put(FIELD_CODE, prefix + String.valueOf((int) dataMap.get(FIELD_CODE)));
 				failure = true;
 			} else {
 				success = true;

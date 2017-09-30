@@ -13,14 +13,14 @@ public class ServerApiServiceImpl extends ESightOpenApiService implements Server
 
 	@Override
 	public String queryServer(String ip, HttpSession session, String servertype, int pageNo, int pageSize) throws SQLException {
-		ESight eSight = getEsightByIp(ip);
+		ESight eSight = getESightByIp(ip);
 		String response = new GetServerDeviceApi<String>(eSight, new SessionOpenIdProvider(eSight, session)).doCall(servertype, String.valueOf(pageNo), String.valueOf(pageSize), String.class);
 		return response;
 	}
 
 	@Override
 	public String queryDeviceDetail(String ip, String dn, HttpSession session) throws SQLException {
-		ESight eSight = getEsightByIp(ip);
+		ESight eSight = getESightByIp(ip);
 		String response = new GetServerDeviceDetailApi<String>(eSight, new SessionOpenIdProvider(eSight, session)).doCall(dn, String.class);
 		return response;
 	}

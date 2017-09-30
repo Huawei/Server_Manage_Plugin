@@ -8,9 +8,4 @@ public interface SystemService {
      * 初始化数据库(表，数据等)
      */
     void initDB();
-
-    /**
-     * 刷新密钥
-     */
-    void refreshKey();
 }

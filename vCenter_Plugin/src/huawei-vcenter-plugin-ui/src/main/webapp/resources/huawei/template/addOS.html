@@ -2084,7 +2084,7 @@
                                     //成功
                                     if (ret.code === '0') {
                                         app.alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                            window.location.href = 'list.html?s=' + Math.random();
+                                            window.location.href = 'List.html?s=' + Math.random();
                                         })
                                     } else {
                                         msg = getErrorMsg(ret.code);
@@ -2104,7 +2104,7 @@
                  * @param {any} formName 
                  */
                 resetForm: function(formName) {
-                    goBack('list.html');
+                    goBack('List.html');
                 },
                 /**
                  * 弹出选择软件源窗口

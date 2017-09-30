@@ -3,13 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task" 
        xsi:schemaLocation="
       http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/mvc
       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
       http://www.springframework.org/schema/context
-      http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+      http://www.springframework.org/schema/context/spring-context-3.0.xsd
+      http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
     <context:property-placeholder location="classpath:application.properties"/>
 
@@ -17,24 +19,38 @@
         <property name="eSightDao" ref="eSightDao"/>
     </bean>
     <bean name="systemService" class="com.huawei.vcenterpluginui.services.SystemServiceImpl">
-        <property name="h2DataBaseDao" ref="h2DataBaseDao"/>
+        <property name="systemDao" ref="systemDao"/>
     </bean>
 
     <!--    <bean name="ESightOpenApi" class="com.huawei.vcenterpluginui.services.ESightOpenApi"/> -->
     <bean name="h2DataBaseDao" class="com.huawei.vcenterpluginui.dao.H2DataBaseDao">
         <property name="url" value="${h2.url}"/>
+        <property name="user" value="${database.user}"/>
+        <property name="key" value="${database.key}"/>
+    </bean>
+    
+    <bean name="systemDao" class="com.huawei.vcenterpluginui.dao.SystemDao">
+        <property name="url" value="${h2.url}"/>
+        <property name="user" value="${database.user}"/>
+        <property name="key" value="${database.key}"/>
     </bean>
 
     <bean name="eSightDao" class="com.huawei.vcenterpluginui.dao.ESightDao">
         <property name="url" value="${h2.url}"/>
+        <property name="user" value="${database.user}"/>
+        <property name="key" value="${database.key}"/>
     </bean>
     
     <bean name="taskDao" class="com.huawei.vcenterpluginui.dao.TaskDao">
         <property name="url" value="${h2.url}"/>
+        <property name="user" value="${database.user}"/>
+        <property name="key" value="${database.key}"/>
     </bean>
     
     <bean name="taskResourceDao" class="com.huawei.vcenterpluginui.dao.TaskResourceDao">
         <property name="url" value="${h2.url}"/>
+        <property name="user" value="${database.user}"/>
+        <property name="key" value="${database.key}"/>
     </bean>
 
     <bean name="ServerApiServiceImpl" class="com.huawei.vcenterpluginui.services.ServerApiServiceImpl">
@@ -64,5 +80,13 @@
     <bean name="InstantiationBeanServiceImpl" class="com.huawei.vcenterpluginui.services.InstantiationBeanServiceImpl">
         <property name="systemService" ref="systemService" />
     </bean>
+    
+    <context:annotation-config />  
+    <!--spring扫描注解的配置--> 
+    <context:component-scan base-package="com.huawei.vcenterpluginui.task" />  
+      
+    <!--开启这个配置，spring才能识别@Scheduled注解-->  
+    <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>  
+    <task:scheduler id="qbScheduler" pool-size="10"/> 
 
 </beans>

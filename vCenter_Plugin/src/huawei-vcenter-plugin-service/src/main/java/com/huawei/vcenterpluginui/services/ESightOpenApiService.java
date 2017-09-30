@@ -32,7 +32,7 @@ public class ESightOpenApiService {
      * @param ip
      * @return
      */
-    protected ESight getEsightByIp(String ip) throws SQLException {
+    protected ESight getESightByIp(String ip) throws SQLException {
         return eSightDao.getESightByIp(ip);
     }
 

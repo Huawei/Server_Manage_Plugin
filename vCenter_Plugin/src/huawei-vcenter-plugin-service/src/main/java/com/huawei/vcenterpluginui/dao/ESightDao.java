@@ -143,7 +143,7 @@ public class ESightDao extends H2DataBaseDao {
 
 			int i = 1;
 			if (ip != null && !ip.isEmpty()) {
-				ps.setString(i++, "%" + ip + "%");
+				ps.setString(i, "%" + ip + "%");
 			}
 
 			rs = ps.executeQuery();

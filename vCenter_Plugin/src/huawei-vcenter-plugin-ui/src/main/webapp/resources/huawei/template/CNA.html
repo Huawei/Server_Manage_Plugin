@@ -63,7 +63,7 @@
 
 <body>
     <div id="app" v-cloak>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" label-position="left" class="cna-ruleForm" label-suffix=":">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" v-bind:label-width="labelWidth" label-position="left" class="cna-ruleForm" label-suffix=":">
             <el-form-item v-bind:label="i18ns.CNA_template.templateType" prop="templateType">
                 <el-select v-model="ruleForm.templateType" @change="templateChange">
                     <el-option v-for="item in templateOptions" :key="item.value" :label="item.label" :value="item.value">
@@ -281,10 +281,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="class_data.pxeShow0">
@@ -293,13 +293,13 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="class_data.pxeShow1">
                     {{i18ns.CNA_template.pxeProp}}
                 </div>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow0">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow0">
                     <el-select v-model="form_data.oce111PXEBoot0" placeholder="">
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow1">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow1">
                     <el-select v-model="form_data.oce111PXEBoot1" placeholder="">
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -315,10 +315,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -527,10 +527,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -739,16 +739,16 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
                     {{i18ns.CNA_template.sanProp}}
                 </div>
-                <el-form-item label="SAN boot" prop="oceFCoESANBoot0">
+                <el-form-item label="SAN Boot" prop="oceFCoESANBoot0">
                     <el-select v-model="form_data.oceFCoESANBoot0" placeholder="" @change="oceFCoESanBootChange0">
                         <el-option v-for="item in SANBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -822,16 +822,16 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
                     {{i18ns.CNA_template.sanProp}}
                 </div>
-                <el-form-item label="SAN boot" prop="oceFCoESANBoot1">
+                <el-form-item label="SAN Boot" prop="oceFCoESANBoot1">
                     <el-select v-model="form_data.oceFCoESANBoot1" placeholder="" @change="oceFCoESanBootChange1">
                         <el-option v-for="item in SANBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -1215,10 +1215,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="class_data.pxeShow2">
@@ -1233,25 +1233,25 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="class_data.pxeShow5">
                     {{i18ns.CNA_template.pxeProp}}
                 </div>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow2">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow2">
                     <el-select v-model="form_data.oce111PXEBoot0" placeholder="">
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow3">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow3">
                     <el-select v-model="form_data.oce111PXEBoot1" placeholder="">
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow4">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow4">
                     <el-select v-model="form_data.oce111PXEBoot2" placeholder="">
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="PXE boot" prop="PXEBoot" v-if="class_data.pxeShow5">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="class_data.pxeShow5">
                     <el-select v-model="form_data.oce111PXEBoot3" placeholder="">
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -1268,10 +1268,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -1480,10 +1480,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -1692,10 +1692,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -1904,10 +1904,10 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
@@ -2116,16 +2116,16 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
                     {{i18ns.CNA_template.sanProp}}
                 </div>
-                <el-form-item label="SAN boot" prop="mz512FCoESANBoot0">
+                <el-form-item label="SAN Boot" prop="mz512FCoESANBoot0">
                     <el-select v-model="form_data.mz512FCoESANBoot0" placeholder="" @change="mz512FCoESanBootChange0">
                         <el-option v-for="item in SANBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -2199,16 +2199,16 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
                     {{i18ns.CNA_template.sanProp}}
                 </div>
-                <el-form-item label="SAN boot" prop="mz512FCoESANBoot1">
+                <el-form-item label="SAN Boot" prop="mz512FCoESANBoot1">
                     <el-select v-model="form_data.mz512FCoESANBoot1" placeholder="" @change="mz512FCoESanBootChange1">
                         <el-option v-for="item in SANBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -2282,16 +2282,16 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
                     {{i18ns.CNA_template.sanProp}}
                 </div>
-                <el-form-item label="SAN boot" prop="mz512FCoESANBoot2">
+                <el-form-item label="SAN Boot" prop="mz512FCoESANBoot2">
                     <el-select v-model="form_data.mz512FCoESANBoot2" placeholder="" @change="mz512FCoESanBootChange2">
                         <el-option v-for="item in SANBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -2365,16 +2365,16 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;" v-if="pfBandShow">
                     {{i18ns.CNA_template.pfProp}}
                 </div>
-                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.miniBand" prop="MinBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MinBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
-                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="190px" v-if="pfBandShow">
+                <el-form-item v-bind:label="i18ns.CNA_template.maxBand" prop="MaxBandWidth" label-width="195px" v-if="pfBandShow">
                     <el-input type="number" v-model="form_data.MaxBandWidth" placeholder="" onkeypress="preventNonNum(event)"></el-input>
                 </el-form-item>
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
                     {{i18ns.CNA_template.sanProp}}
                 </div>
-                <el-form-item label="SAN boot" prop="mz512FCoESANBoot3">
+                <el-form-item label="SAN Boot" prop="mz512FCoESANBoot3">
                     <el-select v-model="form_data.mz512FCoESANBoot3" placeholder="" @change="mz512FCoESanBootChange3">
                         <el-option v-for="item in SANBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -2521,13 +2521,13 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
                     {{i18ns.CNA_template.pxeProp}}
                 </div>
-                <el-form-item label=" PXE boot" prop="PXEBoot" v-if="mzPXEBoot0Show">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="mzPXEBoot0Show">
                     <el-select v-model="form_data.mzPXEBoot0" placeholder="">
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label=" PXE boot" prop="PXEBoot" v-if="mzPXEBoot1Show">
+                <el-form-item label="PXE Boot" prop="PXEBoot" v-if="mzPXEBoot1Show">
                     <el-select v-model="form_data.mzPXEBoot1" placeholder="">
                         <el-option v-for="item in PXEBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -2543,13 +2543,13 @@
                 <div style="background: none repeat scroll 0 0 #EAEAEA; margin-bottom:10px; height:30px; text-align:left; padding-top:12px;padding-left:10px;">
                     {{i18ns.CNA_template.sanProp}}
                 </div>
-                <el-form-item label=" SAN boot" prop="SANBoot" v-if="SANBoot3Show">
+                <el-form-item label="SAN Boot" prop="SANBoot" v-if="SANBoot3Show">
                     <el-select v-model="form_data.SANBoot3" placeholder="" @change="sanBootChange3">
                         <el-option v-for="item in SANBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label=" SAN boot" prop="SANBoot" v-if="SANBoot4Show">
+                <el-form-item label="SAN Boot" prop="SANBoot" v-if="SANBoot4Show">
                     <el-select v-model="form_data.SANBoot4" placeholder="" @change="sanBootChange4">
                         <el-option v-for="item in SANBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -5653,6 +5653,7 @@
         var app = new Vue({
             el: '#app',
             data: {
+                labelWidth: '120px',
                 i18ns: [],
                 fullscreenLoading: '',
                 MFStateIsShow: false,
@@ -7176,6 +7177,12 @@
 
             created: function() {
                 this.i18ns = getIn18();
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '140px'
+                    }
+                }
                 this.SRIOVOptions = getForbiddenType();
                 this.MFStateOptions = getForbiddenType();
                 this.rules.esight[0].message = this.i18ns.CNA_template.eSightnull;
@@ -7815,7 +7822,7 @@
                  * 
                  */
                 cancel: function() {
-                    goBack('list.html');
+                    goBack('List.html');
                 },
                 /**
                  * 添加CNA模板回调函数
@@ -7828,7 +7835,7 @@
                     if (ret.code === '0') {
                         this.alertMsg(msg, function() {
                             //to do 添加成功后的操作
-                            window.location.href = 'list.html?s=' + Math.random();
+                            window.location.href = 'List.html?s=' + Math.random();
                         });
                     } else {
                         msg = getErrorMsg(ret.code);

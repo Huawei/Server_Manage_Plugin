@@ -614,7 +614,7 @@
             el: '#app',
             data: {
                 isSmallScreen: false,
-                loading: true,
+                loading: false,
                 isShowFan: false,
                 isShowPSU: false,
                 isShowBlade: false,
@@ -840,97 +840,99 @@
                 },
                 /* 获取所有设备信息 */
                 getUnitsInfo: function() {
-                    var bladeData = JSON.parse(localStorage.getItem('bladeData'));
-                    this.serverType = localStorage.getItem('serverType');
-                    console.log(bladeData)
-                    this.serverInfos.childBlades = bladeData.childBlades;
-                    app.serverInfos.ipAddress = bladeData.ipAddress;
-                    app.serverInfos.serverName = bladeData.serverName;
-                    app.serverInfos.serverModel = bladeData.serverModel;
-                    app.serverInfos.productSn = bladeData.productSN;
-                    app.serverInfos.description = bladeData.description;
-                    app.serverInfos.status = bladeData.status;
-                    app.getServerStatus();
-                    var ip = getCurrentEsight();
-                    var normalBlade = [];
-                    var unknownBlade = [];
-                    var faultBlade = [];
-                    var k = 0;
-                    var l = bladeData.childBlades.length;
-                    for (var i = 0; i < l; i++) {
-                        var dn = bladeData.childBlades[i].dn;
+                    if (localStorage.getItem('bladeData')) {
+                        var bladeData = JSON.parse(localStorage.getItem('bladeData'));
+                        this.serverType = localStorage.getItem('serverType');
+                        console.log(bladeData)
+                        this.serverInfos.childBlades = bladeData.childBlades;
+                        app.serverInfos.ipAddress = bladeData.ipAddress;
+                        app.serverInfos.serverName = bladeData.serverName;
+                        app.serverInfos.serverModel = bladeData.serverModel;
+                        app.serverInfos.productSn = bladeData.productSN;
+                        app.serverInfos.description = bladeData.description;
+                        app.serverInfos.status = bladeData.status;
+                        app.getServerStatus();
+                        var ip = getCurrentEsight();
+                        var normalBlade = [];
+                        var unknownBlade = [];
+                        var faultBlade = [];
+                        var k = 0;
+                        var l = bladeData.childBlades.length;
+                        for (var i = 0; i < l; i++) {
+                            var dn = bladeData.childBlades[i].dn;
+                            deviceInfo.getUnits({
+                                dn: dn,
+                                ip: ip,
+                            }, function(ret) {
+                                if (ret.data.data.length > 0) {
+                                    var data = ret.data.data[0];
+                                    //刀片服务器健康状态判断
+                                    k++;
+                                    if (data.status == 0) {
+                                        normalBlade.push(data.status);
+                                    } else if (data.status != -1 && data.status != -2 && data.status != 0) {
+                                        faultBlade.push(data.status);
+                                    } else if (data.status == -2) {
+                                        unknownBlade.push(data.status)
+                                    }
+
+
+
+                                }
+                            });
+
+                        }
+                        /**
+                         * 获取风扇和电源状态
+                         * **/
                         deviceInfo.getUnits({
-                            dn: dn,
+                            dn: bladeData.dn,
                             ip: ip,
                         }, function(ret) {
                             if (ret.data.data.length > 0) {
                                 var data = ret.data.data[0];
-                                //刀片服务器健康状态判断
-                                k++;
-                                if (data.status == 0) {
-                                    normalBlade.push(data.status);
-                                } else if (data.status != -1 && data.status != -2 && data.status != 0) {
-                                    faultBlade.push(data.status);
-                                } else if (data.status == -2) {
-                                    unknownBlade.push(data.status)
+                                //电源在位信息判断
+                                if (data.PSU) {
+                                    for (var j = 0; j < data.PSU.length; j++) {
+                                        if (data.PSU[j].presentState == 1) {
+                                            app.deviceInfos.PSU.push(data.PSU[j])
+                                        }
+                                    }
                                 }
+                                //风扇在位信息判断
+                                if (data.Fan) {
+                                    for (var j = 0; j < data.Fan.length; j++) {
+                                        if (data.Fan[j].presentState == 1) {
+                                            app.deviceInfos.Fan.push(data.Fan[j])
+                                        }
+                                    }
+                                }
+                                //board是主板还是交换板的判断,type==1为交换板
+                                if (data.board) {
+                                    for (var j = 0; j < data.board.length; j++) {
+                                        if (data.board[j].type == 1) {
+                                            if (data.board[j].presentState == 1) {
+                                                app.deviceInfos.board.push(data.board[j]);
+                                            }
 
-
-
+                                        }
+                                    }
+                                }
+                                app.getFanStatus();
+                                app.getPowerStatus();
+                                app.getBoardStatus();
                             }
                         });
-
+                        var mysetInterval = setInterval(function() {
+                            if (k == l) {
+                                app.normalBladeNum = normalBlade.length;
+                                app.unknownBladeNum = unknownBlade.length;
+                                app.faultBladeNum = faultBlade.length;
+                                app.drwaBlade();
+                                window.clearInterval(mysetInterval);
+                            }
+                        }, 100)
                     }
-                    /**
-                     * 获取风扇和电源状态
-                     * **/
-                    deviceInfo.getUnits({
-                        dn: bladeData.dn,
-                        ip: ip,
-                    }, function(ret) {
-                        if (ret.data.data.length > 0) {
-                            var data = ret.data.data[0];
-                            //电源在位信息判断
-                            if (data.PSU) {
-                                for (var j = 0; j < data.PSU.length; j++) {
-                                    if (data.PSU[j].presentState == 1) {
-                                        app.deviceInfos.PSU.push(data.PSU[j])
-                                    }
-                                }
-                            }
-                            //风扇在位信息判断
-                            if (data.Fan) {
-                                for (var j = 0; j < data.Fan.length; j++) {
-                                    if (data.Fan[j].presentState == 1) {
-                                        app.deviceInfos.Fan.push(data.Fan[j])
-                                    }
-                                }
-                            }
-                            //board是主板还是交换板的判断,type==1为交换板
-                            if (data.board) {
-                                for (var j = 0; j < data.board.length; j++) {
-                                    if (data.board[j].type == 1) {
-                                        if (data.board[j].presentState == 1) {
-                                            app.deviceInfos.board.push(data.board[j]);
-                                        }
-
-                                    }
-                                }
-                            }
-                            app.getFanStatus();
-                            app.getPowerStatus();
-                            app.getBoardStatus();
-                        }
-                    });
-                    var mysetInterval = setInterval(function() {
-                        if (k == l) {
-                            app.normalBladeNum = normalBlade.length;
-                            app.unknownBladeNum = unknownBlade.length;
-                            app.faultBladeNum = faultBlade.length;
-                            app.drwaBlade();
-                            window.clearInterval(mysetInterval);
-                        }
-                    }, 100)
                 },
                 /* 展开刀片 */
                 handleChange: function(activeNames) {
@@ -939,7 +941,7 @@
                             if (activeNames[i] == '1') {
                                 if (app.bladeListData.length == 0) {
                                     var bladeData = JSON.parse(localStorage.getItem('bladeData'));
-                                    if (bladeData.childBlades.length > 0) {
+                                    if (localStorage.getItem('bladeData') && bladeData.childBlades.length > 0) {
                                         app.loading = true;
                                         var rqc = 0;
                                         for (var k = 0; k < bladeData.childBlades.length; k++) {
