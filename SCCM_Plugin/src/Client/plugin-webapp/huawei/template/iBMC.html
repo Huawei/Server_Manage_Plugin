@@ -683,7 +683,7 @@
                                 app.fullscreenLoading = false;
                                 if (ret.code === '0') {
                                     alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                        location.href = 'list.html?s=' + Math.random();
+                                        location.href = 'List.html?s=' + Math.random();
                                     })
                                 } else {
                                     msg = getErrorMsg(ret.code);
@@ -700,7 +700,7 @@
                  *返回上级页面
                  * */
                 resetForm: function(formName) {
-                    goBack('list.html');
+                    goBack('List.html');
                 },
             }
         })

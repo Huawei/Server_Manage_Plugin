@@ -7822,7 +7822,7 @@
                  * 
                  */
                 cancel: function() {
-                    goBack('list.html');
+                    goBack('List.html');
                 },
                 /**
                  * 添加CNA模板回调函数
@@ -7835,7 +7835,7 @@
                     if (ret.code === '0') {
                         this.alertMsg(msg, function() {
                             //to do 添加成功后的操作
-                            window.location.href = 'list.html?s=' + Math.random();
+                            window.location.href = 'List.html?s=' + Math.random();
                         });
                     } else {
                         msg = getErrorMsg(ret.code);

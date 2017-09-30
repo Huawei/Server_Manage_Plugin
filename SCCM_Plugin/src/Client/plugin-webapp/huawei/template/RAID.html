@@ -29,7 +29,6 @@
         body {
             min-width: 985px;
         }
-        
         /* form input {
             max-width: 217px;
         } */
@@ -38,7 +37,8 @@
             min-width: 700px;
             max-width: 800px;
         }
-        el-input__icon el-icon-caret-top{
+        
+        el-input__icon el-icon-caret-top {
             width: 240px;
         }
     </style>
@@ -594,7 +594,7 @@
                                 app.fullscreenLoading = false;
                                 if (ret.code === '0') {
                                     alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                        window.location.href = 'list.html?s=' + Math.random();
+                                        window.location.href = 'List.html?s=' + Math.random();
                                     })
                                 } else {
                                     msg = getErrorMsg(ret.code);
@@ -614,7 +614,7 @@
                  * @param {any} formName 
                  */
                 resetForm: function(formName) {
-                    goBack('list.html');
+                    goBack('List.html');
                 },
                 /**
                  * 创建raid 组

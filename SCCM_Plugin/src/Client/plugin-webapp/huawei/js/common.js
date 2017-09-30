@@ -139,13 +139,13 @@ function getServerType() {
         }
     }
     return [{
-        value: '机架服务器',
+        value: 'Rack',
         label: '机架服务器'
     }, {
-        value: '刀片服务器',
+        value: 'Blade',
         label: '刀片服务器'
     }, {
-        value: '高密服务器',
+        value: 'Highdensity',
         label: '高密服务器'
     }];
 }

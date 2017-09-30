@@ -1283,7 +1283,7 @@
                                 app.fullscreenLoading = false;
                                 if (ret.code === '0') {
                                     app.alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                        location.href = 'list.html?s=' + Math.random();
+                                        location.href = 'List.html?s=' + Math.random();
                                     })
                                 } else {
                                     msg = getErrorMsg(ret.code);
@@ -1305,7 +1305,7 @@
                         closeOnClickModal: false,
                         type: 'warning'
                     }).then(function() {
-                        window.location.href = 'list.html';
+                        window.location.href = 'List.html';
 
                     }).catch(function() {});
                 },

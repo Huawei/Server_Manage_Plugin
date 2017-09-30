@@ -112,9 +112,11 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                         {
                             retList.Add(eSightSessions[hwESightHost.HostIP.ToUpper()]);
                         }
-                        else//If not same reinit.
+                        else//If not same reinit. 将list增加给retlist
                         {
+                            
                             iESession.InitESight(hwESightHost, ConstMgr.HWESightHost.DEFAULT_TIMEOUT_SEC);
+                            retList.Add(iESession);
                         }
                     }
                     else
