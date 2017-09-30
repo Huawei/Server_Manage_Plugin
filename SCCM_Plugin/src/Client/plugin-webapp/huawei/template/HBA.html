@@ -138,7 +138,7 @@
             </el-row>
 
             <el-form v-bind:model="wwpn" ref="wwpn" :rules="SANBootRules" style="margin-top:8px;">
-                <el-form-item label="SANBoot" style="margin-left:3%;">&nbsp;
+                <el-form-item label="SANBoot" style="margin-left: 2px;">&nbsp;
                     <el-select v-model="wwpn.SANBoot" @change="wwpnSanBootChange">
                         <el-option v-for="item in SANBootOptions" :label="item.label" :key="item.value" :value="item.value">
                         </el-option>
@@ -324,7 +324,7 @@
             </el-row>
 
             <el-form v-bind:model="wwnn" ref="wwnn" :rules="SANBootRules">
-                <el-form-item label="SANBoot" style="margin-left:3%;">&nbsp;
+                <el-form-item label="SANBoot" style="margin-left: 2px;">&nbsp;
                     <el-select v-model="wwnn.SANBoot" style="margin-bottom:8px;" @change="wwnnSanBootChange">
                         <el-option v-for="item in SANBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -1276,7 +1276,7 @@
                                 app.fullscreenLoading = false;
                                 if (ret.code === '0') {
                                     app.alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                        location.href = 'list.html';
+                                        location.href = 'list.html?s=' + Math.random();
                                     })
                                 } else {
                                     msg = getErrorMsg(ret.code);

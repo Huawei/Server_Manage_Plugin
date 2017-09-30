@@ -190,25 +190,25 @@ function getOSDeployPolicys() {
 function select_templateChange(templateType) {
     switch (templateType) {
         case 'OS':
-            window.location.href = 'addOS.html';
+            window.location.href = 'addOS.html?s=' + Math.random();
             break;
         case 'POWER':
-            window.location.href = 'addPower.html';
+            window.location.href = 'addPower.html?s=' + Math.random();
             break;
         case 'BIOS':
-            window.location.href = 'addBIOS.html';
+            window.location.href = 'addBIOS.html?s=' + Math.random();
             break;
         case 'HBA':
-            window.location.href = 'HBA.html';
+            window.location.href = 'HBA.html?s=' + Math.random();
             break;
         case 'RAID':
-            window.location.href = 'RAID.html';
+            window.location.href = 'RAID.html?s=' + Math.random();
             break;
         case 'CNA':
-            window.location.href = 'CNA.html';
+            window.location.href = 'CNA.html?s=' + Math.random();
             break;
         case 'IBMC':
-            window.location.href = 'iBMC.html';
+            window.location.href = 'iBMC.html?s=' + Math.random();
             break;
         default:
             break;
@@ -679,7 +679,7 @@ function goBack(url) {
         closeOnClickModal: false,
         type: 'warning'
     }).then(function() {
-        location.href = url;
+        location.href = url + '?s=' + Math.random();
     }).catch(function() {});
 }
 

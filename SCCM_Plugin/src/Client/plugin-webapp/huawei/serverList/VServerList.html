@@ -355,7 +355,7 @@
                 localStorage.setItem('name', row.serverName);
                 localStorage.setItem('dn', row.dn);
                 localStorage.setItem('serverType', 'Highdensity');
-                window.location.href = '../vRealize/HighdensityInfo.html';
+                window.location.href = '../vRealize/HighdensityInfo.html?s=' + Math.random();
             },
             /**
              * 显式刀片服务器细节
@@ -365,7 +365,7 @@
                 localStorage.setItem('bladeData', JSON.stringify(row));
                 localStorage.setItem('dn', row.dn);
                 localStorage.setItem('serverType', 'Blade');
-                window.location.href = '../vRealize/BladeInfo.html';
+                window.location.href = '../vRealize/BladeInfo.html?s=' + Math.random();
             },
             /**
              * 显式机架服务器细节
@@ -381,7 +381,7 @@
                     }
                 }
                 localStorage.setItem('dn', row.dn);
-                window.location.href = '../vRealize/rackDeviceInfo.html';
+                window.location.href = '../vRealize/rackDeviceInfo.html?s=' + Math.random();
             },
             /**
              * 跳转至显式子刀片服务器细节页面
@@ -397,7 +397,7 @@
                     }
                 }
                 localStorage.setItem('dn', row.dn);
-                window.location.href = '../vRealize/bladeDeviceInfo.html';
+                window.location.href = '../vRealize/BladeDeviceInfo.html?s=' + Math.random();
             },
             /**
              * 跳转至高密服务器细节页面
@@ -413,7 +413,7 @@
                     }
                 }
                 localStorage.setItem('dn', row.dn);
-                window.location.href = '../vRealize/HighdensityDeviceInfo.html';
+                window.location.href = '../vRealize/HighdensityDeviceInfo.html?s=' + Math.random();
             },
             /**
              * 获取服务器列表

@@ -354,7 +354,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                 if (iESSession != null)
                 {
                     iESSession.Open();
-                    iESSession.SaveToDB();//保存状态。
+                    //iESSession.SaveToDB();//保存状态。
                 }
                 return iESSession;
             }
@@ -415,11 +415,16 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                 string newMainKey = EncryptUtil.GetMainKey();
 
                 //遍历所有session.
-                foreach (IESSession iESSession in eSightSessions.Values)
+                IList<HWESightHost> hostlist = ESightEngine.Instance.ListESHost();
+                foreach (HWESightHost eSightHost in hostlist)
                 {
-                    string pwd = EncryptUtil.DecryptWithKey(oldMainKey, iESSession.HWESightHost.LoginPwd);
+                    string pwd = EncryptUtil.DecryptWithKey(oldMainKey, eSightHost.LoginPwd);
                     string enPwd = EncryptUtil.EncryptWithKey(newMainKey, pwd);
+
+                    IESSession iESSession = FindESSession(eSightHost.HostIP);
                     iESSession.HWESightHost.LoginPwd = enPwd;
+
+                    eSightSessions[eSightHost.HostIP.ToUpper()] = iESSession;
                     iESSession.SaveToDB();
                 }
             }
