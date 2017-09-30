@@ -689,7 +689,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
             paramJson.Add("userid", _hwESightHost.LoginAccount);//用户名
             paramJson.Add("value", EncryptUtil.DecryptPwd(_hwESightHost.LoginPwd));//密码
             string localIp = SystemUtil.GetLocalhostIP();
-            if(!string.IsNullOrEmpty(localIp)) paramJson.Add("ipaddr", localIp);//本机ip。
+            if (!string.IsNullOrEmpty(localIp)) paramJson.Add("ipaddr", localIp);//本机ip。
             return paramJson;
         }
         /// <summary>
@@ -734,7 +734,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
                 this._hwESightHost.LastModifyTime = System.DateTime.Now;
                 this._hwESightHost.LatestStatus = ConstMgr.HWESightHost.LATEST_STATUS_FAILED;
                 SyncToDB();
-                throw new ESSessionExpceion("-33"+GetJObjectPropVal<string>(result, "code"), this, GetJObjectPropVal<string>(result, "description"));
+                throw new ESSessionExpceion("-33" + GetJObjectPropVal<string>(result, "code"), this, GetJObjectPropVal<string>(result, "description"));
             }
         }
         /// <summary>
@@ -908,7 +908,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
         {
             if (_hwESightHost.ID > 0)//是否新的eSight对象
             {
-                SaveToDB();
+                // SaveToDB();
             }
         }
         /// <summary>
@@ -953,7 +953,8 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
                     LogUtil.HWLogger.API.DebugFormat("add1 id=" + _hwESightHost.ID);
                 }
             }
-            catch (Exception se) {
+            catch (Exception se)
+            {
                 LogUtil.HWLogger.API.Error(se);
                 throw;
             }

@@ -50,7 +50,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
         }
         private Exception GetDeployException(string code, IHWDeployWorker hwDeployWorker, string message)
         {
-             return new DeployException(errorPix, code, hwDeployWorker, message);
+            return new DeployException(errorPix, code, hwDeployWorker, message);
         }
         /// <summary>
         /// 模板创建
@@ -72,7 +72,8 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
         /// </summary>
         /// <param name="templateName"></param>
         /// <returns>模板详情</returns>
-        public DeployTemplate QueryDeployTemplate(string templateName) {
+        public DeployTemplate QueryDeployTemplate(string templateName)
+        {
             StringBuilder sb = new StringBuilder(ConstMgr.HWESightHost.URL_DETAIL_TEMPLATE);
             sb.Append("?templateName=").Append(HttpUtility.UrlEncode(templateName, Encoding.UTF8));
             JObject jResult = ESSession.HCGet(sb.ToString());
@@ -202,7 +203,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
                 {
                     if (hwTaskResource.HWESightTaskID == hwESightTask.ID)
                     {
-                        if(!string.IsNullOrEmpty(hwTaskResource.ErrorCode) && !string.Equals(hwTaskResource.ErrorCode,"0"))
+                        if (!string.IsNullOrEmpty(hwTaskResource.ErrorCode) && !string.Equals(hwTaskResource.ErrorCode, "0"))
                             hwTaskResource.ErrorCode = errorPix + hwTaskResource.ErrorCode;
                         hwESightTask.DeviceDetails.Add(hwTaskResource);
                     }
@@ -257,7 +258,8 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
             hwtask.TaskStatus = deployProgress.TaskStatus;
 
             hwtask.TaskResult = deployProgress.TaskResult;
-            hwtask.TaskCode = errorPix+ deployProgress.TaskCode;
+            hwtask.TaskCode =(!string.IsNullOrEmpty(deployProgress.TaskCode) && !string.Equals(deployProgress.TaskCode, "0")) ?
+                (errorPix + deployProgress.TaskCode) : deployProgress.TaskCode;
             hwtask.ErrorDetail = deployProgress.ErrorDetail;
 
             hwtask.LastModifyTime = System.DateTime.Now;
@@ -309,28 +311,53 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Workers
             IList<HWTaskResource> resourceList = HWTaskResourceDal.Instance.FindTaskResourceByTaskId(hwtask.ID);
             Dictionary<string, DeviceProgress> dviDict = new Dictionary<string, DeviceProgress>();
             if (deployProgress.DeviceDetails == null) return 0;
+
+            DeviceProgress emptyDevicProcess = null;
             foreach (DeviceProgress deviceProgress in deployProgress.DeviceDetails)
             {
-                dviDict[deviceProgress.DeviceDn.ToUpper()] = deviceProgress;
+                if (string.IsNullOrEmpty(deviceProgress.DeviceDn))//如果dn为空，设备关闭或者删除的时候。
+                    emptyDevicProcess = deviceProgress;
+                else
+                    dviDict[deviceProgress.DeviceDn.ToUpper()] = deviceProgress;
             }
+
             foreach (HWTaskResource hwResource in resourceList)
             {
                 DeviceProgress deviceProgress = null;
                 if (dviDict.ContainsKey(hwResource.DN.ToUpper()))
                 {
                     deviceProgress = dviDict[hwResource.DN.ToUpper()];
+
                     hwResource.DeviceResult = deviceProgress.DeviceResult;
                     hwResource.DeviceProgress = deviceProgress.Progress;
                     hwResource.ErrorCode = deviceProgress.ErrorCode;
                     hwResource.ErrorDetail = deviceProgress.ErrorDetail;
+
                     hwResource.TaskType = ConstMgr.HWESightTask.TASK_TYPE_DEPLOY;
                     hwResource.SyncStatus = hwtask.SyncStatus;
                     hwResource.LastModifyTime = System.DateTime.Now;
                     if (deviceProgress.Progress == 100) finishedCnt++;
+
                 }
                 else
                 {
-                    LogUtil.HWLogger.API.WarnFormat("Can't find this device in the hw return.[{0}]", hwResource.DN);
+                    if (emptyDevicProcess != null)
+                    {
+                        LogUtil.HWLogger.API.WarnFormat("System can't find this dn=[{0}], using the none dn message.", hwResource.DN);
+                        hwResource.DeviceResult = emptyDevicProcess.DeviceResult;
+                        hwResource.DeviceProgress = emptyDevicProcess.Progress;
+                        hwResource.ErrorCode = emptyDevicProcess.ErrorCode;
+                        hwResource.ErrorDetail = emptyDevicProcess.ErrorDetail;
+
+                        hwResource.TaskType = ConstMgr.HWESightTask.TASK_TYPE_DEPLOY;
+                        hwResource.SyncStatus = hwtask.SyncStatus;
+                        hwResource.LastModifyTime = System.DateTime.Now;
+                        if (emptyDevicProcess.Progress == 100) finishedCnt++;
+                    }
+                    else
+                    {
+                        LogUtil.HWLogger.API.WarnFormat("System can't find this dn=[{0}]", hwResource.DN);
+                    }
                 }
                 HWTaskResourceDal.Instance.UpdateEntity(hwResource);
 

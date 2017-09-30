@@ -36,12 +36,21 @@
         }
         
         .el-dialog {
-            min-width: 700px;
+            min-width: 750px;
             max-width: 1300px;
         }
         
         .el-dialog__body {
             min-height: 300px;
+        }
+        
+        .el-dialog .nem_component_content_title {
+            background: none repeat scroll 0 0 #EAEAEA;
+            padding: 0 0 0 20px;
+            line-height: 13px;
+            border: 0 none !important;
+            cursor: pointer;
+            height: 26px;
         }
     </style>
 </head>
@@ -49,7 +58,7 @@
 <body>
     <div id="app" v-cloak>
         <div>
-            <el-form v-bind:model="ruleForm" label-width="120px" label-position="left" label-suffix=":">
+            <el-form v-bind:model="ruleForm" v-bind:label-width="labelWidth" label-position="left" label-suffix=":">
                 <el-form-item v-bind:label="i18ns.template.templateType">
                     {{templateValue|getLabel(options)}}
                 </el-form-item>
@@ -98,7 +107,7 @@
                 <div v-show="classData.isPropertyVirtualizationOpen" style="margin-top: 10px; margin-bottom:10px;">
                     <el-row>
                         <el-col v-bind:span="12" v-for="(col,index) in ruleForm.BIOS.Property_Virtual.CHILDREN.CHILD" v-bind:key="col.LABEL.ZH_CN" v-show="index == 0 ? true : classData.showVirtualization">
-                            <el-form-item v-bind:label="col.LABEL.ZH_CN" v-bind:label-width="index%2==0?'190px':'120px'">
+                            <el-form-item v-bind:label="col.LABEL.ZH_CN" v-bind:label-width="index%2==0?'220px':'150px'">
                                 {{col.HTML.DEFAULT}}
                             </el-form-item>
                         </el-col>
@@ -271,6 +280,7 @@
         var app = new Vue({
             el: '#app',
             data: {
+                labelWidth: "120px",
                 i18ns: [],
                 lang: [],
                 options: [],
@@ -310,6 +320,12 @@
                 dialogFormVisible: false,
             },
             created: function() {
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '140px'
+                    }
+                }
                 this.i18ns = getIn18();
                 this.options = getTemplateType();
 
@@ -432,7 +448,7 @@
                  * @param {any} formName 
                  */
                 goBack: function() {
-                    goBack('list.html');
+                    goBack('List.html');
                 },
 
                 /**

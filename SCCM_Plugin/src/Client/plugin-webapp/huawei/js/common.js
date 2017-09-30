@@ -58,25 +58,25 @@ function getTemplateType() {
         if (lang == 'en') {
             return [{
                 value: 'OS',
-                label: 'OS template'
+                label: 'OS Template'
             }, {
                 value: 'POWER',
-                label: 'Power template'
+                label: 'Power Template'
             }, {
                 value: 'BIOS',
-                label: 'BIOS template'
+                label: 'BIOS Template'
             }, {
                 value: 'HBA',
-                label: 'HBA template'
+                label: 'HBA Template'
             }, {
                 value: 'RAID',
-                label: 'RAID template'
+                label: 'RAID Template'
             }, {
                 value: 'CNA',
-                label: 'CNA template'
+                label: 'CNA Template'
             }, {
                 value: 'IBMC',
-                label: 'iBMC template'
+                label: 'iBMC Template'
             }];
         }
     }
@@ -139,13 +139,13 @@ function getServerType() {
         }
     }
     return [{
-        value: '机架服务器',
+        value: 'Rack',
         label: '机架服务器'
     }, {
-        value: '刀片服务器',
+        value: 'Blade',
         label: '刀片服务器'
     }, {
-        value: '高密服务器',
+        value: 'Highdensity',
         label: '高密服务器'
     }];
 }
@@ -190,25 +190,25 @@ function getOSDeployPolicys() {
 function select_templateChange(templateType) {
     switch (templateType) {
         case 'OS':
-            window.location.href = 'addOS.html';
+            window.location.href = 'addOS.html?s=' + Math.random();
             break;
         case 'POWER':
-            window.location.href = 'addPower.html';
+            window.location.href = 'addPower.html?s=' + Math.random();
             break;
         case 'BIOS':
-            window.location.href = 'addBIOS.html';
+            window.location.href = 'addBIOS.html?s=' + Math.random();
             break;
         case 'HBA':
-            window.location.href = 'HBA.html';
+            window.location.href = 'HBA.html?s=' + Math.random();
             break;
         case 'RAID':
-            window.location.href = 'RAID.html';
+            window.location.href = 'RAID.html?s=' + Math.random();
             break;
         case 'CNA':
-            window.location.href = 'CNA.html';
+            window.location.href = 'CNA.html?s=' + Math.random();
             break;
         case 'IBMC':
-            window.location.href = 'iBMC.html';
+            window.location.href = 'iBMC.html?s=' + Math.random();
             break;
         default:
             break;
@@ -679,7 +679,7 @@ function goBack(url) {
         closeOnClickModal: false,
         type: 'warning'
     }).then(function() {
-        location.href = url;
+        location.href = url + '?s=' + Math.random();
     }).catch(function() {});
 }
 
@@ -767,7 +767,7 @@ function getGroupPrivileges() {
         if (lang == 'en') {
             return [{
                 value: '1',
-                label: 'CommonUser'
+                label: 'Common User'
             }, {
                 value: '2',
                 label: 'Operator'

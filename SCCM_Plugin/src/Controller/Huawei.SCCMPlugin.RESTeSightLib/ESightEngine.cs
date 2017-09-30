@@ -4,6 +4,7 @@ using Huawei.SCCMPlugin.DAO;
 using Huawei.SCCMPlugin.Models;
 using Huawei.SCCMPlugin.RESTeSightLib.Exceptions;
 using Huawei.SCCMPlugin.RESTeSightLib.IWorkers;
+using Huawei.SCCMPlugin.RESTeSightLib.Util;
 using Huawei.SCCMPlugin.RESTeSightLib.Workers;
 using Newtonsoft.Json;
 using System;
@@ -39,7 +40,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                         {
                             _instance = new ESightEngine();
                             _instance.InitESSessions();
-                            _instance.RefreshPwdsOneDay();
+                            _instance.RefreshPwdsThirtyDay();
                         }
                     }
                     finally
@@ -50,7 +51,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                 }
                 else
                 {
-                    _instance.RefreshPwdsOneDay();
+                    _instance.RefreshPwdsThirtyDay();
                 }
                 return _instance;
             }
@@ -87,7 +88,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
         /// 是否使用https协议,请求eSight.
         /// </summary>
         bool _isHttps = true;
-                
+
 
 
         /// <summary>
@@ -96,7 +97,49 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
         /// <returns>返回已有的连接列表</returns>
         public IList<IESSession> ListESSessions()
         {
-            return new List<IESSession>(eSightSessions.Values);
+            lock (eSightSessions)
+            {
+                IList<IESSession> retList = new List<IESSession>();
+                IList<HWESightHost> hostList = ListESHost();
+                Dictionary<string, HWESightHost> tmpSessions = new Dictionary<string, HWESightHost>();
+                foreach (HWESightHost hwESightHost in hostList)
+                {
+                    tmpSessions[hwESightHost.HostIP.ToUpper()] = hwESightHost;
+                    if (eSightSessions.ContainsKey(hwESightHost.HostIP.ToUpper()))//Already exists...
+                    {
+                        IESSession iESession = eSightSessions[hwESightHost.HostIP.ToUpper()];
+                        if (IsSameESightHost(hwESightHost, iESession.HWESightHost))
+                        {
+                            retList.Add(eSightSessions[hwESightHost.HostIP.ToUpper()]);
+                        }
+                        else//If not same reinit. 将list增加给retlist
+                        {
+                            
+                            iESession.InitESight(hwESightHost, ConstMgr.HWESightHost.DEFAULT_TIMEOUT_SEC);
+                            retList.Add(iESession);
+                        }
+                    }
+                    else
+                    {//Create new...
+                        IESSession iESSession = new ESSession();
+                        iESSession.SetHttpMode(_isHttps);
+                        iESSession.InitESight(hwESightHost, ConstMgr.HWESightHost.DEFAULT_TIMEOUT_SEC);
+                        eSightSessions[hwESightHost.HostIP.ToUpper()] = iESSession;
+
+                        retList.Add(iESSession);
+                    }
+                }
+                //Clean unused sessions.
+                IList<IESSession> existsList = new List<IESSession>(eSightSessions.Values);
+                foreach (IESSession ieSSession in existsList)
+                {
+                    if (!tmpSessions.ContainsKey(ieSSession.HWESightHost.HostIP.ToUpper()))
+                    {
+                        eSightSessions.Remove(ieSSession.HWESightHost.HostIP.ToUpper());
+                    }
+                }
+                return retList;
+            }
         }
         /// <summary>
         /// 查询eSight列表（数据库中的数据，而不是ESSession）
@@ -200,7 +243,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
         /// <summary>
         /// 删除多个已有的eSight.
         /// </summary>
-        /// <param name="hostIP">eSight IP</param>
+        /// <param name="hostIPs">eSight IP</param>
         /// <returns>默认返回成功</returns>
         public bool RemoveESSession(string[] hostIPs)
         {
@@ -282,7 +325,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
         /// <summary>
         /// 根据ID删除多个eSight，删除内存和数据库。
         /// </summary>
-        /// <param name="id">eSight id</param>
+        /// <param name="ids">eSight id</param>
         /// <returns>成功失败。</returns>
         public bool RemoveESSession(int[] ids)
         {
@@ -342,6 +385,29 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
             return null;
         }
         /// <summary>
+        /// 是否相同的eSight实体。
+        /// </summary>
+        /// <param name="host1">host1</param>
+        /// <param name="host2">host2</param>
+        /// <returns>bool</returns>
+        private bool IsSameESightHost(HWESightHost host1, HWESightHost host2)
+        {
+            var propsToSerialise = new List<string>()
+                {
+                    "HostIP",
+                    "HostPort",
+                    "AliasName",
+                    "LoginAccount",
+                    "LoginPwd",
+                    "CertPath"
+                };
+            DynamicContractResolver contractResolver = new DynamicContractResolver(propsToSerialise);
+
+            string str1 = JsonConvert.SerializeObject(host1, Formatting.None, new JsonSerializerSettings { ContractResolver = contractResolver });
+            string str2 = JsonConvert.SerializeObject(host2, Formatting.None, new JsonSerializerSettings { ContractResolver = contractResolver });
+            return string.Equals(str1, str2);
+        }
+        /// <summary>
         /// 查找eSight主机信息，并且打开.
         /// </summary>
         /// <param name="hostIP">主机IP</param>
@@ -351,10 +417,20 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
             try
             {
                 IESSession iESSession = FindESSession(hostIP);
+                //Find eSightHost...
+                HWESightHost hwESightHost = HWESightHostDal.Instance.FindByIP(hostIP);
+
                 if (iESSession != null)
                 {
-                    iESSession.Open();
-                    iESSession.SaveToDB();//保存状态。
+                    if (IsSameESightHost(hwESightHost, iESSession.HWESightHost))
+                    {
+                        iESSession.Open();
+                    }
+                    else
+                    {
+                        iESSession.InitESight(hwESightHost, ConstMgr.HWESightHost.DEFAULT_TIMEOUT_SEC);
+                        iESSession.Open();
+                    }
                 }
                 return iESSession;
             }
@@ -378,21 +454,19 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
         }
 
         private static object _lockRefreshPwds = new object();
-
-        private DateTime _lastRefreshPwdTime = DateTime.MinValue;
+        
         /// <summary>
         /// 隔天更新密钥。
         /// 1. 当启动时更新。
         /// 2. 启动后，距离上次更新超过一天时更新。
         /// </summary>
-        public void RefreshPwdsOneDay()
+        public void RefreshPwdsThirtyDay()
         {
             DateTime now = DateTime.Now;
-            TimeSpan d = now.Subtract(_lastRefreshPwdTime);
-            if (d.Days > 1)
+            TimeSpan d = now.Subtract(EncryptUtil.GetLatestKeyChangeDate());
+            if (d.Days > 30)
             {
                 InitESSessions();
-                _lastRefreshPwdTime = now;
                 RefreshPwds();
             }
         }
@@ -403,24 +477,39 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
         /// 说明：工作密钥及密钥加密密钥在使用过程中，都应保证其可以更新。对于根密钥暂不要求必须支持可更新。
         /// </summary>
         public void RefreshPwds()
-        {           
+        {
             LogUtil.HWLogger.API.InfoFormat("Refresh password with encryption...");
             lock (_lockRefreshPwds)
             {
-                //旧的key
-                string rootKey = EncryptUtil.GetRootKey();
-                string oldMainKey = EncryptUtil.GetMainKey();
-                //重新初始化主密钥。
-                EncryptUtil.InitMainKey();
-                string newMainKey = EncryptUtil.GetMainKey();
-
-                //遍历所有session.
-                foreach (IESSession iESSession in eSightSessions.Values)
+                lock (eSightSessions)
                 {
-                    string pwd = EncryptUtil.DecryptWithKey(oldMainKey, iESSession.HWESightHost.LoginPwd);
-                    string enPwd = EncryptUtil.EncryptWithKey(newMainKey, pwd);
-                    iESSession.HWESightHost.LoginPwd = enPwd;
-                    iESSession.SaveToDB();
+                    using (var mutex = new System.Threading.Mutex(false, "huawei.sccmplugin.engine")) {
+                        if (mutex.WaitOne(TimeSpan.FromSeconds(60), false))
+                        {
+                            //旧的key
+                            string rootKey = EncryptUtil.GetRootKey();
+                            string oldMainKey = EncryptUtil.GetMainKeyFromPath();
+                            //重新初始化主密钥。
+                            EncryptUtil.InitMainKey();
+                            string newMainKey = EncryptUtil.GetMainKeyFromPath();
+
+                            //遍历所有session.
+                            IList<HWESightHost> hostlist = ESightEngine.Instance.ListESHost();
+                            foreach (HWESightHost eSightHost in hostlist)
+                            {
+                                string pwd = EncryptUtil.DecryptWithKey(oldMainKey, eSightHost.LoginPwd);
+                                string enPwd = EncryptUtil.EncryptWithKey(newMainKey, pwd);
+
+                                IESSession iESSession = FindESSession(eSightHost.HostIP);
+                                iESSession.HWESightHost.LoginPwd = enPwd;
+
+                                eSightSessions[eSightHost.HostIP.ToUpper()] = iESSession;
+                                iESSession.SaveToDB();
+                            }
+
+                        }
+                    }
+                       
                 }
             }
             LogUtil.HWLogger.API.InfoFormat("Refresh password with encryption successful!");

@@ -159,6 +159,13 @@
     </div>
 </body>
 <script type="text/javascript">
+    function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
     var app = new Vue({
         el: '#app',
         data: {
@@ -313,6 +320,7 @@
         mounted: function() {
             //获取列表数据
             this.getListData('');
+            console.log(getCookie('JSESSIONID'));
         },
         methods: {
             /**

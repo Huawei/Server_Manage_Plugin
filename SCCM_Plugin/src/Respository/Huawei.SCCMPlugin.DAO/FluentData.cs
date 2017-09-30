@@ -1855,9 +1855,12 @@ namespace FluentData
                 System.Data.IDbCommand dbCommand = Data.InnerCommand;
 
                 if (Data != null && dbCommand != null && Data.InnerCommand.Parameters != null)
-                {                    
-                    System.Data.IDataParameter parameter = dbCommand.Parameters[outputParameterName] as System.Data.IDataParameter;
-                    value = parameter.Value;
+                {
+                    if (dbCommand.Parameters.Contains(outputParameterName))
+                    {
+                        System.Data.IDataParameter parameter = dbCommand.Parameters[outputParameterName] as System.Data.IDataParameter;
+                        if (parameter != null) value = parameter.Value;
+                    }
                 }
 
                 if (value == DBNull.Value)
@@ -2885,12 +2888,14 @@ namespace FluentData
             else result = ((MemberExpression)exp.Body).Member as PropertyInfo;
 
             Type t = typeof(T);
-            if (result != null && t != null)
-            {                
-                return t.GetProperty(result.Name);
-            }               
-
-            throw new ArgumentException(string.Format("Expression '{0}' does not refer to a property.", exp.ToString()));
+            if (result != null && result.Name!=null && t != null)
+            {
+                result= t.GetProperty(result.Name);
+            }
+            if (result == null)
+                throw new ArgumentException(string.Format("Expression '{0}' does not refer to a property.", exp.ToString()));
+            else
+                return result;
         }
 
         public object Value

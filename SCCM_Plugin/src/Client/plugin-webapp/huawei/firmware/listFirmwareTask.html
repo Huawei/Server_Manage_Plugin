@@ -205,7 +205,7 @@
                  * 
                  */
                 addFirmwareTask: function() {
-                    window.location.href = 'addFirmwareTask.html';
+                    window.location.href = 'addFirmwareTask.html?s=' + Math.random();
                 },
                 /**
                  * 搜索功能
@@ -435,7 +435,6 @@
                         if (l > 0) {
                             for (var i = 0; i < dn_arry.length; i++) {
                                 (function(agr) {
-                                    console.log(agr)
                                     var param = {
                                         "esight": app.currentESight,
                                         "param": {
@@ -468,6 +467,7 @@
                                                 });
                                             })(agr, encodeURI(dn_arry[agr]), ret.data.data)
                                         } else {
+                                            k++;
                                             errorInfo.push({
                                                 msg: getErrorMsg(ret.code),
                                                 dn: dn_arry[agr]

@@ -246,25 +246,25 @@ var json = [{
     },
     {
         id: "00010006",
-        name: "VMware ESXi",
-        value: "VMware ESXi",
-        memo: "OS_VMware ESXi,为什么独缺6.4"
+        name: "VMWare ESXi",
+        value: "VMWare ESXi",
+        memo: "OS_VMWare ESXi,为什么独缺6.4"
     },
     {
         id: "000100060001",
-        name: "VMware ESXi 5.0 x64"
+        name: "VMWare ESXi 5.0 x64"
     },
     {
         id: "000100060002",
-        name: "VMware ESXi 5.1 x64"
+        name: "VMWare ESXi 5.1 x64"
     },
     {
         id: "000100060003",
-        name: "VMware ESXi 5.5 x64"
+        name: "VMWare ESXi 5.5 x64"
     },
     {
         id: "000100060004",
-        name: "VMware ESXi 6.0 x64"
+        name: "VMWare ESXi 6.0 x64"
     }
 ]
 

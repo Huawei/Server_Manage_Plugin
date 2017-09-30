@@ -13,6 +13,12 @@ namespace Huawei.SCCMPlugin.DAO
     public interface IHWESightHostDal:IBaseRepository<HWESightHost>
     {
         /// <summary>
+        /// 根据IP查找ESight实体。
+        /// </summary>
+        /// <param name="eSightIp">IP地址</param>
+        /// <returns></returns>
+        HWESightHost FindByIP(string eSightIp);
+        /// <summary>
         /// 删除eSight
         /// </summary>
         /// <param name="eSightId">eSight Id</param>

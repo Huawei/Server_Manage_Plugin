@@ -29,14 +29,17 @@
         body {
             min-width: 985px;
         }
-        
-        form input {
+        /* form input {
             max-width: 217px;
-        }
+        } */
         
         .el-dialog {
             min-width: 700px;
             max-width: 800px;
+        }
+        
+        el-input__icon el-icon-caret-top {
+            width: 240px;
         }
     </style>
 </head>
@@ -56,7 +59,7 @@
 
         <el-form v-bind:model="ruleForm" v-bind:rules="rules" ref="ruleForm" v-bind:label-width="labelWidth" label-position="left" label-suffix=":">
             <el-form-item v-bind:label="i18ns.template.templateName" prop="name">
-                <el-input v-model="ruleForm.name"></el-input>
+                <el-input v-model="ruleForm.name" style="max-width: 217px;"></el-input>
             </el-form-item>
             <el-form-item v-bind:label="i18ns.template.templateDesc" prop="desc">
                 <el-input type="textarea" v-model="ruleForm.desc" style="max-width:400px;"></el-input>
@@ -65,13 +68,13 @@
                 <el-checkbox v-model="ruleForm.DeleteOriginRAID"></el-checkbox>
             </el-form-item>
             <el-form-item v-bind:label="i18ns.template.globalHotSpareDisk" prop="GlobalHSP">
-                <el-select v-model="ruleForm.GlobalHSP" multiple @change="globalHSPChange" @visible-change="visibleGlobalSelectChange">
+                <el-select v-model="ruleForm.GlobalHSP" multiple @change="globalHSPChange" @visible-change="visibleGlobalSelectChange" style="min-width: 270px;">
                     <el-option v-for="item in GlobalHSPs" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
                     </el-option>
                 </el-select>
             </el-form-item>
             <el-form-item v-bind:label="i18ns.template.RAIDAdapterModel" prop="AdapterType">
-                <el-select v-model="ruleForm.AdapterType" @change="AdapterTypeChange">
+                <el-select v-model="ruleForm.AdapterType" @change="AdapterTypeChange" style="min-width: 270px;">
                     <el-option v-for="item in AdapterTypes" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                 </el-select>
@@ -138,7 +141,7 @@
         </div>
 
         <el-dialog v-bind:title="i18ns.template.createRAIDGroup" v-bind:visible.sync="createRaidDialog" size="small">
-            <el-form label-width="120px" label-position="left" label-suffix=":">
+            <el-form label-width="180px" label-position="left" label-suffix=":">
                 <el-form-item v-bind:label="i18ns.template.RAIDlevel">
                     <el-select v-model="createDialogData.RAIDLevel" v-bind:placeholder="i18ns.common.pleaseSelect" @change="RAIDLevelChange">
                         <el-option v-for="item in createDialogData.RAIDLevels" :key="item.value" :label="item.label" :value="item.value">
@@ -227,7 +230,7 @@
             </div>
         </el-dialog>
         <el-dialog v-bind:title="i18ns.template.viewRAIDGroup" v-bind:visible.sync="showRaidDialog" size="small">
-            <el-form label-width="120px" label-position="left" label-suffix=":">
+            <el-form label-width="180px" label-position="left" label-suffix=":">
                 <el-form-item v-bind:label="i18ns.template.RAIDlevel">
                     <el-select v-model="showDialogData.RAIDLevel" disabled>
                         <el-option v-for="item in createDialogData.RAIDLevels" :key="item.value" :label="item.label" :value="item.value">
@@ -591,7 +594,7 @@
                                 app.fullscreenLoading = false;
                                 if (ret.code === '0') {
                                     alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                        window.location.href = 'list.html';
+                                        window.location.href = 'List.html?s=' + Math.random();
                                     })
                                 } else {
                                     msg = getErrorMsg(ret.code);
@@ -611,7 +614,7 @@
                  * @param {any} formName 
                  */
                 resetForm: function(formName) {
-                    goBack('list.html');
+                    goBack('List.html');
                 },
                 /**
                  * 创建raid 组

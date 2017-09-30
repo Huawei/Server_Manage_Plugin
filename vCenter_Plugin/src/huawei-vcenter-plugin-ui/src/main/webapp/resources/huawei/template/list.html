@@ -1,0 +1,442 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/element.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <script src="../../scripts/vue.js"></script>
+    <script src="../../scripts/element.js"></script>
+    <script src="../../scripts/jquery-2.1.3.min.js"></script>
+    <script src="../../scripts/i18n/zh-CN.js"></script>
+    <script src="../../scripts/i18n/en.js"></script>
+    <script src="../i18n/zh-CN.js"></script>
+    <script src="../i18n/en.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/errorCode.js"></script>
+    <script src="../../scripts/web-platform.js"></script>
+    <script src="js/rest.js"></script>
+    <script src="../../scripts/lodash.min.js"></script>
+    <script src="../../scripts/polyfill.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        
+        body {
+            min-width: 900px;
+        }
+        
+        .el-table__body-wrapper {
+            /*去掉table滚动条*/
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .el-tabs__item {
+            font-size: 18px;
+        }
+        
+        .el-table .cell {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-row>
+            <el-dropdown @command="commandClick">
+                <el-button>
+                    {{menuName}}<i class="el-icon-caret-bottom el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item v-for="item in esights" v-bind:command="item.name" v-bind:key="item.name">{{item.label}}</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+            <el-button icon="plus" v-on:click="addTemplate()">{{i18ns.template.createTemplate}}</el-button>
+            <template>
+                <el-select v-model="templateType" @change="templateChange" placeholder="">
+                    <el-option v-for="item in options"
+                               v-bind:key="item.value"
+                               v-bind:label="item.label"
+                               v-bind:value="item.value">
+                    </el-option>
+                </el-select>
+            </template>
+        </el-row>
+        <div style="margin-top:23px;">
+            <template>
+                <div>
+                    <el-table v-bind:data="listData" border style="width: 100%" v-loading="loading" element-loading-text="Loading" v-loading.fullscreen.lock="fullscreenLoading" >
+                        <el-table-column  v-bind:label="i18ns.template.templateName" width="300px">
+                            <template scope="scope">
+                                <el-button type="text" size="small" v-on:click="showDetailed(scope.row)" >{{scope.row.templateName}}</el-button>
+                            </template>
+            </el-table-column>
+            <el-table-column prop="templateType" v-bind:label="i18ns.template.templateType" width="150px">
+            </el-table-column>
+            <el-table-column prop="templateDesc" v-bind:label="i18ns.template.templateDesc" width="300px">
+            </el-table-column>
+            <el-table-column v-bind:label="i18ns.template.operation">
+                <template scope="scope">
+                                <el-button type="text" size="small" v-on:click="deleteTemplate(scope.$index, scope.row)" >{{i18ns.common.delete}}</el-button>
+                            </template>
+            </el-table-column>
+            </el-table>
+        </div>
+        </template>
+        <el-row class="pagination-row">
+            <el-col v-bind:span="24" style="text-align: left;">
+                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" v-bind:current-page="currentPage" v-bind:page-sizes="pageSizes" v-bind:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" v-bind:total="total">
+                </el-pagination>
+            </el-col>
+        </el-row>
+    </div>
+
+    <el-dialog v-bind:title="i18ns.template.viewDetail" v-bind:visible.sync="templateDetailDialog">
+        <iframe id="iframe" v-bind:src="htmlString" style="width:100%;min-height:490px; border-width:0px">
+        </iframe>
+        <div slot="footer" style="text-align:center;margin-bottom:30px">
+            <el-button @click="closeDilog">{{i18ns.common.confirm}}</el-button>
+        </div>
+    </el-dialog>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                i18ns: [],
+                esights: [],
+                options: [],
+                menuName: '',
+                menuKey: '',
+                templateType: '',
+                listData: [],
+                /*显示表格数据加载中*/
+                loading: false,
+                /*删除操作遮罩*/
+                fullscreenLoading: false,
+                currentPage: 1,
+                pageSizes: [10, 20, 50, 100],
+                pageSize: 10,
+                total: 0,
+                templateDetailDialog: false,
+                htmlString: ''
+            },
+            created: function() {
+                this.i18ns = getIn18();
+                localStorage.setItem('list_url', 'list.html')
+                var _options = getTemplateType();
+                _options.unshift(this.i18ns.template.templateOptin);
+                this.options = _options;
+                console.log(this.options);
+                var _pageSize = localStorage.getItem("templateListPageSize ");
+                if (_pageSize) {
+                    this.pageSize = parseInt(_pageSize);
+                };
+            },
+            mounted: function() {
+                var that = this;
+                //获取eSight列表数据
+                setTimeout(function() {
+                    getEsightList(that.bindEsight);
+                }, 0);
+            },
+            methods: {
+                /**
+                 * 跳转到默认添加模板页面
+                 * 
+                 */
+                addTemplate: function() {
+                    window.location.href = 'addOS.html' + '?s=' + Math.random();
+                },
+                /**
+                 * 获取eSight数据 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindEsight: function(ret) {
+                    if (ret.code === '0') {
+                        var lg = ret.data.length;
+                        if (lg > 0) {
+                            for (var i = 0; i <
+                                lg; i++) {
+                                if (ret.data[i].aliasName) {
+                                    this.esights.push({
+                                        label: ret.data[i].aliasName,
+                                        name: ret.data[i].hostIp
+                                    });
+                                } else {
+                                    this.esights.push({
+                                        label: ret.data[i].hostIp,
+                                        name: ret.data[i].hostIp
+                                    });
+                                }
+                            }
+                            var currentEsight = getCurrentEsight();
+                            if (currentEsight) {
+                                var _currentEsight = _.find(this.esights, {
+                                    name: currentEsight
+                                })
+                                if (_currentEsight) {
+                                    this.menuName = _currentEsight.label; /*设置选项卡下拉框默认选中项*/
+                                    this.menuKey = _currentEsight.name; /*设置选项卡下拉框默认选中项*/
+                                } else {
+                                    setCurrentEsight(ret.data[0].hostIp);
+                                    this.menuName = this.esights[0].label; /*设置选项卡下拉框默认选中项*/
+                                    this.menuKey = this.esights[0].name; /*设置选项卡下拉框默认选中项*/
+                                }
+                            } else {
+                                setCurrentEsight(ret.data[0].hostIp);
+                                this.menuName = this.esights[0].label; /*设置选项卡下拉框默认选中项*/
+                                this.menuKey = this.esights[0].name; /*设置选项卡下拉框默认选中项*/
+                            }
+                            this.loading = true;
+                            this.getListData(); /*获取列表数据*/
+                        }
+                    } else {
+                        msg = getErrorMsg(ret.code);
+                        this.alertMsg(msg);
+                    }
+                },
+                /**
+                 * eSight下拉框 点击切换事件
+                 * 
+                 * @param {any} command 
+                 * @param {any} com 
+                 */
+                commandClick: function(command, com) {
+                    this.menuName = com.$el.innerText;
+                    this.menuKey = command;
+                    setCurrentEsight(command);
+                    this.getListData();
+                },
+                /**
+                 * 删除一条模板
+                 * 
+                 * @param {any} index 
+                 * @param {any} row 
+                 */
+                deleteTemplate: function(index, row) {
+                    var that = this;
+                    this.$confirm(app.i18ns.template.beforeDeleteTips, app.i18ns.common.prompt, {
+                        confirmButtonText: app.i18ns.common.confirm,
+                        cancelButtonText: app.i18ns.common.cancel,
+                        closeOnClickModal: false,
+                        type: 'warning'
+                    }).then(function() {
+                        this.fullscreenLoading = true;
+                        templateManage.delete({
+                            esight: that.menuKey,
+                            templateName: row.templateName
+                        }, function(ret) {
+                            if (ret.code ===
+                                '0') {
+                                app.alertMsg(app.i18ns.template.delSuccessMsg);
+                                app.fullscreenLoading = false;
+                                app.listData.splice(index, 1);
+                            } else {
+                                //要根据Code得到错误提示。
+                                msg = getErrorMsg(ret.code);
+                                app.alertMsg(msg);
+                            }
+                        });
+                    }).catch(function() {});
+                },
+                /**
+                 * 根据选择的模板类型 筛选数据
+                 * 
+                 * @param {any} val 
+                 */
+                templateChange: function(val) {
+                    this.templateType = val;
+                    this.currentPage = 1;
+                    this.getListData();
+                },
+                /**
+                 * 获取模板列表数据
+                 * 
+                 */
+                getListData: function() {
+                    this.listData = [];
+                    templateManage.getList({
+                        esight: this.menuKey,
+                        param: {
+                            "pageNo": this.currentPage,
+                            "pageSize": this.pageSize,
+                            "templateType": this.templateType
+                        }
+                    }, this.bindList);
+                },
+                /**
+                 * 获取模板列表数据 回调函数
+                 * 
+                 * @param {any} ret 
+                 */
+                bindList: function(ret) {
+                    this.listData = [];
+                    if (ret.code === '0') {
+                        for (var i = 0; i < ret.data.length; i++) {
+                            this.listData.push(ret.data[i]);
+                        }
+                        this.total = ret.totalNum;
+                    } else {
+                        msg = getErrorMsg(ret.code);
+                        this.alertMsg(msg);
+                    }
+                    app.loading = false; /*隐藏loading提示*/
+                },
+                /**
+                 * 消息提醒 弹出框
+                 * 
+                 * @param {any} msg 
+                 * @param {any} callback 
+                 */
+                alertMsg: function(msg, callback) {
+                    this.$alert(msg, this.i18ns.common.prompt, {
+                        confirmButtonText: this.i18ns.common.confirm,
+                        callback: function() {
+                            callback && callback()
+                        }
+                    });
+                },
+                /**
+                 * 设置当前显示数据的总数
+                 * 
+                 * @param {any} val 
+                 */
+                handleSizeChange: function(val) {
+                    this.pageSize = val;
+                    localStorage.setItem("templateListPageSize", val);
+                    this.getListData();
+                },
+                /**
+                 * 切换当前显示页
+                 * 
+                 * @param {any} val 
+                 */
+                handleCurrentChange: function(val) {
+                    this.currentPage = val;
+                    this.getListData();
+                },
+
+                /**
+                 * 跳转模板明细页面
+                 * 
+                 * @param {any} row 
+                 */
+                showDetailed: function(row) {
+                    this.templateDetailDialog = true;
+                    localStorage.setItem("templateName", row.templateName); //模板名称存入缓存
+                    switch (row.templateType) {
+                        case 'OS':
+                            {
+                                this.htmlString = "OSDetails.html?s=" + Math.random();
+                                setTimeout(function(x) {
+                                    document.getElementById('iframe').style.minHeight = "590px";
+                                    if (document.body.clientWidth > 1000) {
+                                        document.querySelector('.el-dialog').style.width = "900px";
+                                    } else {
+                                        document.querySelector('.el-dialog').style.width = "780px";
+                                    }
+                                    document.querySelector('.el-dialog__body').style.height = "590px";
+                                }, 0)
+                            }
+                            break;
+                        case 'POWER':
+                            {
+                                this.htmlString = "PowerDetails.html?s=" + Math.random();
+                                setTimeout(function(x) {
+                                    document.getElementById('iframe').style.minHeight = "350px";
+                                    document.querySelector('.el-dialog').style.width = "600px";
+                                    document.querySelector('.el-dialog__body').style.height = "350px";
+                                }, 0)
+                            }
+                            break;
+                        case 'BIOS':
+                            {
+                                this.htmlString = "BIOSDetails.html?s=" + Math.random();
+                                setTimeout(function(x) {
+                                    document.getElementById('iframe').style.minHeight = "666px";
+                                    if (document.body.clientWidth > 1000) {
+                                        document.querySelector('.el-dialog').style.width = "900px";
+                                    } else {
+                                        document.querySelector('.el-dialog').style.width = "800px";
+                                    }
+                                    document.querySelector('.el-dialog__body').style.height = "666px";
+                                }, 0)
+                            }
+                            break;
+                        case 'HBA':
+                            {
+                                this.htmlString = "HBADetails.html?s=" + Math.random();
+                                setTimeout(function(x) {
+                                    document.getElementById('iframe').style.minHeight = "666px";
+                                    if (document.body.clientWidth > 1000) {
+                                        document.querySelector('.el-dialog').style.width = "900px";
+                                    } else {
+                                        document.querySelector('.el-dialog').style.width = "780px";
+                                    }
+                                    document.querySelector('.el-dialog__body').style.height = "666px";
+                                }, 0)
+                            }
+                            break;
+                        case 'RAID':
+                            {
+                                this.htmlString = "RAIDDetails.html?s=" + Math.random();
+                                setTimeout(function(x) {
+                                    document.getElementById('iframe').style.minHeight = "666px";
+                                    if (document.body.clientWidth > 1000) {
+                                        document.querySelector('.el-dialog').style.width = "900px";
+                                    } else {
+                                        document.querySelector('.el-dialog').style.width = "780px";
+                                    }
+                                    document.querySelector('.el-dialog__body').style.height = "666px";
+                                }, 0)
+                            }
+                            break;
+                        case 'CNA':
+                            {
+                                this.htmlString = "CNADetails.html?s=" + Math.random();
+                                setTimeout(function(x) {
+                                    document.getElementById('iframe').style.minHeight = "700px";
+                                    if (document.body.clientWidth > 1000) {
+                                        document.querySelector('.el-dialog').style.width = "900px";
+                                    } else {
+                                        document.querySelector('.el-dialog').style.width = "780px";
+                                    }
+                                    document.querySelector('.el-dialog__body').style.height = "700px";
+                                }, 0)
+                            }
+                            break;
+                        case 'IBMC':
+                            {
+                                this.htmlString = "iBMCDetails.html?s=" + Math.random();
+                                setTimeout(function(x) {
+                                    document.getElementById('iframe').style.minHeight = "666px";
+                                    if (document.body.clientWidth > 1000) {
+                                        document.querySelector('.el-dialog').style.width = "900px";
+                                    } else {
+                                        document.querySelector('.el-dialog').style.width = "780px";
+                                    }
+                                    document.querySelector('.el-dialog__body').style.height = "666px";
+                                }, 0)
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                },
+                closeDilog: function() {
+                    this.templateDetailDialog = false;
+                    this.htmlString = "";
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
