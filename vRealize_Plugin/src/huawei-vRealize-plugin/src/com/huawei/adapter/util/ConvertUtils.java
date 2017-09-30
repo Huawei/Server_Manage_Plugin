@@ -197,7 +197,7 @@ public class ConvertUtils {
         
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(jsonString.getBytes(), returnType);
+            return objectMapper.readValue(jsonString.getBytes("UTF-8"), returnType);
         } catch (JsonParseException e) {
             return null;
         } catch (JsonMappingException e) {

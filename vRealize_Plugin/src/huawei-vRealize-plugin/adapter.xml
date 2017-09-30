@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <adapter>
-<version>1.0.5</version>
+<version>1.0.6</version>
 <minimumProductVersion>6.0.0</minimumProductVersion>
 <entryClass>com.huawei.adapter.ESightAdapter</entryClass>
 <adapterType>
@@ -1514,7 +1514,7 @@
 <enabled>true</enabled>
 </licensing>
 <parents>
-<parent>E:/project/v_realize/git-src/vRealize-plugin/src/huawei-vRealize-management-pack</parent>
+<parent>E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/src/huawei-vRealize-management-pack</parent>
 </parents>
 <objectIdentifiers>
 <objectIdentifier>
