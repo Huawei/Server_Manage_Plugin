@@ -6,7 +6,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -15,7 +17,10 @@ import java.util.List;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ServerDeviceBean implements Comparable<ServerDeviceBean> {    
+public class ServerDeviceBean implements Comparator<ServerDeviceBean>, Serializable {
+	
+	private static final long serialVersionUID = -2982418617289654754L;
+
     private String dn;
     private String ipAddress;
     private String serverName;//name
@@ -28,6 +33,7 @@ public class ServerDeviceBean implements Comparable<ServerDeviceBean> {
     private String description;
     private String version;
     private boolean childBlade = false;
+    
     private List<ChildBladeBean> childBlades = new ArrayList<ChildBladeBean>();
     
     public String getDn() {
@@ -145,7 +151,7 @@ public class ServerDeviceBean implements Comparable<ServerDeviceBean> {
     public boolean hasChild(String dn){
         
         for (ChildBladeBean childBladeBean : this.childBlades) {
-        	if ((childBladeBean.getDn().compareTo(dn)==0) && (childBladeBean.getDn().equals(dn))) {
+        	if (childBladeBean.getDn().equals(dn)) {
                 return true;
             }
         }
@@ -154,10 +160,10 @@ public class ServerDeviceBean implements Comparable<ServerDeviceBean> {
     }
     
     @Override
-    public int compareTo(ServerDeviceBean target) {
+    public int compare(ServerDeviceBean src, ServerDeviceBean target) {
         
         //对象排序规则：子服务必须要在机框服务器前面      
-        if (this.hasChild(target.getDn())) {
+        if (src.hasChild(target.getDn())) {
             //target server is child
             target.setChildBlade(true);
             return 1;
@@ -165,12 +171,13 @@ public class ServerDeviceBean implements Comparable<ServerDeviceBean> {
         
         if (target.hasChild(this.dn)) {
             //target server is parent
-            this.setChildBlade(true);
+        	src.setChildBlade(true);
             return -1;
         }
         
         return 0;
     }
+    
     
     @Override
     public String toString() {
@@ -183,5 +190,5 @@ public class ServerDeviceBean implements Comparable<ServerDeviceBean> {
             return "";
         }
     }
-    
+
 }

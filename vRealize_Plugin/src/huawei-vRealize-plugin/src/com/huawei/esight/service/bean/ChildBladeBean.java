@@ -1,5 +1,7 @@
 package com.huawei.esight.service.bean;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -8,8 +10,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ChildBladeBean {
-    
+public class ChildBladeBean implements Serializable {
+
+    private static final long serialVersionUID = -7217858612449407245L;
+
     private String dn;
     
     private String ipAddress;
@@ -48,8 +52,6 @@ public class ChildBladeBean {
     
     public void setLocation(String location) {
         this.location = location;
-    }
-    
-    
+    }   
     
 }

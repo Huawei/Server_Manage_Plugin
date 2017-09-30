@@ -90,7 +90,7 @@ public class ESightServiceImpl implements ESightService {
         result.addAll(childList);
         
         //结果排序
-        Collections.sort(result);
+        Collections.sort(result, new ServerDeviceBean());
         
         return result;
     }

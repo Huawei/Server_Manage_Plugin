@@ -24,7 +24,7 @@
 		<link>
 			<name>ESightAdapter</name>
 			<type>2</type>
-			<location>E:/project/v_realize/git-src/vRealize-plugin/src/huawei-vRealize-plugin</location>
+			<location>E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/src/huawei-vRealize-plugin</location>
 		</link>
 	</linkedResources>
 </projectDescription>
