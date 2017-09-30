@@ -1,0 +1,92 @@
+Overview:
+This document introduces the installation and uninstallation of the Huawei OpenNMS plug-in, and how to use the plug-in to view the server's health status.
+The OpenNMS plug-in can monitor Huawei severs.The major functions are as follows:
+1,Records alarms and events from Huawei servers.
+2,Monitor server SNMP Node Data: System Cpu Usage, System Power, Inlet Temperature.
+
+Huawei Server Compatibility:
+Supported Huawei servers: E9000 Chassis,RH1288 V3, RH2288H V2, RH2288H V3, RH2288H V3, RH5885 V3, RH5885H V3, RH8100 V3, X6000, X6000.
+
+Prerequisites:
+1, OpenNMS 19.0.1 or later has been installed. 
+2, You have obtained the Huawei OpenNMS plug-in installation package,download from:https://github.com/Huawei/Server_Manage_Plugin
+
+Installation£º
+1,Log in to the OpenNMS server as root user.
+2,Put the Huawei OpenNMS Plug-in package into the OpenNMS server under a path(such as /root).
+3,Use the following command to extract the plug-in package:[tar -zxf ***.tar.gz]. Note:*** represents the name of the plug-in.
+4,Into the file path after decompression:[cd ***],Note:*** represents the name of the folder after unpacking.
+5,Use the following command to install the plug-in:[sh install.sh],then the following message appears:
+
+"Please enter the OpenNMS installation directory[/opt/opennms]:"
+
+  Note:If the OpenNMS installation directory equals /opt/opennms,Please enter "Enter", If the other installation directory,Please enter the appropriate OPENNMS_HOME directory.Then the following prompt appears to indicate that the plugin was installed successfully:
+
+"The OpenNMS plugin was installed successfully."
+
+  Note:If the following prompt appears to indicat that the plugin was installed failed.It maybe the OpenNMS installation directory you entered is wrong,Please re-run and enter the right path. 
+
+  "Installed of OpenNMS does not exist or is not executable."
+
+6,Restart OpenNMS use the following command:[OPENNMS_HOME/bin/opennms -v restart].
+
+Uninstallation:
+1,Please refer to the Installation step1-step4.
+2,Use the following command to uninstall the plug-in:[sh uninstall.sh],then the following message appears:
+
+"Please enter the OpenNMS installation directory[/opt/opennms]:"
+
+  Note:If the OpenNMS installation directory equals /opt/opennms,Please enter "Enter", If the other installation directory,Please enter the appropriate OPENNMS_HOME directory.Then the following prompt appears to indicate that the plugin was uninstalled successfully:
+
+"Uninstall the OpenNMS plugin successfully. "
+
+   Note:Enter the right path,otherwise,Uninstallation will be failed.Please refer to the Installation step5.
+3,Restart OpenNMS use the following command:[OPENNMS_HOME/bin/opennms -v restart].
+
+
+Configuring a Server to Be Managed
+
+Step1: Configure the SNMP service for the server
+1,Configuring a rack server.
+  Log in to iBMC web page.Go to this page:Cinfigure > System Settings > Set SNMP Version,to configure the SNMP parameters.
+2,Configuring an E9000 server.
+  Use Xshell to log in to the HMM, and set the SNMP version and community name of the HMM.
+  root@SMM:/#smmset -d snmpconfig -v v2c enable
+  WARNING:SNMP V2C has no user authentication mechanism and transmits data in plain text.
+  Continue?[Y/N]:Y
+  Success
+  root@SMM:/#smmset -d snmpconfig -v community
+  New Community:
+  Retype new Community:
+  Success
+
+Step2: Configure the trap for the server. 
+1, Log in to iBMC or HMM web page,Configure the trap parameters.
+  iBMC:Go to this page:Alarm & SEL > Alarm Settings > Trap Alarm Notification Settings.
+  Set Trap Function to ON,Trap Mode to OID, Set Trap Server Address to OpenNMS server IP, retain default values for other parameters, and click Save  
+  HMM:Go to this page:Chassis Settings > Network Settings > MM.
+  Click Edit,Set Trap to Enable,set Trap mode to OID,set Trap address to OpenNMS server IP,and click Save.
+
+2,When you are using the SNMP Trap v3 protocol,You need to modify the contents of this file[$OPENNMS_HOME/etc/trapd-configuration.xml].
+  The SNMPv3 credentials used to authenticate and decode V3 Traps must be specified in trapd-configuration.xml, as the following example: 
+  
+  <trapd-configuration snmp-trap-port="162" new-suspect-on-trap="true">
+  <snmpv3-user security-name="opennms" auth-passphrase="0p3nNMSv3" auth-protocol="MD5"privacy-passphrase="0p3nNMSv3" privacy-protocol="DES"/>
+  <snmpv3-user security-name="agalue" auth-passphrase="secret" auth-protocol="MD5"
+      privacy-passphrase="super-secret" privacy-protocol="DES"/>
+  </trapd-configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
