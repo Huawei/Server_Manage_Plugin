@@ -201,11 +201,18 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Tests
         }
         [TestMethod()]
         public void EncryptPwd() {
+
             string testPwd1 = "中文";
             string testPwdEn = EncryptUtil.EncryptPwd(testPwd1);
             Console.WriteLine(testPwdEn);
             string testPwd2 = EncryptUtil.DecryptPwd(testPwdEn);
             Console.WriteLine(testPwd2);
+
+            string pwd3 = "frnAd1kWhLS3CVRCshbo0TGqSc6irpTdZDzb0k0IXV8=";
+            string testPwd3 = EncryptUtil.DecryptPwd(pwd3);
+            Console.WriteLine(testPwd3);
+            string testPwd4 = EncryptUtil.DecryptPwd(testPwd3);
+            Console.WriteLine(testPwd4);
             Assert.IsTrue(testPwd1.Equals(testPwd2));
             
         }
@@ -220,6 +227,63 @@ namespace Huawei.SCCMPlugin.RESTeSightLib.Tests
                 LogUtil.HWLogger.API.Info(EncryptUtil.DecryptPwd(host.LoginPwd));
             }
         }
+        private static string XOrTwoString(string str1, string str2)
+        {
+            byte[] aBytes = strToToHexByte(str1);
+            byte[] bytes = strToToHexByte(str2);
+
+            byte[] rBytes = new byte[aBytes.Length];
+            for (int i = 0; i < aBytes.Length; i++)
+            {
+                rBytes[i] = (byte)(aBytes[i] ^ bytes[i]);
+            }
+            string result = System.Text.Encoding.Unicode.GetString(rBytes);
+            return result;
+        }
+        private static byte[] strToToHexByte(string hexString)
+        {
+            hexString = hexString.Replace(" ", "");
+            if ((hexString.Length % 2) != 0)
+                hexString += " ";
+            byte[] returnBytes = new byte[hexString.Length / 2];
+            for (int i = 0; i < returnBytes.Length; i++)
+                returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
+            return returnBytes;
+        }
+
+        [TestMethod()]
+        public void GenPwdTest()
+        {
+            // string key = "";
+            //string randKey=""
+            string plainText = "75730F7107706007C077700057D05"; //XOrTwoString(key, randKey);  // original plaintext
+
+            //  LogUtil.HWLogger.DEFAULT.Info("plainText..." +Encoding.Unicode.GetBytes(plainText)+":"
+            //+BitConverter.ToString(Encoding.Unicode.GetBytes(plainText)).Replace("-", String.Empty));
+
+
+            string saltValue = "668DAFB758034A97";        // can be any string
+            string hashAlgorithm = "SHA256";             // can be "MD5"
+            int passwordIterations = 10000;                // can be any number
+            int keySize = 128;                // can be 192 or 128
+
+            /*
+             string trueEnKey = GenRootKey(plainText, saltValue,
+                     hashAlgorithm, passwordIterations, keySize);*/
+            
+            string trueEnKey = EncryptUtil.GenRootKey(plainText, saltValue, passwordIterations, keySize);
+
+            byte[] keyBytes = new byte[32];
+            byte[] saltValueBytes= strToToHexByte(saltValue);
+            EncryptUtil.PKCS5_PBKDF2_HMAC(plainText, 16, saltValueBytes, 16, passwordIterations, EncryptUtil.EVP_sha256(), 32, keyBytes);
+            trueEnKey=BitConverter.ToString(keyBytes).Replace("-", String.Empty);
+
+
+            LogUtil.HWLogger.DEFAULT.Info("trueEnKey..." + trueEnKey);
+            Console.WriteLine(trueEnKey);
+
+        }
+
         [TestMethod()]
         public void LogTest1()
         {
