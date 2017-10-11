@@ -511,7 +511,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                             //2017-10-11 检查是否需要升级的密钥。
                             if (!EncryptUtil.IsCompatibleVersion())
                             {
-                                oldMainKey = EncryptUtil.GetMainKey1050();
+                                oldMainKey = EncryptUtil.GetMainKey1060();
                                 EncryptUtil.ClearAndUpgradeKey();
                             }
                             else {
