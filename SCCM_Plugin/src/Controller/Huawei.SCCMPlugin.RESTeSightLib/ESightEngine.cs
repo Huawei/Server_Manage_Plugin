@@ -525,7 +525,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                             }
                            
                             string newMainKey = EncryptUtil.GetMainKeyFromPath();
-                            LogUtil.HWLogger.DEFAULT.InfoFormat("Change key,oldMainKey={1},newMainKey={1}",oldMainKey,newMainKey);
+                           // LogUtil.HWLogger.DEFAULT.InfoFormat("Change key,oldMainKey={1},newMainKey={1}",oldMainKey,newMainKey);
                             //遍历所有session.
                             IList<HWESightHost> hostlist = ESightEngine.Instance.ListESHost();
                             foreach (HWESightHost eSightHost in hostlist)
