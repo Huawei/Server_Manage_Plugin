@@ -518,7 +518,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                             }
                             else {
                                 //旧的key
-                                 oldMainKey = EncryptUtil.GetMainKeyFromPath();
+                                 oldMainKey = EncryptUtil.GetMainKeyWithoutInit();
                                 if (string.IsNullOrEmpty(oldMainKey)) return;
                                 //重新初始化主密钥。
                                 EncryptUtil.InitMainKey();
