@@ -512,6 +512,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                             if (!EncryptUtil.IsCompatibleVersion())
                             {
                                 oldMainKey = EncryptUtil.GetMainKey1060();
+                                LogUtil.HWLogger.DEFAULT.InfoFormat("oldMainKey:{0}", oldMainKey);
                                 if (string.IsNullOrEmpty(oldMainKey)) return;
                                 EncryptUtil.ClearAndUpgradeKey();
                             }
