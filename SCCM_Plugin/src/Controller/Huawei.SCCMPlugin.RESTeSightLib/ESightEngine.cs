@@ -512,11 +512,13 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                             if (!EncryptUtil.IsCompatibleVersion())
                             {
                                 oldMainKey = EncryptUtil.GetMainKey1060();
+                                if (string.IsNullOrEmpty(oldMainKey)) return;
                                 EncryptUtil.ClearAndUpgradeKey();
                             }
                             else {
                                 //旧的key
                                  oldMainKey = EncryptUtil.GetMainKeyFromPath();
+                                if (string.IsNullOrEmpty(oldMainKey)) return;
                                 //重新初始化主密钥。
                                 EncryptUtil.InitMainKey();
                             }
