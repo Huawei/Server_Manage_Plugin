@@ -122,7 +122,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                         }
                         else//If not same reinit. 将list增加给retlist
                         {
-
+                            
                             iESession.InitESight(hwESightHost, ConstMgr.HWESightHost.DEFAULT_TIMEOUT_SEC);
                             retList.Add(iESession);
                         }
@@ -462,7 +462,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
         }
 
         private static object _lockRefreshPwds = new object();
-
+        
         /// <summary>
         /// 隔天更新密钥。
         /// 1. 当启动时更新。
@@ -481,29 +481,14 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
         /// <summary>
         /// 2017-10-11 检查并升级密钥
         /// </summary>
-        public void CheckAndUpgradeKey()
-        {
-            LogUtil.HWLogger.DEFAULT.InfoFormat("CheckAndUpgradeKey...");
-            lock (_lockRefreshPwds)
+        public void CheckAndUpgradeKey() {
+            if (!EncryptUtil.IsCompatibleVersion())
             {
-                lock (eSightSessions)
-                {
-                    using (var mutex = new System.Threading.Mutex(false, "huawei.sccmplugin.engine"))
-                    {
-                        if (mutex.WaitOne(TimeSpan.FromSeconds(60), false))
-                        {
-                            if (!EncryptUtil.IsCompatibleVersion())
-                            {
-                                InitESSessions();
-                                RefreshPwds();
-                            }
-                            else
-                            {
-                                RefreshPwdsThirtyDay();
-                            }
-                        }
-                    }
-                }
+                InitESSessions();
+                RefreshPwds();
+            }
+            else {
+                RefreshPwdsThirtyDay();
             }
         }
         /// <summary>
@@ -515,42 +500,52 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
         public void RefreshPwds()
         {
             LogUtil.HWLogger.DEFAULT.InfoFormat("Refresh password with encryption...");
-
-            string oldMainKey = "";
-            //2017-10-11 检查是否需要升级的密钥。
-            if (!EncryptUtil.IsCompatibleVersion())
+            lock (_lockRefreshPwds)
             {
-                oldMainKey = EncryptUtil.GetMainKey1060();
-                LogUtil.HWLogger.DEFAULT.InfoFormat("oldMainKey:{0}", oldMainKey);
-                if (string.IsNullOrEmpty(oldMainKey)) return;
-                EncryptUtil.ClearAndUpgradeKey();
+                lock (eSightSessions)
+                {
+                    using (var mutex = new System.Threading.Mutex(false, "huawei.sccmplugin.engine")) {
+                        if (mutex.WaitOne(TimeSpan.FromSeconds(60), false))
+                        {
+                            string oldMainKey = "";
+                            //2017-10-11 检查是否需要升级的密钥。
+                            if (!EncryptUtil.IsCompatibleVersion())
+                            {
+                                oldMainKey = EncryptUtil.GetMainKey1060();
+                                LogUtil.HWLogger.DEFAULT.InfoFormat("oldMainKey:{0}", oldMainKey);
+                                if (string.IsNullOrEmpty(oldMainKey)) return;
+                                EncryptUtil.ClearAndUpgradeKey();
+                            }
+                            else {
+                                //旧的key
+                                 oldMainKey = EncryptUtil.GetMainKeyFromPath();
+                                if (string.IsNullOrEmpty(oldMainKey)) return;
+                                //重新初始化主密钥。
+                                EncryptUtil.InitMainKey();
+                            }
+                           
+                            string newMainKey = EncryptUtil.GetMainKeyFromPath();
+
+                            //遍历所有session.
+                            IList<HWESightHost> hostlist = ESightEngine.Instance.ListESHost();
+                            foreach (HWESightHost eSightHost in hostlist)
+                            {
+                                string pwd = EncryptUtil.DecryptWithKey(oldMainKey, eSightHost.LoginPwd);
+                                string enPwd = EncryptUtil.EncryptWithKey(newMainKey, pwd);
+
+                                IESSession iESSession = FindESSession(eSightHost.HostIP);
+                                iESSession.HWESightHost.LoginPwd = enPwd;
+
+                                eSightSessions[eSightHost.HostIP.ToUpper()] = iESSession;
+                                iESSession.SaveToDB();
+                            }
+
+                        }
+                    }
+                       
+                }
             }
-            else
-            {
-                //旧的key
-                oldMainKey = EncryptUtil.GetMainKeyFromPath();
-                if (string.IsNullOrEmpty(oldMainKey)) return;
-                //重新初始化主密钥。
-                EncryptUtil.InitMainKey();
-            }
-
-            string newMainKey = EncryptUtil.GetMainKeyFromPath();
-
-            //遍历所有session.
-            IList<HWESightHost> hostlist = ESightEngine.Instance.ListESHost();
-            foreach (HWESightHost eSightHost in hostlist)
-            {
-                string pwd = EncryptUtil.DecryptWithKey(oldMainKey, eSightHost.LoginPwd);
-                string enPwd = EncryptUtil.EncryptWithKey(newMainKey, pwd);
-
-                IESSession iESSession = FindESSession(eSightHost.HostIP);
-                iESSession.HWESightHost.LoginPwd = enPwd;
-
-                eSightSessions[eSightHost.HostIP.ToUpper()] = iESSession;
-                iESSession.SaveToDB();
-            }
-
-            LogUtil.HWLogger.API.InfoFormat("Refresh password with encryption successful!");
+            LogUtil.HWLogger.DEFAULT.InfoFormat("Refresh password with encryption successful!");
         }
     }
 }
