@@ -12,14 +12,18 @@ import java.util.zip.ZipInputStream;
 
 public class ZipUtils {
 	public static String getVersionFromPackage(String file) throws Exception {
-        ZipFile zf = new ZipFile(file);
+        ZipFile zf = null;
+        FileInputStream fin = null;
         InputStream in = null;
         ZipInputStream zin = null;
         BufferedReader br = null;
         String version = null;
+        InputStreamReader inr = null;
 
         try {
-            in = new BufferedInputStream(new FileInputStream(file));
+            zf = new ZipFile(file);
+            fin = new FileInputStream(file);
+            in = new BufferedInputStream(fin);
             zin = new ZipInputStream(in);
 
             while(true) {
@@ -32,7 +36,8 @@ public class ZipUtils {
                     } while(ze.isDirectory());
                 } while(!"plugin-package.xml".equals(ze.getName()));
 
-                br = new BufferedReader(new InputStreamReader(zf.getInputStream(ze)));
+                inr = new InputStreamReader(zf.getInputStream(ze),"utf-8");
+                br = new BufferedReader(inr);
 
                 String line;
                 while((line = br.readLine()) != null) {
@@ -46,21 +51,60 @@ public class ZipUtils {
             var11.printStackTrace();
         } finally {
             if(zin != null) {
+                try {
                 zin.closeEntry();
+                } catch (Exception var) {
+                    var.printStackTrace();
+                }
             }
 
             if(br != null) {
+                try {
                 br.close();
+                } catch (Exception var) {
+                    var.printStackTrace();
+                }
             }
 
             if(zin != null) {
+                try {
                 zin.close();
+                } catch (Exception var) {
+                    var.printStackTrace();
+                }
             }
 
             if(in != null) {
+                try {
                 in.close();
+                } catch (Exception var) {
+                    var.printStackTrace();
+                }
             }
 
+            if(inr != null){
+                try {
+                inr.close();
+                } catch (Exception var) {
+                    var.printStackTrace();
+                }
+            }
+
+            if(fin != null){
+                try {
+                fin.close();
+                } catch (Exception var) {
+                    var.printStackTrace();
+                }
+            }
+
+            if(zf != null){
+                try {
+                zf.close();
+                } catch (Exception var) {
+                    var.printStackTrace();
+                }
+            }
         }
 
         return version;

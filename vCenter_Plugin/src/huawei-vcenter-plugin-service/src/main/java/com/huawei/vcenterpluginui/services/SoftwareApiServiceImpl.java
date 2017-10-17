@@ -36,7 +36,7 @@ public class SoftwareApiServiceImpl extends ESightOpenApiService implements Soft
 			Map<String, Object> responseData = new HashMap<String, Object>();
 			responseData.put("esight", ip);
 			try {
-				ESight esight = getEsightByIp(ip);
+				ESight esight = getESightByIp(ip);
 				if (esight != null) {
 					Map<String, Object> dataMap = new PostSoftwareUploadApi<Map>(esight, new SessionOpenIdProvider(esight, session)).doCall(condition, Map.class);
 					responseData.putAll(dataMap);
@@ -78,7 +78,7 @@ public class SoftwareApiServiceImpl extends ESightOpenApiService implements Soft
 
 	@Override
 	public String list(String esightIp,int pageNo, int pageSize, HttpSession session) throws SQLException {
-		ESight esight = getEsightByIp(esightIp);
+		ESight esight = getESightByIp(esightIp);
 		String response = new GetSoftwareListApi<String>(esight, new SessionOpenIdProvider(esight, session)).doCall(String.valueOf(pageNo), String.valueOf(pageSize), String.class);
 		return response;
 	}
@@ -90,7 +90,7 @@ public class SoftwareApiServiceImpl extends ESightOpenApiService implements Soft
 
 	@Override
 	public String deleteSoftResource(String softwareName, String ip, HttpSession session) throws SQLException {
-		ESight esight = getEsightByIp(ip);
+		ESight esight = getESightByIp(ip);
 		String response = new DeleteSoftwareApi<String>(esight, new SessionOpenIdProvider(esight, session)).doCall(softwareName, String.class);
 		return response;
 	}
@@ -132,8 +132,6 @@ public class SoftwareApiServiceImpl extends ESightOpenApiService implements Soft
 				taskDao.saveTaskStatus(task);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
-//				task.setSyncStatus(SyncStatus.STATUS_SYNC_FAILED);
-//				taskDao.saveTaskStatus(task);
 			}
 		}
 	}

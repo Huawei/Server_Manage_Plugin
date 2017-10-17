@@ -73,7 +73,7 @@
                     <el-table v-bind:data="listData" border style="width: 100%" v-loading="loading" element-loading-text="Loading" v-loading.fullscreen.lock="fullscreenLoading" >
                         <el-table-column  v-bind:label="i18ns.template.templateName" width="300px">
                             <template scope="scope">
-                                <el-button type="text" size="small" v-on:click="showDetailed(scope.row)" >{{scope.row.templateName}}</el-button>
+                                <el-button type="text" size="small" :disabled="scope.row.templateType=='NETWORK'" v-on:click="showDetailed(scope.row)" >{{scope.row.templateName}}</el-button>
                             </template>
             </el-table-column>
             <el-table-column prop="templateType" v-bind:label="i18ns.template.templateType" width="150px">
@@ -82,7 +82,7 @@
             </el-table-column>
             <el-table-column v-bind:label="i18ns.template.operation">
                 <template scope="scope">
-                                <el-button type="text" size="small" v-on:click="deleteTemplate(scope.$index, scope.row)" >{{i18ns.common.delete}}</el-button>
+                                <el-button type="text" size="small" :disabled="scope.row.templateType=='NETWORK'"  v-on:click="deleteTemplate(scope.$index, scope.row)" >{{i18ns.common.delete}}</el-button>
                             </template>
             </el-table-column>
             </el-table>
@@ -128,7 +128,7 @@
             },
             created: function() {
                 this.i18ns = getIn18();
-                localStorage.setItem('list_url', 'list.html')
+                localStorage.setItem('list_url', 'List.html')
                 var _options = getTemplateType();
                 _options.unshift(this.i18ns.template.templateOptin);
                 this.options = _options;

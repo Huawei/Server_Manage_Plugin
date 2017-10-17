@@ -33,7 +33,7 @@
 
 <body>
     <div id="app" v-cloak>
-        <el-form v-bind:model="details" label-width="120px" label-position="left" label-suffix=":">
+        <el-form v-bind:model="details" v-bind:label-width="labelWidth" label-position="left" label-suffix=":">
             <el-form-item v-bind:label="i18ns.template.templateType">
                 {{templateValue|getLabel(options)}}
             </el-form-item>
@@ -55,6 +55,7 @@
         var app = new Vue({
             el: '#app',
             data: {
+                labelWidth: "120px",
                 i18ns: [],
                 options: [],
                 templateValue: 'POWER',
@@ -68,6 +69,12 @@
                 },
             },
             created: function() {
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '140px'
+                    }
+                }
                 this.i18ns = getIn18();
                 this.checkEsight = getEsightaliasName(getCurrentEsight());
                 this.options = getTemplateType();

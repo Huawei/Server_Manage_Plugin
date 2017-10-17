@@ -34,7 +34,7 @@ public class SessionOpenIdProvider extends DefaultOpenIdProvider {
     }
 
     @Override
-    public boolean isOpenIdValid(Object result) {
+    public boolean isOpenIdExpired(Object result) {
         Map resultMap;
         if (result instanceof String) {
             try {

@@ -12,9 +12,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -74,7 +78,7 @@ public class ESightController extends BaseController {
     @ResponseBody
     public ResponseListBean getESightList(HttpServletRequest request, @RequestParam(required = false) String ip, @RequestParam(required = false) Integer pageNo,
             @RequestParam(required = false) Integer pageSize) throws SQLException {
-        return new ResponseListBean(success(_eSightService.getESightList(ip, pageNo, pageSize)),_eSightService.getEsightListCount(ip));
+        return new ResponseListBean(success(_eSightService.getESightList(ip, pageNo, pageSize)),_eSightService.getESightListCount(ip));
     }
 
     /**
@@ -93,10 +97,16 @@ public class ESightController extends BaseController {
 
     /**
      * get VCenter version
+     * @throws UnsupportedEncodingException 
      */
     @RequestMapping(value = "/version", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseBodyBean getVersion(HttpServletRequest request){
+    public ResponseBodyBean getVersion(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+    	String rqHd = request.getHeader("Accept-Language"); 
+    	if(rqHd != null){
+    	    String rqHeader = URLEncoder.encode(rqHd,StandardCharsets.UTF_8.displayName());   
+    	    response.addHeader("Accept-Language", rqHeader);
+    	}
         return success(VersionUtils.getVersion());
     }
 }

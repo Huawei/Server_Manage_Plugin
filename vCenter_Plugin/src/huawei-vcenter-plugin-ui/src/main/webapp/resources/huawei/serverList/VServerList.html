@@ -550,16 +550,14 @@
              * @param {any} server
              */
             serverChange: function(server) {
-                if (server == this.i18ns.serverList.serverRack) {
+                if (server == 'Rack') {
                     server = 'rack';
-                } else if (server == this.i18ns.serverList.serverBlade) {
+                } else if (server == 'Blade') {
                     server = 'blade';
-                } else if (server == this.i18ns.serverList.serverHighdensity) {
+                } else if (server == 'Highdensity') {
                     server = 'highdensity';
-                } else if (server == this.i18ns.serverList.serverStoragenode) {
-                    server = 'storagenode';
                 } else {
-                    server = 'thirdpartyserver';
+                    server = '';
                 }
                 this.searchKey = server;
                 this.handleCurrentChange(1);

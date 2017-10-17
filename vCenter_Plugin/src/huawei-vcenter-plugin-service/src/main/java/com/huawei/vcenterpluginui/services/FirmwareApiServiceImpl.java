@@ -41,7 +41,7 @@ public class FirmwareApiServiceImpl extends ESightOpenApiService implements Firm
 			Map<String, Object> responseData = new HashMap<String, Object>();
 			responseData.put("esight", ip);
 			try {
-				ESight esight = getEsightByIp(ip);
+				ESight esight = getESightByIp(ip);
 				if (esight != null) {
 					Map<String, Object> dataMap = new PostFirmwareUploadApi<Map>(esight, new SessionOpenIdProvider(esight, session)).doCall(condition, Map.class);
 					responseData.putAll(dataMap);
@@ -64,14 +64,14 @@ public class FirmwareApiServiceImpl extends ESightOpenApiService implements Firm
 
 	@Override
 	public String list(String esightIp, int pageNo, int pageSize, HttpSession session) throws SQLException{
-		ESight esight = getEsightByIp(esightIp);
+		ESight esight = getESightByIp(esightIp);
 		String response = new GetFirmwareListApi<String>(esight,new SessionOpenIdProvider(esight,session)).doCall(String.valueOf(pageNo), String.valueOf(pageSize), String.class);
 		return response;
 	}
 
 	@Override
 	public String detail(String ip, String basepackageName, HttpSession session) throws SQLException{
-		ESight esight = getEsightByIp(ip);
+		ESight esight = getESightByIp(ip);
 		String response = new GetFirmwareDetailApi<String>(esight,new SessionOpenIdProvider(esight,session)).doCall(basepackageName, String.class);
 		return response;
 	}
@@ -118,8 +118,6 @@ public class FirmwareApiServiceImpl extends ESightOpenApiService implements Firm
 				taskDao.saveTaskStatus(task);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
-//				task.setSyncStatus(SyncStatus.STATUS_SYNC_FAILED);
-//				taskDao.saveTaskStatus(task);
 			}
 		}
 		// 同步时会更新状态，需要重新拿
@@ -139,7 +137,7 @@ public class FirmwareApiServiceImpl extends ESightOpenApiService implements Firm
 	public String postUpgradeTask(String data, HttpSession session) throws IOException, SQLException{
 		Map<String, Object> reqMap = JsonUtil.readAsMap(data);
         String ip = (String)reqMap.get("esight");
-		ESight esight = getEsightByIp(ip);
+		ESight esight = getESightByIp(ip);
 		String response = new PostFirmwareTaskApi<String>(esight,new SessionOpenIdProvider(esight,session)).doCall((Map<String,Object>)reqMap.get("param"), String.class);
 
 		setUpgradeTask(esight.getId(), ((Map) reqMap.get("param")).get("basepackageName").toString(), ((Map) reqMap.get("param")).get("firmwareList").toString(), ((Map) reqMap.get("param")).get("dn").toString(), response);
@@ -227,14 +225,14 @@ public class FirmwareApiServiceImpl extends ESightOpenApiService implements Firm
 
 	@Override
 	public String deviceDetail(String esightIp, String taskName, String dn, HttpSession session) throws SQLException {
-		ESight esight = getEsightByIp(esightIp);
+		ESight esight = getESightByIp(esightIp);
 		String response = new GetFirmwareTaskDeviceDetailApi<String>(esight,new SessionOpenIdProvider(esight,session)).doCall(taskName, dn, String.class);
 		return response;
 	}
 
 	@Override
 	public String deleteBasepackage(String esightIp, String basepackageName, HttpSession session) throws SQLException {
-		ESight esight = getEsightByIp(esightIp);
+		ESight esight = getESightByIp(esightIp);
 		String response = new DeleteFirmwareApi<String>(esight,new SessionOpenIdProvider(esight,session)).doCall(basepackageName,String.class);
 		return response;
 	}

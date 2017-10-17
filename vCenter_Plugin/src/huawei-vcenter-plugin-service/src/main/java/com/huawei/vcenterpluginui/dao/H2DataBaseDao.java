@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Locale;
 
 public class H2DataBaseDao {
 
@@ -20,15 +21,15 @@ public class H2DataBaseDao {
     
     private static final String VMWARE_LINUX_DIR = "/home/vsphere-client";
     
-    private static final String OS = System.getProperty("os.name").toLowerCase();
+    private static final String OS = System.getProperty("os.name").toLowerCase(Locale.US);
 
     private static final String URL_PREFIX = "jdbc:h2:";
 
     private static final String DB_FILE = "huawei-vcenter-plugin-data";
     
-    private static final String USER = "huawei";  
+    private static final String USER = "sa";  
     
-    private static final String KEY = "Huawei@!2017";  
+    private static final String KEY = "";  
 
     private static String getVmwareRuntimeDataDir() {
         return System.getenv(VMWARE_RUNTIME_DATA_DIR);
@@ -41,12 +42,12 @@ public class H2DataBaseDao {
     public Connection getConnection() {
         Connection con = null;
         
-        try {
-            Class.forName("org.h2.Driver");
-            con = DriverManager.getConnection(url,USER,KEY);
-        } catch (Exception e) {
-            throw new DataBaseException(e.getMessage());
-        }
+		try {
+			Class.forName("org.h2.Driver");
+			con = DriverManager.getConnection(url, USER, KEY);
+		} catch (Exception e) {
+			throw new DataBaseException(e.getMessage());
+		}
 
         return con;
     }
@@ -85,11 +86,10 @@ public class H2DataBaseDao {
 			}
 		} else {
 			if (isWindows()) {
-				this.url = url;
+				this.url = url + File.separator + DB_FILE;
 			}else{
 				this.url = URL_PREFIX + VMWARE_LINUX_DIR + File.separator + DB_FILE;
 			}
         }
     }
-
 }

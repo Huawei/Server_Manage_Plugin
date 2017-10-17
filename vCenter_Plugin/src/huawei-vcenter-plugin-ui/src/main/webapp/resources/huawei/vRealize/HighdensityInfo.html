@@ -421,7 +421,7 @@
         var app = new Vue({
             el: '#app',
             data: {
-                loading: true,
+                loading: false,
                 isShowFan: false,
                 isShowPSU: false,
                 isShowBlade: false,
@@ -550,7 +550,6 @@
                         this.isShowFan = false;
                     }
                 },
-
                 /* 获取电源状态 */
                 getPowerStatus: function() {
                     var powerHealthState = [];
@@ -611,84 +610,83 @@
                         this.serverInfos.serverInfosStatus = this.i18ns.deviceInfo.fault;
                     }
                 },
-
                 get_PSU_FAN_Info: function() {
-                    var highdensityData = JSON.parse(localStorage.getItem('highdensityData'));
-                    this.serverInfos.childBlades = highdensityData.childBlades;
-                    this.HighdensityName = localStorage.getItem('name');
-                    app.serverInfos.ipAddress = highdensityData.ipAddress;
-                    app.serverInfos.serverName = highdensityData.serverName;
-                    app.serverInfos.status = highdensityData.status;
-                    app.serverInfos.serverModel = highdensityData.serverModel;
-                    var dn = highdensityData.dn;
-                    var serverType = localStorage.getItem('serverType');
-                    var ip = getCurrentEsight();
-                    var normalBlade = [];
-                    var unknownBlade = [];
-                    var faultBlade = [];
-                    var k = 0;
-                    var l = highdensityData.childBlades.length;
-                    for (var i = 0; i < l; i++) {
-                        var child_dn = highdensityData.childBlades[i].dn;
+                    if (localStorage.getItem('highdensityData')) {
+                        var highdensityData = JSON.parse(localStorage.getItem('highdensityData'));
+                        this.serverInfos.childBlades = highdensityData.childBlades;
+                        this.HighdensityName = localStorage.getItem('name');
+                        app.serverInfos.ipAddress = highdensityData.ipAddress;
+                        app.serverInfos.serverName = highdensityData.serverName;
+                        app.serverInfos.status = highdensityData.status;
+                        app.serverInfos.serverModel = highdensityData.serverModel;
+                        var dn = highdensityData.dn;
+                        var serverType = localStorage.getItem('serverType');
+                        var ip = getCurrentEsight();
+                        var normalBlade = [];
+                        var unknownBlade = [];
+                        var faultBlade = [];
+                        var k = 0;
+                        var l = highdensityData.childBlades.length;
+                        for (var i = 0; i < l; i++) {
+                            var child_dn = highdensityData.childBlades[i].dn;
+                            deviceInfo.getUnits({
+                                dn: child_dn,
+                                ip: ip,
+                            }, function(ret) {
+                                if (ret.data.data.length > 0) {
+                                    var data = ret.data.data[0];
+                                    //刀片服务器健康状态判断
+                                    k++;
+                                    if (data.status == 0) {
+                                        normalBlade.push(data.status);
+                                    } else if (data.status != -1 && data.status != -2 && data.status != 0) {
+                                        faultBlade.push(data.status);
+                                    } else if (data.status == -2) {
+                                        unknownBlade.push(data.status)
+                                    }
+
+                                }
+                            });
+                        }
                         deviceInfo.getUnits({
-                            dn: child_dn,
+                            dn: dn,
                             ip: ip,
+                            serverType: serverType
                         }, function(ret) {
                             if (ret.data.data.length > 0) {
                                 var data = ret.data.data[0];
-                                //刀片服务器健康状态判断
-                                k++;
-                                if (data.status == 0) {
-                                    normalBlade.push(data.status);
-                                } else if (data.status != -1 && data.status != -2 && data.status != 0) {
-                                    faultBlade.push(data.status);
-                                } else if (data.status == -2) {
-                                    unknownBlade.push(data.status)
+                                //电源在位信息判断
+                                if (data.PSU) {
+                                    for (var j = 0; j < data.PSU.length; j++) {
+                                        if (data.PSU[j].presentState == 1) {
+                                            app.deviceInfos.PSU.push(data.PSU[j])
+                                        }
+                                    }
                                 }
+                                //风扇在位信息判断
+                                if (data.Fan) {
+                                    for (var j = 0; j < data.Fan.length; j++) {
+                                        if (data.Fan[j].presentState == 1) {
+                                            app.deviceInfos.Fan.push(data.Fan[j])
+                                        }
+                                    }
+                                }
+                                app.getFanStatus();
+                                app.getPowerStatus();
 
                             }
+                            app.getServerStatus();
                         });
-
+                        var mysetInterval = setInterval(function() {
+                            if (k == l) {
+                                app.normalBladeNum = normalBlade.length;
+                                app.unknownBladeNum = unknownBlade.length;
+                                app.faultBladeNum = faultBlade.length;
+                                app.drwaBlade();
+                                window.clearInterval(mysetInterval);
+                            }
+                        }, 100)
                     }
-
-                    deviceInfo.getUnits({
-                        dn: dn,
-                        ip: ip,
-                        serverType: serverType
-                    }, function(ret) {
-                        if (ret.data.data.length > 0) {
-                            var data = ret.data.data[0];
-                            //电源在位信息判断
-                            if (data.PSU) {
-                                for (var j = 0; j < data.PSU.length; j++) {
-                                    if (data.PSU[j].presentState == 1) {
-                                        app.deviceInfos.PSU.push(data.PSU[j])
-                                    }
-                                }
-                            }
-                            //风扇在位信息判断
-                            if (data.Fan) {
-                                for (var j = 0; j < data.Fan.length; j++) {
-                                    if (data.Fan[j].presentState == 1) {
-                                        app.deviceInfos.Fan.push(data.Fan[j])
-                                    }
-                                }
-                            }
-                            app.getFanStatus();
-                            app.getPowerStatus();
-
-                        }
-                        app.getServerStatus();
-                    });
-                    var mysetInterval = setInterval(function() {
-                        if (k == l) {
-                            app.normalBladeNum = normalBlade.length;
-                            app.unknownBladeNum = unknownBlade.length;
-                            app.faultBladeNum = faultBlade.length;
-                            app.drwaBlade();
-                            window.clearInterval(mysetInterval);
-                        }
-                    }, 100)
                 },
                 /**
                  * 显式刀片细节
@@ -707,8 +705,7 @@
                             if (activeNames[i] == '1') {
                                 if (app.highdensityListData.length == 0) {
                                     var highdensityData = JSON.parse(localStorage.getItem('highdensityData'));
-
-                                    if (highdensityData.childBlades.length > 0) {
+                                    if (localStorage.getItem('highdensityData') && highdensityData.childBlades.length > 0) {
                                         app.loading = true;
                                         var rqc = 0;
                                         for (var k = 0; k < highdensityData.childBlades.length; k++) {

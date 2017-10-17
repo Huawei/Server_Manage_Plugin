@@ -29,13 +29,15 @@ public class KeytookUtil {
         }
     }
 
-    public static String getKeystoreServerThumbprint(String filePath) throws IOException {
+    public static String getKeystoreServerThumbprint() throws IOException {
         Process process = null;
         BufferedReader input = null;
+        InputStreamReader inr = null;
         try {
-            String cmd = "keytool -list -keypass changeit -storepass changeit -keystore " + filePath;
+            String cmd = "keytool -list -keypass changeit -storepass changeit -keystore ./tomcat.keystore";
             process = Runtime.getRuntime().exec(cmd);
-            input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            inr = new InputStreamReader(process.getInputStream(),"utf-8");
+            input = new BufferedReader(inr);
             String line = "";
             while ((line = input.readLine()) != null) {
                 if (line.indexOf("(SHA1):") > -1) {
@@ -46,9 +48,10 @@ public class KeytookUtil {
             if (input != null) {
                 input.close();
             }
-        }
-        if (input != null) {
-            input.close();
+
+            if (inr != null) {
+                inr.close();
+            }
         }
         return null;
     }

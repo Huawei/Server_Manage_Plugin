@@ -46,7 +46,7 @@
         
         .el-dialog .el-select,
         .bios .el-select {
-            width: 120px;
+            width: 140px;
         }
         
         .el-dialog .nem_component_content_title {
@@ -63,7 +63,7 @@
 <body>
     <div id="app" v-cloak>
         <template>
-            <el-form label-position="left" label-width="120px" label-suffix=":">
+            <el-form label-position="left" v-bind:label-width="labelWidth" label-suffix=":">
                 <el-form-item v-bind:label="i18ns.template.templateType">
                     <el-select v-model="templateValue" @change="templateChange">
                         <el-option v-for="item in options" v-bind:key="item.value" v-bind:label="item.label" v-bind:value="item.value">
@@ -74,7 +74,7 @@
         </template>
         <template>
             <div>
-                <el-form v-bind:model="ruleForm" v-bind:rules="rules" ref="ruleForm" label-width="120px" label-position="left" label-suffix=":">
+                <el-form v-bind:model="ruleForm" v-bind:rules="rules" ref="ruleForm" v-bind:label-width="labelWidth" label-position="left" label-suffix=":">
                     <el-form-item v-bind:label="i18ns.template.templateName" prop="name">
                         <el-input v-model="ruleForm.name"></el-input>
                     </el-form-item>
@@ -243,7 +243,7 @@
                 </div>
                 <el-row>
                     <el-col>
-                        <el-form-item label="Set boot order">
+                        <el-form-item label="Set Boot Order">
                             <el-row>
                                 <el-col :span="2">
                                     <el-tooltip v-bind:content="i18ns.template.setBootOrder" effect="light" placement="top">
@@ -354,6 +354,7 @@
         var app = new Vue({
             el: '#app',
             data: {
+                labelWidth: '120px',
                 i18ns: [],
                 lang: [],
                 options: [],
@@ -431,8 +432,13 @@
                 }
             },
             created: function() {
-
                 this.i18ns = getIn18();
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '130px'
+                    }
+                }
                 this.options = getTemplateType();
                 this.ruleForm.bootOrder = getBootOrder();
                 this.rules.esight.message = this.i18ns.common.requiredErrorMsg;
@@ -549,7 +555,7 @@
                                 app.fullscreenLoading = false;
                                 if (ret.code === '0') {
                                     app.alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                        window.location.href = 'list.html?s=' + Math.random();
+                                        window.location.href = 'List.html?s=' + Math.random();
                                     })
                                 } else {
                                     msg = getErrorMsg(ret.code);
@@ -671,7 +677,7 @@
                  * @param {any} formName 
                  */
                 resetForm: function(formName) {
-                    goBack('list.html');
+                    goBack('List.html');
                 },
                 /**
                  * 重置高级弹出框 配置

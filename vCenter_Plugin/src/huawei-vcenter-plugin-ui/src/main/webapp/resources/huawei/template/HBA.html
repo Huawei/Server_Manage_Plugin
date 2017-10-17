@@ -55,7 +55,7 @@
 
 <body>
     <div id="app" v-cloak>
-        <el-form v-bind:model="mainForm" v-bind:rules="mainRules" ref="mainForm" label-width="120px" label-position="left" label-suffix=":">
+        <el-form v-bind:model="mainForm" v-bind:rules="mainRules" ref="mainForm" v-bind:label-width="labelWidth" label-position="left" label-suffix=":">
             <!--模板类型选择框-->
             <el-form-item v-bind:label="i18ns.template.templateType">
                 <el-select v-model="mainForm.templateType" @change="templateChange">
@@ -138,7 +138,7 @@
             </el-row>
 
             <el-form v-bind:model="wwpn" ref="wwpn" :rules="SANBootRules" style="margin-top:8px;">
-                <el-form-item label="SANBoot" style="margin-left: 2px;">&nbsp;
+                <el-form-item label="SAN Boot" style="margin-left: 2px;">&nbsp;
                     <el-select v-model="wwpn.SANBoot" @change="wwpnSanBootChange">
                         <el-option v-for="item in SANBootOptions" :label="item.label" :key="item.value" :value="item.value">
                         </el-option>
@@ -324,7 +324,7 @@
             </el-row>
 
             <el-form v-bind:model="wwnn" ref="wwnn" :rules="SANBootRules">
-                <el-form-item label="SANBoot" style="margin-left: 2px;">&nbsp;
+                <el-form-item label="SAN Boot" style="margin-left: 2px;">&nbsp;
                     <el-select v-model="wwnn.SANBoot" style="margin-bottom:8px;" @change="wwnnSanBootChange">
                         <el-option v-for="item in SANBootOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
@@ -459,6 +459,7 @@
         var app = new Vue({
             el: '#app',
             data: {
+                labelWidth: '120px',
                 i18ns: [],
                 classData: {
                     isPort0: true,
@@ -497,28 +498,28 @@
                 }, ],
                 slots: [{
                     value: '1',
-                    label: 'slot1'
+                    label: 'Slot1'
                 }, {
                     value: '2',
-                    label: 'slot2'
+                    label: 'Slot2'
                 }, {
                     value: '3',
-                    label: 'slot3'
+                    label: 'Slot3'
                 }, {
                     value: '4',
-                    label: 'slot4'
+                    label: 'Slot4'
                 }, {
                     value: '5',
-                    label: 'slot5'
+                    label: 'Slot5'
                 }, {
                     value: '6',
-                    label: 'slot6'
+                    label: 'Slot6'
                 }, {
                     value: '7',
-                    label: 'slot7'
+                    label: 'Slot7'
                 }, {
                     value: '8',
-                    label: 'slot8'
+                    label: 'Slot8'
                 }, ],
                 esightOptions: [],
                 activeNames: ['1', '2'],
@@ -663,6 +664,12 @@
             },
             created: function() {
                 this.i18ns = getIn18();
+                var lang = localStorage.getItem('lang');
+                if (lang) {
+                    if (lang == 'en') {
+                        this.labelWidth = '140px'
+                    }
+                }
                 this.templateOptions = getTemplateType();
                 this.SANBootOptions = getForbiddenType();
                 this.mainRules.checkEsightList.message = this.i18ns.common.requiredErrorMsg;
@@ -1276,7 +1283,7 @@
                                 app.fullscreenLoading = false;
                                 if (ret.code === '0') {
                                     app.alertMsg(app.i18ns.template.addSuccessMsg, function() {
-                                        location.href = 'list.html?s=' + Math.random();
+                                        location.href = 'List.html?s=' + Math.random();
                                     })
                                 } else {
                                     msg = getErrorMsg(ret.code);
@@ -1298,7 +1305,7 @@
                         closeOnClickModal: false,
                         type: 'warning'
                     }).then(function() {
-                        window.location.href = 'list.html';
+                        window.location.href = 'List.html';
 
                     }).catch(function() {});
                 },

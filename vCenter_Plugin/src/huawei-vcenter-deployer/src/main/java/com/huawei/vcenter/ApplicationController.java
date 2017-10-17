@@ -13,6 +13,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +28,12 @@ import javax.servlet.http.HttpServletResponse;
 public class ApplicationController {
 
     @RequestMapping(value = "rest", method = RequestMethod.GET)
-    public Map onload(HttpServletRequest request) {
+    public Map onload(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+        String rqHd = request.getHeader("Accept-Language");
+        if(rqHd != null){
+            String rqHeader = URLEncoder.encode(rqHd, StandardCharsets.UTF_8.displayName());
+            response.addHeader("Accept-Language", rqHeader);
+        }
         return Validations.onloadChecker(request);
     }
 

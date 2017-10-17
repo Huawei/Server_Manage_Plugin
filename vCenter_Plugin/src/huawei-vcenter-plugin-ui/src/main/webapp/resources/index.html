@@ -86,7 +86,14 @@
             }else if (navigator.language != undefined) {
                 localStorage.setItem('lang', navigator.language.slice(0, 2));
             }
-            this.i18ns = getVCenterIn18();
+        	this.i18ns = getVCenterIn18();
+        	var eSightListUrl = com_huawei_vcenterpluginui.webContextPath + "/rest/services/esight/version?"+Math.random();
+            //通过API获取数据
+            $.get(eSightListUrl, function(data, textStatus, jqXHR){
+            	console.log(jqXHR.getAllResponseHeaders());
+            	localStorage.setItem('lang', jqXHR.getResponseHeader("accept-language").slice(0, 2));
+            	app.i18ns = getVCenterIn18();
+              },"json");
         }, methods: {
             handleSelect: function (key, keyPath) {
                 activeIndex = key;

@@ -23,7 +23,7 @@ public interface ESightService {
 
 	List<ESight> getESightList(String ip, int pageNo, int pageSize) throws SQLException;
 	
-	int getEsightListCount(String ip) throws SQLException;
+	int getESightListCount(String ip) throws SQLException;
 	
 	int deleteESights(String ids) throws SQLException,IOException;
 

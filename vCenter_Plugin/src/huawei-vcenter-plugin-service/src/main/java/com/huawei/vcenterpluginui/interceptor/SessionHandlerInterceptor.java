@@ -1,6 +1,9 @@
 package com.huawei.vcenterpluginui.interceptor;
 
 import com.huawei.vcenterpluginui.services.SessionService;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +16,8 @@ import java.io.IOException;
 public class SessionHandlerInterceptor extends HandlerInterceptorAdapter {
 	
 	protected SessionService sessionService;
+	
+	private static final Log LOGGER = LogFactory.getLog(SessionHandlerInterceptor.class);
 	
 	@Autowired
     public SessionHandlerInterceptor(@Qualifier("sessionService") SessionService sessionService) {
@@ -31,6 +36,10 @@ public class SessionHandlerInterceptor extends HandlerInterceptorAdapter {
 		if (sessionService.getUserSession() == null) {
 			response.getWriter().write("{\"code\":\"-90003\",\"data\":null,\"description\":\"Auth failed\"}");
 			return false;
+		} else {
+			int endIndex = request.getRequestURL().length() - request.getPathInfo().length() + 1;  
+			String url = request.getRequestURL().substring(0, endIndex);
+			LOGGER.info("current user:" + sessionService.getUserSession().userName + "   current domain:" + url);
 		}
 		
 		return true;

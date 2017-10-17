@@ -311,12 +311,14 @@
                     app.getRackList();
                     app.gethighdensityList();
                     _.forEach(ret.data.data, function(x) {
-                        app.templateOptions.push({
-                            value: x.templateName,
-                            label: x.templateName,
-                            type: x.templateType,
-                            disabled: false
-                        });
+                        if (x.templateType != 'NETWORK') {
+                            app.templateOptions.push({
+                                value: x.templateName,
+                                label: x.templateName,
+                                type: x.templateType,
+                                disabled: false
+                            });
+                        }
                     })
                 })
             },

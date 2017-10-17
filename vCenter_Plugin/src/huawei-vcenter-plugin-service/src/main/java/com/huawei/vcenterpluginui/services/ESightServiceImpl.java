@@ -37,9 +37,9 @@ public class ESightServiceImpl extends ESightOpenApiService implements ESightSer
         	} else {
         	    // 更新了用户名密码，加密esight密码
                 ESight.updateEsightWithEncryptedPassword(eSight);
+                // 更新session中的openId
+                new SessionOpenIdProvider(eSight, session).updateOpenId();
             }
-            // 更新session中的openId
-            new SessionOpenIdProvider(eSight, session).updateOpenId();
             eSight.setId(existEsight.getId());
             return eSightDao.updateESight(eSight);
         }
@@ -67,7 +67,7 @@ public class ESightServiceImpl extends ESightOpenApiService implements ESightSer
 	}
 
 	@Override
-	public int getEsightListCount(String ip) throws SQLException {
+	public int getESightListCount(String ip) throws SQLException {
 		return eSightDao.getESightListCount(ip);
 	}
 

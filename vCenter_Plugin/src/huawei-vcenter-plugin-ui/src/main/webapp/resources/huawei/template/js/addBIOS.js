@@ -25,7 +25,7 @@ var bios_en = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "Power policy" },
+                    "LABEL": { "ZH_CN": "Power Policy" },
                     "TIPS": "Set a power policy:Efficient: Prioritizes power saving.Performance: Prioritizes performance.Custom: Customizes a policy based on an Efficient or Performance policy.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -53,7 +53,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "EIST support" },
+                    "LABEL": { "ZH_CN": "EIST Support" },
                     "TIPS": "Enhanced Intel SpeedStep Technology (EIST). EIST allows the system to dynamically adjust processor voltage and core frequency, which can result in decreased average power consumption and decreased average heat production.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -77,7 +77,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Power saving" },
+                    "LABEL": { "ZH_CN": "Power Saving" },
                     "TIPS": "Adjust the CPU P State to reduce power consumption:Enabled: Enables the adjustment of the CPU P State.Disabled: Disables the adjustment of the CPU P State.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -101,7 +101,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Intel HT technology" },
+                    "LABEL": { "ZH_CN": "Intel HT Technology" },
                     "TIPS": "Intel Hyper Threading Technology uses resources efficiently, enabling multiple threads to run on each core and increasing processor throughput.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -134,7 +134,7 @@ var bios_en = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                "LABEL": { "ZH_CN": "Restore on AC Power Loss" },
+                "LABEL": { "ZH_CN": "Restore On AC Power Loss" },
                 "TIPS": "Set how the BMC restores after an AC power failure.",
                 "HTML": {
                     "INPUTTYPE": "select",
@@ -167,7 +167,7 @@ var bios_en = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "VT support" },
+                    "LABEL": { "ZH_CN": "VT Support" },
                     "TIPS": "Enable or disable the hardware-assisted Intel Virtualization Technology (VT).",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -221,7 +221,7 @@ var bios_en = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "Turbo mode" },
+                    "LABEL": { "ZH_CN": "Turbo Mode" },
                     "TIPS": "The turbo mode allows a CPU to run faster than the base operating frequency.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -245,7 +245,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "ACPI version" },
+                    "LABEL": { "ZH_CN": "ACPI Version" },
                     "TIPS": "Advanced Configuration and Power Interface (ACPI) enables the operating system to set up and control the individual hardware components. ACPI supersedes both Power Management Plug and Play (PnP) and Advanced Power Management (APM). It delivers information about the battery, AC adapter, temperature, fan and system events, like “close lid” or “battery low.”",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -348,7 +348,7 @@ var bios_en = {
                                     "VALUE": "RankSpare"
                                 },
                                 {
-                                    "KEY": "LockStepAndRankSpare",
+                                    "KEY": "LockStep And RankSpare",
                                     "VALUE": "LockStep And RankSpare"
                                 },
                                 {
@@ -384,7 +384,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "MLC spatial prefetcher" },
+                    "LABEL": { "ZH_CN": "MLC Spatial Prefetcher" },
                     "TIPS": "Mid Level Cache (MLC) Spatial Prefetcher is used to prefetch two caches (128 bytes), halving the access time.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -432,7 +432,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "MLC streamer prefetcher" },
+                    "LABEL": { "ZH_CN": "MLC Streamer Prefetcher" },
                     "TIPS": "Mid Level Cache (MLC) Streamer Prefetcher is used to prefetch CPU instructions to shorten the time in executing instructions.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -480,7 +480,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "DCU IP prefetcher" },
+                    "LABEL": { "ZH_CN": "DCU IP Prefetcher" },
                     "TIPS": "Data Cache Unit (DCU) IP Prefetcher is used to determine whether to prefetch data based on historical records, minimizing data access time.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -528,7 +528,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "DCU streamer prefetcher" },
+                    "LABEL": { "ZH_CN": "DCU Streamer Prefetcher" },
                     "TIPS": "Data Cache Unit (DCU) Streamer Prefetcher is used to prefetch CPU data to shorten the time in accessing data.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -582,7 +582,7 @@ var bios_en = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "Console serial redirect" },
+                    "LABEL": { "ZH_CN": "Console Serial Redirect" },
                     "TIPS": "Map data from physical or virtual serial ports to system serial ports.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -609,7 +609,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Terminal type" },
+                    "LABEL": { "ZH_CN": "Terminal Type" },
                     "TIPS": "Specify the protocol used by a terminal with serial ports.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -669,7 +669,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Baud rate" },
+                    "LABEL": { "ZH_CN": "Baud Rate" },
                     "TIPS": "Set the baud rate, namely, the number of bits transmitted per second.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -701,7 +701,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Stop bits" },
+                    "LABEL": { "ZH_CN": "Stop Bits" },
                     "TIPS": "The stop bits indicate the end of character. A larger number of bits indicates more tolerance of clock synchronization but lower data transfer.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -725,7 +725,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Data bits" },
+                    "LABEL": { "ZH_CN": "Data Bits" },
                     "TIPS": "Set the data bit width.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -755,7 +755,7 @@ var bios_en = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "BMC WDT support for OS" },
+                    "LABEL": { "ZH_CN": "BMC WDT Support For OS" },
                     "TIPS": "Set how the watchdog timer (WDT) responds to an operating system startup timeout.the Watchdog need the OS Watchdog driver support, as this may result in abnormal OS boot.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -783,7 +783,7 @@ var bios_en = {
                 },
                 {
                     "LABEL": {
-                        "ZH_CN": "BMC WDT time out for OS(min)",
+                        "ZH_CN": "BMC WDT Time Out For OS(min)",
                         "DISPLAY": "nodisplay"
                     },
                     "TIPS": "Set the maximum wait time of the watchdog timer (WDT) during an operating system startup.",
@@ -831,7 +831,7 @@ var bios_en = {
                 },
                 {
                     "LABEL": {
-                        "ZH_CN": "BMC WDT action for OS",
+                        "ZH_CN": "BMC WDT Action For OS",
                         "DISPLAY": "nodisplay"
                     },
                     "TIPS": "There are four options for the watchdog timer (WDT) responding to an operating system startup timeout.",
@@ -872,7 +872,7 @@ var bios_en = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "VT-D support" },
+                    "LABEL": { "ZH_CN": "VT-D Support" },
                     "TIPS": "Intel Virtualization Technology for Directed I/O (VT-D) implements the translation between virtual addresses and physical addresses in virtual environments, so as to enable direct memory access (DMA) remapping.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -899,7 +899,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Interrupt remap" },
+                    "LABEL": { "ZH_CN": "Interrupt Remap" },
                     "TIPS": "This feature enables a virtual device to generate interrupts for the CPU to process each interrupt.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -923,7 +923,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "ATS support" },
+                    "LABEL": { "ZH_CN": "ATS Support" },
                     "TIPS": "Address Translation Service (ATS) is a mechanism for PCIe buses. It works on a PCIe device. When a PCIe device sends transaction layer packets (TLPs) through address routing, ATS translates the destination address into a host physical address (HPA) to reduce the workload of Virtualization Technology for Directed I/O (VT-D). Additionally, ATS prevents devices in different domains from affecting each other.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -947,7 +947,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Coherency support" },
+                    "LABEL": { "ZH_CN": "Coherency Support" },
                     "TIPS": "Consistency of support functions.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -971,7 +971,7 @@ var bios_en = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Pass through DMA support" },
+                    "LABEL": { "ZH_CN": "Pass Through DMA Support" },
                     "TIPS": "DMA is enabled through technology.",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1057,15 +1057,15 @@ var bios_en = {
                         "INPUTID": "BootType",
                         "OPTIONS": {
                             "OPTION": [{
-                                    "KEY": "LegacyBootType",
+                                    "KEY": "Legacy Boot Type",
                                     "VALUE": "Legacy Boot Type"
                                 },
                                 {
-                                    "KEY": "DualBootType",
+                                    "KEY": "Dual Boot Type",
                                     "VALUE": "Dual Boot Type"
                                 },
                                 {
-                                    "KEY": "UEFIBootType",
+                                    "KEY": "UEFI Boot Type",
                                     "VALUE": "UEFI Boot Type"
                                 },
                                 {
@@ -1110,7 +1110,7 @@ var bios_zh_CN = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "Power policy" },
+                    "LABEL": { "ZH_CN": "Power Policy" },
                     "TIPS": "设置系统的能效方案:Efficient:省电方案，以省电为主。Performance:性能方案，以保证系统性能为主。Custom:客户化方案，已经设置相应的省电方案和性能方案。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1138,7 +1138,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "EIST support" },
+                    "LABEL": { "ZH_CN": "EIST Support" },
                     "TIPS": "增强型SpeedStep技术EIST(Enhanced Intel SpeedStep Technology)。当CPU使用频率较低时，通过动态的降低CPU工作频率，从而降低系统功耗以及发热；当监测到CPU使用率很高时，立即恢复到最初的工作频率。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1162,7 +1162,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Power saving" },
+                    "LABEL": { "ZH_CN": "Power Saving" },
                     "TIPS": "CPU P State调节功能，通过调整CPU的P状态来减少能耗。Enabled:开启CPU P State调节功能。Disabled:关闭CPU P State调节功能。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1186,7 +1186,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Intel HT technology" },
+                    "LABEL": { "ZH_CN": "Intel HT Technology" },
                     "TIPS": "Intel超线程技术(Intel Hyper Threading Technology)。该技术通过增加CPU内核的线程数以提高CPU性能。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1219,7 +1219,7 @@ var bios_zh_CN = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                "LABEL": { "ZH_CN": "Restore on AC Power Loss" },
+                "LABEL": { "ZH_CN": "Restore On AC Power Loss" },
                 "TIPS": "设置BMC在AC掉电后的恢复模式。",
                 "HTML": {
                     "INPUTTYPE": "select",
@@ -1252,7 +1252,7 @@ var bios_zh_CN = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "VT support" },
+                    "LABEL": { "ZH_CN": "VT Support" },
                     "TIPS": "启用或禁用硬件辅助虚拟化技术。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1306,7 +1306,7 @@ var bios_zh_CN = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "Turbo mode" },
+                    "LABEL": { "ZH_CN": "Turbo Mode" },
                     "TIPS": "CPU加速模式，允许CPU的运行频率的比标称频率快。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1330,7 +1330,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "ACPI version" },
+                    "LABEL": { "ZH_CN": "ACPI Version" },
                     "TIPS": "高级配置与电源接口ACPI(Advanced Configuration and Power Interface)，该功能可以通过操作系统对处理器、电池、嵌入式控制器等组件进行电源管理，使服务器满足一定性能的同时，降低功耗。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1433,7 +1433,7 @@ var bios_zh_CN = {
                                     "VALUE": "RankSpare"
                                 },
                                 {
-                                    "KEY": "LockStepAndRankSpare",
+                                    "KEY": "LockStep And RankSpare",
                                     "VALUE": "LockStep And RankSpare"
                                 },
                                 {
@@ -1469,7 +1469,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "MLC spatial prefetcher" },
+                    "LABEL": { "ZH_CN": "MLC Spatial Prefetcher" },
                     "TIPS": "MLC(Mid Level Cache) Spatial预读取功能用于预读取两个高速缓冲存储器(128 bytes)，读取时间是平时预读取量的两倍。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1517,7 +1517,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "MLC streamer prefetcher" },
+                    "LABEL": { "ZH_CN": "MLC Streamer Prefetcher" },
                     "TIPS": "MLC(Mid Level Cache) Streamer预读取功能用于预读取CPU的指令，减少指令读取时间。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1565,7 +1565,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "DCU IP prefetcher" },
+                    "LABEL": { "ZH_CN": "DCU IP Prefetcher" },
                     "TIPS": "DCU(Data Cache Unit)IP预读取功能用于从历史记录中判断是否有数据需要预读取，从而减少数据的读取时间。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1613,7 +1613,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "DCU streamer prefetcher" },
+                    "LABEL": { "ZH_CN": "DCU Streamer Prefetcher" },
                     "TIPS": "DCU(Data Cache Unit)Streamer预读取功能用于预读取CPU的数据，从而减少数据的读取时间。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1667,7 +1667,7 @@ var bios_zh_CN = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "Console serial redirect" },
+                    "LABEL": { "ZH_CN": "Console Serial Redirect" },
                     "TIPS": "串将指定的物理串口或虚拟串口的数据映射到系统串口。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1694,7 +1694,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Terminal type" },
+                    "LABEL": { "ZH_CN": "Terminal Type" },
                     "TIPS": "串口终端的协议类型。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1754,7 +1754,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Baud rate" },
+                    "LABEL": { "ZH_CN": "Baud Rate" },
                     "TIPS": "设置串口波特率，表示每秒钟传送的bit个数。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1786,7 +1786,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Stop bits" },
+                    "LABEL": { "ZH_CN": "Stop Bits" },
                     "TIPS": "停止位表示单个数据包的最后一位。停止位的位数越多，不同时钟同步的容忍程度越大，但是数据传输率同时也越慢。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1810,7 +1810,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Data bits" },
+                    "LABEL": { "ZH_CN": "Data Bits" },
                     "TIPS": "设置串口数据位宽，表示通信中实际的数据位。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1840,7 +1840,7 @@ var bios_zh_CN = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "BMC WDT support for OS" },
+                    "LABEL": { "ZH_CN": "BMC WDT Support For OS" },
                     "TIPS": "在OS启动过程超时后，设置支持WDT(watchdog timer)响应动作。看门狗需要OS看门狗驱动支持，否则可能会导致OS启动异常。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1868,7 +1868,7 @@ var bios_zh_CN = {
                 },
                 {
                     "LABEL": {
-                        "ZH_CN": "BMC WDT time out for OS(min)",
+                        "ZH_CN": "BMC WDT Time Out For OS(min)",
                         "DISPLAY": "nodisplay"
                     },
                     "TIPS": "设置OS启动过程中，WDT(watchdog timer)等待的最长时间。",
@@ -1916,7 +1916,7 @@ var bios_zh_CN = {
                 },
                 {
                     "LABEL": {
-                        "ZH_CN": "BMC WDT action for OS",
+                        "ZH_CN": "BMC WDT Action For OS",
                         "DISPLAY": "nodisplay"
                     },
                     "TIPS": "在 OS启动过程超时后，WDT的响应方式。有以下四种选项:无响应: WDT不做任何操作。强制复位: 强行将系统复位。下电: 将系统下电。 循环重启: 不断尝试启动操作系统， 直至可以正常进入系统工作。 ",
@@ -1957,7 +1957,7 @@ var bios_zh_CN = {
         "CHILDREN": {
             "-cols": "2",
             "CHILD": [{
-                    "LABEL": { "ZH_CN": "VT-D support" },
+                    "LABEL": { "ZH_CN": "VT-D Support" },
                     "TIPS": "Intel虚拟化数据地址转换技术。用于在虚拟化场景下，实现虚拟地址和真实物理地址的内部转换，从而实现DMA重映射。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -1984,7 +1984,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Interrupt remap" },
+                    "LABEL": { "ZH_CN": "Interrupt Remap" },
                     "TIPS": "用于使虚拟设备生成不同的中断，便于CPU处理各个中断信号。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -2008,7 +2008,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "ATS support" },
+                    "LABEL": { "ZH_CN": "ATS Support" },
                     "TIPS": "ATS是PCIe总线的一个机制。它在PCIe设备中实现。具体实现形式是PCIe设备使用地址路由方式发送TLP时，就进行地址转换，转换为HPA地址，从而减轻VT-d的工作负担。另外，它还可以避免不同域中的设备互相影响。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -2032,7 +2032,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Coherency support" },
+                    "LABEL": { "ZH_CN": "Coherency Support" },
                     "TIPS": "一致性支持功能。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -2056,7 +2056,7 @@ var bios_zh_CN = {
                     }
                 },
                 {
-                    "LABEL": { "ZH_CN": "Pass through DMA support" },
+                    "LABEL": { "ZH_CN": "Pass Through DMA Support" },
                     "TIPS": "是否使能DMA直通技术。",
                     "HTML": {
                         "INPUTTYPE": "select",
@@ -2142,15 +2142,15 @@ var bios_zh_CN = {
                         "INPUTID": "BootType",
                         "OPTIONS": {
                             "OPTION": [{
-                                    "KEY": "LegacyBootType",
+                                    "KEY": "Legacy Boot Type",
                                     "VALUE": "Legacy Boot Type"
                                 },
                                 {
-                                    "KEY": "DualBootType",
+                                    "KEY": "Dual Boot Type",
                                     "VALUE": "Dual Boot Type"
                                 },
                                 {
-                                    "KEY": "UEFIBootType",
+                                    "KEY": "UEFI Boot Type",
                                     "VALUE": "UEFI Boot Type"
                                 },
                                 {

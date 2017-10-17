@@ -108,7 +108,7 @@ public class SoftwareResourceController extends BaseController {
 	 */
 	@RequestMapping(value = "", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseBodyBean delete(HttpServletRequest httpServletRequest) throws SQLException {
+	public ResponseBodyBean deleteAllFailedTask(HttpServletRequest httpServletRequest) throws SQLException {
 
 		return success(softwareApiService.deleteUploadFailed());
 	}

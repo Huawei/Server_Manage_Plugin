@@ -32,7 +32,6 @@ public class InstantiationBeanServiceImpl implements
     public void init() {
         try {
             systemService.initDB();
-//            systemService.refreshKey();
         } catch (Exception e) {
             LOGGER.warn(e);
         }
