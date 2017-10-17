@@ -489,8 +489,6 @@ public class ESightAdapter extends AdapterBase {
             openid = service.login(host, hostPort, username, eSightCode);
         } catch (EsightException e) {
         	logger.error(e.getMessage()+ ": eSight server (" + host + ") authentication failed.", e);
-        } catch (NullPointerException e) {
-        	logger.error(e.getMessage()+ ": eSight server (" + host + ") authentication failed.", e);
         }
         if (openid == null || openid.isEmpty()) {
             
@@ -641,9 +639,6 @@ public class ESightAdapter extends AdapterBase {
             } 
             service.logout(openid);
         } catch (EsightException e) {
-            logger.error("Test eSight login failed.", e);
-            return false;
-        } catch (NullPointerException e) {
             logger.error("Test eSight login failed.", e);
             return false;
         }

@@ -9,11 +9,11 @@
 	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/third_party/plugin-lib/jackson-core-2.4.2.jar"/>
 	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/third_party/plugin-lib/jackson-databind-2.4.2.jar"/>
 	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/third_party/plugin-lib/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/third_party/plugin-lib/spring-beans-3.2.9.RELEASE.jar"/>
-	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/third_party/plugin-lib/spring-core-3.2.9.RELEASE.jar"/>
-	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/third_party/plugin-lib/spring-web-3.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/third_party/plugin-lib/spring-beans-4.3.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/third_party/plugin-lib/spring-core-4.3.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/third_party/plugin-lib/spring-web-4.3.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/third_party/plugin-lib/vcops-common.jar"/>
-	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/src_bin/esight-api-1.0.0.jar"/>
+	<classpathentry kind="lib" path="E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/src_bin/esight-api-1.0.0.jar" sourcepath="/esight-api"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
