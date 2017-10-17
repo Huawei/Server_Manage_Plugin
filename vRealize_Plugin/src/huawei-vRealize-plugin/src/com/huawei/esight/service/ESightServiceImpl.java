@@ -32,10 +32,9 @@ public class ESightServiceImpl implements ESightService {
     Logger logger = null;
     
     @Override
-    public String login(String host, int port, String username, String password) {
-        
-        esightServer = new Esight(host, port, username, password);
-        openIdProvider = new DefaultOpenIdProvider(esightServer);
+    public String login(String host, int port, String username, String password) {        
+        esightServer = new Esight(host, port, username, password);                
+        openIdProvider = new DefaultOpenIdProvider(esightServer);                
         return openIdProvider.provide();
     }
     
