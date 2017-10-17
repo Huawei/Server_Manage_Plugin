@@ -35,18 +35,25 @@ public class FileUtils {
 
 	private static final String VMWARE_WINDOWS_DIR = "C:/ProgramData/VMware/vCenterServer/runtime/base";
 
-	private static final String FILE_NAME = "base.txt";
+	public static final String BASE_FILE_NAME = "baseV3.txt";
+	
+	public static final String WORK_FILE_NAME = "workV3.txt";
 
-	public static String getWorkKey() {
-		File file = new File(getPath() + File.separator + FILE_NAME);
+	public static String getKey(String fileName) {
+		File file = new File(getPath() + File.separator + fileName);
 		createFile(file);
 		String line = null;
+		StringBuffer result = new StringBuffer();
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
-			if ((line = br.readLine()) != null) {
-				return line;
+			while ((line = br.readLine()) != null) {
+				result.append(line);
 			}
+			if(result.length()<1){
+				return null;
+			}
+			return result.toString();
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -58,12 +65,11 @@ public class FileUtils {
 				}
 			}
 		}
-
-		return line;
+		return null;
 	}
 
-	public static void saveWorkKey(String key) {
-		File file = new File(getPath() + File.separator + FILE_NAME);
+	public static void saveKey(String key,String fileName) {
+		File file = new File(getPath() + File.separator + fileName);
 		createFile(file);
 		BufferedWriter bw = null;
 		try {
@@ -117,11 +123,11 @@ public class FileUtils {
 	      List<AclEntry> acl = view.getAcl();
 	      for (AclEntry ace : acl) {
 	    	LOGGER.info("Ace Type: " + ace.type().name() + ace.principal().getName());
-	        String permsStr = "";
+	    	StringBuffer permsStr = new StringBuffer();
 	        for (AclEntryPermission perm : ace.permissions()) {
-	          permsStr += perm.name() + " ";
+	          permsStr.append(perm.name() + " ");
 	        }
-	        LOGGER.info("Ace Permissions: " + permsStr.trim());
+	        LOGGER.info("Ace Permissions: " + permsStr.toString().trim());
 	      }
 	      acl.clear();
 	      // Add Acl

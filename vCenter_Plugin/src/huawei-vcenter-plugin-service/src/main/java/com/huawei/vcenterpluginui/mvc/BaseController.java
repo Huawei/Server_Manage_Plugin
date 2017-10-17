@@ -39,6 +39,7 @@ public class BaseController {
     private static final String CODE_DB_EXCEPTION = "-70001";
     private static final String CODE_ESIGHT_RETURN_PWD_EXCEPTION = "1";
     private static final String CODE_ESIGHT_CONNECT_EXCEPTION = "-80010";
+    private static final String CODE_NO_ESIGHT_EXCEPTION = "-80011";
     
     private static final String PREFIX = "-50";
 
@@ -83,6 +84,9 @@ public class BaseController {
 	@ResponseStatus(HttpStatus.OK)
 	protected Map<String, Object> handleException(EsightException exception) {
 		LOGGER.error("esight异常!", exception);
+		if (CODE_NO_ESIGHT_EXCEPTION.equals(exception.getCode())) {
+			return generateError(exception.getCode(), exception.getMessage(), null);
+		}
 		return generateError(PREFIX + exception.getCode(), exception.getMessage(), null);
 	}
     
@@ -104,12 +108,12 @@ public class BaseController {
         return errorMap;
     }
 
-//    @ExceptionHandler(Exception.class)
-//    @ResponseStatus(HttpStatus.OK)
-//    protected Map<String, Object> handleException(Exception exception) {
-//        LOGGER.error("系统异常!", exception);
-//        return generateError(PREFIX+exception, exception.getMessage(), null);
-//    }
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.OK)
+	protected Map<String, Object> handleException(Exception exception) {
+		LOGGER.error("系统异常!", exception);
+		return generateError(CODE_FAILURE, exception.getMessage(), null);
+	}
 
     private Map<String, Object> generateError(String code, String message, Object data) {
         Map<String, Object> errorMap = new HashMap<>();

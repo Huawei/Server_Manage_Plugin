@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.huawei.vcenterpluginui.constant.SyncStatus;
 import com.huawei.vcenterpluginui.entity.Task;
@@ -15,6 +17,8 @@ import com.huawei.vcenterpluginui.entity.Task;
 public class TaskDao extends H2DataBaseDao {
 
 	public List<Task> getIncompletedTaskList(Map<String, Object> param) throws SQLException {
+		checkParam(param);
+		
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -133,6 +137,8 @@ public class TaskDao extends H2DataBaseDao {
 	}
 	
 	public int getCountTaskList(Map<String, Object> param) throws SQLException {
+		checkParam(param);
+		
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -191,8 +197,11 @@ public class TaskDao extends H2DataBaseDao {
 	}
 
 	public int saveTask(Task task) throws SQLException {
+		checkTask(task);
+		
 		Connection con = null;
 		PreparedStatement ps = null;
+		ResultSet rs = null;
 		try {
 			con = getConnection();
 			ps = con.prepareStatement(
@@ -206,17 +215,27 @@ public class TaskDao extends H2DataBaseDao {
 			ps.setString(7, task.getTaskType());
 			ps.setString(8, task.getReservedStr1());
 			ps.setString(9, task.getDeviceIp());
-			return ps.executeUpdate();
+			int re = ps.executeUpdate();
+			if (re > 0) {
+				rs = ps.getGeneratedKeys();
+				if (rs.next()) {
+					int deptno = rs.getInt(1);
+					LOGGER.info("save task info successful,task id:" + deptno);
+				}
+			}
+			return re;
 		} catch (SQLException e) {
 			LOGGER.error(e);
 			throw e;
 		} finally {
-			closeConnection(con, ps, null);
+			closeConnection(con, ps, rs);
 		}
 
 	}
 
 	public int saveTaskStatus(Task task) throws SQLException {
+		checkTaskStatus(task);
+		
 		Connection con = null;
 		PreparedStatement ps = null;
 		try {
@@ -238,6 +257,8 @@ public class TaskDao extends H2DataBaseDao {
 	}
 
 	public int deleteFailedTask(String taskType) throws SQLException {
+		checkTaskType(taskType);
+		
 		Connection con = null;
 		PreparedStatement ps = null;
 		try {
@@ -268,6 +289,110 @@ public class TaskDao extends H2DataBaseDao {
 			throw e;
 		} finally {
 			closeConnection(con, ps, null);
+		}
+	}
+	
+	private void checkIp(String ip) throws SQLException {
+		if (ip == null || ip.length() > 255) {
+			throw new SQLException("parameter ip is not correct");
+		}
+	}
+
+	private void checkTaskType(String taskType) throws SQLException {
+		if (taskType == null || taskType.length() > 255) {
+			throw new SQLException("parameter taskType is not correct");
+		}
+	}
+
+	private void checkTaskName(String taskName) throws SQLException {
+		if (taskName == null || taskName.length() > 255) {
+			throw new SQLException("parameter taskName is not correct");
+		}
+	}
+
+	private void checkSoftwareSourceName(String softwareSourceName) throws SQLException {
+		if (softwareSourceName == null || softwareSourceName.length() > 255) {
+			throw new SQLException("parameter softwareSourceName is not correct");
+		}
+        String regEx = "[a-zA-Z0-9_\\-\u4e00-\u9fa5]{6,32}";
+	    Matcher matcher = Pattern.compile(regEx).matcher(softwareSourceName);
+		if(!matcher.matches()){
+			throw new SQLException("parameter softwareSourceName is not correct");
+		}
+	}
+
+	private void checkTaskStatus(String taskStatus) throws SQLException {
+		if (taskStatus != null && taskStatus.length() > 255) {
+			throw new SQLException("parameter taskStatus is not correct");
+		}
+	}
+
+	private void checkDeviceIp(String deviceIp) throws SQLException {
+		if (deviceIp != null && deviceIp.length() > 1024) {
+			throw new SQLException("parameter deviceIp is not correct");
+		}
+	}
+
+	private void checkReservedStr(String reservedStr) throws SQLException {
+		if (reservedStr != null && reservedStr.length() > 500) {
+			throw new SQLException("parameter reservedStr is not correct");
+		}
+	}
+
+	private void checkTaskResult(String taskResult) throws SQLException {
+		if (taskResult != null && taskResult.length() > 255) {
+			throw new SQLException("parameter taskResult is not correct");
+		}
+	}
+
+	private void checkTaskCode(String taskCode) throws SQLException {
+		if (taskCode != null && taskCode.length() > 255) {
+			throw new SQLException("parameter taskCode is not correct");
+		}
+	}
+
+	private void checkErrorDetail(String errorDetail) throws SQLException {
+		if (errorDetail != null && errorDetail.length() > 2000) {
+			throw new SQLException("parameter errorDetail is not correct");
+		}
+	}
+
+	private void checkTask(Task task) throws SQLException {
+		checkTaskName(task.getTaskName());
+		checkSoftwareSourceName(task.getSoftwareSourceName());
+		checkTaskStatus(task.getSyncStatus());
+		checkTaskStatus(task.getTaskStatus());
+		checkTaskType(task.getTaskType());
+		checkDeviceIp(task.getReservedStr1());
+		checkReservedStr(task.getDeviceIp());
+	}
+
+	private void checkTaskStatus(Task task) throws SQLException {
+		checkTaskStatus(task.getSyncStatus());
+		checkTaskResult(task.getTaskResult());
+		checkTaskCode(task.getTaskCode());
+		checkErrorDetail(task.getErrorDetail());
+	}
+
+	private void checkParam(Map<String, Object> param) throws SQLException {
+		if (param.containsKey("esightIp")) {
+			checkIp(param.get("esightIp").toString());
+		}
+
+		if (param.containsKey("taskType")) {
+			checkTaskType(param.get("taskType").toString());
+		}
+
+		if (param.containsKey("taskName")) {
+			checkTaskName("%" + param.get("taskName").toString() + "%");
+		}
+
+		if (param.containsKey("softwareSourceName")) {
+			checkSoftwareSourceName("%" + param.get("softwareSourceName").toString() + "%");
+		}
+
+		if (param.containsKey("taskStatus")) {
+			checkTaskStatus(param.get("taskStatus").toString());
 		}
 	}
 }

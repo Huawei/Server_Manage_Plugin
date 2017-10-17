@@ -25,32 +25,22 @@
     <!--    <bean name="ESightOpenApi" class="com.huawei.vcenterpluginui.services.ESightOpenApi"/> -->
     <bean name="h2DataBaseDao" class="com.huawei.vcenterpluginui.dao.H2DataBaseDao">
         <property name="url" value="${h2.url}"/>
-        <property name="user" value="${database.user}"/>
-        <property name="key" value="${database.key}"/>
     </bean>
     
     <bean name="systemDao" class="com.huawei.vcenterpluginui.dao.SystemDao">
         <property name="url" value="${h2.url}"/>
-        <property name="user" value="${database.user}"/>
-        <property name="key" value="${database.key}"/>
     </bean>
 
     <bean name="eSightDao" class="com.huawei.vcenterpluginui.dao.ESightDao">
         <property name="url" value="${h2.url}"/>
-        <property name="user" value="${database.user}"/>
-        <property name="key" value="${database.key}"/>
     </bean>
     
     <bean name="taskDao" class="com.huawei.vcenterpluginui.dao.TaskDao">
         <property name="url" value="${h2.url}"/>
-        <property name="user" value="${database.user}"/>
-        <property name="key" value="${database.key}"/>
     </bean>
     
     <bean name="taskResourceDao" class="com.huawei.vcenterpluginui.dao.TaskResourceDao">
         <property name="url" value="${h2.url}"/>
-        <property name="user" value="${database.user}"/>
-        <property name="key" value="${database.key}"/>
     </bean>
 
     <bean name="ServerApiServiceImpl" class="com.huawei.vcenterpluginui.services.ServerApiServiceImpl">

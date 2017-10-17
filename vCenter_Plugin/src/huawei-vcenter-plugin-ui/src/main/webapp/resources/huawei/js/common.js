@@ -393,17 +393,7 @@ function getFirmwareTypeList() {
                 { value: 'HMM', label: 'HMM' },
                 { value: 'iBMC', label: 'iBMC' },
                 { value: 'BIOS', label: 'BIOS' },
-                { value: 'CPLD', label: 'CPLD' },
-                { value: 'LCD', label: 'LCD' },
-                { value: 'Fabric', label: 'Fabric' },
-                { value: 'CHN', label: 'CNA&HBA&NIC' },
-                { value: 'RAID', label: 'RAID' },
-                { value: 'HDD', label: 'HDD' },
-                { value: 'NVME', label: 'NVME' },
-                { value: 'NVDIMM', label: 'NVDIMM' },
-                { value: 'SSD', label: 'SSD' },
-                { value: 'IB', label: 'IB' },
-                { value: 'OTHERS', label: 'OTHERS' }
+                { value: 'CPLD', label: 'CPLD' }
             ];
         }
     }
@@ -414,17 +404,7 @@ function getFirmwareTypeList() {
         { value: 'HMM', label: 'HMM' },
         { value: 'iBMC', label: 'iBMC' },
         { value: 'BIOS', label: 'BIOS' },
-        { value: 'CPLD', label: 'CPLD' },
-        { value: 'LCD', label: 'LCD' },
-        { value: 'Fabric', label: 'Fabric' },
-        { value: 'CHN', label: 'CNA&HBA&NIC' },
-        { value: 'RAID', label: 'RAID' },
-        { value: 'HDD', label: 'HDD' },
-        { value: 'NVME', label: 'NVME' },
-        { value: 'NVDIMM', label: 'NVDIMM' },
-        { value: 'SSD', label: 'SSD' },
-        { value: 'IB', label: 'IB' },
-        { value: 'OTHERS', label: '其他' }
+        { value: 'CPLD', label: 'CPLD' }
     ];
 }
 

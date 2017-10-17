@@ -9,7 +9,7 @@
    type: keep "html" for this plugin to be deployed in the vSphere HTML client.
    name: short name displayed in the Administration < Client plugins view
 -->
-<pluginPackage id="com.huawei.vcenterpluginui" version="1.0.5" type="html" name="Huawei vCenter Plugin"
+<pluginPackage id="com.huawei.vcenterpluginui" version="1.0.6" type="html" name="Huawei vCenter Plugin"
       description="Huawei vCenter Plugin" vendor="Huawei">
 
    <dependencies>

@@ -46,6 +46,7 @@
          	<pathelement path="${ROOT_DIR}/third_party/h2-1.4.192.jar"/>
          	<pathelement path="${ROOT_DIR}/src_bin/esight-api-1.0.0.jar"/>
          	<pathelement path="${ROOT_DIR}/third_party/gson-2.7.jar"/>
+         	<pathelement path="${ROOT_DIR}/third_party/jna-4.4.0.jar"/>
 
              <pathelement path="${ROOT_DIR}/third_party/com.springsource.org.aspectj.weaver_1.6.12.RELEASE.jar"/>
          </classpath>
@@ -64,6 +65,7 @@
    	<copy file="${ROOT_DIR}/third_party/h2-1.4.192.jar" todir="${CLASSES}"/>
    	<copy file="${ROOT_DIR}/src_bin/esight-api-1.0.0.jar" todir="${CLASSES}"/>
    	<copy file="${ROOT_DIR}/third_party/gson-2.7.jar" todir="${CLASSES}"/>
+   	<copy file="${ROOT_DIR}/third_party/jna-4.4.0.jar" todir="${CLASSES}"/>
    	
       <!-- Create the jar -->
       <jar  destfile="${BUILD_DIR}/${JAR_FILE}"

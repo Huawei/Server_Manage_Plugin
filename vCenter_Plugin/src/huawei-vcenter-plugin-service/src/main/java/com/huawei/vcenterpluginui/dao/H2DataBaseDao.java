@@ -27,9 +27,9 @@ public class H2DataBaseDao {
 
     private static final String DB_FILE = "huawei-vcenter-plugin-data";
     
-    private String user;  
+    private static final String USER = "sa";  
     
-    private String key;  
+    private static final String KEY = "";  
 
     private static String getVmwareRuntimeDataDir() {
         return System.getenv(VMWARE_RUNTIME_DATA_DIR);
@@ -42,12 +42,12 @@ public class H2DataBaseDao {
     public Connection getConnection() {
         Connection con = null;
         
-        try {
-            Class.forName("org.h2.Driver");
-            con = DriverManager.getConnection(url,user,key);
-        } catch (Exception e) {
-            throw new DataBaseException(e.getMessage());
-        }
+		try {
+			Class.forName("org.h2.Driver");
+			con = DriverManager.getConnection(url, USER, KEY);
+		} catch (Exception e) {
+			throw new DataBaseException(e.getMessage());
+		}
 
         return con;
     }
@@ -92,14 +92,4 @@ public class H2DataBaseDao {
 			}
         }
     }
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-    
 }

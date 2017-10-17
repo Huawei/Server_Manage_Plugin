@@ -1,6 +1,7 @@
 package com.huawei.vcenterpluginui.dao;
 
 import com.huawei.vcenterpluginui.entity.ESight;
+import com.huawei.vcenterpluginui.utils.VersionUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +10,8 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ESightDao extends H2DataBaseDao {
 	
@@ -44,6 +47,8 @@ public class ESightDao extends H2DataBaseDao {
     }
 
     public ESight getESightByIp(String ip) throws SQLException {
+    	checkIp(ip);
+    	
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -76,6 +81,8 @@ public class ESightDao extends H2DataBaseDao {
     }
 
     public List<ESight> getESightList(String ip, int pageNo, int pageSize) throws SQLException {
+    	checkNullIp(ip);
+    	
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -128,6 +135,8 @@ public class ESightDao extends H2DataBaseDao {
     }
     
 	public int getESightListCount(String ip) throws SQLException {
+		checkNullIp(ip);
+		
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -161,27 +170,42 @@ public class ESightDao extends H2DataBaseDao {
 	}
 
     public int saveESight(ESight eSight) throws SQLException {
+    	checkEsight(eSight);
+    	
         Connection con = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             con = getConnection();
             ps = con.prepareStatement(
-                    "insert into HW_ESIGHT_HOST (HOST_IP,ALIAS_NAME,HOST_PORT,LOGIN_ACCOUNT,LOGIN_PWD,CREATE_TIME, LAST_MODIFY_TIME) values (?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)");
+                    "insert into HW_ESIGHT_HOST (HOST_IP,ALIAS_NAME,HOST_PORT,LOGIN_ACCOUNT,LOGIN_PWD,RESERVED_STR1,CREATE_TIME, LAST_MODIFY_TIME) values (?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)");
             ps.setString(1, eSight.getHostIp());
             ps.setString(2, eSight.getAliasName());
             ps.setInt(3, eSight.getHostPort());
             ps.setString(4, eSight.getLoginAccount());
             ps.setString(5, eSight.getLoginPwd());
-            return ps.executeUpdate();
+            ps.setString(6, VersionUtils.getVersion());
+            
+			int re = ps.executeUpdate();
+			if (re > 0) {
+				rs = ps.getGeneratedKeys();
+				if (rs.next()) {
+					int deptno = rs.getInt(1);
+					LOGGER.info("save esight info successful,esight id:" + deptno);
+				}
+			}
+			return re;
         } catch (SQLException e) {
             LOGGER.error(e);
             throw e;
         } finally {
-            closeConnection(con, ps, null);
+            closeConnection(con, ps, rs);
         }
     }
 
     public int updateESight(ESight eSight) throws SQLException {
+    	checkEsight(eSight);
+    	
         Connection con = null;
         PreparedStatement ps = null;
         try {
@@ -204,6 +228,7 @@ public class ESightDao extends H2DataBaseDao {
     }
     
 	public int deleteESight(List<Integer> id) throws SQLException {
+		checkIds(id);
 
 		if (id.isEmpty()) {
 			return 0;
@@ -218,39 +243,87 @@ public class ESightDao extends H2DataBaseDao {
 			for (int i = 0; i < id.size(); i++) {
 				sql.append("?,");
 			}
-			sql.deleteCharAt(sql.length()-1);
+			sql.deleteCharAt(sql.length() - 1);
 			sql.append(")");
 			ps = con.prepareStatement(sql.toString());
 			for (int i = 0; i < id.size(); i++) {
 				ps.setInt(i + 1, id.get(i));
 			}
 
-			int result= ps.executeUpdate();
+			int result = ps.executeUpdate();
 
 			closeConnection(null, ps, null);
 
-			//remove relations
-		    //delete tasks
-		    StringBuffer tsql = new StringBuffer();
-		    tsql.append("delete from HW_ESIGHT_TASK where HW_ESIGHT_HOST_ID in (");
-		    for (int i = 0; i < id.size(); i++) {
-		        tsql.append("?,");
-		    }
-		    tsql.deleteCharAt(tsql.length()-1);
-		    tsql.append(")");
-		    ps = con.prepareStatement(tsql.toString());
-		    for (int i = 0; i < id.size(); i++) {
-		        ps.setInt(i + 1, id.get(i));
-		    }
-		    result+=ps.executeUpdate();
-		
-		    return result;
-			} catch (SQLException e) {
-				LOGGER.error(e);
-				throw e;
-			} finally {
-				closeConnection(con, ps, null);
+			// remove relations
+			// delete tasks
+			StringBuffer tsql = new StringBuffer();
+			tsql.append("delete from HW_ESIGHT_TASK where HW_ESIGHT_HOST_ID in (");
+			for (int i = 0; i < id.size(); i++) {
+				tsql.append("?,");
 			}
+			tsql.deleteCharAt(tsql.length() - 1);
+			tsql.append(")");
+			ps = con.prepareStatement(tsql.toString());
+			for (int i = 0; i < id.size(); i++) {
+				ps.setInt(i + 1, id.get(i));
+			}
+			result += ps.executeUpdate();
+
+			return result;
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			throw e;
+		} finally {
+			closeConnection(con, ps, null);
+		}
 	}
 
+	private void checkNullIp(String ip) throws SQLException {
+		if (ip != null && ip.length() > 255) {
+			throw new SQLException("parameter ip is not correct");
+		}
+	}
+	
+	private void checkIp(String ip) throws SQLException {
+		if (ip == null || ip.length() > 255) {
+			throw new SQLException("parameter ip is not correct");
+		}
+	}
+
+	private void checkIds(List<Integer> ids) throws SQLException {
+		if (ids == null || ids.size() > 1000) {
+			throw new SQLException("parameter ids is not correct");
+		}
+	}
+
+	private void checkAliasName(String aliasName) throws SQLException {
+		if (aliasName != null && aliasName.length() > 255) {
+			throw new SQLException("parameter aliasName is not correct");
+		}
+
+		String regEx = "[a-zA-Z0-9_\\-\\.]{1,100}";
+		Matcher matcher = Pattern.compile(regEx).matcher(aliasName);
+		if (aliasName != null && aliasName.length() >0 && !matcher.matches()) {
+			throw new SQLException("parameter aliasName is not correct");
+		}
+	}
+
+	private void checkLoginAccount(String loginAccount) throws SQLException {
+		if (loginAccount == null || loginAccount.length() > 255) {
+			throw new SQLException("parameter loginAccount is not correct");
+		}
+	}
+
+	private void checkLoginPwd(String loginPwd) throws SQLException {
+		if (loginPwd == null || loginPwd.length() > 255) {
+			throw new SQLException("parameter loginPwd is not correct");
+		}
+	}
+
+	private void checkEsight(ESight eSight) throws SQLException {
+		checkIp(eSight.getHostIp());
+		checkAliasName(eSight.getAliasName());
+		checkLoginAccount(eSight.getLoginAccount());
+		checkLoginPwd(eSight.getLoginPwd());
+	}
 }

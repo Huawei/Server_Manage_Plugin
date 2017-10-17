@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import com.huawei.vcenterpluginui.constant.SqlFileConstant;
 
@@ -24,13 +24,13 @@ public class SystemDao extends H2DataBaseDao {
 			con = getConnection();
 			if (sqlFile != null) {
 				if (SqlFileConstant.HW_ESIGHT_HOST.equals(sqlFile)) {
-					ps = con.prepareStatement(getDBScript(SqlFileConstant.HW_ESIGHT_HOST + SqlFileConstant.SUFFIX));
+					ps = con.prepareStatement(SqlFileConstant.HW_ESIGHT_HOST_SQL);
 					ps.executeUpdate();
 				} else if (SqlFileConstant.HW_ESIGHT_TASK.equals(sqlFile)) {
-					ps = con.prepareStatement(getDBScript(SqlFileConstant.HW_ESIGHT_TASK + SqlFileConstant.SUFFIX));
+					ps = con.prepareStatement(SqlFileConstant.HW_ESIGHT_TASK_SQL);
 					ps.executeUpdate();
 				} else if (SqlFileConstant.HW_TASK_RESOURCE.equals(sqlFile)) {
-					ps = con.prepareStatement(getDBScript(SqlFileConstant.HW_TASK_RESOURCE + SqlFileConstant.SUFFIX));
+					ps = con.prepareStatement(SqlFileConstant.HW_TASK_RESOURCE_SQL);
 					ps.executeUpdate();
 				}
 			}
@@ -44,21 +44,25 @@ public class SystemDao extends H2DataBaseDao {
 
 	public boolean checkTable(String sqlFile) throws SQLException,IOException {
 		Connection con = null;
+		ResultSet ResultSet = null;
 		boolean tableExist = false;
 		try {
 			con = getConnection();
 			if (SqlFileConstant.HW_ESIGHT_HOST.equals(sqlFile)) {
-				tableExist = con.getMetaData().getTables(null, null, SqlFileConstant.HW_ESIGHT_HOST, null).next();
+				ResultSet = con.getMetaData().getTables(null, null, SqlFileConstant.HW_ESIGHT_HOST, null);
+				tableExist = ResultSet.next();
 			} else if (SqlFileConstant.HW_ESIGHT_TASK.equals(sqlFile)) {
-				tableExist = con.getMetaData().getTables(null, null, SqlFileConstant.HW_ESIGHT_TASK, null).next();
+				ResultSet = con.getMetaData().getTables(null, null, SqlFileConstant.HW_ESIGHT_TASK, null);
+				tableExist = ResultSet.next();
 			} else if (SqlFileConstant.HW_TASK_RESOURCE.equals(sqlFile)) {
-				tableExist = con.getMetaData().getTables(null, null, SqlFileConstant.HW_TASK_RESOURCE, null).next();
+				ResultSet = con.getMetaData().getTables(null, null, SqlFileConstant.HW_TASK_RESOURCE, null);
+				tableExist = ResultSet.next();
 			}
 		} catch (SQLException e) {
 			LOGGER.error(e);
 			throw e;
 		} finally {
-			closeConnection(con, null, null);
+			closeConnection(con, null, ResultSet);
 		}
 		
 		return tableExist;

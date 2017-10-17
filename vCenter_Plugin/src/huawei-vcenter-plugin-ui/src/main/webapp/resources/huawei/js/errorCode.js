@@ -226,7 +226,7 @@
 
     //------------------模板管理-------------
     "deploy.error.-1": "参数错误。",
-
+	"deploy.error.4001": "调用接口时，发生异常。",
     "deploy.error.201": "操作对象不存在。",
 
     "deploy.error.51522": "软件包上传失败，请检查文件类型和大小。",
@@ -614,7 +614,7 @@ var errorCode_en = {
         //-------------------自定义---------------------------------------------
         //------------------模板管理-----------------------
         "deploy.error.-1": "Parameter error.",
-
+		"deploy.error.4001": "exception occurs when called interface.",
         "deploy.error.201": "Nonexistent object.",
         "deploy.error.51518": "Invalid file name format.",
         "deploy.error.51519": "Invalid uploaded filetype.",

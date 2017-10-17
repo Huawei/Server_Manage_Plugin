@@ -1,6 +1,8 @@
 package com.huawei.vcenterpluginui.task;
 
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -24,9 +26,10 @@ public class RefreshKeyTask {
 	
 	private static final Log LOGGER = LogFactory.getLog(RefreshKeyTask.class);
 	
-	@Scheduled(cron = "0 0/5 * * * ?")  
+	@Scheduled(cron = "0 0 0 1 * ?")  
+//	@Scheduled(cron = "0 0/5 * * * ?")
     public void job1() {  
-		LOGGER.info("更新密钥中。。。");  
+		LOGGER.info("Refresh the key...");  
 		try {
 			//获取用户密码等信息
 			List<ESight> eSightList = eSightDao.getESightList(null, -1, -1);
@@ -36,13 +39,22 @@ public class RefreshKeyTask {
 			}
 			
 			//更新密钥，重新加密
-			String fileStringKey = CipherUtils.getSafeRandomToString(CipherUtils.KEY_SIZE);
-			FileUtils.saveWorkKey(fileStringKey);
+//			String fileStringKey = CipherUtils.getSafeRandomToString(CipherUtils.KEY_SIZE);
+//			FileUtils.saveKey(fileStringKey,FileUtils.BASE_FILE_NAME);
+			
+			String randomKey = CipherUtils.getSafeRandomToString(CipherUtils.KEY_SIZE);
+			String workKey = CipherUtils.aesEncode(randomKey, CipherUtils.getBaseKey());
+			FileUtils.saveKey(workKey,FileUtils.WORK_FILE_NAME);
+			
 			for (ESight eSight : eSightList) {
 				ESight.updateEsightWithEncryptedPassword(eSight);
 				eSightDao.updateESight(eSight);
 			}
 			
+		} catch (InvalidKeySpecException e) {
+			LOGGER.error(e.getMessage());
+		} catch (UnsupportedEncodingException e) {
+			LOGGER.error(e.getMessage());
 		} catch (NoSuchAlgorithmException e) {
 			LOGGER.error(e.getMessage());
 		}catch (SQLException e) {
