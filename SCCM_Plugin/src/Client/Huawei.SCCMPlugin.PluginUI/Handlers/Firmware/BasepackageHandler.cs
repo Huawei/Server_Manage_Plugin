@@ -65,7 +65,7 @@ namespace Huawei.SCCMPlugin.PluginUI.Handlers
             }
             catch(NullReferenceException ex)
             {
-                LogUtil.HWLogger.UI.Error("Execute the method in Basepackage page fail.", ex);;
+                LogUtil.HWLogger.UI.Error("Execute the method in Basepackage page fail.", ex);
             }
             catch (Exception ex)
             {

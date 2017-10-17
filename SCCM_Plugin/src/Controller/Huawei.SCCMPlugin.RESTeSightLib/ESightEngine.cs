@@ -40,7 +40,11 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                         {
                             _instance = new ESightEngine();
                             _instance.InitESSessions();
-                            _instance.RefreshPwdsThirtyDay();
+                            _instance.CheckAndUpgradeKey();
+                            //2017-10-11
+                            //将30天刷新一次（RefreshPwdsThirtyDay）
+                            //改为检测如果是兼容密钥则30天刷新一次
+                            //否则则升级密钥。
                         }
                     }
                     finally
@@ -51,7 +55,11 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                 }
                 else
                 {
-                    _instance.RefreshPwdsThirtyDay();
+                    _instance.CheckAndUpgradeKey();
+                    //2017-10-11
+                    //将30天刷新一次（RefreshPwdsThirtyDay）
+                    //改为检测如果是兼容密钥则30天刷新一次
+                    //否则则升级密钥。
                 }
                 return _instance;
             }
@@ -471,6 +479,19 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
             }
         }
         /// <summary>
+        /// 2017-10-11 检查并升级密钥
+        /// </summary>
+        public void CheckAndUpgradeKey() {
+            if (!EncryptUtil.IsCompatibleVersion())
+            {
+                InitESSessions();
+                RefreshPwds();
+            }
+            else {
+                RefreshPwdsThirtyDay();
+            }
+        }
+        /// <summary>
         /// 刷新密码。时机是每次启动时，这里会加在这个单例的初始化。
         /// 重置密钥，并且更新密码。
         /// 规则1：密钥须支持可更新，并明确更新周期，在一次性可编程的芯片中保存的密钥除外
@@ -478,7 +499,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
         /// </summary>
         public void RefreshPwds()
         {
-            LogUtil.HWLogger.API.InfoFormat("Refresh password with encryption...");
+            LogUtil.HWLogger.DEFAULT.InfoFormat("Refresh password with encryption...");
             lock (_lockRefreshPwds)
             {
                 lock (eSightSessions)
@@ -486,13 +507,25 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                     using (var mutex = new System.Threading.Mutex(false, "huawei.sccmplugin.engine")) {
                         if (mutex.WaitOne(TimeSpan.FromSeconds(60), false))
                         {
-                            //旧的key
-                            string rootKey = EncryptUtil.GetRootKey();
-                            string oldMainKey = EncryptUtil.GetMainKeyFromPath();
-                            //重新初始化主密钥。
-                            EncryptUtil.InitMainKey();
+                            string oldMainKey = "";
+                            //2017-10-11 检查是否需要升级的密钥。
+                            if (!EncryptUtil.IsCompatibleVersion())
+                            {
+                                oldMainKey = EncryptUtil.GetMainKey1060();
+                                LogUtil.HWLogger.DEFAULT.InfoFormat("oldMainKey:{0}", oldMainKey);
+                                if (string.IsNullOrEmpty(oldMainKey)) return;
+                                EncryptUtil.ClearAndUpgradeKey();
+                            }
+                            else {
+                                //旧的key
+                                 oldMainKey = EncryptUtil.GetMainKeyWithoutInit();
+                                if (string.IsNullOrEmpty(oldMainKey)) return;
+                                //重新初始化主密钥。
+                                EncryptUtil.InitMainKey();
+                            }
+                           
                             string newMainKey = EncryptUtil.GetMainKeyFromPath();
-
+                           // LogUtil.HWLogger.DEFAULT.InfoFormat("Change key,oldMainKey={1},newMainKey={1}",oldMainKey,newMainKey);
                             //遍历所有session.
                             IList<HWESightHost> hostlist = ESightEngine.Instance.ListESHost();
                             foreach (HWESightHost eSightHost in hostlist)
@@ -512,7 +545,7 @@ namespace Huawei.SCCMPlugin.RESTeSightLib
                        
                 }
             }
-            LogUtil.HWLogger.API.InfoFormat("Refresh password with encryption successful!");
+            LogUtil.HWLogger.DEFAULT.InfoFormat("Refresh password with encryption successful!");
         }
     }
 }

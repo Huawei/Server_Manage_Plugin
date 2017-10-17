@@ -73,17 +73,21 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdminUI.Common">
-      <HintPath>..\..\..\third_party\Lib\AdminUI.Common.dll</HintPath>
+    <Reference Include="AdminUI.Common, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\tools\AdminUI.Common.dll</HintPath>
     </Reference>
-    <Reference Include="AdminUI.ConsoleView">
-      <HintPath>..\..\..\third_party\Lib\AdminUI.ConsoleView.dll</HintPath>
+    <Reference Include="AdminUI.ConsoleView, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\tools\AdminUI.ConsoleView.dll</HintPath>
     </Reference>
-    <Reference Include="AdminUI.DialogFoundation">
-      <HintPath>..\..\..\third_party\Lib\AdminUI.DialogFoundation.dll</HintPath>
+    <Reference Include="AdminUI.DialogFoundation, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\tools\AdminUI.DialogFoundation.dll</HintPath>
     </Reference>
-    <Reference Include="AdminUI.ViewCommon">
-      <HintPath>..\..\..\third_party\Lib\AdminUI.ViewCommon.dll</HintPath>
+    <Reference Include="AdminUI.ViewCommon, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\tools\AdminUI.ViewCommon.dll</HintPath>
     </Reference>
     <Reference Include="CommonUtil, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -99,26 +103,31 @@
     </Reference>
     <Reference Include="Microsoft.ConfigurationManagement, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\third_party\Lib\Microsoft.ConfigurationManagement.exe</HintPath>
+      <HintPath>..\..\..\tools\Microsoft.ConfigurationManagement.exe</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ConfigurationManagement.DialogFramework">
-      <HintPath>..\..\..\third_party\Lib\Microsoft.ConfigurationManagement.DialogFramework.dll</HintPath>
+    <Reference Include="Microsoft.ConfigurationManagement.DialogFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\tools\Microsoft.ConfigurationManagement.DialogFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ConfigurationManagement.ManagementProvider">
-      <HintPath>..\..\..\third_party\Lib\Microsoft.ConfigurationManagement.ManagementProvider.dll</HintPath>
+    <Reference Include="Microsoft.ConfigurationManagement.ManagementProvider, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\tools\Microsoft.ConfigurationManagement.ManagementProvider.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.EnterpriseManagement.UI.Foundation">
-      <HintPath>..\..\..\third_party\Lib\Microsoft.EnterpriseManagement.UI.Foundation.dll</HintPath>
+    <Reference Include="Microsoft.EnterpriseManagement.UI.Foundation, Version=7.1.1000.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\tools\Microsoft.EnterpriseManagement.UI.Foundation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.EnterpriseManagement.UI.ViewFramework">
-      <HintPath>..\..\..\third_party\Lib\Microsoft.EnterpriseManagement.UI.ViewFramework.dll</HintPath>
+    <Reference Include="Microsoft.EnterpriseManagement.UI.ViewFramework, Version=7.1.1000.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\tools\Microsoft.EnterpriseManagement.UI.ViewFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.EnterpriseManagement.UI.WpfViews">
-      <HintPath>..\..\..\third_party\Lib\Microsoft.EnterpriseManagement.UI.WpfViews.dll</HintPath>
+    <Reference Include="Microsoft.EnterpriseManagement.UI.WpfViews, Version=7.1.1000.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\tools\Microsoft.EnterpriseManagement.UI.WpfViews.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ManagementConsole, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\third_party\Lib\Microsoft.ManagementConsole.dll</HintPath>
+      <HintPath>..\..\..\tools\Microsoft.ManagementConsole.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\third_party\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -226,6 +235,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\third_party\Lib\SSL\libeay32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
