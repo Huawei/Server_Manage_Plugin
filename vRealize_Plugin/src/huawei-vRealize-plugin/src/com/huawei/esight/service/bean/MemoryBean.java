@@ -106,7 +106,7 @@ public class MemoryBean implements TreeNodeResource {
         ResourceKey resourceKey = new ResourceKey(this.name, Constant.KIND_MEMORY, adapterKind);
         //设定唯一的标识，保证同名的资源可以正常显示
         ResourceIdentifierConfig dnIdentifier = 
-                new ResourceIdentifierConfig(Constant.ATTR_ID, id + name, true);
+                new ResourceIdentifierConfig(Constant.ATTR_ID, id + this.uuid, true);
         resourceKey.addIdentifier(dnIdentifier);
         long timestamp = System.currentTimeMillis();
         

@@ -363,11 +363,17 @@ public class ServerDeviceDetailBean implements TreeNodeResource {
     @Override
     public ResourceKey convert2Resource(String id, String adapterKind, 
             Map<ResourceKey, List<MetricData>> metricsByResource) {
+    	
+    	String resourceName = this.name;
+    	
+    	if(resourceName==null||resourceName.isEmpty()){
+    		resourceName = this.ipAddress;    		
+    	}
         
         ResourceKey resourceKey = 
-                new ResourceKey(this.ipAddress, Constant.KIND_SERVER_DEVICE, adapterKind);
+                new ResourceKey(resourceName, Constant.KIND_SERVER_DEVICE, adapterKind);
         ResourceIdentifierConfig dnIdentifier = 
-                new ResourceIdentifierConfig(Constant.ATTR_ID, id + name, true);
+                new ResourceIdentifierConfig(Constant.ATTR_ID, id + this.uuid, true);
         resourceKey.addIdentifier(dnIdentifier);
         long timestamp = System.currentTimeMillis();
         
