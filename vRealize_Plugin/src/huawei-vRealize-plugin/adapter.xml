@@ -1,1562 +1,1554 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <adapter>
-<version>1.0.6</version>
-<minimumProductVersion>6.0.0</minimumProductVersion>
-<entryClass>com.huawei.adapter.ESightAdapter</entryClass>
-<adapterType>
-<key>ESightAdapter</key>
-<nameKey>1</nameKey>
-<version>1</version>
-</adapterType>
-<adapterInstance>
-<key>ESightAdapterInstance</key>
-<nameKey>2</nameKey>
-<credential>basicCredential</credential>
-<metrics>
-
-</metrics>
-</adapterInstance>
-<genericObjects>
-<genericObject>
-<key>serverDevice</key>
-<nameKey>9</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>dn</key>
-<nameKey>10</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>ipAddress</key>
-<nameKey>11</nameKey>
-<dashboardOrder>2</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>name</key>
-<nameKey>12</nameKey>
-<dashboardOrder>3</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>type</key>
-<nameKey>13</nameKey>
-<dashboardOrder>4</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>uuid</key>
-<nameKey>14</nameKey>
-<dashboardOrder>5</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>status</key>
-<nameKey>15</nameKey>
-<dashboardOrder>6</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>false</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>desc</key>
-<nameKey>16</nameKey>
-<dashboardOrder>7</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>cpuNums</key>
-<nameKey>17</nameKey>
-<dashboardOrder>8</dashboardOrder>
-<dataType>integer</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>cpuCores</key>
-<nameKey>18</nameKey>
-<dashboardOrder>9</dashboardOrder>
-<dataType>integer</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>memoryCapacity</key>
-<nameKey>19</nameKey>
-<dashboardOrder>10</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-
-
-
-<metric>
-<key>productSn</key>
-<nameKey>163</nameKey>
-<dashboardOrder>14</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>bmcMacAddr</key>
-<nameKey>164</nameKey>
-<dashboardOrder>15</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>mode</key>
-<nameKey>165</nameKey>
-<dashboardOrder>16</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>manufacture</key>
-<nameKey>161</nameKey>
-<dashboardOrder>11</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>location</key>
-<nameKey>162</nameKey>
-<dashboardOrder>12</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>version</key>
-<nameKey>168</nameKey>
-<dashboardOrder>13</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-<genericObject>
-<key>board</key>
-<nameKey>20</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>name</key>
-<nameKey>21</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>type</key>
-<nameKey>22</nameKey>
-<dashboardOrder>2</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>sn</key>
-<nameKey>23</nameKey>
-<dashboardOrder>3</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>partNumber</key>
-<nameKey>24</nameKey>
-<dashboardOrder>4</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>manufacture</key>
-<nameKey>25</nameKey>
-<dashboardOrder>5</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>manuTime</key>
-<nameKey>26</nameKey>
-<dashboardOrder>6</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>healthState</key>
-<nameKey>28</nameKey>
-<dashboardOrder>8</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>false</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>uuid</key>
-<nameKey>84</nameKey>
-<dashboardOrder>9</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>moId</key>
-<nameKey>87</nameKey>
-<dashboardOrder>10</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>presentState</key>
-<nameKey>167</nameKey>
-<dashboardOrder>7</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-<genericObject>
-<key>memory</key>
-<nameKey>30</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>name</key>
-<nameKey>31</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>capacity</key>
-<nameKey>32</nameKey>
-<dashboardOrder>2</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>manufacture</key>
-<nameKey>33</nameKey>
-<dashboardOrder>3</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>frequency</key>
-<nameKey>34</nameKey>
-<dashboardOrder>4</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>healthState</key>
-<nameKey>35</nameKey>
-<dashboardOrder>5</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>false</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>moId</key>
-<nameKey>96</nameKey>
-<dashboardOrder>6</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>uuid</key>
-<nameKey>97</nameKey>
-<dashboardOrder>7</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>presentState</key>
-<nameKey>98</nameKey>
-<dashboardOrder>8</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-<genericObject>
-<key>cpu</key>
-<nameKey>37</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>name</key>
-<nameKey>29</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>healthState</key>
-<nameKey>38</nameKey>
-<dashboardOrder>2</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>false</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>frequency</key>
-<nameKey>39</nameKey>
-<dashboardOrder>3</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>manufacture</key>
-<nameKey>40</nameKey>
-<dashboardOrder>4</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>model</key>
-<nameKey>41</nameKey>
-<dashboardOrder>5</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>moId</key>
-<nameKey>88</nameKey>
-<dashboardOrder>6</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>uuid</key>
-<nameKey>89</nameKey>
-<dashboardOrder>7</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>presentState</key>
-<nameKey>90</nameKey>
-<dashboardOrder>8</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-<genericObject>
-<key>disk</key>
-<nameKey>44</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>name</key>
-<nameKey>42</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>location</key>
-<nameKey>43</nameKey>
-<dashboardOrder>2</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>healthState</key>
-<nameKey>45</nameKey>
-<dashboardOrder>3</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>false</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>moId</key>
-<nameKey>91</nameKey>
-<dashboardOrder>4</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>uuid</key>
-<nameKey>92</nameKey>
-<dashboardOrder>5</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>presentState</key>
-<nameKey>166</nameKey>
-<dashboardOrder>6</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-<genericObject>
-<key>psu</key>
-<nameKey>49</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>name</key>
-<nameKey>36</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>inputPower</key>
-<nameKey>50</nameKey>
-<dashboardOrder>2</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>manufacture</key>
-<nameKey>51</nameKey>
-<dashboardOrder>3</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>version</key>
-<nameKey>52</nameKey>
-<dashboardOrder>4</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>healthState</key>
-<nameKey>53</nameKey>
-<dashboardOrder>5</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>false</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>inputMode</key>
-<nameKey>54</nameKey>
-<dashboardOrder>6</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>moId</key>
-<nameKey>99</nameKey>
-<dashboardOrder>7</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>uuid</key>
-<nameKey>100</nameKey>
-<dashboardOrder>8</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>presentState</key>
-<nameKey>104</nameKey>
-<dashboardOrder>9</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>powerProtocol</key>
-<nameKey>105</nameKey>
-<dashboardOrder>10</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>ratePower</key>
-<nameKey>106</nameKey>
-<dashboardOrder>11</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>model</key>
-<nameKey>107</nameKey>
-<dashboardOrder>12</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-<genericObject>
-<key>fan</key>
-<nameKey>58</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>name</key>
-<nameKey>46</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>healthState</key>
-<nameKey>47</nameKey>
-<dashboardOrder>2</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>false</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>rotate</key>
-<nameKey>48</nameKey>
-<dashboardOrder>3</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>rotatePercent</key>
-<nameKey>57</nameKey>
-<dashboardOrder>4</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>controlModel</key>
-<nameKey>59</nameKey>
-<dashboardOrder>5</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>moId</key>
-<nameKey>93</nameKey>
-<dashboardOrder>6</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>uuid</key>
-<nameKey>94</nameKey>
-<dashboardOrder>7</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>presentState</key>
-<nameKey>95</nameKey>
-<dashboardOrder>8</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-<genericObject>
-<key>hostInstance</key>
-<nameKey>55</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>healthState</key>
-<nameKey>160</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>false</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-<genericObject>
-<key>pcie</key>
-<nameKey>27</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>name</key>
-<nameKey>111</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>pcieSsdCardHealthStatus</key>
-<nameKey>112</nameKey>
-<dashboardOrder>2</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>false</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>pcieSsdCardLifeLeft</key>
-<nameKey>132</nameKey>
-<dashboardOrder>3</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>uuid</key>
-<nameKey>133</nameKey>
-<dashboardOrder>4</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>pciecardManufacturer</key>
-<nameKey>134</nameKey>
-<dashboardOrder>5</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>moId</key>
-<nameKey>135</nameKey>
-<dashboardOrder>6</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-<genericObject>
-<key>pcieGroup</key>
-<nameKey>138</nameKey>
-<credential/>
-</genericObject>
-<genericObject>
-<key>raid</key>
-<nameKey>140</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>name</key>
-<nameKey>142</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>healthState</key>
-<nameKey>143</nameKey>
-<dashboardOrder>2</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>false</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>raidType</key>
-<nameKey>144</nameKey>
-<dashboardOrder>3</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>interfaceType</key>
-<nameKey>145</nameKey>
-<dashboardOrder>4</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>bbuType</key>
-<nameKey>146</nameKey>
-<dashboardOrder>5</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>moId</key>
-<nameKey>147</nameKey>
-<dashboardOrder>6</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>uuid</key>
-<nameKey>148</nameKey>
-<dashboardOrder>7</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-<genericObject>
-<key>raidGroup</key>
-<nameKey>149</nameKey>
-<credential/>
-</genericObject>
-
-
-<genericObject>
-<key>mezz</key>
-<nameKey>171</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>name</key>
-<nameKey>173</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>mezzHealthStatus</key>
-<nameKey>174</nameKey>
-<dashboardOrder>2</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>false</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>presentState</key>
-<nameKey>175</nameKey>
-<dashboardOrder>3</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>mezzInfo</key>
-<nameKey>176</nameKey>
-<dashboardOrder>4</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>mezzLocation</key>
-<nameKey>177</nameKey>
-<dashboardOrder>5</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>mezzMac</key>
-<nameKey>178</nameKey>
-<dashboardOrder>6</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>moId</key>
-<nameKey>179</nameKey>
-<dashboardOrder>7</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>uuid</key>
-<nameKey>180</nameKey>
-<dashboardOrder>8</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-<genericObject>
-<key>card</key>
-<nameKey>183</nameKey>
-<credential/>
-<metrics>
-<metric>
-<key>networkCardName</key>
-<nameKey>185</nameKey>
-<dashboardOrder>1</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>macAdress</key>
-<nameKey>186</nameKey>
-<dashboardOrder>2</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>moId</key>
-<nameKey>187</nameKey>
-<dashboardOrder>3</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-<metric>
-<key>uuid</key>
-<nameKey>188</nameKey>
-<dashboardOrder>4</dashboardOrder>
-<dataType>string</dataType>
-<isProperty>true</isProperty>
-<isRate>false</isRate>
-<isDiscrete>false</isDiscrete>
-<isKpi>false</isKpi>
-<isImpact>false</isImpact>
-<keyAttribute>false</keyAttribute>
-<defaultMonitored>true</defaultMonitored>
-<dtType/>
-</metric>
-</metrics>
-</genericObject>
-</genericObjects>
-<groupObjects>
-<groupObject>
-<key>boardGroup</key>
-<nameKey>85</nameKey>
-<credential/>
-</groupObject>
-<groupObject>
-<key>cpuGroup</key>
-<nameKey>56</nameKey>
-<credential/>
-</groupObject>
-<groupObject>
-<key>devicesGroup</key>
-<nameKey>66</nameKey>
-<credential/>
-</groupObject>
-<groupObject>
-<key>diskGroup</key>
-<nameKey>62</nameKey>
-<credential/>
-</groupObject>
-<groupObject>
-<key>fanGroup</key>
-<nameKey>63</nameKey>
-<credential/>
-</groupObject>
-<groupObject>
-<key>memoryGroup</key>
-<nameKey>64</nameKey>
-<credential/>
-</groupObject>
-<groupObject>
-<key>psuGroup</key>
-<nameKey>60</nameKey>
-<credential/>
-</groupObject>
-<groupObject>
-<key>serverTypes</key>
-<nameKey>65</nameKey>
-<credential/>
-</groupObject>
-<groupObject>
-<key>mezzGroup</key>
-<nameKey>169</nameKey>
-<credential/>
-</groupObject>
-<groupObject>
-<key>cardGroup</key>
-<nameKey>181</nameKey>
-<credential/>
-</groupObject>
-</groupObjects>
-<credentials>
-<credential>
-<key>basicCredential</key>
-<nameKey>3</nameKey>
-<credentialField>
-<key>username</key>
-<nameKey>4</nameKey>
-<dispOrder>1</dispOrder>
-<required>true</required>
-<password>false</password>
-<type>string</type>
-</credentialField>
-<credentialField>
-<key>esightCode</key>
-<nameKey>5</nameKey>
-<dispOrder>2</dispOrder>
-<required>true</required>
-<password>true</password>
-<type>string</type>
-</credentialField>
-</credential>
-</credentials>
-<licensing>
-<type/>
-<expression/>
-<allowableResourceKinds/>
-<enabled>true</enabled>
-</licensing>
-<parents>
-<parent>E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/src/huawei-vRealize-management-pack</parent>
-</parents>
-<objectIdentifiers>
-<objectIdentifier>
-<key>id</key>
-<nameKey>170</nameKey>
-<dispOrder>1</dispOrder>
-<required>true</required>
-<type>string</type>
-<length/>
-<keyIdentifier>true</keyIdentifier>
-<default/>
-</objectIdentifier>
-<objectIdentifier>
-<key>id</key>
-<nameKey>172</nameKey>
-<dispOrder>1</dispOrder>
-<required>true</required>
-<type>string</type>
-<length/>
-<keyIdentifier>true</keyIdentifier>
-<default/>
-</objectIdentifier>
-
-<objectIdentifier>
-<key>id</key>
-<nameKey>182</nameKey>
-<dispOrder>1</dispOrder>
-<required>true</required>
-<type>string</type>
-<length/>
-<keyIdentifier>true</keyIdentifier>
-<default/>
-</objectIdentifier>
-<objectIdentifier>
-<key>id</key>
-<nameKey>184</nameKey>
-<dispOrder>1</dispOrder>
-<required>true</required>
-<type>string</type>
-<length/>
-<keyIdentifier>true</keyIdentifier>
-<default/>
-</objectIdentifier>
-</objectIdentifiers>
+  <version>1.0.7</version>
+  <minimumProductVersion>6.0.0</minimumProductVersion>
+  <entryClass>com.huawei.adapter.ESightAdapter</entryClass>
+  <adapterType>
+    <key>ESightAdapter</key>
+    <nameKey>1</nameKey>
+    <version>1</version>
+  </adapterType>
+  <adapterInstance>
+    <key>ESightAdapterInstance</key>
+    <nameKey>2</nameKey>
+    <credential>basicCredential</credential>
+    <metrics/>
+  </adapterInstance>
+  <genericObjects>
+    <genericObject>
+      <key>serverDevice</key>
+      <nameKey>9</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>dn</key>
+          <nameKey>10</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>ipAddress</key>
+          <nameKey>11</nameKey>
+          <dashboardOrder>2</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>name</key>
+          <nameKey>12</nameKey>
+          <dashboardOrder>3</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>type</key>
+          <nameKey>13</nameKey>
+          <dashboardOrder>4</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>uuid</key>
+          <nameKey>14</nameKey>
+          <dashboardOrder>5</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>status</key>
+          <nameKey>15</nameKey>
+          <dashboardOrder>6</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>false</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>desc</key>
+          <nameKey>16</nameKey>
+          <dashboardOrder>7</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>cpuNums</key>
+          <nameKey>17</nameKey>
+          <dashboardOrder>8</dashboardOrder>
+          <dataType>integer</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>cpuCores</key>
+          <nameKey>18</nameKey>
+          <dashboardOrder>9</dashboardOrder>
+          <dataType>integer</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>memoryCapacity</key>
+          <nameKey>19</nameKey>
+          <dashboardOrder>10</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>productSn</key>
+          <nameKey>163</nameKey>
+          <dashboardOrder>14</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>bmcMacAddr</key>
+          <nameKey>164</nameKey>
+          <dashboardOrder>15</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>mode</key>
+          <nameKey>165</nameKey>
+          <dashboardOrder>16</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>manufacture</key>
+          <nameKey>161</nameKey>
+          <dashboardOrder>11</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>location</key>
+          <nameKey>162</nameKey>
+          <dashboardOrder>12</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>version</key>
+          <nameKey>168</nameKey>
+          <dashboardOrder>13</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+    <genericObject>
+      <key>board</key>
+      <nameKey>20</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>name</key>
+          <nameKey>21</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>type</key>
+          <nameKey>22</nameKey>
+          <dashboardOrder>2</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>sn</key>
+          <nameKey>23</nameKey>
+          <dashboardOrder>3</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>partNumber</key>
+          <nameKey>24</nameKey>
+          <dashboardOrder>4</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>manufacture</key>
+          <nameKey>25</nameKey>
+          <dashboardOrder>5</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>manuTime</key>
+          <nameKey>26</nameKey>
+          <dashboardOrder>6</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>healthState</key>
+          <nameKey>28</nameKey>
+          <dashboardOrder>8</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>false</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>uuid</key>
+          <nameKey>84</nameKey>
+          <dashboardOrder>9</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>moId</key>
+          <nameKey>87</nameKey>
+          <dashboardOrder>10</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>presentState</key>
+          <nameKey>167</nameKey>
+          <dashboardOrder>7</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+    <genericObject>
+      <key>memory</key>
+      <nameKey>30</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>name</key>
+          <nameKey>31</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>capacity</key>
+          <nameKey>32</nameKey>
+          <dashboardOrder>2</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>manufacture</key>
+          <nameKey>33</nameKey>
+          <dashboardOrder>3</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>frequency</key>
+          <nameKey>34</nameKey>
+          <dashboardOrder>4</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>healthState</key>
+          <nameKey>35</nameKey>
+          <dashboardOrder>5</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>false</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>moId</key>
+          <nameKey>96</nameKey>
+          <dashboardOrder>6</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>uuid</key>
+          <nameKey>97</nameKey>
+          <dashboardOrder>7</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>presentState</key>
+          <nameKey>98</nameKey>
+          <dashboardOrder>8</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+    <genericObject>
+      <key>cpu</key>
+      <nameKey>37</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>name</key>
+          <nameKey>29</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>healthState</key>
+          <nameKey>38</nameKey>
+          <dashboardOrder>2</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>false</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>frequency</key>
+          <nameKey>39</nameKey>
+          <dashboardOrder>3</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>manufacture</key>
+          <nameKey>40</nameKey>
+          <dashboardOrder>4</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>model</key>
+          <nameKey>41</nameKey>
+          <dashboardOrder>5</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>moId</key>
+          <nameKey>88</nameKey>
+          <dashboardOrder>6</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>uuid</key>
+          <nameKey>89</nameKey>
+          <dashboardOrder>7</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>presentState</key>
+          <nameKey>90</nameKey>
+          <dashboardOrder>8</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+    <genericObject>
+      <key>disk</key>
+      <nameKey>44</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>name</key>
+          <nameKey>42</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>location</key>
+          <nameKey>43</nameKey>
+          <dashboardOrder>2</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>healthState</key>
+          <nameKey>45</nameKey>
+          <dashboardOrder>3</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>false</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>moId</key>
+          <nameKey>91</nameKey>
+          <dashboardOrder>4</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>uuid</key>
+          <nameKey>92</nameKey>
+          <dashboardOrder>5</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>presentState</key>
+          <nameKey>166</nameKey>
+          <dashboardOrder>6</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+    <genericObject>
+      <key>psu</key>
+      <nameKey>49</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>name</key>
+          <nameKey>36</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>inputPower</key>
+          <nameKey>50</nameKey>
+          <dashboardOrder>2</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>manufacture</key>
+          <nameKey>51</nameKey>
+          <dashboardOrder>3</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>version</key>
+          <nameKey>52</nameKey>
+          <dashboardOrder>4</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>healthState</key>
+          <nameKey>53</nameKey>
+          <dashboardOrder>5</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>false</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>inputMode</key>
+          <nameKey>54</nameKey>
+          <dashboardOrder>6</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>moId</key>
+          <nameKey>99</nameKey>
+          <dashboardOrder>7</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>uuid</key>
+          <nameKey>100</nameKey>
+          <dashboardOrder>8</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>presentState</key>
+          <nameKey>104</nameKey>
+          <dashboardOrder>9</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>powerProtocol</key>
+          <nameKey>105</nameKey>
+          <dashboardOrder>10</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>ratePower</key>
+          <nameKey>106</nameKey>
+          <dashboardOrder>11</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>model</key>
+          <nameKey>107</nameKey>
+          <dashboardOrder>12</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+    <genericObject>
+      <key>fan</key>
+      <nameKey>58</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>name</key>
+          <nameKey>46</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>healthState</key>
+          <nameKey>47</nameKey>
+          <dashboardOrder>2</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>false</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>rotate</key>
+          <nameKey>48</nameKey>
+          <dashboardOrder>3</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>rotatePercent</key>
+          <nameKey>57</nameKey>
+          <dashboardOrder>4</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>controlModel</key>
+          <nameKey>59</nameKey>
+          <dashboardOrder>5</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>moId</key>
+          <nameKey>93</nameKey>
+          <dashboardOrder>6</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>uuid</key>
+          <nameKey>94</nameKey>
+          <dashboardOrder>7</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>presentState</key>
+          <nameKey>95</nameKey>
+          <dashboardOrder>8</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+    <genericObject>
+      <key>hostInstance</key>
+      <nameKey>55</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>healthState</key>
+          <nameKey>160</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>false</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+    <genericObject>
+      <key>pcie</key>
+      <nameKey>27</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>name</key>
+          <nameKey>111</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>pcieSsdCardHealthStatus</key>
+          <nameKey>112</nameKey>
+          <dashboardOrder>2</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>false</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>pcieSsdCardLifeLeft</key>
+          <nameKey>132</nameKey>
+          <dashboardOrder>3</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>uuid</key>
+          <nameKey>133</nameKey>
+          <dashboardOrder>4</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>pciecardManufacturer</key>
+          <nameKey>134</nameKey>
+          <dashboardOrder>5</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>moId</key>
+          <nameKey>135</nameKey>
+          <dashboardOrder>6</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+    <genericObject>
+      <key>pcieGroup</key>
+      <nameKey>138</nameKey>
+      <credential/>
+    </genericObject>
+    <genericObject>
+      <key>raid</key>
+      <nameKey>140</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>name</key>
+          <nameKey>142</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>healthState</key>
+          <nameKey>143</nameKey>
+          <dashboardOrder>2</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>false</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>raidType</key>
+          <nameKey>144</nameKey>
+          <dashboardOrder>3</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>interfaceType</key>
+          <nameKey>145</nameKey>
+          <dashboardOrder>4</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>bbuType</key>
+          <nameKey>146</nameKey>
+          <dashboardOrder>5</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>moId</key>
+          <nameKey>147</nameKey>
+          <dashboardOrder>6</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>uuid</key>
+          <nameKey>148</nameKey>
+          <dashboardOrder>7</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+    <genericObject>
+      <key>raidGroup</key>
+      <nameKey>149</nameKey>
+      <credential/>
+    </genericObject>
+    <genericObject>
+      <key>mezz</key>
+      <nameKey>171</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>name</key>
+          <nameKey>173</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>mezzHealthStatus</key>
+          <nameKey>174</nameKey>
+          <dashboardOrder>2</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>false</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>presentState</key>
+          <nameKey>175</nameKey>
+          <dashboardOrder>3</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>mezzInfo</key>
+          <nameKey>176</nameKey>
+          <dashboardOrder>4</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>mezzLocation</key>
+          <nameKey>177</nameKey>
+          <dashboardOrder>5</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>mezzMac</key>
+          <nameKey>178</nameKey>
+          <dashboardOrder>6</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>moId</key>
+          <nameKey>179</nameKey>
+          <dashboardOrder>7</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>uuid</key>
+          <nameKey>180</nameKey>
+          <dashboardOrder>8</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+    <genericObject>
+      <key>card</key>
+      <nameKey>183</nameKey>
+      <credential/>
+      <metrics>
+        <metric>
+          <key>networkCardName</key>
+          <nameKey>185</nameKey>
+          <dashboardOrder>1</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>macAdress</key>
+          <nameKey>186</nameKey>
+          <dashboardOrder>2</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>moId</key>
+          <nameKey>187</nameKey>
+          <dashboardOrder>3</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+        <metric>
+          <key>uuid</key>
+          <nameKey>188</nameKey>
+          <dashboardOrder>4</dashboardOrder>
+          <dataType>string</dataType>
+          <isProperty>true</isProperty>
+          <isRate>false</isRate>
+          <isDiscrete>false</isDiscrete>
+          <isKpi>false</isKpi>
+          <isImpact>false</isImpact>
+          <keyAttribute>false</keyAttribute>
+          <defaultMonitored>true</defaultMonitored>
+          <dtType/>
+        </metric>
+      </metrics>
+    </genericObject>
+  </genericObjects>
+  <groupObjects>
+    <groupObject>
+      <key>boardGroup</key>
+      <nameKey>85</nameKey>
+      <credential/>
+    </groupObject>
+    <groupObject>
+      <key>cpuGroup</key>
+      <nameKey>56</nameKey>
+      <credential/>
+    </groupObject>
+    <groupObject>
+      <key>devicesGroup</key>
+      <nameKey>66</nameKey>
+      <credential/>
+    </groupObject>
+    <groupObject>
+      <key>diskGroup</key>
+      <nameKey>62</nameKey>
+      <credential/>
+    </groupObject>
+    <groupObject>
+      <key>fanGroup</key>
+      <nameKey>63</nameKey>
+      <credential/>
+    </groupObject>
+    <groupObject>
+      <key>memoryGroup</key>
+      <nameKey>64</nameKey>
+      <credential/>
+    </groupObject>
+    <groupObject>
+      <key>psuGroup</key>
+      <nameKey>60</nameKey>
+      <credential/>
+    </groupObject>
+    <groupObject>
+      <key>serverTypes</key>
+      <nameKey>65</nameKey>
+      <credential/>
+    </groupObject>
+    <groupObject>
+      <key>mezzGroup</key>
+      <nameKey>169</nameKey>
+      <credential/>
+    </groupObject>
+    <groupObject>
+      <key>cardGroup</key>
+      <nameKey>181</nameKey>
+      <credential/>
+    </groupObject>
+  </groupObjects>
+  <credentials>
+    <credential>
+      <key>basicCredential</key>
+      <nameKey>3</nameKey>
+      <credentialField>
+        <key>username</key>
+        <nameKey>4</nameKey>
+        <dispOrder>1</dispOrder>
+        <required>true</required>
+        <password>false</password>
+        <type>string</type>
+      </credentialField>
+      <credentialField>
+        <key>esightCode</key>
+        <nameKey>5</nameKey>
+        <dispOrder>2</dispOrder>
+        <required>true</required>
+        <password>true</password>
+        <type>string</type>
+      </credentialField>
+    </credential>
+  </credentials>
+  <licensing>
+    <type/>
+    <expression/>
+    <allowableResourceKinds/>
+    <enabled>true</enabled>
+  </licensing>
+  <parents>
+    <parent>E:/project/v_realize/github-src/Server_Manage_Plugin/vRealize_Plugin/src/huawei-vRealize-management-pack</parent>
+  </parents>
+  <objectIdentifiers>
+    <objectIdentifier>
+      <key>id</key>
+      <nameKey>170</nameKey>
+      <dispOrder>1</dispOrder>
+      <required>true</required>
+      <type>string</type>
+      <length/>
+      <keyIdentifier>true</keyIdentifier>
+      <default/>
+    </objectIdentifier>
+    <objectIdentifier>
+      <key>id</key>
+      <nameKey>172</nameKey>
+      <dispOrder>1</dispOrder>
+      <required>true</required>
+      <type>string</type>
+      <length/>
+      <keyIdentifier>true</keyIdentifier>
+      <default/>
+    </objectIdentifier>
+    <objectIdentifier>
+      <key>id</key>
+      <nameKey>182</nameKey>
+      <dispOrder>1</dispOrder>
+      <required>true</required>
+      <type>string</type>
+      <length/>
+      <keyIdentifier>true</keyIdentifier>
+      <default/>
+    </objectIdentifier>
+    <objectIdentifier>
+      <key>id</key>
+      <nameKey>184</nameKey>
+      <dispOrder>1</dispOrder>
+      <required>true</required>
+      <type>string</type>
+      <length/>
+      <keyIdentifier>true</keyIdentifier>
+      <default/>
+    </objectIdentifier>
+  </objectIdentifiers>
 </adapter>

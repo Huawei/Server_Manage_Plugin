@@ -2,7 +2,7 @@
 <solution>
 <managementPack>
 <name>HuaweiManagementPack</name>
-<version>1.0.6</version>
+<version>1.0.7</version>
 <minimumProductVersion>6.0.0</minimumProductVersion>
 <localizations lang="en">
 <localization lang="en">

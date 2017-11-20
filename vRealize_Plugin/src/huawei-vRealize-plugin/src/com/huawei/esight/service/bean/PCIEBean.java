@@ -85,7 +85,7 @@ public class PCIEBean implements TreeNodeResource {
         ResourceKey resourceKey = new ResourceKey(this.name, Constant.KIND_PCIE, adapterKind);
         //设定唯一的标识，保证同名的资源可以正常显示
         ResourceIdentifierConfig dnIdentifier = 
-                new ResourceIdentifierConfig(Constant.ATTR_ID, dn + name, true);
+                new ResourceIdentifierConfig(Constant.ATTR_ID, dn + this.uuid, true);
         resourceKey.addIdentifier(dnIdentifier);
         long timestamp = System.currentTimeMillis();
         
