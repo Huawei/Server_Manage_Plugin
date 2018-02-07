@@ -1,6 +1,6 @@
 [info]
 name = hwserver
-version = 1.0.0627
+version = 1.1.0205
 longname = Huawei Server Cacti Plugin
 author = Huawei Enterprise
 email = 

@@ -13,7 +13,7 @@
 
 	<fields>
 		<hwTemperatureReadingIndex>
-			<name>CPU Index Number</name>
+			<name>Temperature Reading Index</name>
 			<direction>input</direction>
 			<query_name>index</query_name>
 		</hwTemperatureReadingIndex>
