@@ -415,6 +415,9 @@ function hs_snmp_get_ibmc_info(&$server, $category_nums=null){
     $ibmc_info = array();
     if ($category_nums == null || in_array(1, $category_nums)) {
         $ibmc_info["hostname"] = hs_snmp_get($server, $hs_oids["ibmc"]["hostname"], "Unknown");
+        if (empty($ibmc_info["hostname"]) || trim($ibmc_info["hostname"]) == '')
+            $ibmc_info["hostname"] = 'Untitled';
+
         $ibmc_info["ibmc_ver"] = 'Unknown';
         $ibmc_info["sys_guid"] = hs_snmp_get($server, $hs_oids["ibmc"]["sys_guid"], "Unknown");
         $ibmc_info["status"] = hs_snmp_get($server, $hs_oids["ibmc"]["sys_health"], -1);
@@ -452,6 +455,9 @@ function hs_snmp_get_ibmc_info(&$server, $category_nums=null){
         }
 
         $ibmc_info['general'] = $general_info;
+        if (isset($general_info['ibmc_ver'])) {
+            $ibmc_info["ibmc_ver"] = $general_info['ibmc_ver'];
+        }
     }
 
     if ($category_nums == null || in_array(2, $category_nums)) {
@@ -495,6 +501,8 @@ function hs_snmp_get_hmm_info(&$server, $blades=null, $category_nums=null){
 
     if ($category_nums == null || in_array(1, $category_nums)) {
         $hmm_info["hostname"] = hs_snmp_get($server, $hs_oids["hmm"]["hostname"], "Unknown");
+        if (empty($hmm_info["hostname"]) || trim($hmm_info["hostname"]) == '')
+            $hmm_info["hostname"] = 'Untitled';
         $hmm_info["smm_ver"] = 'Unknown';
         $hmm_info["model"] = 'E9000'; //hs_snmp_get($server, $hs_oids["hmm"]["model"], "Unknown");
         $hmm_info["ip_address"] = $server["ip_address"];
@@ -680,8 +688,16 @@ function hs_snmp_get_cpu_info_i(&$server) {
     $keys_list = array("cpu_location", "cpu_manufacturer", "cpu_family", "cpu_status", "cpu_type", "cpu_frequency",
                        "cpu_core_count", "cpu_thread_count");
     $cpu_info = hs_snmp_get_table($server, 1, $keys_list);
-    $cpu_info["cpu_count"] = count($cpu_info);
 
+    foreach($cpu_info as $key => $value) {
+        $cpu = $cpu_info[$key];
+
+        if ($cpu["cpu_type"].'' == '0') {
+            unset($cpu_info[$key]);
+        }
+    }
+
+    $cpu_info["cpu_count"] = count($cpu_info);
     return $cpu_info;
 }
 

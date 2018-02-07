@@ -251,7 +251,7 @@ function render_instance_header($instance) {
 }
 
 function render_server_info_line($key, $value, $class, $is_hmm) {
-    global $hs_server_lables, $hs_status_keys;
+    global $hs_server_lables, $hs_status_keys, $hs_value_keys;
     if (is_numeric($value) && $value == -1)
         $value = "Unknown";
     ?>
@@ -263,7 +263,7 @@ function render_server_info_line($key, $value, $class, $is_hmm) {
             if (in_array($key, $hs_status_keys)) {
                 echo (hs_get_status_html($key, $value, $is_hmm));
             } elseif (in_array($key, $hs_value_keys)) {
-                echo (hs_get_value_html($key, $value))
+                echo (hs_get_value_html($key, $value));
             } else {
                 echo (!isset($value) || $value == -1) ? "Unknown" : $value;
             }

@@ -30,7 +30,7 @@
  *                   this plugin
  ***************************************************************************/
 
-define("Huawei_SERVER_PLUGIN_VERSION", "1.0.0627");
+define("Huawei_SERVER_PLUGIN_VERSION", "1.1.0205");
 
 /**
  * put plugin init code here
